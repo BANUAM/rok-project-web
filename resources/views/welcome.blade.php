@@ -102,4 +102,5 @@
     @endif
 
 </section>
+@include('components.home.hero-section-two')
 @endsection
