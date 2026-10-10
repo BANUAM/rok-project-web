@@ -1,0 +1,82 @@
+/* NAVBAR */
+
+.site-nav {
+
+    position: relative;
+
+    z-index: 90;
+
+    width: 100%;
+
+    background: var(--rok-secondary);
+
+    color: var(--rok-text);
+
+}
+
+.site-nav__inner {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 22px;
+
+    width: 100%;
+
+    max-width: 1440px;
+
+    min-height: 54px;
+
+    margin: 0 auto;
+
+    padding: 14px 24px;
+
+}
+
+.site-nav__link {
+
+    color: var(--rok-text);
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: color 250ms ease;
+
+}
+
+.site-nav__link:hover,
+
+.site-nav__link:focus-visible {
+
+    color: var(--rok-silver);
+
+}
+
+/* RESPONSIVE NAVBAR */
+@media (max-width: 768px) {
+    .site-nav__inner {
+        gap: 14px 18px;
+        padding: 14px;
+    }
+    .site-nav__link {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .site-nav__inner {
+        gap: 12px;
+        padding: 12px 8px;
+    }
+    .site-nav__link {
+        font-size: 11px;
+    }
+}
