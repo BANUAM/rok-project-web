@@ -1,0 +1,341 @@
+/* =========================================
+   TEAMS & STRUCTURE PAGE
+========================================= */
+
+.page-hero {
+    padding: 80px 20px 40px 20px;
+    text-align: center;
+}
+
+.page-hero__inner {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.page-title {
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+}
+
+.page-subtitle {
+    color: #94a3b8;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.teams-section {
+    padding: 50px 0;
+}
+
+/* 1. FOUNDERS GRID */
+.founders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 30px;
+}
+
+.founder-card {
+    background: #10141d;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+    padding: 32px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    transition: all var(--transition-base);
+}
+
+.founder-card:hover {
+    border-color: var(--rok-gold);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.founder-card__photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--rok-gold);
+    flex-shrink: 0;
+}
+
+.founder-card__role {
+    display: block;
+    font-family: var(--font-sub);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--rok-gold);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+}
+
+.founder-card__name {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.founder-card__bio {
+    font-size: 13px;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+.founder-card__links a {
+    font-family: var(--font-sub);
+    font-size: 13px;
+    font-weight: 700;
+    margin-right: 14px;
+    color: var(--rok-gold);
+}
+
+/* 2. DIVISION TABS */
+.division-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.tab-pill {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    background: #10141d;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-sm);
+    color: #e2e8f0;
+    font-family: var(--font-sub);
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.tab-pill__icon {
+    width: 24px;
+    height: 24px;
+}
+
+.tab-pill:hover,
+.tab-pill.is-active {
+    background: #181f2b;
+    border-color: var(--rok-gold);
+    color: var(--rok-gold);
+}
+
+.division-panel {
+    display: none;
+}
+
+.division-panel.is-active {
+    display: block;
+    animation: fadeIn 300ms ease;
+}
+
+.division-info-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #121620;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+    padding: 24px 30px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.division-info-title {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 6px 0;
+}
+
+.division-info-desc {
+    color: #94a3b8;
+    font-size: 14px;
+    max-width: 600px;
+}
+
+.division-stats-pill {
+    text-align: right;
+}
+
+.division-stats-pill strong {
+    display: block;
+    font-size: 32px;
+    font-family: var(--font-sub);
+    color: var(--rok-gold);
+    line-height: 1;
+}
+
+.division-stats-pill span {
+    font-size: 12px;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.roster-tier {
+    margin-bottom: 40px;
+}
+
+.roster-tier__title {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--rok-silver);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rok-surface-border);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.roster-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 24px;
+}
+
+.player-card {
+    background: #10141d;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all var(--transition-base);
+}
+
+.player-card:hover {
+    border-color: var(--rok-gold);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.player-card__avatar {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    background: #090b10;
+}
+
+.player-card__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.player-card__role-tag {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-family: var(--font-sub);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    background: #000;
+    color: #fff;
+}
+
+.player-card__role-tag--jungler { background: #ef4444; }
+.player-card__role-tag--gold-laner { background: #eab308; color: #000; }
+.player-card__role-tag--mid-laner { background: #a855f7; }
+.player-card__role-tag--exp-laner { background: #10b981; }
+.player-card__role-tag--roamer { background: #06b6d4; }
+
+.player-card__info {
+    padding: 18px;
+}
+
+.player-card__sub {
+    font-size: 11px;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.player-card__ign {
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 2px 0 4px 0;
+}
+
+.player-card__realname {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 10px;
+}
+
+.player-card__meta {
+    font-size: 12px;
+    color: #64748b;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Staff Card variation */
+.player-card--staff .player-card__avatar {
+    height: 180px;
+}
+
+.player-card__role-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(160, 166, 181, 0.15);
+    color: var(--rok-gold);
+    font-family: var(--font-sub);
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 2px;
+    margin-bottom: 6px;
+}
+
+.section-bottom-cta {
+    margin-top: 60px;
+}
+
+.cta-box-gold {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.04) 100%);
+    border: 1px solid var(--rok-gold);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    text-align: center;
+}
+
+.cta-box-gold h3 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.cta-box-gold p {
+    color: #cbd5e1;
+    max-width: 650px;
+    margin: 0 auto 24px auto;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .founder-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}

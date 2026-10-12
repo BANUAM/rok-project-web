@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" rx="16" fill="#0f131a"/>
+  <rect x="8" y="8" width="784" height="584" rx="12" fill="none" stroke="#d4af37" stroke-width="2" opacity="0.3"/>
+  <polygon points="400,100 470,140 470,220 400,260 330,220 330,140" fill="#d4af37" opacity="0.15"/>
+  <path d="M 370 170 L 400 130 L 430 170 L 415 210 L 400 195 L 385 210 Z" fill="#d4af37"/>
+  <rect x="320" y="300" width="160" height="32" rx="16" fill="#d4af37"/>
+  <text x="400" y="322" font-family="'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="900" fill="#0b0e14" text-anchor="middle" letter-spacing="2">TROPHY</text>
+  <text x="400" y="400" font-family="'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="800" fill="#ffffff" text-anchor="middle">ROK Achievement</text>
+  <text x="400" y="450" font-family="'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" fill="#94a3b8" text-anchor="middle">OFFICIAL COMPETITIVE ACHIEVEMENT CERTIFICATE</text>
+</svg>

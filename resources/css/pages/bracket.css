@@ -1,0 +1,305 @@
+/* =========================================
+   BRACKET & TOURNAMENTS ENGINE
+========================================= */
+
+.tournament-hero-card {
+    background: #10141d;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    margin-bottom: 30px;
+}
+
+.status-live-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid #ef4444;
+    color: #ef4444;
+    font-family: var(--font-sub);
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: var(--radius-sm);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.tournament-title {
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.tournament-desc {
+    color: #94a3b8;
+    max-width: 750px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.tournament-meta-list {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: var(--rok-silver);
+}
+
+.live-bracket-viewer {
+    background: #0d1017;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    overflow-x: auto;
+    margin-bottom: 60px;
+}
+
+.bracket-rounds-wrapper {
+    display: flex;
+    gap: 30px;
+    min-width: 800px;
+}
+
+.bracket-round-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.round-header {
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #1a202c;
+}
+
+.round-title {
+    font-family: var(--font-sub);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--rok-gold);
+    letter-spacing: 1.5px;
+}
+
+.round-matches-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-grow: 1;
+    gap: 24px;
+}
+
+.match-card {
+    background: #151a24;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.match-card.is-live {
+    border-color: #ef4444;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.2);
+}
+
+.match-team {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid #1e2433;
+    font-size: 14px;
+}
+
+.match-team:last-child {
+    border-bottom: none;
+}
+
+.match-team.is-winner {
+    background: rgba(212, 175, 55, 0.1);
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.team-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.team-logo-sm {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}
+
+/* Generator Card Tool */
+.generator-card {
+    background: #10141d;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    margin-bottom: 50px;
+}
+
+.inputs-subtitle {
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: var(--rok-silver);
+    margin: 20px 0 12px 0;
+}
+
+.team-inputs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.team-input-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.seed-badge {
+    font-family: var(--font-sub);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--rok-gold);
+    width: 65px;
+    flex-shrink: 0;
+}
+
+.generated-bracket-output {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--rok-surface-border);
+}
+
+.output-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.output-banner h3 {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.generated-tree-deck {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+}
+
+.gen-round-col {
+    min-width: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.gen-round-title {
+    font-family: var(--font-sub);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-align: center;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rok-surface-border);
+    color: var(--rok-silver);
+}
+
+.gen-matches-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-grow: 1;
+    gap: 16px;
+}
+
+.gen-match-box {
+    background: #141822;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+}
+
+.gen-team-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid #1c2230;
+}
+
+.gen-team-row:last-child {
+    border-bottom: none;
+}
+
+.gen-team-name {
+    font-size: 13px;
+    color: #e2e8f0;
+}
+
+.gen-score-input {
+    width: 38px;
+    background: #090b10;
+    border: 1px solid #2d3748;
+    color: var(--rok-gold);
+    text-align: center;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: 700;
+}
+
+.champ-display-box {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.04) 100%);
+    border: 1px solid var(--rok-gold);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.champ-icon {
+    font-size: 36px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.champ-crown-name {
+    display: block;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.champ-sub {
+    font-size: 12px;
+    color: var(--rok-gold);
+}
+
+.branding-card-box {
+    background: #10141d;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.branding-content h3 {
+    font-size: 24px;
+    margin: 8px 0;
+}
+
+.branding-content p {
+    color: #94a3b8;
+    max-width: 680px;
+}

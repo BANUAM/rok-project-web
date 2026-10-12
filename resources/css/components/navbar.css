@@ -1,82 +1,78 @@
-/* NAVBAR */
+/* =========================================
+   ROK NAVBAR (No underline, No login button)
+========================================= */
 
 .site-nav {
-
-    position: relative;
-
-    z-index: 90;
-
+    position: sticky;
+    top: 0;
+    z-index: 99;
     width: 100%;
-
-    background: var(--rok-secondary);
-
-    color: var(--rok-text);
-
+    background: rgba(14, 18, 26, 0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .site-nav__inner {
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     flex-wrap: wrap;
-
-    gap: 22px;
-
+    gap: 32px;
     width: 100%;
-
-    max-width: 1440px;
-
-    min-height: 54px;
-
+    max-width: 1380px;
+    min-height: 58px;
     margin: 0 auto;
-
-    padding: 14px 24px;
-
+    padding: 12px 24px;
 }
 
 .site-nav__link {
-
-    color: var(--rok-text);
-
-    font-size: 15px;
-
-    font-weight: 600;
-
-    text-decoration: none;
-
-    transition: color 250ms ease;
-
+    position: relative;
+    color: #e2e8f0;
+    font-family: var(--font-sub);
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    padding: 6px 12px;
+    transition: color 200ms ease, transform 200ms ease;
 }
 
 .site-nav__link:hover,
-
 .site-nav__link:focus-visible {
-
-    color: var(--rok-silver);
-
+    color: var(--rok-gold);
+    text-decoration: none !important;
 }
 
-/* RESPONSIVE NAVBAR */
+.site-nav__link.is-active {
+    color: var(--rok-gold);
+    text-decoration: none !important;
+}
+
+.site-nav__link.is-active::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 2px;
+    background: var(--rok-gold);
+    box-shadow: 0 0 8px var(--rok-gold);
+}
+
 @media (max-width: 768px) {
     .site-nav__inner {
-        gap: 14px 18px;
-        padding: 14px;
+        gap: 16px;
+        padding: 10px 16px;
+        justify-content: center;
     }
+
     .site-nav__link {
         font-size: 13px;
-    }
-}
-
-@media (max-width: 480px) {
-    .site-nav__inner {
-        gap: 12px;
-        padding: 12px 8px;
-    }
-    .site-nav__link {
-        font-size: 11px;
+        letter-spacing: 1px;
+        padding: 4px 6px;
     }
 }

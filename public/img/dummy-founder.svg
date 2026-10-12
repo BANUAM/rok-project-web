@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <rect width="500" height="500" rx="20" fill="#11141c"/>
+  <circle cx="250" cy="200" r="90" fill="#d4af37" opacity="0.15"/>
+  <circle cx="250" cy="180" r="50" fill="#d4af37"/>
+  <path d="M 170 300 C 170 240 330 240 330 300 Z" fill="#d4af37" opacity="0.8"/>
+  <text x="250" y="370" font-family="'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800" fill="#ffffff" text-anchor="middle">ROK</text>
+  <text x="250" y="405" font-family="'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" fill="#d4af37" text-anchor="middle">Leadership</text>
+</svg>

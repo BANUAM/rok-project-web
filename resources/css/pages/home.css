@@ -1,488 +1,873 @@
+/* =========================================
+   HOME PAGE ALL SECTIONS (01 - 07)
+========================================= */
 
-/* ==================================================
-   ROK REVAMP — HOME HERO SECTION
-   File: resources/css/pages/home.css
-   ================================================== */
-
-/* ---------- Hero layout ---------- */
-
+/* -----------------------------------------
+   01. HERO SECTION & SLIDER
+----------------------------------------- */
 .hero-section {
     position: relative;
-    isolation: isolate;
     width: 100%;
-    height: min(51.667vw, 900px);
-    min-height: 744px;
+    min-height: 82vh;
+    background: #06080c;
     overflow: hidden;
-    background: #111;
-    color: #f5f5f5;
-}
-
-.hero-slider,
-.hero-slide {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .hero-slider {
-    overflow: hidden;
+    position: relative;
+    width: 100%;
+    min-height: 82vh;
 }
 
 .hero-slide {
-    z-index: 0;
-    visibility: hidden;
+    position: absolute;
+    inset: 0;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 700ms ease, visibility 700ms ease;
+    transition: opacity 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: flex;
+    align-items: center;
 }
 
 .hero-slide.is-active {
-    z-index: 1;
-    visibility: visible;
     opacity: 1;
     pointer-events: auto;
 }
 
-/* ---------- Background and overlay ---------- */
-
-.hero-slide__background,
-.hero-slide__overlay {
+.hero-slide__background {
     position: absolute;
     inset: 0;
-}
-
-.hero-slide__background {
-    z-index: 0;
+    z-index: 1;
 }
 
 .hero-slide__background img {
-    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    filter: brightness(0.7) contrast(1.1);
 }
 
 .hero-slide__overlay {
-    z-index: 1;
-    background:
-        linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0.78) 0%,
-            rgba(0, 0, 0, 0.48) 48%,
-            rgba(0, 0, 0, 0.22) 100%
-        ),
-        linear-gradient(
-            0deg,
-            rgba(0, 0, 0, 0.48) 0%,
-            transparent 58%
-        );
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(90deg, rgba(7, 9, 13, 0.95) 0%, rgba(7, 9, 13, 0.7) 45%, rgba(7, 9, 13, 0.3) 100%);
 }
-
-/* ---------- Hero content ---------- */
 
 .hero-slide__content {
     position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100%;
-    max-width: 1600px;
-    height: 100%;
-    margin: 0 auto;
-    padding: 64px clamp(32px, 8.3vw, 120px) 96px;
+    z-index: 3;
+    max-width: 800px;
+    padding: 0 5%;
+    margin-left: 5%;
 }
 
-.hero-slide__eyebrow,
-.hero-empty__eyebrow {
-    margin: 0 0 18px;
-    color: #c0c0c0;
-    font-size: 13px;
+.hero-slide__eyebrow {
+    font-family: var(--font-sub);
+    font-size: 15px;
     font-weight: 700;
+    color: var(--rok-gold);
     letter-spacing: 3px;
-    line-height: 1.5;
+    text-transform: uppercase;
+    margin-bottom: 12px;
 }
-
-/* Headline is intentionally narrower so the centered ROK logo
-   remains visually recognizable behind the content. */
 
 .hero-slide__title {
-    width: 100%;
-    max-width: 680px;
-    margin: 0;
-    color: #fff;
-    font-size: clamp(34px, 3.2vw, 46px);
-    font-weight: 800;
-    line-height: 1.12;
-    letter-spacing: -0.8px;
-    overflow-wrap: break-word;
-    text-wrap: balance;
+    font-size: clamp(38px, 6vw, 72px);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1.05;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
 }
-
 
 .hero-slide__description {
-    max-width: 540px;
-    margin: 22px 0 0;
-    color: #e0e0e0;
-    font-size: clamp(14px, 1.15vw, 17px);
-    line-height: 1.7;
+    font-size: 18px;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 36px;
+    max-width: 650px;
 }
-
-/* ---------- CTA buttons ---------- */
 
 .hero-slide__actions {
     display: flex;
+    gap: 16px;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 14px;
-    margin-top: 30px;
 }
 
 .hero-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 50px;
-    padding: 14px 26px;
-    border: 1px solid #c0c0c0;
-    border-radius: 0;
-    font-size: 14px;
+    padding: 14px 32px;
+    font-family: var(--font-sub);
+    font-size: 16px;
     font-weight: 700;
-    line-height: 1.3;
-    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: var(--radius-sm);
     text-decoration: none;
-    transition:
-        background-color 250ms ease,
-        color 250ms ease,
-        border-color 250ms ease,
-        transform 250ms ease;
-}
-
-.hero-button:hover {
-    transform: translateY(-2px);
-}
-
-.hero-button:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 4px;
+    transition: all var(--transition-fast);
 }
 
 .hero-button--primary {
-    border-color: #f5f5f5;
-    background: #f5f5f5;
-    color: #111;
+    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+    color: #0b0e14 !important;
+    box-shadow: 0 4px 20px var(--rok-gold-glow);
 }
 
 .hero-button--primary:hover {
-    border-color: #c0c0c0;
-    background: #c0c0c0;
-    color: #111;
+    background: linear-gradient(135deg, #f3cf65 0%, #d4af37 100%);
+    transform: translateY(-2px);
 }
 
 .hero-button--secondary {
-    border-color: rgba(255, 255, 255, 0.7);
-    background: transparent;
-    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff !important;
+    backdrop-filter: blur(8px);
 }
 
 .hero-button--secondary:hover {
-    border-color: #fff;
-    background: #fff;
-    color: #111;
+    background: rgba(255, 255, 255, 0.18);
+    border-color: #ffffff;
 }
-
-/* ---------- Minimalist slider controls ---------- */
-
 
 .hero-slider__controls {
     position: absolute;
-    right: clamp(28px, 5vw, 72px);
     bottom: 30px;
+    right: 5%;
     z-index: 10;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 18px;
-    min-height: 36px;
-    padding: 4px;
-    background: transparent;
-    border: 0;
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto;
+    gap: 16px;
 }
 
-
-.hero-slider__controls > button {
-    background: transparent;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.hero-slider__controls > button:hover {
-    background: transparent;
+.hero-slider__controls button {
+    background: rgba(18, 22, 32, 0.8);
+    border: 1px solid var(--rok-surface-border);
     color: #fff;
-    box-shadow: none;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 150ms ease;
 }
 
-#heroPrevious:hover {
-    transform: translateX(-3px);
-}
-
-#heroNext:hover {
-    transform: translateX(3px);
-}
-
-.hero-slider__controls > button:focus-visible,
-.hero-slider__indicators button:focus-visible {
-    outline: 1px solid #fff;
-    outline-offset: 5px;
+.hero-slider__controls button:hover {
+    border-color: var(--rok-gold);
+    color: var(--rok-gold);
 }
 
 .hero-slider__indicators {
     display: flex;
-    align-items: center;
     gap: 8px;
 }
 
 .hero-slider__indicators button {
-    display: block;
-    flex: 0 0 18px;
-    width: 18px;
-    height: 2px;
+    width: 24px;
+    height: 4px;
+    border-radius: 2px;
+    border: none;
+    background: rgba(255, 255, 255, 0.25);
     padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: rgba(255, 255, 255, 0.32);
-    cursor: pointer;
-    transition:
-        flex-basis 350ms ease,
-        background-color 350ms ease;
 }
 
 .hero-slider__indicators button.is-active {
-    flex-basis: 38px;
-    width: 38px;
-    background: #fff;
+    background: var(--rok-gold);
+    width: 40px;
 }
 
-/* ---------- Empty state ---------- */
+/* -----------------------------------------
+   02. TEAMS PREVIEW SECTION
+----------------------------------------- */
+.home-section {
+    padding: 90px 20px;
+    position: relative;
+    z-index: 1;
+}
 
-.hero-empty {
+.home-section__inner {
+    max-width: 1380px;
+    margin: 0 auto;
+}
+
+.divisions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.division-card {
+    background: #10141d;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+    padding: 32px;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.division-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--rok-gold), transparent);
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+.division-card:hover {
+    border-color: var(--rok-gold);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.division-card:hover::before {
+    opacity: 1;
+}
+
+.division-card__visual {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.division-card__icon {
+    width: 64px;
+    height: 64px;
+}
+
+.division-card__game {
+    font-family: var(--font-sub);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--rok-silver);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.division-card__title {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.division-card__desc {
+    color: #94a3b8;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.division-card__roster-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: #090b10;
+    border-radius: var(--radius-sm);
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.roster-count strong {
+    color: var(--rok-gold);
+    font-size: 16px;
+}
+
+.roster-avatars {
+    display: flex;
+    gap: -6px;
+}
+
+.avatar-chip {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #1e2433;
+    border: 2px solid #090b10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--rok-gold);
+}
+
+.btn-card-link {
+    display: inline-block;
+    color: var(--rok-gold);
+    font-family: var(--font-sub);
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.section-footer-cta {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* -----------------------------------------
+   03. ACHIEVEMENTS PREVIEW SECTION
+----------------------------------------- */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 26px;
+    margin-bottom: 40px;
+}
+
+.achievement-card {
+    background: #10141d;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: transform var(--transition-base), border-color var(--transition-base);
+}
+
+.achievement-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--rok-gold);
+}
+
+.achievement-card__media {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: #090b10;
+}
+
+.achievement-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.achievement-card__year {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 4px 10px;
+    background: rgba(11, 14, 20, 0.85);
+    border: 1px solid var(--rok-gold);
+    color: var(--rok-gold);
+    font-family: var(--font-sub);
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+}
+
+.achievement-card__body {
+    padding: 24px;
+}
+
+.achievement-card__team {
+    display: block;
+    font-family: var(--font-sub);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--rok-gold);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+}
+
+.achievement-card__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.achievement-card__caption {
+    font-size: 13px;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+/* -----------------------------------------
+   04. LEARNING PREVIEW SECTION
+----------------------------------------- */
+.learning-showcase {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.learning-showcase__visual {
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+    gap: 20px;
+}
+
+.video-landscape-wrapper {
+    position: relative;
     width: 100%;
-    max-width: 1600px;
-    min-height: 744px;
-    margin: 0 auto;
-    padding: 64px clamp(32px, 8.3vw, 120px);
-    background: #111;
-    color: #f5f5f5;
+    padding-bottom: 56.25%; /* 16:9 */
+    background: #090b10;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
 }
 
-.hero-empty h1 {
-    max-width: 820px;
-    margin: 0;
-    color: #fff;
-    font-size: clamp(36px, 3.75vw, 56px);
+.video-landscape-wrapper iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.video-pill {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 4px 10px;
+    background: rgba(11, 14, 20, 0.85);
+    border: 1px solid var(--rok-gold);
+    color: var(--rok-gold);
+    font-family: var(--font-sub);
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.video-portrait-wrapper {
+    width: 100%;
+    max-width: 320px;
+    background: #10141d;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.portrait-preview-link {
+    display: block;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #161b26 0%, #0d1017 100%);
+    text-decoration: none;
+    transition: all 150ms ease;
+}
+
+.portrait-preview-link:hover {
+    border-color: var(--rok-gold);
+    background: #1a202c;
+}
+
+.portrait-preview-overlay {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.play-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--rok-gold);
+    color: #0b0e14;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.platform-label {
+    display: block;
+    font-family: var(--font-sub);
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.video-caption {
+    display: block;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.learning-feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 28px 0;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.feature-item__check {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid var(--rok-gold);
+    color: var(--rok-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
     font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.feature-item__text strong {
+    display: block;
+    color: #ffffff;
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.feature-item__text p {
+    color: #94a3b8;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.learning-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+/* -----------------------------------------
+   05. BRACKET PREVIEW SECTION
+----------------------------------------- */
+.section-subtitle-gold {
+    font-family: var(--font-sub);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--rok-gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.bracket-stage-card {
+    background: #0f131c;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.bracket-stage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rok-surface-border);
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.status-live-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #ef4444;
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 8px #ef4444;
+}
+
+.bracket-tree-demo {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.bracket-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.round-label {
+    font-family: var(--font-sub);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--rok-silver);
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1c2230;
+}
+
+.matchup-box {
+    background: #151a24;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.matchup-box--spaced {
+    margin-top: 35px;
+}
+
+.matchup-box--finals {
+    margin-top: 70px;
+}
+
+.team-slot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid #1e2433;
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+.team-slot:last-child {
+    border-bottom: none;
+}
+
+.team-slot--winner {
+    color: #ffffff;
+    font-weight: 700;
+    background: rgba(212, 175, 55, 0.08);
+}
+
+.team-seed {
+    font-size: 11px;
+    color: var(--rok-gold);
+    margin-right: 8px;
+    font-weight: 700;
+}
+
+.team-score {
+    font-family: var(--font-sub);
+    font-weight: 700;
+    color: var(--rok-gold);
+}
+
+.match-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    background: var(--rok-gold);
+    color: #0b0e14;
+    border-radius: 2px;
+    font-weight: 800;
+}
+
+.matchup-vs {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--rok-muted-light);
+    padding: 4px 0;
+    background: #11151e;
+}
+
+.champ-crown-box {
+    margin-top: 70px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%);
+    border: 1px solid var(--rok-gold);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    text-align: center;
+}
+
+.crown-icon {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.champ-hint {
+    font-size: 12px;
+    color: var(--rok-gold);
+    margin-top: 4px;
+}
+
+.bracket-stage-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rok-surface-border);
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.membership-hint p {
+    font-size: 13px;
+    color: #8f96a3;
+    max-width: 580px;
+    margin-top: 4px;
+}
+
+/* -----------------------------------------
+   06. TRIAL CTA SECTION
+----------------------------------------- */
+.trial-banner-card {
+    background: linear-gradient(135deg, #141822 0%, #0b0e14 100%);
+    border: 1px solid var(--rok-gold);
+    border-radius: var(--radius-lg);
+    padding: 60px 40px;
+    box-shadow: 0 10px 40px var(--rok-gold-glow);
+    text-align: center;
+}
+
+.trial-banner-title {
+    font-size: clamp(32px, 5vw, 54px);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #ffffff;
     line-height: 1.1;
-    letter-spacing: -0.8px;
-    overflow-wrap: break-word;
-    text-wrap: balance;
+    margin: 12px 0 20px 0;
 }
 
-.hero-empty > p:not(.hero-empty__eyebrow) {
-    max-width: 540px;
-    color: #c0c0c0;
-    line-height: 1.7;
+.trial-banner-desc {
+    max-width: 760px;
+    margin: 0 auto 40px auto;
+    font-size: 16px;
+    color: #cbd5e1;
+    line-height: 1.6;
 }
 
-/* ---------- Tablet ---------- */
-
-@media (max-width: 1024px) {
-    .hero-section {
-        height: 72vw;
-        min-height: 640px;
-        max-height: 820px;
-    }
-
-    .hero-slide__content {
-        padding-right: 48px;
-        padding-left: 48px;
-    }
-
-    .hero-slide__title,
-    .hero-empty h1 {
-        max-width: 700px;
-        font-size: clamp(38px, 5vw, 52px);
-    }
-
-    .hero-slider__controls {
-        right: 32px;
-        bottom: 28px;
-    }
+.trial-steps-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
 }
 
-/* ---------- Mobile ---------- */
-
-@media (max-width: 768px) {
-    .hero-section {
-        height: 72vh;
-        min-height: 560px;
-        max-height: 744px;
-    }
-
-    .hero-slide__background img {
-        object-position: center;
-    }
-
-    .hero-slide__overlay {
-        background:
-            linear-gradient(
-                90deg,
-                rgba(0, 0, 0, 0.82),
-                rgba(0, 0, 0, 0.4)
-            ),
-            linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.68),
-                transparent 75%
-            );
-    }
-
-    .hero-slide__content {
-        padding: 48px 28px 100px;
-    }
-
-    .hero-slide__eyebrow,
-    .hero-empty__eyebrow {
-        margin-bottom: 14px;
-        font-size: 11px;
-        letter-spacing: 2.2px;
-    }
-
-    .hero-slide__title,
-    .hero-empty h1 {
-        max-width: 600px;
-        font-size: clamp(34px, 6.5vw, 46px);
-        letter-spacing: -0.5px;
-    }
-
-    .hero-slide__description {
-        max-width: 460px;
-        margin-top: 18px;
-        font-size: 14px;
-    }
-
-    .hero-slide__actions {
-        gap: 10px;
-        margin-top: 24px;
-    }
-
-    .hero-button {
-        min-height: 46px;
-        padding: 12px 18px;
-        font-size: 13px;
-    }
-
-    .hero-slider__controls {
-        right: 24px;
-        bottom: 22px;
-        gap: 12px;
-    }
-
-    .hero-slider__controls > button {
-        flex-basis: 28px;
-        width: 28px;
-        height: 30px;
-        font-size: 22px;
-    }
-
-    .hero-slider__indicators {
-        gap: 6px;
-    }
-
-    .hero-slider__indicators button {
-        flex-basis: 12px;
-        width: 12px;
-    }
-
-    .hero-slider__indicators button.is-active {
-        flex-basis: 26px;
-        width: 26px;
-    }
-
-    .hero-empty {
-        min-height: 560px;
-        padding: 48px 28px;
-    }
+.trial-step-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: #191f2c;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: 40px;
 }
 
-/* ---------- Small mobile ---------- */
-
-@media (max-width: 420px) {
-    .hero-section {
-        min-height: 540px;
-    }
-
-    .hero-slide__content {
-        padding-right: 22px;
-        padding-left: 22px;
-    }
-
-    .hero-slide__eyebrow,
-    .hero-empty__eyebrow {
-        font-size: 10px;
-        letter-spacing: 1.8px;
-    }
-
-    .hero-slide__title,
-    .hero-empty h1 {
-        font-size: clamp(30px, 8.5vw, 36px);
-        letter-spacing: -0.4px;
-    }
-
-    .hero-slide__actions {
-        align-items: stretch;
-        flex-direction: column;
-        width: 100%;
-        max-width: 260px;
-    }
-
-    .hero-button {
-        width: 100%;
-    }
-
-    .hero-slider__controls {
-        right: 18px;
-        bottom: 18px;
-        gap: 8px;
-    }
-
-    .hero-empty {
-        padding-right: 22px;
-        padding-left: 22px;
-    }
+.trial-step-pill--gold {
+    border-color: var(--rok-gold);
+    background: rgba(212, 175, 55, 0.15);
 }
 
-/* ---------- Accessibility ---------- */
+.step-num {
+    font-family: var(--font-sub);
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--rok-gold);
+}
 
-@media (prefers-reduced-motion: reduce) {
-    .hero-slide,
-    .hero-button,
-    .hero-slider__controls > button,
-    .hero-slider__indicators button {
-        transition: none;
+.step-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.trial-step-arrow {
+    color: var(--rok-muted-light);
+    font-size: 18px;
+}
+
+.trial-disclaimer {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 14px;
+}
+
+/* -----------------------------------------
+   07. PARTNERS PREVIEW SECTION
+----------------------------------------- */
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.partner-card {
+    background: #10141d;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+    padding: 24px 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+}
+
+.partner-card:hover {
+    border-color: var(--rok-gold);
+    transform: translateY(-4px);
+    background: #141924;
+}
+
+.partner-card__logo {
+    max-height: 50px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 14px;
+    filter: grayscale(0.4);
+    transition: filter var(--transition-fast);
+}
+
+.partner-card:hover .partner-card__logo {
+    filter: grayscale(0);
+}
+
+.partner-card__name {
+    display: block;
+    font-family: var(--font-sub);
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.partner-card__category {
+    display: block;
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+@media (max-width: 900px) {
+    .learning-showcase {
+        grid-template-columns: 1fr;
     }
-
-    .hero-button:hover,
-    #heroPrevious:hover,
-    #heroNext:hover {
-        transform: none;
+    .bracket-tree-demo {
+        grid-template-columns: repeat(4, 240px);
     }
 }

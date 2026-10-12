@@ -1,0 +1,146 @@
+/* =========================================
+   ROK FOOTER & COMMUNITY
+========================================= */
+
+.site-footer {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    background: #090b10;
+    border-top: 1px solid var(--rok-surface-border);
+    padding: 70px 20px 30px 20px;
+    margin-top: 80px;
+}
+
+.site-footer__inner {
+    max-width: 1380px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr;
+    gap: 50px;
+}
+
+.site-footer__title {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.site-footer__subtitle {
+    font-family: var(--font-sub);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--rok-gold);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.site-footer__description {
+    color: #8f96a3;
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 440px;
+    margin-bottom: 20px;
+}
+
+.site-footer__slogan {
+    font-family: var(--font-sub);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--rok-muted-light);
+    letter-spacing: 2px;
+}
+
+.site-footer__slogan span {
+    margin-right: 8px;
+}
+
+.site-footer__heading {
+    font-family: var(--font-sub);
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    border-left: 3px solid var(--rok-gold);
+    padding-left: 10px;
+}
+
+.site-footer__nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.site-footer__nav a {
+    color: #8f96a3;
+    font-size: 14px;
+    transition: color 150ms ease, transform 150ms ease;
+    display: inline-block;
+}
+
+.site-footer__nav a:hover {
+    color: var(--rok-gold);
+    transform: translateX(4px);
+}
+
+.site-footer__social-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.social-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: #12151f;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-sm);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 150ms ease;
+}
+
+.social-badge:hover {
+    background: #181d2b;
+    border-color: var(--rok-gold);
+    color: var(--rok-gold);
+    transform: translateY(-2px);
+}
+
+.site-footer__cta-text {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.site-footer__bottom {
+    max-width: 1380px;
+    margin: 50px auto 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid #161b26;
+}
+
+.site-footer__bottom-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #555555;
+    font-size: 13px;
+}
+
+@media (max-width: 900px) {
+    .site-footer__inner {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+}
