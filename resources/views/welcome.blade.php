@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'ROK Revamp | Ruler Of Kings — Official Esports Organization')
-@section('description', 'Selamat datang di Ruler Of Kings (ROK) Revamp. Organisasi esports kompetitif yang berfokus pada prestasi, pengembangan atlet, trial pro-player, dan platform turnamen.')
+@section('title', 'ROK | Ruler Of Kings — Official Esports Organization')
+@section('description', 'Selamat datang di Ruler Of Kings (ROK). Organisasi esports kompetitif yang berfokus pada prestasi, pengembangan atlet, trial pro-player, dan platform turnamen.')
 
 @section('content')
     {{-- 01. HERO SECTION: Dynamic Hero Banner Slider --}}
@@ -26,7 +26,7 @@
 
                         <div class="hero-slide__content">
                             <p class="hero-slide__eyebrow">
-                                RULER OF KINGS &bull; REVAMP
+                                RULER OF KINGS 
                             </p>
 
                             <h1 class="hero-slide__title">

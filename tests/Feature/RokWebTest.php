@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 namespace Tests\Feature;
 
@@ -36,8 +36,8 @@ class RokWebTest extends TestCase
         $response->assertSee('BUILD. COMPETE. CONQUER.');
         $response->assertSee('SIAP JADI BAGIAN DARI');
         $response->assertSee('OFFICIAL PARTNERS &amp; SPONSORS', false);
-        $response->assertSee('ROK REVAMP');
-        $response->assertSee('COMMUNITY');
+        $response->assertSee('Ruler of Kings');
+        $response->assertSee('Community');
     }
 
     public function test_teams_page_renders_founders_and_divisions(): void

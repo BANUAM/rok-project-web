@@ -1,7 +1,8 @@
 <section class="home-section learning-section" id="learningWithUs" aria-labelledby="learningTitle">
     <div class="home-section__inner">
         <div class="learning-showcase">
-            {{-- Video Stage --}}
+
+            {{-- YouTube Embed Only --}}
             <div class="learning-showcase__visual">
                 <div class="video-landscape-wrapper">
                     <iframe
@@ -12,22 +13,7 @@
                         referrerpolicy="strict-origin-when-cross-origin"
                         allowfullscreen>
                     </iframe>
-                    <span class="video-pill">LANDSCAPE MASTERCLASS</span>
-                </div>
-
-                <div class="video-portrait-wrapper">
-                    <a
-                        class="portrait-preview-link"
-                        href="https://www.instagram.com/p/Dd8XrLIMAJW/?utm_source=ig_web_copy_link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Lihat cuplikan taktik di Instagram ROK">
-                        <div class="portrait-preview-overlay">
-                            <span class="play-icon">&#9658;</span>
-                            <span class="platform-label">Watch on Instagram / Reels</span>
-                            <span class="video-caption">Micro Play &amp; Laning Guide</span>
-                        </div>
-                    </a>
+                    <span class="video-pill">▶ STRATEGY MASTERCLASS</span>
                 </div>
             </div>
 
@@ -74,6 +60,7 @@
                     </a>
                 </div>
             </div>
+
         </div>
     </div>
 </section>

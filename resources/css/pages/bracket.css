@@ -303,3 +303,570 @@
     color: #94a3b8;
     max-width: 680px;
 }
+
+/* Interactive generator: standings and format guidance */
+.league-standings {
+    min-width: 280px;
+    max-width: 100%;
+    color: var(--rok-silver);
+    background: #10141c;
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    align-self: flex-start;
+}
+
+.league-standings h3 {
+    color: var(--rok-gold);
+    font-size: 16px;
+    margin: 0 0 12px;
+}
+
+.standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.standings-table th,
+.standings-table td {
+    text-align: left;
+    padding: 8px 7px;
+    border-bottom: 1px solid var(--rok-surface-border);
+    white-space: nowrap;
+}
+
+.standings-table th {
+    color: var(--rok-gold);
+    font-weight: 800;
+}
+
+.standings-table td:nth-child(2) {
+    white-space: normal;
+    min-width: 110px;
+}
+
+.gen-match-box small {
+    display: block;
+    color: var(--rok-gold);
+    margin-top: 8px;
+    font-size: 11px;
+}
+
+.gen-score-input:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.gen-score-input::placeholder {
+    color: #64748b;
+}
+
+/* Interactive generator layout corrections — preserve the existing ROK palette. */
+.generated-bracket-output {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.output-banner {
+    gap: 16px;
+    flex-wrap: wrap;
+    min-width: 0;
+}
+
+.output-banner h3 {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.generated-tree-deck {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 24px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px 4px 24px;
+    scrollbar-gutter: stable;
+    overscroll-behavior-x: contain;
+}
+
+.gen-round-col {
+    flex: 0 0 260px;
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+    align-self: stretch;
+}
+
+.gen-round-title {
+    display: block;
+    min-height: 36px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.gen-matches-list {
+    min-width: 0;
+    justify-content: flex-start;
+    gap: 20px;
+    padding-top: 8px;
+}
+
+.gen-match-box {
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
+    padding: 10px 14px;
+}
+
+.gen-team-row {
+    gap: 12px;
+    min-width: 0;
+}
+
+.gen-team-name {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow-wrap: anywhere;
+    line-height: 1.45;
+}
+
+.gen-score-input {
+    flex: 0 0 48px;
+    width: 48px;
+    min-width: 48px;
+    min-height: 32px;
+}
+
+.league-standings {
+    box-sizing: border-box;
+    flex: 0 0 320px;
+    width: 320px;
+    min-width: 320px;
+    max-width: 320px;
+    align-self: flex-start;
+    overflow-x: auto;
+}
+
+.standings-table {
+    width: 100%;
+    min-width: 280px;
+}
+
+.standings-table th,
+.standings-table td {
+    padding: 9px 8px;
+    line-height: 1.4;
+}
+
+.standings-table td:nth-child(2) {
+    min-width: 100px;
+    max-width: 150px;
+    overflow-wrap: anywhere;
+}
+
+.bracket-format-warning {
+    margin: 10px 0 0;
+    padding: 10px 12px;
+    border: 1px solid rgba(239, 68, 68, .55);
+    border-radius: var(--radius-sm);
+    background: rgba(239, 68, 68, .1);
+    color: #fca5a5;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.bracket-format-warning[hidden] {
+    display: none !important;
+}
+
+.gen-round-col--champ {
+    flex-basis: 240px;
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
+}
+
+@media (max-width: 768px) {
+    .generator-card {
+        padding: 20px;
+    }
+
+    .generated-bracket-output {
+        padding-top: 22px;
+    }
+
+    .generated-tree-deck {
+        gap: 16px;
+    }
+
+    .gen-round-col {
+        flex-basis: 230px;
+        width: 230px;
+        min-width: 230px;
+        max-width: 230px;
+    }
+
+    .league-standings {
+        flex-basis: 290px;
+        width: 290px;
+        min-width: 290px;
+        max-width: 290px;
+    }
+}
+
+.swiss-overview {
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 0 320px;
+    flex-direction: column;
+    gap: 16px;
+    width: 320px;
+    min-width: 320px;
+    max-width: 320px;
+    align-self: flex-start;
+}
+
+.swiss-overview__note {
+    margin: 0;
+    color: var(--rok-silver);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.swiss-records {
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.swiss-records p {
+    margin: 8px 0 0;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 768px) {
+    .swiss-overview {
+        flex-basis: 290px;
+        width: 290px;
+        min-width: 290px;
+        max-width: 290px;
+    }
+}
+
+
+/* Double-elimination presentation fixes: preserve the existing ROK theme. */
+.generated-bracket-output,
+.generated-tree-deck,
+.gen-round-col,
+.gen-matches-list,
+.gen-match-box {
+    box-sizing: border-box;
+}
+
+.generated-tree-deck {
+    scroll-padding-inline: 12px;
+    padding-inline: 12px;
+    scroll-behavior: smooth;
+}
+
+.gen-round-col--double {
+    flex: 0 0 260px;
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+}
+
+.gen-round-col--double .gen-round-title {
+    min-height: 42px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: center;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.gen-round-col--double .gen-matches-list {
+    gap: 24px;
+    padding-top: 18px;
+}
+
+.gen-round-col--double .gen-match-box {
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.gen-round-col--double .gen-team-row {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    gap: 10px;
+}
+
+.gen-round-col--double .gen-team-name {
+    flex: 1 1 0;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* Give later upper-bracket rounds vertical breathing room so progression is easier to read. */
+.gen-round-col--double[data-round-title="Upper Bracket — Round 2"] .gen-matches-list {
+    padding-top: 72px;
+    gap: 28px;
+}
+
+.gen-round-col--double[data-round-title="Upper Bracket Final"] .gen-matches-list {
+    padding-top: 154px;
+}
+
+.gen-round-col--double[data-round-title="Lower Bracket — Round 1"] .gen-matches-list {
+    padding-top: 72px;
+    gap: 30px;
+}
+
+.gen-round-col--double[data-round-title="Lower Bracket — Round 2"] .gen-matches-list,
+.gen-round-col--double[data-round-title="Lower Bracket — Round 3"] .gen-matches-list {
+    padding-top: 120px;
+}
+
+.gen-round-col--double[data-round-title="Lower Bracket Final"] .gen-matches-list,
+.gen-round-col--double[data-round-title="Grand Final"] .gen-matches-list {
+    padding-top: 190px;
+}
+
+@media (max-width: 768px) {
+    .gen-round-col--double {
+        flex-basis: 230px;
+        width: 230px;
+        min-width: 230px;
+        max-width: 230px;
+    }
+
+    .gen-round-col--double[data-round-title] .gen-matches-list {
+        padding-top: 24px;
+    }
+}
+
+/* MPL-inspired double-elimination layout: upper and lower paths use separate,
+   aligned horizontal tracks. Existing ROK colors and typography are retained. */
+.gen-double-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    grid-template-rows: auto auto;
+    gap: 26px 22px;
+    min-width: max-content;
+    align-items: stretch;
+    padding: 8px 8px 18px;
+}
+
+.gen-double-track {
+    min-width: 0;
+}
+
+.gen-double-track--upper {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.gen-double-track--lower {
+    grid-column: 1;
+    grid-row: 2;
+    border-top: 2px dashed var(--rok-border, #343946);
+    padding-top: 20px;
+}
+
+.gen-double-track-label {
+    margin: 0 0 12px;
+    color: var(--rok-silver, #a7adbb);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+.gen-double-columns {
+    display: grid;
+    grid-auto-columns: 260px;
+    grid-auto-flow: column;
+    gap: 24px;
+    align-items: start;
+}
+
+.gen-double-columns .gen-round-col--double {
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+}
+
+.gen-double-track--upper .gen-matches-list {
+    gap: 22px;
+    padding-top: 8px;
+}
+
+.gen-double-track--lower .gen-matches-list {
+    gap: 22px;
+    padding-top: 8px;
+}
+
+.gen-double-grand-final {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: 260px;
+    min-width: 260px;
+    align-self: center;
+    padding-left: 18px;
+    border-left: 1px solid var(--rok-border, #343946);
+}
+
+.gen-double-grand-final .gen-matches-list {
+    padding-top: 18px;
+}
+
+.gen-double-grand-final .gen-match-box {
+    box-shadow: 0 0 0 1px rgba(201, 161, 46, .18);
+}
+
+@media (max-width: 768px) {
+    .gen-double-layout {
+        grid-template-columns: minmax(0, 1fr) 230px;
+        gap: 20px 16px;
+    }
+    .gen-double-columns {
+        grid-auto-columns: 230px;
+        gap: 16px;
+    }
+    .gen-double-columns .gen-round-col--double {
+        width: 230px;
+        min-width: 230px;
+        max-width: 230px;
+    }
+    .gen-double-grand-final {
+        width: 230px;
+        min-width: 230px;
+    }
+}
+
+/* Reset legacy single-row spacing rules inside the new two-track layout. */
+.gen-double-layout .gen-double-track .gen-double-columns .gen-round-col--double .gen-matches-list {
+    padding-top: 8px;
+    gap: 22px;
+}
+
+/* Six-team MPL-inspired double elimination: opening deciding round is distinct
+   from Upper Bracket; winners and losers then flow along parallel tracks. */
+.gen-double-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    grid-template-rows: auto auto;
+    gap: 26px 22px;
+    min-width: max-content;
+    align-items: stretch;
+    padding: 8px 16px 18px;
+}
+.gen-double-layout.gen-double-layout--with-deciding {
+    grid-template-columns: 260px minmax(0, 1fr) 260px;
+}
+.gen-double-deciding {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    width: 260px;
+    align-self: center;
+}
+.gen-double-deciding-note {
+    color: var(--rok-silver, #a7adbb);
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0 0 16px;
+    max-width: 240px;
+}
+.gen-double-deciding-columns,
+.gen-double-upper-columns,
+.gen-double-lower-columns {
+    display: grid;
+    grid-auto-columns: 260px;
+    grid-auto-flow: column;
+    gap: 24px;
+    align-items: start;
+}
+.gen-double-track--upper {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+}
+.gen-double-layout.gen-double-layout--with-deciding .gen-double-track--upper {
+    grid-column: 2;
+}
+.gen-double-track--lower {
+    grid-column: 1;
+    grid-row: 2;
+    min-width: 0;
+    border-top: 2px dashed var(--rok-border, #343946);
+    padding-top: 20px;
+}
+.gen-double-layout.gen-double-layout--with-deciding .gen-double-track--lower {
+    grid-column: 2;
+}
+.gen-double-grand-final {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: 260px;
+    min-width: 260px;
+    align-self: center;
+    padding-left: 18px;
+    border-left: 1px solid var(--rok-border, #343946);
+}
+.gen-double-layout.gen-double-layout--with-deciding .gen-double-grand-final {
+    grid-column: 3;
+}
+.gen-double-layout .gen-round-col--double {
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+}
+.gen-double-layout .gen-matches-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding-top: 8px;
+}
+.gen-double-deciding .gen-matches-list {
+    gap: 28px;
+}
+@media (max-width: 768px) {
+    .gen-double-layout {
+        grid-template-columns: minmax(0, 1fr) 230px;
+        gap: 20px 16px;
+    }
+    .gen-double-layout.gen-double-layout--with-deciding {
+        grid-template-columns: 230px minmax(0, 1fr) 230px;
+        gap: 20px 16px;
+    }
+    .gen-double-deciding,
+    .gen-double-grand-final {
+        width: 230px;
+        min-width: 230px;
+    }
+    .gen-double-deciding-columns,
+    .gen-double-upper-columns,
+    .gen-double-lower-columns {
+        grid-auto-columns: 230px;
+        gap: 16px;
+    }
+    .gen-double-layout .gen-round-col--double {
+        width: 230px;
+        min-width: 230px;
+        max-width: 230px;
+    }
+}

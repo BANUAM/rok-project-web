@@ -1,146 +1,235 @@
 /* =========================================
-   ROK FOOTER & COMMUNITY
+   ROK FOOTER — Clean Esports Footer
 ========================================= */
 
 .site-footer {
     position: relative;
     z-index: 10;
     width: 100%;
-    background: #090b10;
-    border-top: 1px solid var(--rok-surface-border);
-    padding: 70px 20px 30px 20px;
-    margin-top: 80px;
+    background: linear-gradient(180deg, #090b10 0%, #06080c 100%);
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    padding: 56px 20px 0;
+    margin-top: 0;
+}
+
+/* Gold accent line at very top */
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rok-gold), transparent);
+    opacity: 0.6;
 }
 
 .site-footer__inner {
-    max-width: 1380px;
+    max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 2fr 1fr 1.5fr;
-    gap: 50px;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 40px;
+}
+
+/* ---- Brand Column ---- */
+.site-footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.site-footer__logo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.site-footer__logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .site-footer__title {
-    font-size: 32px;
-    font-weight: 800;
-    letter-spacing: 2px;
+    font-family: var(--font-heading);
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 3px;
     color: #ffffff;
-    margin-bottom: 4px;
+    margin-bottom: 0;
+    line-height: 1;
 }
 
 .site-footer__subtitle {
     font-family: var(--font-sub);
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 600;
     color: var(--rok-gold);
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    margin-bottom: 14px;
+    margin-top: 2px;
+    margin-bottom: 0;
 }
 
 .site-footer__description {
-    color: #8f96a3;
-    font-size: 14px;
-    line-height: 1.6;
-    max-width: 440px;
+    color: #6b7280;
+    font-size: 13.5px;
+    line-height: 1.7;
+    max-width: 380px;
     margin-bottom: 20px;
 }
 
 .site-footer__slogan {
     font-family: var(--font-sub);
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 700;
-    color: var(--rok-muted-light);
-    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.25);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
-.site-footer__slogan span {
-    margin-right: 8px;
-}
-
+/* ---- Column Heading ---- */
 .site-footer__heading {
     font-family: var(--font-sub);
-    font-size: 16px;
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: 1.5px;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--rok-gold);
+    letter-spacing: 2px;
     text-transform: uppercase;
-    margin-bottom: 20px;
-    border-left: 3px solid var(--rok-gold);
-    padding-left: 10px;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
 }
 
+/* ---- Nav Links ---- */
 .site-footer__nav {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 2px;
 }
 
 .site-footer__nav a {
-    color: #8f96a3;
+    color: #6b7280;
     font-size: 14px;
-    transition: color 150ms ease, transform 150ms ease;
+    font-weight: 500;
+    transition: color 150ms ease, padding-left 150ms ease;
     display: inline-block;
+    padding: 5px 0;
+    text-decoration: none;
 }
 
 .site-footer__nav a:hover {
     color: var(--rok-gold);
-    transform: translateX(4px);
+    padding-left: 6px;
+    text-decoration: none;
 }
 
+/* ---- Social / Community ---- */
 .site-footer__social-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 16px;
+    gap: 8px;
+    margin-bottom: 14px;
 }
 
 .social-badge {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 16px;
-    background: #12151f;
-    border: 1px solid var(--rok-surface-border);
+    gap: 10px;
+    padding: 10px 14px;
+    background: #0e1118;
+    border: 1px solid #1e2535;
     border-radius: var(--radius-sm);
-    color: #ffffff;
-    font-size: 14px;
+    color: #9ca3af;
+    font-size: 13.5px;
     font-weight: 600;
     transition: all 150ms ease;
+    text-decoration: none;
 }
 
 .social-badge:hover {
-    background: #181d2b;
+    background: #13182a;
     border-color: var(--rok-gold);
     color: var(--rok-gold);
-    transform: translateY(-2px);
+    transform: translateX(4px);
+    text-decoration: none;
+}
+
+.social-badge__icon {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.social-badge__name {
+    font-family: var(--font-sub);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 .site-footer__cta-text {
-    color: #64748b;
-    font-size: 13px;
+    color: #4b5563;
+    font-size: 12px;
     line-height: 1.5;
 }
 
+/* ---- Bottom Bar ---- */
 .site-footer__bottom {
-    max-width: 1380px;
-    margin: 50px auto 0 auto;
-    padding-top: 24px;
-    border-top: 1px solid #161b26;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 0;
+    border-top: 1px solid #10141c;
 }
 
 .site-footer__bottom-inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #555555;
-    font-size: 13px;
+    color: #374151;
+    font-size: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
+.site-footer__copyright,
+.site-footer__version {
+    color: #374151;
+    font-size: 12px;
+}
+
+/* ---- Responsive ---- */
 @media (max-width: 900px) {
     .site-footer__inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+
+    .site-footer__brand {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 560px) {
+    .site-footer__inner {
         grid-template-columns: 1fr;
-        gap: 36px;
+        gap: 28px;
+    }
+
+    .site-footer__bottom-inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 }
