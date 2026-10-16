@@ -870,3 +870,913 @@
         max-width: 230px;
     }
 }
+
+/* =========================================
+   MODERN BRACKET ENGINE, SVG ARROWS, WA & LOGO MODAL, AND STUDIO PORTAL
+========================================= */
+
+.studio-portal-banner {
+    margin-top: 28px;
+    padding: 22px 28px;
+    background: linear-gradient(135deg, rgba(21, 26, 36, 0.95) 0%, rgba(15, 20, 30, 0.95) 100%);
+    border: 1px solid rgba(226, 232, 240, 0.25);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    text-align: left;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.studio-portal-badge {
+    display: inline-block;
+    font-family: var(--font-sub);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.12);
+    border: 1px solid rgba(251, 191, 36, 0.4);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 6px;
+}
+
+.studio-portal-banner__info h3 {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.studio-portal-banner__info p {
+    font-size: 13px;
+    color: var(--rok-muted-light);
+    max-width: 600px;
+}
+
+.studio-portal-banner__actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .studio-portal-banner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Real-Time Status & Share Link Bar */
+.bracket-realtime-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 14px 20px;
+    margin-bottom: 24px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(56, 189, 248, 0.28);
+    border-radius: var(--radius-md);
+}
+
+.realtime-status-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.realtime-pulse-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    animation: realtimePulse 2s infinite;
+}
+
+@keyframes realtimePulse {
+    0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+.realtime-status-text {
+    font-family: var(--font-sub);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #4ade80;
+}
+
+.realtime-tier-pill {
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    background: rgba(251, 191, 36, 0.16);
+    border: 1px solid #fbbf24;
+    color: #fbbf24;
+}
+
+.realtime-tier-pill--free {
+    background: rgba(148, 163, 184, 0.14);
+    border-color: rgba(148, 163, 184, 0.4);
+    color: var(--rok-silver);
+    text-decoration: none;
+}
+
+.realtime-share-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.share-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--rok-muted-light);
+}
+
+.share-input-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.share-url-input {
+    width: 240px;
+    padding: 7px 11px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--rok-surface-border);
+    background: rgba(7, 9, 14, 0.8);
+    color: var(--rok-text);
+}
+
+.btn-share-copy,
+.btn-share-wa,
+.btn-share-open {
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid var(--rok-surface-border);
+    background: var(--rok-surface-card);
+    color: var(--rok-text-bright);
+    text-decoration: none;
+    transition: all 150ms ease;
+}
+
+.btn-share-copy:hover,
+.btn-share-open:hover {
+    border-color: var(--rok-gold);
+}
+
+.btn-share-wa {
+    background: rgba(34, 197, 94, 0.16);
+    border-color: rgba(34, 197, 94, 0.45);
+    color: #4ade80 !important;
+}
+
+.btn-share-wa:hover {
+    background: rgba(34, 197, 94, 0.28);
+}
+
+/* Team Inputs with Logo & WhatsApp */
+.inputs-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 20px 0 12px;
+}
+
+.inputs-hint-badge {
+    font-size: 12px;
+    color: var(--rok-muted-light);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--rok-surface-border);
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
+.team-inputs-grid--rich {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+    gap: 14px;
+}
+
+.team-entry-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--rok-surface-card);
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+    transition: border-color 150ms ease;
+}
+
+.team-entry-card:hover {
+    border-color: rgba(226, 232, 240, 0.35);
+}
+
+.team-entry-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.team-entry-top .seed-badge {
+    width: auto;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.team-logo-picker-btn {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid var(--rok-surface-border);
+    background: rgba(7, 9, 14, 0.65);
+    padding: 3px;
+    cursor: pointer;
+    transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.team-logo-picker-btn:hover {
+    transform: scale(1.05);
+    border-color: var(--rok-gold);
+}
+
+.team-logo-picker-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 7px;
+}
+
+.team-logo-edit-badge {
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #1e293b;
+    border: 1px solid var(--rok-gold);
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.team-entry-fields {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.team-entry-fields .team-name-input {
+    padding: 7px 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.team-wa-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.team-wa-icon {
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.team-wa-input {
+    padding: 5px 9px !important;
+    font-size: 12px !important;
+}
+
+/* Output Banner Meta */
+.output-banner__meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.output-hint-pill {
+    font-size: 12px;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
+/* Modern Bracket Tree Canvas + SVG Directional Connector Lines */
+.bracket-tree-canvas {
+    position: relative;
+    display: flex;
+    gap: 54px;
+    padding: 18px 16px 28px;
+    min-width: max-content;
+    align-items: stretch;
+}
+
+.bracket-connectors-svg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: visible;
+}
+
+.bracket-arrow-path {
+    fill: none;
+    stroke: rgba(148, 163, 184, 0.45);
+    stroke-width: 2;
+    transition: stroke 200ms ease, stroke-width 200ms ease;
+}
+
+.bracket-arrow-path--winner {
+    stroke: #38bdf8;
+    stroke-width: 2.4;
+    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.35));
+}
+
+.bracket-arrow-path--loser {
+    stroke: rgba(245, 158, 11, 0.45);
+    stroke-dasharray: 5 4;
+}
+
+.gen-round-col {
+    position: relative;
+    z-index: 2;
+    min-width: 270px;
+}
+
+.gen-round-header-modern {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background: rgba(30, 41, 59, 0.55);
+    border: 1px solid var(--rok-surface-border);
+    border-left: 3px solid #38bdf8;
+    border-radius: 6px;
+}
+
+.gen-round-count {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--rok-muted-light);
+}
+
+/* Modern Esports Match Card */
+.match-card--modern {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(180deg, rgba(22, 28, 40, 0.96) 0%, rgba(15, 19, 28, 0.98) 100%);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 10px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.32);
+    transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.match-card--modern:hover {
+    transform: translateY(-2px);
+    border-color: rgba(56, 189, 248, 0.5);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.45);
+}
+
+.match-card--completed {
+    border-color: rgba(56, 189, 248, 0.38);
+}
+
+.match-card__top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background: rgba(7, 9, 14, 0.55);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.match-code-pill {
+    color: #38bdf8;
+    font-family: var(--font-sub);
+    font-size: 11px;
+}
+
+.match-status-pill {
+    color: var(--rok-muted-light);
+}
+
+.match-card--completed .match-status-pill {
+    color: #4ade80;
+}
+
+.match-team--modern {
+    padding: 8px 10px !important;
+    gap: 8px;
+}
+
+.match-team--modern.is-winner {
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.16) 0%, rgba(34, 197, 94, 0.08) 100%) !important;
+    border-left: 3px solid #38bdf8;
+}
+
+.gen-team-identity {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+}
+
+.team-logo-trigger {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    border: 1px solid rgba(226, 232, 240, 0.25);
+    background: rgba(7, 9, 14, 0.7);
+    padding: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.team-logo-trigger:hover {
+    transform: scale(1.1);
+    border-color: #38bdf8;
+}
+
+.team-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.team-logo-info-dot {
+    position: absolute;
+    right: -3px;
+    bottom: -3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    border: 1px solid #07090e;
+}
+
+.gen-team-text {
+    min-width: 0;
+    flex: 1;
+}
+
+.gen-team-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.team-wa-quick-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.4);
+    color: #4ade80 !important;
+    font-size: 12px;
+    text-decoration: none;
+    transition: background 150ms ease, transform 150ms ease;
+}
+
+.team-wa-quick-btn:hover {
+    background: rgba(34, 197, 94, 0.3);
+    transform: scale(1.08);
+}
+
+.score-input-box {
+    width: 42px !important;
+    height: 28px;
+    text-align: center;
+    font-weight: 800;
+    border-radius: 6px !important;
+}
+
+/* Team Logo Click Modal (WhatsApp + Match Points) */
+.rok-team-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.rok-team-modal[hidden] {
+    display: none !important;
+}
+
+.rok-team-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 8, 15, 0.78);
+    backdrop-filter: blur(5px);
+}
+
+.rok-team-modal__dialog {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 460px;
+    background: var(--rok-surface-card);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+    animation: modalPopIn 180ms ease;
+}
+
+@keyframes modalPopIn {
+    from { opacity: 0; transform: scale(0.95) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.rok-team-modal__close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    color: var(--rok-muted-light);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.team-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.team-modal-logo-wrap {
+    width: 68px;
+    height: 68px;
+    border-radius: 14px;
+    border: 2px solid #38bdf8;
+    background: rgba(7, 9, 14, 0.6);
+    padding: 6px;
+    flex-shrink: 0;
+}
+
+.team-modal-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.team-modal-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 4px 0 2px;
+}
+
+.team-modal-seed {
+    font-size: 12px;
+    color: var(--rok-muted-light);
+}
+
+.team-modal-points-card {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    margin-bottom: 18px;
+}
+
+.points-card-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #38bdf8;
+    margin-bottom: 12px;
+}
+
+.points-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    text-align: center;
+}
+
+.points-stat-box {
+    background: rgba(7, 9, 14, 0.5);
+    border: 1px solid var(--rok-surface-border);
+    border-radius: 8px;
+    padding: 8px 6px;
+}
+
+.points-stat-box--highlight {
+    border-color: #fbbf24;
+    background: rgba(251, 191, 36, 0.1);
+}
+
+.stat-value {
+    display: block;
+    font-family: var(--font-sub);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--rok-text-bright);
+}
+
+.stat-label {
+    font-size: 10px;
+    color: var(--rok-muted-light);
+    text-transform: uppercase;
+}
+
+.team-modal-wa-section {
+    background: rgba(34, 197, 94, 0.07);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+}
+
+.wa-section-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #4ade80;
+    margin-bottom: 6px;
+}
+
+.wa-number-display {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.btn-wa-direct {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 11px 16px;
+    background: #16a34a;
+    color: #ffffff !important;
+    font-weight: 800;
+    font-size: 13px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 150ms ease;
+}
+
+.btn-wa-direct:hover {
+    background: #15803d;
+}
+
+.wa-helper-note {
+    font-size: 11px;
+    color: var(--rok-muted-light);
+    margin-top: 8px;
+}
+
+.logo-preset-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.logo-preset-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--rok-surface-border);
+    background: rgba(7, 9, 14, 0.5);
+    cursor: pointer;
+    color: var(--rok-text);
+    font-size: 11px;
+}
+
+.logo-preset-item:hover {
+    border-color: #38bdf8;
+}
+
+.logo-preset-item img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+}
+
+.custom-logo-upload-box {
+    border-top: 1px solid var(--rok-surface-border);
+    padding-top: 12px;
+}
+
+/* Bracket Studio Dashboard & Editor Styles */
+.studio-hero-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 32px;
+    background: linear-gradient(135deg, #111827 0%, #1e293b 100%);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    border-radius: var(--radius-lg);
+    margin-bottom: 28px;
+}
+
+.studio-tier-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.14);
+    border: 1px solid #fbbf24;
+    border-radius: 999px;
+    margin-bottom: 8px;
+}
+
+.studio-hero-banner__content h1 {
+    font-size: 28px;
+    margin-bottom: 6px;
+}
+
+.studio-hero-banner__content p {
+    font-size: 14px;
+    color: var(--rok-muted-light);
+    max-width: 640px;
+}
+
+.studio-hero-stat {
+    text-align: center;
+    padding: 16px 24px;
+    background: rgba(7, 9, 14, 0.5);
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+}
+
+.studio-hero-stat strong {
+    display: block;
+    font-size: 32px;
+    font-family: var(--font-sub);
+    color: #fbbf24;
+}
+
+.studio-hero-stat span {
+    font-size: 12px;
+    color: var(--rok-muted-light);
+}
+
+.studio-grid-layout {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 980px) {
+    .studio-grid-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.studio-card {
+    background: var(--rok-surface-card);
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+}
+
+.studio-card__header {
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rok-surface-border);
+}
+
+.studio-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.studio-tourney-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.studio-tourney-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 16px 18px;
+    background: rgba(7, 9, 14, 0.45);
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+}
+
+.studio-tourney-item__top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.studio-status-live {
+    font-size: 11px;
+    font-weight: 800;
+    color: #4ade80;
+}
+
+.studio-format-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(56, 189, 248, 0.12);
+    color: #38bdf8;
+}
+
+.studio-tourney-meta {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--rok-muted-light);
+    margin-top: 4px;
+}
+
+.studio-tourney-item__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.studio-editor-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.studio-back-link {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--rok-muted-light);
+}
+
+.studio-editor-toolbar__right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+

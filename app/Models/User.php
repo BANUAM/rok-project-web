@@ -49,4 +49,51 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(MembershipOrder::class);
     }
+
+    public function tournaments(): HasMany
+    {
+        return $this->hasMany(Tournament::class);
+    }
+
+    public function activeMembershipPlan(): ?MembershipPlan
+    {
+        if ($this->isAdmin()) {
+            return MembershipPlan::where('slug', 'immortal')->first();
+        }
+
+        $paidOrder = $this->orders()
+            ->with('plan')
+            ->whereIn('payment_status', ['paid', 'active', 'completed'])
+            ->latest('id')
+            ->first();
+
+        return $paidOrder?->plan;
+    }
+
+    public function membershipTierSlug(): string
+    {
+        if ($this->isAdmin()) {
+            return 'immortal';
+        }
+
+        return $this->activeMembershipPlan()?->slug ?? 'free';
+    }
+
+    public function hasBracketAccess(): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        return in_array($this->membershipTierSlug(), ['challenger', 'immortal'], true);
+    }
+
+    public function hasLearningAccess(): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        return in_array($this->membershipTierSlug(), ['learning', 'immortal'], true);
+    }
 }

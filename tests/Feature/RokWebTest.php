@@ -454,4 +454,83 @@ class RokWebTest extends TestCase
         $response->assertSee('Double Elimination');
         $response->assertSee('League System');
     }
+
+    public function test_immortal_account_bracket_studio_realtime_sync_whatsapp_and_theme_toggle(): void
+    {
+        // 1. Verify pre-seeded ROK Immortal user account exists and has active Immortal membership
+        $immortalUser = User::where('email', 'immortal@rok.com')->first();
+        $this->assertNotNull($immortalUser);
+        $this->assertTrue($immortalUser->hasBracketAccess());
+        $this->assertTrue($immortalUser->hasLearningAccess());
+        $this->assertEquals('immortal', $immortalUser->membershipTierSlug());
+
+        // 2. Verify regular user without membership is redirected when accessing /bracket-studio
+        $freeUser = User::create([
+            'name' => 'Free Player',
+            'email' => 'freeplayer@rok.com',
+            'username' => 'freeplayer',
+            'password' => Hash::make('password123'),
+            'role' => 'user',
+            'email_verified_at' => now(),
+        ]);
+        $freeAccess = $this->actingAs($freeUser)->get(route('bracket.studio.index'));
+        $freeAccess->assertRedirect(route('membership.payment', ['plan' => 'challenger']));
+
+        // 3. Verify ROK Immortal user can access dedicated Bracket Studio page (/bracket-studio)
+        $studioDashboard = $this->actingAs($immortalUser)->get(route('bracket.studio.index'));
+        $studioDashboard->assertStatus(200);
+        $studioDashboard->assertSee('BRACKET STUDIO');
+        $studioDashboard->assertSee('BUAT TURNAMEN LIVE BARU');
+
+        // 4. Create a new live tournament from Bracket Studio
+        $createResponse = $this->actingAs($immortalUser)->post(route('bracket.studio.store'), [
+            'name' => 'ROK Immortal Masters 2026',
+            'format' => 'single',
+            'team_count' => 8,
+            'description' => 'Turnamen resmi member ROK Immortal',
+        ]);
+
+        $newTourney = \App\Models\Tournament::where('name', 'ROK Immortal Masters 2026')->first();
+        $this->assertNotNull($newTourney);
+        $createResponse->assertRedirect(route('bracket.studio.editor', ['slug' => $newTourney->slug]));
+
+        // 5. Open dedicated Bracket Studio editor and verify modern bracket features (SVG arrows, WA modal, theme toggle)
+        $editorResponse = $this->actingAs($immortalUser)->get(route('bracket.studio.editor', ['slug' => $newTourney->slug]));
+        $editorResponse->assertStatus(200);
+        $editorResponse->assertSee('ROK Immortal Masters 2026');
+        $editorResponse->assertSee('drawAllBracketArrows', false);
+        $editorResponse->assertSee('rokTeamModal', false);
+        $editorResponse->assertSee('data-theme-toggle', false);
+
+        // 6. Test real-time sync API (/api/bracket/{slug}/sync) with WhatsApp numbers, custom logos, and scores
+        $syncPayload = [
+            'title' => 'ROK Immortal Masters 2026 — Finals',
+            'format' => 'single',
+            'teamCount' => 4,
+            'teams' => [
+                ['name' => 'ROK Prime', 'whatsapp' => '6281299990001', 'logo' => '/img/rok-logo.png'],
+                ['name' => 'Aether Esports', 'whatsapp' => '6281299990002', 'logo' => '/img/dummy-division.svg'],
+                ['name' => 'Valkyrie Horizon', 'whatsapp' => '6281299990003', 'logo' => '/img/rok-logo.png'],
+                ['name' => 'Shadow Legion', 'whatsapp' => '6281299990004', 'logo' => '/img/dummy-division.svg'],
+            ],
+            'scores' => [
+                'r0_m0' => ['s1' => '2', 's2' => '0'],
+                'r0_m1' => ['s1' => '1', 's2' => '2'],
+            ],
+        ];
+
+        $syncResponse = $this->actingAs($immortalUser)->postJson(route('api.bracket.sync', $newTourney->slug), $syncPayload);
+        $syncResponse->assertStatus(200)->assertJson(['ok' => true]);
+
+        // 7. Verify state endpoint and public shareable link (/bracket/live/{slug}) reflect the real-time update
+        $stateResponse = $this->getJson(route('api.bracket.state', $newTourney->slug));
+        $stateResponse->assertStatus(200)
+            ->assertJsonPath('bracket_state.title', 'ROK Immortal Masters 2026 — Finals')
+            ->assertJsonPath('bracket_state.teams.0.whatsapp', '6281299990001');
+
+        $liveSharePage = $this->get(route('bracket.live', $newTourney->slug));
+        $liveSharePage->assertStatus(200);
+        $liveSharePage->assertSee('ROK Immortal Masters 2026 — Finals');
+    }
 }
+

@@ -10,6 +10,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('rok-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
@@ -75,6 +81,9 @@
                 <a href="{{ route('management.tournaments') }}" class="mgmt-nav-link {{ request()->routeIs('management.tournaments*') ? 'is-active' : '' }}">
                     <span class="nav-icon">&#x2694;</span> Turnamen &amp; Bracket
                 </a>
+                <a href="{{ route('bracket.studio.index') }}" class="mgmt-nav-link">
+                    <span class="nav-icon">&#x1F3AF;</span> Bracket Studio
+                </a>
             </nav>
 
             <div class="mgmt-sidebar__footer">
@@ -101,7 +110,11 @@
                 <div class="topbar-title">
                     <h2>@yield('header_title', 'Dashboard')</h2>
                 </div>
-                <div class="topbar-actions">
+                <div class="topbar-actions" style="display: flex; align-items: center; gap: 10px;">
+                    <button type="button" class="theme-toggle-btn" data-theme-toggle title="Ubah Tema Gelap / Terang" aria-label="Toggle Tema">
+                        <span class="theme-toggle-icon" data-theme-icon>&#x2600;&#xFE0F;</span>
+                        <span class="theme-toggle-label" data-theme-label>Terang</span>
+                    </button>
                     <a href="{{ url('/') }}" target="_blank" class="btn-public-site">
                         <span>&#x1F310;</span> Buka Web Publik &rarr;
                     </a>

@@ -15,6 +15,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
         $middleware->alias([
             'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
+            'bracket.member' => \App\Http\Middleware\EnsureHasBracketMembership::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

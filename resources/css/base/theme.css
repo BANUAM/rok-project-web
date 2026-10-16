@@ -1,0 +1,357 @@
+/* =========================================
+   ROK WEB — GLOBAL DARK & LIGHT THEME SYSTEM
+   Supports html[data-theme="dark"] (default)
+   and html[data-theme="light"] across all pages
+========================================= */
+
+/* Theme Toggle Button (Navbar & Portal Topbars) */
+.theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--rok-surface-border);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--rok-text-bright);
+    font-family: var(--font-sub);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 180ms ease;
+}
+
+.theme-toggle-btn:hover {
+    border-color: var(--rok-gold);
+    background: rgba(226, 232, 240, 0.12);
+    transform: translateY(-1px);
+}
+
+.theme-toggle-icon {
+    font-size: 13px;
+    line-height: 1;
+}
+
+/* Navbar Bracket Studio & User Pill */
+.site-nav__link--studio {
+    background: rgba(251, 191, 36, 0.14);
+    border: 1px solid rgba(251, 191, 36, 0.45);
+    color: #fbbf24 !important;
+    padding: 5px 12px !important;
+    border-radius: 999px;
+    font-weight: 800 !important;
+}
+
+.site-nav__link--studio:hover {
+    background: rgba(251, 191, 36, 0.25);
+}
+
+.site-nav__user-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--rok-gold) !important;
+    font-weight: 700;
+}
+
+.user-tier-tag {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(251, 191, 36, 0.18);
+    border: 1px solid #fbbf24;
+    color: #fbbf24;
+}
+
+.site-nav__logout-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--rok-muted-light);
+    font-size: 13px;
+}
+
+/* =========================================
+   LIGHT THEME OVERRIDES (html[data-theme="light"])
+========================================= */
+
+html[data-theme="light"] {
+    color-scheme: light;
+    --rok-bg: #f1f5f9;
+    --rok-primary: #ffffff;
+    --rok-surface: #ffffff;
+    --rok-surface-card: #ffffff;
+    --rok-card-bg: #ffffff;
+    --rok-surface-border: #cbd5e1;
+
+    --rok-charcoal: #e2e8f0;
+    --rok-silver: #334155;
+    --rok-silver-light: #1e293b;
+    --rok-muted: #64748b;
+    --rok-muted-light: #475569;
+    --rok-text: #1e293b;
+    --rok-text-secondary: #334155;
+    --rok-text-muted: #475569;
+    --rok-text-bright: #0f172a;
+
+    --rok-gold: #0f172a;
+    --rok-gold-light: #1e293b;
+    --rok-gold-dark: #334155;
+    --rok-gold-glow: rgba(15, 23, 42, 0.12);
+}
+
+html[data-theme="light"] body {
+    background-color: var(--rok-bg);
+    color: var(--rok-text);
+}
+
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html[data-theme="light"] h5,
+html[data-theme="light"] h6 {
+    color: #0f172a;
+}
+
+/* Navbar & Footer in Light Mode */
+html[data-theme="light"] .site-nav {
+    background: rgba(255, 255, 255, 0.94) !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .site-nav__brand-name {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .site-nav__brand-sub {
+    color: #475569 !important;
+}
+
+html[data-theme="light"] .site-nav__link {
+    color: #334155 !important;
+}
+
+html[data-theme="light"] .site-nav__link:hover,
+html[data-theme="light"] .site-nav__link.is-active {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .site-nav__link--studio {
+    background: rgba(217, 119, 6, 0.12) !important;
+    border-color: #d97706 !important;
+    color: #b45309 !important;
+}
+
+html[data-theme="light"] .theme-toggle-btn {
+    background: #f8fafc;
+    border-color: #94a3b8;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .site-footer {
+    background: #ffffff !important;
+    border-top: 1px solid #cbd5e1 !important;
+    color: #334155 !important;
+}
+
+html[data-theme="light"] .site-footer h3,
+html[data-theme="light"] .site-footer h4,
+html[data-theme="light"] .site-footer strong {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .site-footer a,
+html[data-theme="light"] .site-footer p {
+    color: #475569 !important;
+}
+
+/* Page Heroes — keep dramatic image contrast when banner image exists, lighten default hero */
+html[data-theme="light"] .page-hero:not(.page-hero--has-banner) {
+    background: linear-gradient(180deg, #e2e8f0 0%, #f8fafc 100%) !important;
+    border-bottom: 1px solid #cbd5e1;
+}
+
+html[data-theme="light"] .page-hero--has-banner h1,
+html[data-theme="light"] .page-hero--has-banner .page-title {
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .page-hero--has-banner .page-subtitle {
+    color: #e2e8f0 !important;
+}
+
+/* Cards, Sections, Panels, Tables, Inputs across all pages in Light Mode */
+html[data-theme="light"] .generator-card,
+html[data-theme="light"] .tournament-hero-card,
+html[data-theme="light"] .live-bracket-viewer,
+html[data-theme="light"] .pricing-card,
+html[data-theme="light"] .branding-card-box,
+html[data-theme="light"] .studio-card,
+html[data-theme="light"] .studio-tourney-item,
+html[data-theme="light"] .team-entry-card,
+html[data-theme="light"] .auth-card,
+html[data-theme="light"] .founder-card,
+html[data-theme="light"] .division-card,
+html[data-theme="light"] .roster-card,
+html[data-theme="light"] .achievement-card,
+html[data-theme="light"] .trial-card,
+html[data-theme="light"] .lsm-card,
+html[data-theme="light"] .module-card,
+html[data-theme="light"] .mgmt-card,
+html[data-theme="light"] .stat-card {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #1e293b !important;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06) !important;
+}
+
+html[data-theme="light"] .studio-portal-banner,
+html[data-theme="light"] .studio-hero-banner {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%) !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .studio-portal-badge,
+html[data-theme="light"] .studio-tier-badge,
+html[data-theme="light"] .realtime-tier-pill {
+    color: #b45309 !important;
+    background: rgba(245, 158, 11, 0.14) !important;
+    border-color: #d97706 !important;
+}
+
+html[data-theme="light"] .bracket-realtime-bar {
+    background: #f8fafc !important;
+    border-color: #94a3b8 !important;
+}
+
+html[data-theme="light"] .realtime-status-text {
+    color: #15803d !important;
+}
+
+/* Match Cards & Bracket Canvas in Light Mode */
+html[data-theme="light"] .match-card--modern,
+html[data-theme="light"] .gen-match-box,
+html[data-theme="light"] .match-card {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07) !important;
+}
+
+html[data-theme="light"] .match-card__top-bar {
+    background: #f1f5f9 !important;
+    border-bottom-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .match-code-pill {
+    color: #0284c7 !important;
+}
+
+html[data-theme="light"] .gen-team-row,
+html[data-theme="light"] .match-team {
+    border-bottom-color: #e2e8f0 !important;
+    color: #1e293b !important;
+}
+
+html[data-theme="light"] .gen-team-name,
+html[data-theme="light"] .output-banner h3 {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .match-team--modern.is-winner,
+html[data-theme="light"] .gen-team-row.is-winner {
+    background: linear-gradient(90deg, rgba(2, 132, 199, 0.12) 0%, rgba(22, 163, 74, 0.08) 100%) !important;
+    border-left: 3px solid #0284c7 !important;
+}
+
+html[data-theme="light"] .gen-round-header-modern {
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    border-left: 3px solid #0284c7 !important;
+}
+
+html[data-theme="light"] .bracket-arrow-path {
+    stroke: #94a3b8;
+}
+
+html[data-theme="light"] .bracket-arrow-path--winner {
+    stroke: #0284c7;
+    filter: none;
+}
+
+/* Inputs, Selects, and Buttons in Light Mode */
+html[data-theme="light"] .form-input,
+html[data-theme="light"] .form-select,
+html[data-theme="light"] .gen-score-input,
+html[data-theme="light"] .share-url-input,
+html[data-theme="light"] input[type="text"],
+html[data-theme="light"] input[type="email"],
+html[data-theme="light"] input[type="password"],
+html[data-theme="light"] input[type="number"],
+html[data-theme="light"] select,
+html[data-theme="light"] textarea {
+    background: #f8fafc !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .btn-rok--gold {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+}
+
+html[data-theme="light"] .btn-rok--outline {
+    background: #ffffff !important;
+    border-color: #0f172a !important;
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .btn-rok--outline:hover {
+    background: #0f172a !important;
+    color: #ffffff !important;
+}
+
+/* Management & Bracket Studio Portals in Light Mode */
+html[data-theme="light"] .mgmt-body {
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+}
+
+html[data-theme="light"] .mgmt-sidebar {
+    background: #ffffff !important;
+    border-right: 1px solid #cbd5e1 !important;
+}
+
+html[data-theme="light"] .mgmt-topbar {
+    background: #ffffff !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+}
+
+html[data-theme="light"] .mgmt-nav-link {
+    color: #334155 !important;
+}
+
+html[data-theme="light"] .mgmt-nav-link.is-active,
+html[data-theme="light"] .mgmt-nav-link:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .rok-team-modal__dialog {
+    background: #ffffff !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .team-modal-points-card,
+html[data-theme="light"] .points-stat-box {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+}

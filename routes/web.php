@@ -51,6 +51,22 @@ Route::post('/membership/payment', [\App\Http\Controllers\MembershipController::
 Route::get('/membership/invoice/{order}', [\App\Http\Controllers\MembershipController::class, 'invoice'])->middleware(['auth'])->name('membership.invoice');
 
 // ==========================================
+// REAL-TIME BRACKET SHARE & DEDICATED STUDIO
+// (ROK Challenger & ROK Immortal Portal)
+// ==========================================
+
+Route::get('/bracket/live/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'liveShare'])->name('bracket.live');
+Route::get('/api/bracket/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'getState'])->name('api.bracket.state');
+Route::post('/api/bracket/{slug}/sync', [\App\Http\Controllers\BracketStudioController::class, 'syncState'])->name('api.bracket.sync');
+
+Route::prefix('bracket-studio')->name('bracket.studio.')->middleware(['auth', 'bracket.member'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\BracketStudioController::class, 'index'])->name('index');
+    Route::post('/', [\App\Http\Controllers\BracketStudioController::class, 'store'])->name('store');
+    Route::get('/editor/{slug?}', [\App\Http\Controllers\BracketStudioController::class, 'editor'])->name('editor');
+    Route::delete('/{tournament}', [\App\Http\Controllers\BracketStudioController::class, 'destroy'])->name('destroy');
+});
+
+// ==========================================
 // INTERNAL MANAGEMENT (Admin / Staff)
 // ==========================================
 

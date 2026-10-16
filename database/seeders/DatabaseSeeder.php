@@ -699,6 +699,97 @@ class DatabaseSeeder extends Seeder
                 $pData
             );
         }
+
+        // 15. Dedicated ROK Immortal & Challenger User Accounts (Pre-activated Membership)
+        $immortalPlan = MembershipPlan::where('slug', 'immortal')->first();
+        $challengerPlan = MembershipPlan::where('slug', 'challenger')->first();
+
+        $immortalUser = User::updateOrCreate(
+            ['email' => 'immortal@rok.com'],
+            [
+                'name' => 'Sultan ROK Immortal',
+                'username' => 'immortal',
+                'password' => Hash::make('immortal123'),
+                'role' => 'user',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        if ($immortalPlan) {
+            MembershipOrder::updateOrCreate(
+                ['order_number' => 'ROK-ORD-IMMO-0001'],
+                [
+                    'user_id' => $immortalUser->id,
+                    'membership_plan_id' => $immortalPlan->id,
+                    'amount' => $immortalPlan->price,
+                    'payment_method' => 'qris',
+                    'payment_status' => 'paid',
+                    'payment_reference' => 'TRX-IMMORTALVIP01',
+                    'notes' => 'Akun Khusus Member Resmi ROK Immortal (All Access)',
+                    'paid_at' => now(),
+                ]
+            );
+        }
+
+        $challengerUser = User::updateOrCreate(
+            ['email' => 'challenger@rok.com'],
+            [
+                'name' => 'Organizer ROK Challenger',
+                'username' => 'challenger',
+                'password' => Hash::make('challenger123'),
+                'role' => 'user',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        if ($challengerPlan) {
+            MembershipOrder::updateOrCreate(
+                ['order_number' => 'ROK-ORD-CHAL-0002'],
+                [
+                    'user_id' => $challengerUser->id,
+                    'membership_plan_id' => $challengerPlan->id,
+                    'amount' => $challengerPlan->price,
+                    'payment_method' => 'bank_bca',
+                    'payment_status' => 'paid',
+                    'payment_reference' => 'TRX-CHALLENGER02',
+                    'notes' => 'Akun Khusus Member Resmi ROK Challenger (Bracket Organizer)',
+                    'paid_at' => now(),
+                ]
+            );
+        }
+
+        // Populate rich initial live bracket_state on the main tournament
+        $initialTeamsState = [
+            ['id' => 1, 'seed' => 1, 'name' => 'ROK Prime', 'whatsapp' => '6281234567890', 'logo' => '/storage/tournaments/team-rok.svg'],
+            ['id' => 2, 'seed' => 2, 'name' => 'Aether Esports', 'whatsapp' => '6281234567891', 'logo' => '/storage/tournaments/team-aether.svg'],
+            ['id' => 3, 'seed' => 3, 'name' => 'Valkyrie Horizon', 'whatsapp' => '6281234567892', 'logo' => '/storage/tournaments/team-valkyrie.svg'],
+            ['id' => 4, 'seed' => 4, 'name' => 'Shadow Legion', 'whatsapp' => '6281234567893', 'logo' => '/storage/tournaments/team-shadow.svg'],
+            ['id' => 5, 'seed' => 5, 'name' => 'Apex Titans', 'whatsapp' => '6281234567894', 'logo' => '/storage/tournaments/team-apex.svg'],
+            ['id' => 6, 'seed' => 6, 'name' => 'Celestial Wolves', 'whatsapp' => '6281234567895', 'logo' => '/storage/tournaments/team-wolves.svg'],
+            ['id' => 7, 'seed' => 7, 'name' => 'Kitsune Vanguard', 'whatsapp' => '6281234567896', 'logo' => '/storage/tournaments/team-kitsune.svg'],
+            ['id' => 8, 'seed' => 8, 'name' => 'Solar Eclipse', 'whatsapp' => '6281234567897', 'logo' => '/storage/tournaments/team-eclipse.svg'],
+        ];
+
+        $tourney->update([
+            'user_id' => $immortalUser->id,
+            'team_count' => 8,
+            'is_public' => true,
+            'bracket_state' => [
+                'title' => 'ROK National Invitational Season 1',
+                'format' => 'single',
+                'teamCount' => 8,
+                'teams' => $initialTeamsState,
+                'scores' => [
+                    'R1-M1' => ['score1' => 2, 'score2' => 0],
+                    'R1-M2' => ['score1' => 2, 'score2' => 1],
+                    'R1-M3' => ['score1' => 2, 'score2' => 0],
+                    'R1-M4' => ['score1' => 2, 'score2' => 1],
+                    'R2-M1' => ['score1' => 2, 'score2' => 1],
+                    'R2-M2' => ['score1' => 1, 'score2' => 2],
+                ],
+                'updatedAt' => now()->toIso8601String(),
+            ],
+        ]);
     }
 
     /**
