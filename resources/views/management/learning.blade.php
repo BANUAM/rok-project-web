@@ -32,9 +32,10 @@
                             <tr>
                                 <th>Urutan</th>
                                 <th>Judul Materi Lesson</th>
-                                <th>Durasi</th>
+                                <th>Format</th>
+                                <th>Durasi / File</th>
                                 <th>Tipe Akses</th>
-                                <th>Video URL</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,19 +46,53 @@
                                         <strong>{{ $lesson->title }}</strong>
                                         <p class="text-muted text-xs line-clamp-1">{{ $lesson->summary }}</p>
                                     </td>
-                                    <td>{{ $lesson->duration ?? '-' }}</td>
+                                    <td>
+                                        @if ($lesson->isPdf())
+                                            <span class="badge" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;">
+                                                &#x1F4C4; PDF
+                                            </span>
+                                        @else
+                                            <span class="badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;">
+                                                &#x1F3AC; Video
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($lesson->isPdf())
+                                            <span>{{ $lesson->duration ?: ($lesson->formatted_file_size ?: 'Dokumen PDF') }}</span>
+                                        @else
+                                            <span>{{ $lesson->duration ?? '-' }}</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <span class="status-badge {{ $lesson->is_free_preview ? 'status-badge--passed' : 'status-badge--under_review' }}">
                                             {{ $lesson->is_free_preview ? 'Free Preview' : 'Member Only' }}
                                         </span>
                                     </td>
                                     <td class="text-xs">
-                                        <a href="{{ $lesson->video_url }}" target="_blank" class="text-gold">Tonton &rarr;</a>
+                                        <div style="display: flex; gap: 8px; align-items: center;">
+                                            @if ($lesson->isPdf() && $lesson->pdf_url)
+                                                <a href="{{ $lesson->pdf_url }}" target="_blank" class="text-gold" title="Buka PDF">
+                                                    Unduh &rarr;
+                                                </a>
+                                            @elseif ($lesson->video_url)
+                                                <a href="{{ $lesson->video_url }}" target="_blank" class="text-gold" title="Tonton Video">
+                                                    Tonton &rarr;
+                                                </a>
+                                            @endif
+                                            <form method="POST" action="{{ route('management.learning.lessons.delete', $lesson) }}" onsubmit="return confirm('Hapus materi lesson ini?')" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn-sm btn-sm--danger" style="padding: 2px 6px; font-size: 10px;">
+                                                    Hapus
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted py-3">Belum ada lesson materi di modul ini.</td>
+                                    <td colspan="6" class="text-center text-muted py-3">Belum ada lesson materi di modul ini.</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -120,26 +155,56 @@
             <h3 id="addLessonModalTitle">TAMBAH LESSON MATERI</h3>
             <button type="button" class="mgmt-modal__close" onclick="document.getElementById('modalAddLesson').style.display = 'none'">&times;</button>
         </div>
-        <form id="addLessonForm" method="POST" action="" class="mgmt-modal__form">
+        <form id="addLessonForm" method="POST" action="" enctype="multipart/form-data" class="mgmt-modal__form">
             @csrf
             <div class="form-field">
-                <label class="form-label">Judul Materi Lesson <span class="text-gold">*</span></label>
-                <input type="text" name="title" class="form-input" required placeholder="Contoh: Analisis Rotasi Mid Lane">
+                <label class="form-label">Tipe Format Materi <span class="text-gold">*</span></label>
+                <div style="display: flex; gap: 20px; margin-top: 6px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: #ffffff;">
+                        <input type="radio" name="content_type" value="video" checked onchange="toggleLessonType('video')">
+                        <span>&#x1F3AC; Video Pembelajaran (YouTube/Vimeo)</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: #ffffff;">
+                        <input type="radio" name="content_type" value="pdf" onchange="toggleLessonType('pdf')">
+                        <span>&#x1F4C4; Dokumen / Playbook PDF</span>
+                    </label>
+                </div>
             </div>
-            <div class="form-row-2">
+
+            <div class="form-field">
+                <label class="form-label">Judul Materi Lesson <span class="text-gold">*</span></label>
+                <input type="text" name="title" class="form-input" required placeholder="Contoh: Analisis Rotasi Mid Lane atau Playbook Draft Season 2026">
+            </div>
+
+            {{-- Video Fields --}}
+            <div id="videoFieldsGroup" class="form-row-2">
                 <div class="form-field">
                     <label class="form-label">Video Embed URL (YouTube/Vimeo)</label>
-                    <input type="url" name="video_url" class="form-input" placeholder="https://www.youtube-nocookie.com/embed/...">
+                    <input type="url" name="video_url" id="lessonVideoUrl" class="form-input" placeholder="https://www.youtube-nocookie.com/embed/...">
                 </div>
                 <div class="form-field">
                     <label class="form-label">Durasi Video</label>
                     <input type="text" name="duration" class="form-input" placeholder="15:30">
                 </div>
             </div>
+
+            {{-- PDF Fields --}}
+            <div id="pdfFieldsGroup" class="form-row-2" style="display: none;">
+                <div class="form-field">
+                    <label class="form-label">Unggah File PDF (Maks. 10MB) <span class="text-gold">*</span></label>
+                    <input type="file" name="pdf_file" id="lessonPdfFile" class="form-file" accept="application/pdf,.pdf">
+                </div>
+                <div class="form-field">
+                    <label class="form-label">Keterangan / Estimasi Baca</label>
+                    <input type="text" name="pdf_duration" id="lessonPdfDuration" class="form-input" placeholder="Contoh: 15 Hal PDF / 20 Menit">
+                </div>
+            </div>
+
             <div class="form-field">
-                <label class="form-label">Rangkuman Materi</label>
+                <label class="form-label">Rangkuman / Deskripsi Materi</label>
                 <textarea name="summary" class="form-textarea" rows="2" placeholder="Poin-poin penting materi ini..."></textarea>
             </div>
+
             <div class="form-row-2">
                 <div class="form-field">
                     <label class="form-label">Urutan Tampil</label>
@@ -148,13 +213,13 @@
                 <div class="form-field form-field--checkbox">
                     <label class="checkbox-label mt-4">
                         <input type="checkbox" name="is_free_preview" value="1">
-                        <span>Jadikan Free Preview (Dapat ditonton tanpa membership)</span>
+                        <span>Jadikan Free Preview (Dapat diakses tanpa membership)</span>
                     </label>
                 </div>
             </div>
             <div class="mgmt-modal__footer">
                 <button type="button" class="btn-rok btn-rok--ghost" onclick="document.getElementById('modalAddLesson').style.display = 'none'">Batal</button>
-                <button type="submit" class="btn-rok btn-rok--gold">Simpan Lesson &rarr;</button>
+                <button type="submit" class="btn-rok btn-rok--gold">Simpan Materi &rarr;</button>
             </div>
         </form>
     </div>
@@ -162,9 +227,28 @@
 
 <script>
 function openAddLessonModal(moduleId, moduleTitle) {
-    document.getElementById('addLessonModalTitle').textContent = `TAMBAH LESSON: ${moduleTitle}`;
+    document.getElementById('addLessonModalTitle').textContent = `TAMBAH MATERI: ${moduleTitle}`;
     document.getElementById('addLessonForm').action = `{{ url('/management/learning/modules') }}/${moduleId}/lessons`;
+    toggleLessonType('video');
     document.getElementById('modalAddLesson').style.display = 'flex';
+}
+
+function toggleLessonType(type) {
+    const videoGroup = document.getElementById('videoFieldsGroup');
+    const pdfGroup = document.getElementById('pdfFieldsGroup');
+    const videoInput = document.getElementById('lessonVideoUrl');
+    const pdfInput = document.getElementById('lessonPdfFile');
+
+    if (type === 'pdf') {
+        videoGroup.style.display = 'none';
+        pdfGroup.style.display = 'grid';
+        videoInput.removeAttribute('required');
+        pdfInput.setAttribute('required', 'required');
+    } else {
+        videoGroup.style.display = 'grid';
+        pdfGroup.style.display = 'none';
+        pdfInput.removeAttribute('required');
+    }
 }
 </script>
 @endsection

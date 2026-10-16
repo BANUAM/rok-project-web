@@ -182,6 +182,39 @@
                         <textarea name="reviewer_notes" class="form-textarea" rows="3" placeholder="Contoh: Mekanik bagus, pemahaman makro stabil, siap lanjut wawancara...">{{ old('reviewer_notes', $candidate->reviewer_notes) }}</textarea>
                     </div>
 
+                    {{-- Status Pengiriman Email Keputusan --}}
+                    <div class="form-field" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--rok-surface-border); border-radius: 6px; padding: 12px 16px; margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong style="font-size: 13px; color: #e2e8f0;">STATUS EMAIL KEPUTUSAN:</strong>
+                            @if ($candidate->decision_email_sent_at)
+                                <span class="badge badge--success" style="padding: 2px 8px; background: rgba(34, 197, 94, 0.2); color: #4ade80; border-radius: 4px; font-size: 11px; font-weight: 700;">
+                                    &check; TERKIRIM ({{ strtoupper($candidate->decision_email_type) }})
+                                </span>
+                            @else
+                                <span class="badge" style="padding: 2px 8px; background: rgba(148, 163, 184, 0.2); color: #94a3b8; border-radius: 4px; font-size: 11px;">
+                                    BELUM TERKIRIM
+                                </span>
+                            @endif
+                        </div>
+                        @if ($candidate->decision_email_sent_at)
+                            <div style="font-size: 12px; color: #94a3b8;">
+                                Terkirim pada: <strong>{{ $candidate->decision_email_sent_at->format('d M Y, H:i') }} WIB</strong> ke <code>{{ $candidate->email }}</code>
+                            </div>
+                        @endif
+                        @if ($candidate->next_stage_token)
+                            <div style="font-size: 12px; color: #38bdf8; margin-top: 6px; word-break: break-all;">
+                                Tautan Tahap Lanjutan: <a href="{{ $candidate->next_stage_url }}" target="_blank" style="color: #38bdf8; text-decoration: underline;">{{ $candidate->next_stage_url }}</a>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="form-field form-field--checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="send_decision_email" value="1" {{ !$candidate->decision_email_sent_at ? 'checked' : '' }}>
+                            <span>Kirim email resmi keputusan seleksi ke alamat email kandidat</span>
+                        </label>
+                    </div>
+
                     <div class="form-field form-field--checkbox">
                         <label class="checkbox-label">
                             <input type="checkbox" name="contract_completed" value="1" {{ $candidate->contract_completed ? 'checked' : '' }}>
@@ -190,7 +223,7 @@
                     </div>
 
                     <button type="submit" class="btn-rok btn-rok--outline btn-rok--full">
-                        Simpan Evaluasi Status
+                        Simpan Evaluasi &amp; Kirim Keputusan
                     </button>
                 </form>
             </div>

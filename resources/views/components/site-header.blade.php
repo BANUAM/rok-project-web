@@ -23,6 +23,18 @@
             <a href="{{ url('/trial') }}" class="site-nav__link {{ request()->is('trial*') ? 'is-active' : '' }}">Trial</a>
             <a href="{{ url('/learning-development') }}" class="site-nav__link {{ request()->is('learning-development*') ? 'is-active' : '' }}">Learning &amp; Dev</a>
             <a href="{{ url('/bracket') }}" class="site-nav__link {{ request()->is('bracket*') ? 'is-active' : '' }}">Bracket</a>
+            <a href="{{ url('/membership') }}" class="site-nav__link {{ request()->is('membership*') ? 'is-active' : '' }}">Membership</a>
+            @auth
+                <span class="site-nav__link" style="color: var(--rok-gold); font-weight: 700;">
+                    &#x1F464; {{ Auth::user()->username ?? Str::words(Auth::user()->name, 1, '') }}
+                </span>
+                <form method="POST" action="{{ route('logout') }}" style="display: inline; margin: 0;">
+                    @csrf
+                    <button type="submit" class="site-nav__link" style="background: none; border: none; cursor: pointer; color: #94a3b8; font-size: 13px;">Keluar</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="site-nav__link {{ request()->routeIs('login') ? 'is-active' : '' }}" style="color: var(--rok-gold);">Masuk</a>
+            @endauth
         </div>
 
         {{-- Mobile Hamburger --}}

@@ -5,13 +5,19 @@
 
 @section('content')
 <div class="page-container">
-    {{-- Page Hero --}}
-    <section class="page-hero">
+    {{-- Page Hero with dynamic Admin-managed banner --}}
+    <section class="page-hero {{ !empty($pageHeader?->image_url) ? 'page-hero--has-banner' : '' }}">
+        @if (!empty($pageHeader?->image_url))
+            <div class="page-hero__bg">
+                <img src="{{ $pageHeader->image_url }}" alt="{{ $pageHeader->title ?? 'Teams & Roster' }}">
+                <div class="page-hero__overlay"></div>
+            </div>
+        @endif
         <div class="page-hero__inner">
             <span class="section-badge">ORGANIZATIONAL STRUCTURE</span>
-            <h1 class="page-title">TEAMS &amp; ROSTER</h1>
+            <h1 class="page-title">{{ $pageHeader?->title ?? 'TEAMS & ROSTER' }}</h1>
             <p class="page-subtitle">
-                Mengenal kepemimpinan, jajaran manajerial, pelatih, analis, serta atlet profesional di balik kejayaan Ruler Of Kings.
+                {{ $pageHeader?->subtitle ?? 'Mengenal kepemimpinan, jajaran manajerial, pelatih, analis, serta atlet profesional di balik kejayaan Ruler Of Kings.' }}
             </p>
         </div>
     </section>

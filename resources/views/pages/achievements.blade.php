@@ -5,12 +5,18 @@
 
 @section('content')
 <div class="page-container">
-    <section class="page-hero">
+    <section class="page-hero {{ !empty($pageHeader?->image_url) ? 'page-hero--has-banner' : '' }}">
+        @if (!empty($pageHeader?->image_url))
+            <div class="page-hero__bg">
+                <img src="{{ $pageHeader->image_url }}" alt="{{ $pageHeader->title ?? 'Achievements & Trophies' }}">
+                <div class="page-hero__overlay"></div>
+            </div>
+        @endif
         <div class="page-hero__inner">
             <span class="section-badge">HALL OF FAME</span>
-            <h1 class="page-title">ACHIEVEMENTS &amp; TROPHIES</h1>
+            <h1 class="page-title">{{ $pageHeader?->title ?? 'ACHIEVEMENTS & TROPHIES' }}</h1>
             <p class="page-subtitle">
-                Jejak supremasi dan penghargaan resmi yang diraih skuad Ruler Of Kings sepanjang kiprah kompetitif esports.
+                {{ $pageHeader?->subtitle ?? 'Jejak supremasi dan penghargaan resmi yang diraih skuad Ruler Of Kings sepanjang kiprah kompetitif esports.' }}
             </p>
         </div>
     </section>

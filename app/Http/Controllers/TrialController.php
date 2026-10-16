@@ -7,6 +7,7 @@ use App\Models\LsmAttempt;
 use App\Models\LsmAttemptAnswer;
 use App\Models\LsmOption;
 use App\Models\MlTier;
+use App\Models\PageHeader;
 use App\Models\TrialCandidate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,7 +18,14 @@ class TrialController extends Controller
 {
     public function index(): View
     {
-        return view('pages.trial');
+        $pageHeader = PageHeader::where('page_key', 'trial')->where('is_active', true)->first();
+        return view('pages.trial', compact('pageHeader'));
+    }
+
+    public function showNextStage(string $token): View
+    {
+        $candidate = TrialCandidate::where('next_stage_token', $token)->firstOrFail();
+        return view('pages.trial-stage', compact('candidate'));
     }
 
     public function register(Request $request): RedirectResponse

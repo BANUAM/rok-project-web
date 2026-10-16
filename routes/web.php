@@ -24,6 +24,31 @@ Route::post('/trial/c/{token}/save', [TrialController::class, 'saveProfile'])->n
 Route::get('/trial/c/{token}/lsm', [TrialController::class, 'showLsm'])->name('trial.lsm');
 Route::post('/trial/c/{token}/lsm/submit', [TrialController::class, 'submitLsm'])->name('trial.submit-lsm');
 Route::get('/trial/c/{token}/status', [TrialController::class, 'showStatus'])->name('trial.status');
+Route::get('/trial/stage/{token}', [TrialController::class, 'showNextStage'])->name('trial.stage');
+
+// ==========================================
+// USER AUTHENTICATION & EMAIL VERIFICATION
+// ==========================================
+
+Route::get('/login', [\App\Http\Controllers\Auth\AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [\App\Http\Controllers\Auth\AuthController::class, 'login']);
+Route::get('/register', [\App\Http\Controllers\Auth\AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [\App\Http\Controllers\Auth\AuthController::class, 'register']);
+Route::post('/logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('logout');
+
+// Email Verification
+Route::get('/email/verify', [\App\Http\Controllers\Auth\AuthController::class, 'showVerifyNotice'])->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [\App\Http\Controllers\Auth\AuthController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
+Route::post('/email/verification-notification', [\App\Http\Controllers\Auth\AuthController::class, 'resendVerificationEmail'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+// ==========================================
+// MEMBERSHIP & PAYMENT
+// ==========================================
+
+Route::get('/membership', [\App\Http\Controllers\MembershipController::class, 'index'])->name('membership.index');
+Route::get('/membership/payment', [\App\Http\Controllers\MembershipController::class, 'payment'])->middleware(['auth', 'verified'])->name('membership.payment');
+Route::post('/membership/payment', [\App\Http\Controllers\MembershipController::class, 'processPayment'])->middleware(['auth', 'verified'])->name('membership.process');
+Route::get('/membership/invoice/{order}', [\App\Http\Controllers\MembershipController::class, 'invoice'])->middleware(['auth'])->name('membership.invoice');
 
 // ==========================================
 // INTERNAL MANAGEMENT (Admin / Staff)
@@ -33,7 +58,7 @@ Route::get('/management/login', [ManagementController::class, 'login'])->name('m
 Route::post('/management/login', [ManagementController::class, 'authenticate'])->name('management.authenticate');
 Route::post('/management/logout', [ManagementController::class, 'logout'])->name('management.logout');
 
-Route::prefix('management')->name('management.')->middleware('auth')->group(function () {
+Route::prefix('management')->name('management.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [ManagementController::class, 'dashboard'])->name('dashboard');
 
     // Hero Slides
@@ -41,6 +66,11 @@ Route::prefix('management')->name('management.')->middleware('auth')->group(func
     Route::post('/hero-slides', [ManagementController::class, 'storeHeroSlide'])->name('hero-slides.store');
     Route::put('/hero-slides/{heroSlide}', [ManagementController::class, 'updateHeroSlide'])->name('hero-slides.update');
     Route::delete('/hero-slides/{heroSlide}', [ManagementController::class, 'deleteHeroSlide'])->name('hero-slides.delete');
+
+    // Page Headers
+    Route::get('/page-headers', [ManagementController::class, 'pageHeaders'])->name('page-headers');
+    Route::post('/page-headers/{pageKey}', [ManagementController::class, 'updatePageHeader'])->name('page-headers.update');
+    Route::delete('/page-headers/{pageKey}', [ManagementController::class, 'deletePageHeader'])->name('page-headers.delete');
 
     // Founders
     Route::get('/founders', [ManagementController::class, 'founders'])->name('founders');
@@ -84,6 +114,7 @@ Route::prefix('management')->name('management.')->middleware('auth')->group(func
     Route::get('/learning', [ManagementController::class, 'learning'])->name('learning');
     Route::post('/learning/modules', [ManagementController::class, 'storeModule'])->name('learning.modules.store');
     Route::post('/learning/modules/{module}/lessons', [ManagementController::class, 'storeLesson'])->name('learning.lessons.store');
+    Route::delete('/learning/lessons/{lesson}', [ManagementController::class, 'deleteLesson'])->name('learning.lessons.delete');
 
     // Tournaments
     Route::get('/tournaments', [ManagementController::class, 'tournaments'])->name('tournaments');

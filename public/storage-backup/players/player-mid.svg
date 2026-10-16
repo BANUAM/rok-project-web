@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <defs>
+    <linearGradient id="pBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#181c26"/>
+      <stop offset="100%" stop-color="#0a0c12"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="800" rx="16" fill="url(#pBg)"/>
+  <rect x="4" y="4" width="592" height="792" rx="14" fill="none" stroke="#a855f7" stroke-width="2" opacity="0.4"/>
+  <polygon points="300,120 420,190 420,330 300,400 180,330 180,190" fill="none" stroke="#a855f7" stroke-width="3" opacity="0.6"/>
+  <circle cx="300" cy="240" r="60" fill="#a855f7" opacity="0.2"/>
+  <path d="M 270 240 L 300 200 L 330 240 L 315 270 L 300 255 L 285 270 Z" fill="#a855f7"/>
+  <text x="300" y="480" font-family="'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="3">SPECTRE</text>
+  <rect x="200" y="520" width="200" height="36" rx="18" fill="#a855f7" opacity="0.2"/>
+  <text x="300" y="544" font-family="'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="800" fill="#a855f7" text-anchor="middle" letter-spacing="2">Mid Laner</text>
+  <text x="300" y="700" font-family="'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#475569" text-anchor="middle" letter-spacing="4">RULER OF KINGS ESPORTS</text>
+</svg>

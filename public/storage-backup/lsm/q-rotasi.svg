@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <rect width="800" height="450" fill="#0d1117"/>
+  <circle cx="400" cy="225" r="140" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="8 8"/>
+  <line x1="100" y1="100" x2="700" y2="350" stroke="#f59e0b" stroke-width="3"/>
+  <text x="400" y="50" font-family="'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800" fill="#ffffff" text-anchor="middle">LSM Tactical Question: MLBB Map Overview</text>
+  <rect x="300" y="200" width="200" height="50" rx="8" fill="#1e293b"/>
+  <text x="400" y="232" font-family="'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#38bdf8" text-anchor="middle">MID RIVER ZONE</text>
+</svg>

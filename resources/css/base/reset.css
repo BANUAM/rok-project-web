@@ -1,28 +1,32 @@
 /* =========================================
-   ROK REVAMP — ESPORTS THEME VARIABLES & BASE
-   Dominant: Black & Charcoal (#0a0c10, #12151e)
-   Accents: Silver/Grey (#555555, #94a3b8, #e2e8f0)
-   Accents: Metallic Gold (#d4af37, #f59e0b)
+   ROK WEB — ESPORTS THEME VARIABLES & BASE
+   Harmonized with ROK Rhino Logo:
+   Dominant: Deep Charcoal & Onyx (#06080c, #0f131a, #151a24)
+   Accents: Metallic Platinum & Silver Chrome (#e2e8f0, #cbd5e1, #ffffff)
+   Muted: Graphite Slate (#64748b, #94a3b8)
 ========================================= */
 
 :root {
-    --rok-bg: #07090d;
-    --rok-primary: #0b0e14;
-    --rok-surface: #121620;
-    --rok-surface-card: #161b26;
-    --rok-surface-border: #232938;
+    --rok-bg: #07090e;
+    --rok-primary: #0a0d14;
+    --rok-surface: #10141d;
+    --rok-surface-card: #151a24;
+    --rok-surface-border: #242b3b;
     
-    --rok-charcoal: #1c2230;
-    --rok-silver: #a0a6b5;
-    --rok-muted: #555555;
-    --rok-muted-light: #737b8d;
+    --rok-charcoal: #1c2331;
+    --rok-silver: #cbd5e1;
+    --rok-silver-light: #f1f5f9;
+    --rok-muted: #64748b;
+    --rok-muted-light: #94a3b8;
     --rok-text: #f1f5f9;
     --rok-text-bright: #ffffff;
 
-    --rok-gold: #d4af37;
-    --rok-gold-light: #f3cf65;
-    --rok-gold-dark: #96781b;
-    --rok-gold-glow: rgba(212, 175, 55, 0.25);
+    /* Metallic Platinum / Silver Chrome Accent */
+    --rok-gold: #e2e8f0;
+    --rok-gold-light: #ffffff;
+    --rok-gold-dark: #94a3b8;
+    --rok-gold-glow: rgba(226, 232, 240, 0.22);
+    --rok-chrome-gradient: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
 
     --font-heading: 'Teko', 'Rajdhani', sans-serif;
     --font-sub: 'Rajdhani', sans-serif;
@@ -196,6 +200,51 @@ img {
     padding: 0 20px 80px 20px;
 }
 
+/* Unified Page Hero Banner with overlay */
+.page-hero {
+    position: relative;
+    padding: 85px 20px 55px 20px;
+    text-align: center;
+    background: #090c12;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.08);
+}
+
+.page-hero--has-banner {
+    min-height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+}
+
+.page-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.page-hero__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.38) contrast(1.15);
+}
+
+.page-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(7, 9, 14, 0.45) 0%, rgba(7, 9, 14, 0.88) 75%),
+                linear-gradient(180deg, rgba(7, 9, 14, 0.4) 0%, rgba(7, 9, 14, 0.98) 100%);
+}
+
+.page-hero__inner {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
 .section-inner {
     max-width: 1380px;
     margin: 0 auto;
@@ -300,26 +349,30 @@ img {
 }
 
 .btn-rok--gold {
-    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-    color: #0b0e14 !important;
-    box-shadow: 0 4px 15px var(--rok-gold-glow);
+    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 55%, #94a3b8 100%);
+    color: #07090e !important;
+    font-weight: 800;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 18px var(--rok-gold-glow);
 }
 
 .btn-rok--gold:hover {
-    background: linear-gradient(135deg, #f3cf65 0%, #d4af37 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 6px 24px rgba(226, 232, 240, 0.35);
 }
 
 .btn-rok--outline {
-    background: transparent;
-    border: 1px solid var(--rok-gold);
-    color: var(--rok-gold) !important;
+    background: rgba(226, 232, 240, 0.04);
+    border: 1px solid rgba(226, 232, 240, 0.5);
+    color: #ffffff !important;
 }
 
 .btn-rok--outline:hover {
-    background: rgba(212, 175, 55, 0.15);
-    color: #fff !important;
+    background: rgba(226, 232, 240, 0.16);
+    border-color: #ffffff;
+    color: #ffffff !important;
+    box-shadow: 0 0 16px rgba(226, 232, 240, 0.2);
 }
 
 .btn-rok--ghost {
@@ -335,13 +388,14 @@ img {
 
 .btn-rok--dark {
     background: #0b0e14;
-    color: var(--rok-gold) !important;
-    border: 1px solid var(--rok-gold);
+    color: #ffffff !important;
+    border: 1px solid var(--rok-surface-border);
 }
 
 .btn-rok--dark:hover {
-    background: var(--rok-gold);
-    color: #0b0e14 !important;
+    background: #151a24;
+    border-color: var(--rok-silver);
+    color: #ffffff !important;
 }
 
 .btn-rok--lg {

@@ -14,11 +14,16 @@ use App\Models\LsmQuestion;
 use App\Models\Partner;
 use App\Models\Player;
 use App\Models\Tournament;
+use App\Mail\TrialPassedMail;
+use App\Mail\TrialRejectedMail;
+use App\Models\PageHeader;
 use App\Models\TrialCandidate;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -478,16 +483,53 @@ class ManagementController extends Controller
             'status' => ['required', 'in:registered,profile_completed,lsm_completed,under_review,passed,rejected'],
             'reviewer_notes' => ['nullable', 'string'],
             'contract_completed' => ['nullable', 'boolean'],
+            'send_decision_email' => ['nullable', 'boolean'],
         ]);
+
+        // Generate token for passed candidates if not yet generated
+        $tokenToSet = $candidate->next_stage_token;
+        if ($validated['status'] === 'passed' && empty($tokenToSet)) {
+            $tokenToSet = Str::random(48);
+        }
 
         $candidate->update([
             'status' => $validated['status'],
             'reviewer_notes' => $validated['reviewer_notes'],
             'contract_completed' => $request->boolean('contract_completed'),
             'reviewed_at' => now(),
+            'next_stage_token' => $tokenToSet,
         ]);
 
-        return back()->with('success', "Status kandidat {$candidate->name} diperbarui menjadi: " . $candidate->status_label);
+        $candidate->refresh();
+
+        $emailNote = '';
+        if (in_array($validated['status'], ['passed', 'rejected'])) {
+            // Send if requested or if status changed and email not yet sent for this status
+            $alreadySent = ($candidate->decision_email_type === $validated['status'] && !is_null($candidate->decision_email_sent_at));
+            $explicitSend = $request->boolean('send_decision_email');
+
+            if (!$alreadySent || $explicitSend) {
+                try {
+                    if ($validated['status'] === 'passed') {
+                        Mail::to($candidate->email)->send(new TrialPassedMail($candidate));
+                    } else {
+                        Mail::to($candidate->email)->send(new TrialRejectedMail($candidate));
+                    }
+
+                    $candidate->update([
+                        'decision_email_sent_at' => now(),
+                        'decision_email_type' => $validated['status'],
+                    ]);
+
+                    $emailNote = ' dan email keputusan telah terkirim ke ' . $candidate->email;
+                } catch (\Throwable $e) {
+                    Log::error('Trial decision mail failed: ' . $e->getMessage());
+                    $emailNote = ' (namun pengiriman email terkendala: server mail belum aktif)';
+                }
+            }
+        }
+
+        return back()->with('success', "Status kandidat {$candidate->name} diperbarui menjadi: " . $candidate->status_label . $emailNote);
     }
 
     public function promoteCandidateToPlayer(Request $request, TrialCandidate $candidate): RedirectResponse
@@ -634,24 +676,51 @@ class ManagementController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'video_url' => ['nullable', 'string'],
+            'content_type' => ['required', 'in:video,pdf'],
+            'video_url' => ['nullable', 'required_if:content_type,video', 'string'],
+            'pdf_file' => ['nullable', 'required_if:content_type,pdf', 'file', 'mimes:pdf', 'max:10240'],
             'duration' => ['nullable', 'string'],
             'summary' => ['nullable', 'string'],
             'is_free_preview' => ['nullable', 'boolean'],
             'sort_order' => ['required', 'integer'],
         ]);
 
+        $pdfPath = null;
+        $pdfFilename = null;
+        $fileSize = null;
+
+        if ($request->hasFile('pdf_file')) {
+            $file = $request->file('pdf_file');
+            $pdfFilename = $file->getClientOriginalName();
+            $fileSize = $file->getSize();
+            $pdfPath = $file->store('lessons/pdf', 'public');
+        }
+
         LearningLesson::create([
             'learning_module_id' => $module->id,
             'title' => $validated['title'],
-            'video_url' => $validated['video_url'],
-            'duration' => $validated['duration'],
-            'summary' => $validated['summary'],
+            'content_type' => $validated['content_type'],
+            'video_url' => $validated['content_type'] === 'video' ? ($validated['video_url'] ?? null) : null,
+            'pdf_path' => $pdfPath,
+            'pdf_filename' => $pdfFilename,
+            'file_size' => $fileSize,
+            'duration' => $validated['duration'] ?? null,
+            'summary' => $validated['summary'] ?? null,
             'is_free_preview' => $request->boolean('is_free_preview'),
             'sort_order' => $validated['sort_order'],
         ]);
 
-        return back()->with('success', 'Materi/lesson berhasil ditambahkan ke modul!');
+        return back()->with('success', 'Materi pembelajaran berhasil ditambahkan ke modul!');
+    }
+
+    public function deleteLesson(LearningLesson $lesson): RedirectResponse
+    {
+        if ($lesson->pdf_path && Storage::disk('public')->exists($lesson->pdf_path)) {
+            Storage::disk('public')->delete($lesson->pdf_path);
+        }
+        $lesson->delete();
+
+        return back()->with('success', 'Materi berhasil dihapus!');
     }
 
     // ==========================================
@@ -662,5 +731,80 @@ class ManagementController extends Controller
     {
         $tournaments = Tournament::with(['teams', 'matches.team1', 'matches.team2', 'matches.winner'])->latest()->get();
         return view('management.tournaments', compact('tournaments'));
+    }
+
+    // ==========================================
+    // PAGE HEADERS (Header Banner Management)
+    // ==========================================
+
+    public function pageHeaders(): View
+    {
+        $pageDefinitions = [
+            'teams' => [
+                'name' => 'Teams & Roster',
+                'description' => 'Halaman struktur organisasi, jajaran founder, divisi resmi, dan roster aktif Ruler of Kings.',
+                'url' => '/teams',
+            ],
+            'trial' => [
+                'name' => 'Trial & Rekrutmen',
+                'description' => 'Halaman registrasi seleksi pemain, formulir data diri & rank, dan tes LSM.',
+                'url' => '/trial',
+            ],
+            'achievements' => [
+                'name' => 'Prestasi & Trophies',
+                'description' => 'Halaman galeri trofi turnamen, sertifikat, dan rekam jejak kemenangan.',
+                'url' => '/achievements',
+            ],
+            'learning' => [
+                'name' => 'Learning & Development',
+                'description' => 'Halaman modul pelatihan strategi, kurikulum, video taktik, dan dokumen playbook PDF.',
+                'url' => '/learning-development',
+            ],
+            'bracket' => [
+                'name' => 'Bagan Turnamen & Bracket',
+                'description' => 'Halaman generator bracket turnamen dan paket membership organizer.',
+                'url' => '/bracket',
+            ],
+        ];
+
+        $headers = PageHeader::all()->keyBy('page_key');
+
+        return view('management.page-headers', compact('pageDefinitions', 'headers'));
+    }
+
+    public function updatePageHeader(Request $request, string $pageKey): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'subtitle' => ['nullable', 'string'],
+            'image' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:5120'],
+            'is_active' => ['nullable', 'boolean'],
+            'remove_image' => ['nullable', 'boolean'],
+        ]);
+
+        $header = PageHeader::firstOrNew(['page_key' => $pageKey]);
+        $header->title = $validated['title'];
+        $header->subtitle = $validated['subtitle'] ?? null;
+        $header->is_active = $request->boolean('is_active', true);
+
+        if ($request->hasFile('image')) {
+            $header->image_path = $request->file('image')->store('page-headers', 'public');
+        } elseif ($request->boolean('remove_image')) {
+            $header->image_path = null;
+        }
+
+        $header->save();
+
+        return back()->with('success', "Header halaman " . strtoupper($pageKey) . " berhasil diperbarui!");
+    }
+
+    public function deletePageHeader(string $pageKey): RedirectResponse
+    {
+        $header = PageHeader::where('page_key', $pageKey)->first();
+        if ($header) {
+            $header->delete();
+        }
+
+        return back()->with('success', "Pengaturan header halaman " . strtoupper($pageKey) . " berhasil direset.");
     }
 }

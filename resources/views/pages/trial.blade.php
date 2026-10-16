@@ -5,12 +5,18 @@
 
 @section('content')
 <div class="page-container">
-    <section class="page-hero">
+    <section class="page-hero {{ !empty($pageHeader?->image_url) ? 'page-hero--has-banner' : '' }}">
+        @if (!empty($pageHeader?->image_url))
+            <div class="page-hero__bg">
+                <img src="{{ $pageHeader->image_url }}" alt="{{ $pageHeader->title ?? 'ROK Trial & Selection' }}">
+                <div class="page-hero__overlay"></div>
+            </div>
+        @endif
         <div class="page-hero__inner">
             <span class="section-badge">PLAYER RECRUITMENT 2026</span>
-            <h1 class="page-title">ROK TRIAL &amp; SELECTION</h1>
+            <h1 class="page-title">{{ $pageHeader?->title ?? 'ROK TRIAL & SELECTION' }}</h1>
             <p class="page-subtitle">
-                Bergabunglah bersama keluarga besar Ruler Of Kings. Proses seleksi terbuka untuk menemukan atlet berpotensi tinggi dengan kedisiplinan dan kecerdasan taktis luar biasa.
+                {{ $pageHeader?->subtitle ?? 'Bergabunglah bersama keluarga besar Ruler Of Kings. Proses seleksi terbuka untuk menemukan atlet berpotensi tinggi dengan kedisiplinan dan kecerdasan taktis luar biasa.' }}
             </p>
         </div>
     </section>

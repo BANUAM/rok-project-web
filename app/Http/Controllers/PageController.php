@@ -6,6 +6,8 @@ use App\Models\Achievement;
 use App\Models\Division;
 use App\Models\Founder;
 use App\Models\LearningModule;
+use App\Models\MembershipPlan;
+use App\Models\PageHeader;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -25,7 +27,9 @@ class PageController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return view('pages.teams', compact('founders', 'divisions'));
+        $pageHeader = PageHeader::where('page_key', 'teams')->where('is_active', true)->first();
+
+        return view('pages.teams', compact('founders', 'divisions', 'pageHeader'));
     }
 
     public function achievements(Request $request): View
@@ -58,7 +62,9 @@ class PageController extends Controller
             ->where('is_active', true)
             ->get();
 
-        return view('pages.achievements', compact('achievements', 'years', 'divisions'));
+        $pageHeader = PageHeader::where('page_key', 'achievements')->where('is_active', true)->first();
+
+        return view('pages.achievements', compact('achievements', 'years', 'divisions', 'pageHeader'));
     }
 
     public function learningDevelopment(): View
@@ -69,7 +75,10 @@ class PageController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return view('pages.learning-development', compact('modules'));
+        $pageHeader = PageHeader::where('page_key', 'learning')->where('is_active', true)->first();
+        $membershipPlans = MembershipPlan::where('is_active', true)->orderBy('sort_order')->get();
+
+        return view('pages.learning-development', compact('modules', 'pageHeader', 'membershipPlans'));
     }
 
     public function bracket(): View
@@ -80,7 +89,9 @@ class PageController extends Controller
             ->get();
 
         $activeTournament = $tournaments->firstWhere('status', 'live') ?? $tournaments->first();
+        $pageHeader = PageHeader::where('page_key', 'bracket')->where('is_active', true)->first();
+        $membershipPlans = MembershipPlan::where('is_active', true)->orderBy('sort_order')->get();
 
-        return view('pages.bracket', compact('tournaments', 'activeTournament'));
+        return view('pages.bracket', compact('tournaments', 'activeTournament', 'pageHeader', 'membershipPlans'));
     }
 }

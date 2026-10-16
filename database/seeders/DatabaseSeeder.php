@@ -13,7 +13,10 @@ use App\Models\LsmAttempt;
 use App\Models\LsmAttemptAnswer;
 use App\Models\LsmOption;
 use App\Models\LsmQuestion;
+use App\Models\MembershipOrder;
+use App\Models\MembershipPlan;
 use App\Models\MlTier;
+use App\Models\PageHeader;
 use App\Models\Partner;
 use App\Models\Player;
 use App\Models\Tournament;
@@ -37,6 +40,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@rok.com'],
             [
                 'name' => 'ROK Super Admin',
+                'username' => 'admin',
                 'password' => Hash::make('admin123'),
                 'role' => 'admin',
                 'email_verified_at' => now(),
@@ -47,6 +51,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'coach@rok.com'],
             [
                 'name' => 'Coach Alpha',
+                'username' => 'coach',
                 'password' => Hash::make('coach123'),
                 'role' => 'coach',
                 'email_verified_at' => now(),
@@ -498,12 +503,29 @@ class DatabaseSeeder extends Seeder
         LearningLesson::updateOrCreate(
             ['learning_module_id' => $mod2->id, 'title' => 'Prinsip Rock-Paper-Scissors Komposisi Hero'],
             [
+                'content_type' => 'video',
                 'video_url' => 'https://www.youtube-nocookie.com/embed/qgc7QE04ELs',
                 'duration' => '22:10',
                 'summary' => 'Mengenali kelemahan teamfight comp, pick-off comp, dan split-push comp.',
                 'content' => 'Cara mengidentifikasi win condition tim kamu sejak draft pick fase kedua.',
                 'is_free_preview' => false,
                 'sort_order' => 1,
+            ]
+        );
+
+        LearningLesson::updateOrCreate(
+            ['learning_module_id' => $mod2->id, 'title' => 'Panduan Strategi Draft & Ban Turnamen (PDF Playbook)'],
+            [
+                'content_type' => 'pdf',
+                'video_url' => null,
+                'pdf_path' => 'lessons/draft-pick-bible.pdf',
+                'pdf_filename' => 'ROK_Draft_Pick_Strategy_Manual_2026.pdf',
+                'file_size' => 2450000,
+                'duration' => '15 Hal PDF',
+                'summary' => 'Dokumen panduan komprehensif draft & counter hero tier S turnamen resmi.',
+                'content' => 'Playbook taktik format PDF yang dirancang oleh tim analis pro ROK.',
+                'is_free_preview' => true,
+                'sort_order' => 2,
             ]
         );
 
@@ -574,6 +596,109 @@ class DatabaseSeeder extends Seeder
             ['tournament_id' => $tourney->id, 'round_number' => 3, 'match_number' => 1],
             ['round_name' => 'Grand Finals', 'team1_id' => $teamModels[0]->id, 'team2_id' => $teamModels[2]->id, 'score1' => null, 'score2' => null, 'winner_id' => null, 'status' => 'live']
         );
+
+        // 13. Page Header Banners (Manageable via Admin)
+        $headers = [
+            [
+                'page_key' => 'teams',
+                'title' => 'TEAMS & ROSTER',
+                'subtitle' => 'Mengenal kepemimpinan, jajaran manajerial, pelatih, analis, serta atlet profesional di balik kejayaan Ruler Of Kings.',
+                'image_path' => 'page-headers/teams-banner.svg',
+            ],
+            [
+                'page_key' => 'trial',
+                'title' => 'JOIN OUR TRIAL',
+                'subtitle' => 'Gerbang resmi menuju pro-scene bersama Ruler Of Kings. Daftarkan diri, ikuti tes seleksi LSM, dan buktikan kemampuanmu.',
+                'image_path' => 'page-headers/trial-banner.svg',
+            ],
+            [
+                'page_key' => 'achievements',
+                'title' => 'ACHIEVEMENTS & TROPHIES',
+                'subtitle' => 'Pencapaian dan trofi yang membuktikan dedikasi serta konsistensi Ruler Of Kings di kancah turnamen kompetitif.',
+                'image_path' => 'page-headers/achievements-banner.svg',
+            ],
+            [
+                'page_key' => 'learning',
+                'title' => 'LEARNING & DEVELOPMENT',
+                'subtitle' => 'Tingkatkan skill mikro, pemahaman makro, dan mentalitas berkompetisi melalui modul terstruktur dan materi strategi PDF resmi.',
+                'image_path' => 'page-headers/learning-banner.svg',
+            ],
+            [
+                'page_key' => 'bracket',
+                'title' => 'BUILD. COMPETE. CONQUER.',
+                'subtitle' => 'Your Tournament. Your Bracket. Your Champion. Kelola bagan turnamen esports komunitasmu dengan mudah.',
+                'image_path' => 'page-headers/bracket-banner.svg',
+            ],
+        ];
+
+        foreach ($headers as $hData) {
+            PageHeader::updateOrCreate(
+                ['page_key' => $hData['page_key']],
+                $hData
+            );
+        }
+
+        // 14. Membership Plans
+        $plans = [
+            [
+                'slug' => 'learning',
+                'name' => 'ROK Learning',
+                'badge_title' => 'ACADEMY ACCESS',
+                'price' => 49000,
+                'billing_cycle' => 'per bulan',
+                'description' => 'Akses penuh ke modul taktik, bedah gameplay turnamen pro, dan materi bacaan PDF eksklusif.',
+                'features' => [
+                    'Akses seluruh modul pembelajaran taktik pro',
+                    'Akses tayangan video strategi breakdown',
+                    'Unduh materi kurikulum & playbook dalam format PDF',
+                    'Evaluasi interaktif pemahaman game',
+                    'Forum diskusi dan tanya jawab akademi',
+                ],
+                'is_featured' => false,
+                'sort_order' => 1,
+            ],
+            [
+                'slug' => 'challenger',
+                'name' => 'ROK Challenger',
+                'badge_title' => 'ORGANIZER PREMIUM',
+                'price' => 99000,
+                'billing_cycle' => 'per turnamen',
+                'description' => 'Solusi lengkap organizer untuk menggelar turnamen profesional dengan kustomisasi logo tim dan banner resmi.',
+                'features' => [
+                    'Buat bagan turnamen tanpa batasan jumlah tim',
+                    'Sematkan Logo Resmi seluruh Tim peserta di bagan',
+                    'Gunakan Banner & Kustomisasi Branding turnamen',
+                    'Tampilan Live Bracket interaktif untuk penonton',
+                    'Export hasil bagan ke format visual resolusi tinggi',
+                ],
+                'is_featured' => true,
+                'sort_order' => 2,
+            ],
+            [
+                'slug' => 'immortal',
+                'name' => 'ROK Immortal',
+                'badge_title' => 'ALL ACCESS KINGDOM',
+                'price' => 199000,
+                'billing_cycle' => 'per bulan',
+                'description' => 'Paket terlengkap menggabungkan seluruh fitur Organizer Challenger dan Akademi Pro Learning.',
+                'features' => [
+                    'Seluruh fitur Organizer ROK Challenger',
+                    'Seluruh materi & video eksklusif ROK Learning',
+                    'Akses bebas ke modul strategi PDF terlengkap',
+                    'Prioritas konsultasi operasional turnamen',
+                    'Badge eksklusif Immortal di ekosistem ROK',
+                ],
+                'is_featured' => false,
+                'sort_order' => 3,
+            ],
+        ];
+
+        foreach ($plans as $pData) {
+            MembershipPlan::updateOrCreate(
+                ['slug' => $pData['slug']],
+                $pData
+            );
+        }
     }
 
     /**
@@ -629,7 +754,16 @@ class DatabaseSeeder extends Seeder
             'tournaments/team-wolves.svg' => $this->createTeamBadgeSvg('WLV', '#34d399'),
             'tournaments/team-kitsune.svg' => $this->createTeamBadgeSvg('KTZ', '#fb7185'),
             'tournaments/team-eclipse.svg' => $this->createTeamBadgeSvg('ECL', '#94a3b8'),
+            'page-headers/teams-banner.svg' => $this->createBannerSvg('TEAMS & ROSTER', 'RULER OF KINGS PRO ESPORTS DIVISIONS', '#0b0f19', '#cbd5e1'),
+            'page-headers/trial-banner.svg' => $this->createBannerSvg('JOIN OUR TRIAL', 'BECOME A LEGENDARY ROK WARRIOR', '#090e17', '#94a3b8'),
+            'page-headers/achievements-banner.svg' => $this->createBannerSvg('HALL OF FAME', 'ACHIEVEMENTS, TROPHIES & GLORY', '#0c101b', '#e2e8f0'),
+            'page-headers/learning-banner.svg' => $this->createBannerSvg('ROK ACADEMY', 'LEARNING & TACTICAL DEVELOPMENT', '#0b121e', '#cbd5e1'),
+            'page-headers/bracket-banner.svg' => $this->createBannerSvg('TOURNAMENT BRACKET HUB', 'BUILD. COMPETE. CONQUER.', '#0a0d15', '#e2e8f0'),
         ];
+
+        // Sample PDF Playbook
+        $samplePdfContent = "%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n3 0 obj<</Type/Page/MediaBox[0 0 595 842]/Parent 2 0 R/Resources<<>>>>endobj\nxref\n0 4\n0000000000 65535 f \n0000000010 00000 n \n0000000053 00000 n \n0000000102 00000 n \ntrailer<</Size 4/Root 1 0 R>>\nstartxref\n182\n%%EOF\n";
+        $disk->put('lessons/draft-pick-bible.pdf', $samplePdfContent);
 
         foreach ($svgDefinitions as $path => $content) {
             $disk->put($path, $content);

@@ -32,6 +32,9 @@ class TrialCandidate extends Model
         'reviewer_notes',
         'contract_completed',
         'created_player_id',
+        'next_stage_token',
+        'decision_email_sent_at',
+        'decision_email_type',
     ];
 
     protected function casts(): array
@@ -45,6 +48,7 @@ class TrialCandidate extends Model
             'lsm_completed_at' => 'datetime',
             'reviewed_at' => 'datetime',
             'contract_completed' => 'boolean',
+            'decision_email_sent_at' => 'datetime',
         ];
     }
 
@@ -95,5 +99,18 @@ class TrialCandidate extends Model
             'rejected' => 'Tidak Lolos',
             default => ucfirst($this->status),
         };
+    }
+
+    public function getNextStageUrlAttribute(): ?string
+    {
+        if (empty($this->next_stage_token)) {
+            return null;
+        }
+        return url('/trial/stage/' . $this->next_stage_token);
+    }
+
+    public function hasDecisionEmailSent(): bool
+    {
+        return !is_null($this->decision_email_sent_at);
     }
 }

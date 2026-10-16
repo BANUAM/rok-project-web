@@ -37,6 +37,9 @@
                 <a href="{{ route('management.hero-slides') }}" class="mgmt-nav-link {{ request()->routeIs('management.hero-slides*') ? 'is-active' : '' }}">
                     <span class="nav-icon">&#x1F5BC;</span> Hero Banners
                 </a>
+                <a href="{{ route('management.page-headers') }}" class="mgmt-nav-link {{ request()->routeIs('management.page-headers*') ? 'is-active' : '' }}">
+                    <span class="nav-icon">&#x1F5BC;</span> Header Halaman
+                </a>
                 <a href="{{ route('management.founders') }}" class="mgmt-nav-link {{ request()->routeIs('management.founders*') ? 'is-active' : '' }}">
                     <span class="nav-icon">&#x1F451;</span> Founders
                 </a>

@@ -5,12 +5,18 @@
 
 @section('content')
 <div class="page-container">
-    <section class="page-hero">
+    <section class="page-hero {{ !empty($pageHeader?->image_url) ? 'page-hero--has-banner' : '' }}">
+        @if (!empty($pageHeader?->image_url))
+            <div class="page-hero__bg">
+                <img src="{{ $pageHeader->image_url }}" alt="{{ $pageHeader->title ?? 'Learning & Development' }}">
+                <div class="page-hero__overlay"></div>
+            </div>
+        @endif
         <div class="page-hero__inner">
             <span class="section-badge">ROK ACADEMY &amp; DEVELOPMENT</span>
-            <h1 class="page-title">LEARNING &amp; DEVELOPMENT</h1>
+            <h1 class="page-title">{{ $pageHeader?->title ?? 'LEARNING & DEVELOPMENT' }}</h1>
             <p class="page-subtitle">
-                Tingkatkan penguasaan mikro dan strategi makro kamu melalui modul eksklusif, analisis pertandingan, dan materi kurikulum yang disusun oleh pelatih serta analis pro ROK.
+                {{ $pageHeader?->subtitle ?? 'Tingkatkan penguasaan mikro dan strategi makro kamu melalui modul eksklusif, analisis pertandingan, dan materi kurikulum yang disusun oleh pelatih serta analis pro ROK.' }}
             </p>
         </div>
     </section>
@@ -73,17 +79,44 @@
                                     @foreach ($module->lessons as $lesson)
                                         <li class="lesson-item">
                                             <div class="lesson-item__left">
-                                                <span class="lesson-play-icon">&#9658;</span>
-                                                <span class="lesson-title">{{ $lesson->title }}</span>
+                                                @if ($lesson->isPdf())
+                                                    <span class="lesson-play-icon" style="background: rgba(239, 68, 68, 0.2); color: #f87171;">&#x1F4C4;</span>
+                                                @else
+                                                    <span class="lesson-play-icon">&#9658;</span>
+                                                @endif
+                                                <div>
+                                                    <span class="lesson-title">{{ $lesson->title }}</span>
+                                                    @if ($lesson->isPdf())
+                                                        <span class="badge-mini" style="margin-left: 6px; font-size: 10px; padding: 1px 6px; background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);">PLAYBOOK PDF</span>
+                                                    @endif
+                                                    @if ($lesson->summary)
+                                                        <p class="text-xs text-muted" style="margin: 2px 0 0 0; line-height: 1.4;">{{ $lesson->summary }}</p>
+                                                    @endif
+                                                </div>
                                             </div>
                                             <div class="lesson-item__right">
                                                 @if ($lesson->is_free_preview)
-                                                    <span class="badge-free">Free Preview</span>
+                                                    @if ($lesson->isPdf() && $lesson->pdf_url)
+                                                        <a href="{{ $lesson->pdf_url }}" target="_blank" class="badge-free" style="text-decoration: none;">
+                                                            &#x1F4E5; Unduh PDF
+                                                        </a>
+                                                    @elseif ($lesson->video_url)
+                                                        <a href="{{ $lesson->video_url }}" target="_blank" class="badge-free" style="text-decoration: none;">
+                                                            &#9658; Tonton Gratis
+                                                        </a>
+                                                    @else
+                                                        <span class="badge-free">Free Preview</span>
+                                                    @endif
                                                 @else
-                                                    <span class="badge-lock">&#x1F512; Member Only</span>
+                                                    <a href="{{ route('membership.payment', ['plan' => 'learning']) }}" class="badge-lock" style="text-decoration: none;" title="Buka akses via Membership">
+                                                        &#x1F512; Member Only
+                                                    </a>
                                                 @endif
+
                                                 @if ($lesson->duration)
                                                     <span class="lesson-duration">{{ $lesson->duration }}</span>
+                                                @elseif ($lesson->isPdf() && $lesson->formatted_file_size)
+                                                    <span class="lesson-duration">{{ $lesson->formatted_file_size }}</span>
                                                 @endif
                                             </div>
                                         </li>
@@ -123,13 +156,14 @@
                     <div class="pricing-body">
                         <ul class="pricing-features">
                             <li><span class="check">&#10003;</span> Akses seluruh modul &amp; video strategi</li>
+                            <li><span class="check">&#10003;</span> Unduh panduan kurikulum format PDF</li>
                             <li><span class="check">&#10003;</span> Tes evaluasi pengetahuan game (Quiz)</li>
                             <li><span class="check">&#10003;</span> Akses Discord Komunitas Diskusi</li>
                             <li><span class="cross">&times;</span> Tidak termasuk fitur turnamen branding</li>
                         </ul>
                     </div>
                     <div class="pricing-footer">
-                        <a href="#membership-matrix" class="btn-rok btn-rok--outline btn-rok--full">
+                        <a href="{{ route('membership.payment', ['plan' => 'learning']) }}" class="btn-rok btn-rok--outline btn-rok--full">
                             Pelajari Akses
                         </a>
                     </div>
@@ -152,7 +186,7 @@
                         </ul>
                     </div>
                     <div class="pricing-footer">
-                        <a href="{{ url('/bracket') }}" class="btn-rok btn-rok--gold btn-rok--full">
+                        <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="btn-rok btn-rok--gold btn-rok--full">
                             Buka Fitur Bracket &rarr;
                         </a>
                     </div>
@@ -174,7 +208,7 @@
                         </ul>
                     </div>
                     <div class="pricing-footer">
-                        <a href="#membership-matrix" class="btn-rok btn-rok--outline btn-rok--full">
+                        <a href="{{ route('membership.payment', ['plan' => 'immortal']) }}" class="btn-rok btn-rok--outline btn-rok--full">
                             Pilih Paket Immortal
                         </a>
                     </div>

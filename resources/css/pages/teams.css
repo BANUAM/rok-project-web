@@ -2,15 +2,6 @@
    TEAMS & STRUCTURE PAGE
 ========================================= */
 
-.page-hero {
-    padding: 80px 20px 40px 20px;
-    text-align: center;
-}
-
-.page-hero__inner {
-    max-width: 900px;
-    margin: 0 auto;
-}
 
 .page-title {
     font-size: clamp(36px, 5vw, 60px);

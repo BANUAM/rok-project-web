@@ -115,14 +115,17 @@
 }
 
 .hero-button--primary {
-    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-    color: #0b0e14 !important;
+    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 55%, #94a3b8 100%);
+    color: #07090e !important;
+    font-weight: 800;
+    border: 1px solid rgba(255, 255, 255, 0.4);
     box-shadow: 0 4px 20px var(--rok-gold-glow);
 }
 
 .hero-button--primary:hover {
-    background: linear-gradient(135deg, #f3cf65 0%, #d4af37 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
     transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(226, 232, 240, 0.35);
 }
 
 .hero-button--secondary {
@@ -187,13 +190,28 @@
    02. TEAMS PREVIEW SECTION
 ----------------------------------------- */
 .home-section {
-    padding: 60px 20px;
+    padding: 64px 20px;
     position: relative;
     z-index: 1;
 }
 
+.home-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(226, 232, 240, 0.1), transparent);
+    pointer-events: none;
+}
+
+.home-section:last-of-type::after {
+    display: none;
+}
+
 .home-section__inner {
-    max-width: 1380px;
+    max-width: 1320px;
     margin: 0 auto;
 }
 

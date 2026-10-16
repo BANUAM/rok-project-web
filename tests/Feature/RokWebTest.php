@@ -1,17 +1,26 @@
-    <?php
+<?php
 
 namespace Tests\Feature;
 
+use App\Mail\TrialPassedMail;
+use App\Mail\TrialRejectedMail;
 use App\Models\Division;
 use App\Models\HeroSlide;
+use App\Models\LearningLesson;
+use App\Models\LearningModule;
 use App\Models\Lsm;
+use App\Models\MembershipOrder;
+use App\Models\MembershipPlan;
 use App\Models\MlTier;
+use App\Models\PageHeader;
 use App\Models\Player;
 use App\Models\TrialCandidate;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -158,5 +167,291 @@ class RokWebTest extends TestCase
         $this->assertNotNull($newPlayer);
         $this->assertEquals('Gold Laner', $newPlayer->role);
         $this->assertEquals('active', $newPlayer->status);
+    }
+
+    public function test_user_registration_creates_account_and_requires_email_verification(): void
+    {
+        $response = $this->post('/register', [
+            'name' => 'John Doe',
+            'email' => 'john.doe@example.com',
+            'username' => 'johndoe',
+            'password' => 'secret1234',
+            'password_confirmation' => 'secret1234',
+        ]);
+
+        $response->assertRedirect(route('verification.notice'));
+        $this->assertDatabaseHas('users', [
+            'email' => 'john.doe@example.com',
+            'username' => 'johndoe',
+            'role' => 'user',
+            'email_verified_at' => null,
+        ]);
+        $this->assertAuthenticated();
+    }
+
+    public function test_user_can_login_with_email_and_username(): void
+    {
+        $user = User::create([
+            'name' => 'Gamer One',
+            'email' => 'gamerone@example.com',
+            'username' => 'gamerone',
+            'password' => Hash::make('gamerpass123'),
+            'role' => 'user',
+            'email_verified_at' => now(),
+        ]);
+
+        // Login using email
+        $emailLogin = $this->post('/login', [
+            'login' => 'gamerone@example.com',
+            'password' => 'gamerpass123',
+        ]);
+        $emailLogin->assertRedirect(route('home'));
+        $this->assertAuthenticatedAs($user);
+
+        // Logout
+        $this->post('/logout');
+        $this->assertGuest();
+
+        // Login using username
+        $userLogin = $this->post('/login', [
+            'login' => 'gamerone',
+            'password' => 'gamerpass123',
+        ]);
+        $userLogin->assertRedirect(route('home'));
+        $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_unverified_user_cannot_access_membership_payment_page(): void
+    {
+        $unverifiedUser = User::create([
+            'name' => 'Unverified User',
+            'email' => 'unverified@example.com',
+            'username' => 'unverified',
+            'password' => Hash::make('password123'),
+            'role' => 'user',
+            'email_verified_at' => null,
+        ]);
+
+        $response = $this->actingAs($unverifiedUser)->get(route('membership.payment'));
+        $response->assertRedirect(route('verification.notice'));
+    }
+
+    public function test_regular_user_is_forbidden_from_admin_management_routes(): void
+    {
+        $regularUser = User::create([
+            'name' => 'Regular User',
+            'email' => 'regular@example.com',
+            'username' => 'regularuser',
+            'password' => Hash::make('password123'),
+            'role' => 'user',
+            'email_verified_at' => now(),
+        ]);
+
+        $response = $this->actingAs($regularUser)->get(route('management.dashboard'));
+        $response->assertRedirect(route('home'));
+        $response->assertSessionHas('error');
+    }
+
+    public function test_membership_payment_flow_creates_pending_order_and_invoice(): void
+    {
+        $user = User::create([
+            'name' => 'Verified Buyer',
+            'email' => 'buyer@example.com',
+            'username' => 'verifiedbuyer',
+            'password' => Hash::make('password123'),
+            'role' => 'user',
+            'email_verified_at' => now(),
+        ]);
+
+        $plan = MembershipPlan::where('slug', 'challenger')->first();
+        $this->assertNotNull($plan);
+
+        // Access payment page with pre-selected plan
+        $pageResponse = $this->actingAs($user)->get(route('membership.payment', ['plan' => 'challenger']));
+        $pageResponse->assertStatus(200);
+        $pageResponse->assertSee('PEMBAYARAN MEMBERSHIP ROK');
+        $pageResponse->assertSee('RINGKASAN TRANSAKSI');
+        $pageResponse->assertSee('ROK Challenger');
+
+        // Submit payment order
+        $orderResponse = $this->actingAs($user)->post(route('membership.process'), [
+            'membership_plan_id' => $plan->id,
+            'payment_method' => 'qris',
+            'notes' => 'Permintaan aktivasi akun tim',
+        ]);
+
+        $order = MembershipOrder::where('user_id', $user->id)->latest()->first();
+        $this->assertNotNull($order);
+        $this->assertEquals('pending', $order->payment_status);
+        $this->assertEquals('qris', $order->payment_method);
+        $this->assertEquals($plan->price, $order->amount);
+
+        $orderResponse->assertRedirect(route('membership.invoice', ['order' => $order->order_number]));
+
+        // Check invoice view
+        $invoiceResponse = $this->actingAs($user)->get(route('membership.invoice', ['order' => $order->order_number]));
+        $invoiceResponse->assertStatus(200);
+        $invoiceResponse->assertSee('INVOICE PESANAN');
+        $invoiceResponse->assertSee('MENUNGGU PEMBAYARAN');
+        $invoiceResponse->assertSee($order->order_number);
+    }
+
+    public function test_admin_can_update_and_delete_page_header_banners(): void
+    {
+        Storage::fake('public');
+        $admin = User::where('role', 'admin')->first();
+
+        // 1. View page headers management
+        $indexResponse = $this->actingAs($admin)->get(route('management.page-headers'));
+        $indexResponse->assertSee('BANNER HEADER HALAMAN PUBLIK');
+
+        // 2. Update page header for teams
+        $updateResponse = $this->actingAs($admin)->post(route('management.page-headers.update', 'teams'), [
+            'title' => 'DIVISI JUARA ROK ESPORTS',
+            'subtitle' => 'Struktur organisasi dan jajaran pro player unggulan',
+            'is_active' => 1,
+            'image' => UploadedFile::fake()->create('teams-banner.png', 200, 'image/png'),
+        ]);
+
+        $updateResponse->assertSessionHas('success');
+
+        $header = PageHeader::where('page_key', 'teams')->first();
+        $this->assertNotNull($header);
+        $this->assertEquals('DIVISI JUARA ROK ESPORTS', $header->title);
+        $this->assertNotNull($header->image_path);
+        Storage::disk('public')->assertExists($header->image_path);
+
+        // 3. Frontend teams page reflects updated header
+        $teamsResponse = $this->get('/teams');
+        $teamsResponse->assertStatus(200);
+        $teamsResponse->assertSee('DIVISI JUARA ROK ESPORTS');
+
+        $deleteResponse = $this->actingAs($admin)->delete(route('management.page-headers.delete', 'teams'));
+        $deleteResponse->assertSessionHas('success');
+        $this->assertDatabaseMissing('page_headers', ['page_key' => 'teams']);
+    }
+
+    public function test_trial_candidate_decision_email_dispatch_and_exclusive_stage_page(): void
+    {
+        Mail::fake();
+        $admin = User::where('role', 'admin')->first();
+        $candidate = TrialCandidate::first();
+
+        // 1. Mark as passed -> Triggers TrialPassedMail and generates next_stage_token
+        $passResponse = $this->actingAs($admin)->post(route('management.candidates.status', $candidate), [
+            'status' => 'passed',
+            'reviewer_notes' => 'Performa LSM dan mechanical gameplay luar biasa.',
+            'send_decision_email' => 1,
+        ]);
+
+        $passResponse->assertSessionHas('success');
+        $candidate->refresh();
+        $this->assertEquals('passed', $candidate->status);
+        $this->assertNotNull($candidate->next_stage_token);
+        $this->assertEquals('passed', $candidate->decision_email_type);
+        $this->assertNotNull($candidate->decision_email_sent_at);
+
+        Mail::assertSent(TrialPassedMail::class, function ($mail) use ($candidate) {
+            return $mail->hasTo($candidate->email);
+        });
+
+        // 2. Access secret stage page with valid token
+        $stageResponse = $this->get(route('trial.stage', ['token' => $candidate->next_stage_token]));
+        $stageResponse->assertStatus(200);
+        $stageResponse->assertSee('AGENDA TAHAP BERIKUTNYA');
+        $stageResponse->assertSee('SELAMAT DATANG DI SESI LANJUTAN');
+        $stageResponse->assertSee($candidate->name);
+
+        // 3. Re-saving status does not send duplicate email unless explicitly requested
+        Mail::fake();
+        $this->actingAs($admin)->post(route('management.candidates.status', $candidate), [
+            'status' => 'passed',
+            'reviewer_notes' => 'Catatan diperbarui tanpa kirim ulang email.',
+            'send_decision_email' => 0,
+        ]);
+        Mail::assertNothingSent();
+
+        // 4. Another candidate marked as rejected sends TrialRejectedMail
+        Mail::fake();
+        $rejectedCandidate = TrialCandidate::create([
+            'name' => 'Rejected Player',
+            'email' => 'rejected@example.com',
+            'access_token' => 'token-rej-' . uniqid(),
+            'status' => 'lsm_completed',
+        ]);
+
+        $this->actingAs($admin)->post(route('management.candidates.status', $rejectedCandidate), [
+            'status' => 'rejected',
+            'reviewer_notes' => 'Kriteria skor LSM belum mencukupi batas minimum.',
+            'send_decision_email' => 1,
+        ]);
+
+        Mail::assertSent(TrialRejectedMail::class, function ($mail) use ($rejectedCandidate) {
+            return $mail->hasTo($rejectedCandidate->email);
+        });
+    }
+
+    public function test_learning_lesson_pdf_upload_and_display(): void
+    {
+        Storage::fake('public');
+        $admin = User::where('role', 'admin')->first();
+        $module = LearningModule::first();
+        $this->assertNotNull($module);
+
+        $fakePdf = UploadedFile::fake()->create('macro-guide.pdf', 300, 'application/pdf');
+
+        // Admin uploads PDF lesson
+        $uploadResponse = $this->actingAs($admin)->post(route('management.learning.lessons.store', $module), [
+            'title' => 'Buku Panduan Makro & Rotasi',
+            'content_type' => 'pdf',
+            'pdf_file' => $fakePdf,
+            'is_preview' => 1,
+            'sort_order' => 10,
+        ]);
+
+        $uploadResponse->assertSessionHas('success');
+
+        $lesson = LearningLesson::where('title', 'Buku Panduan Makro & Rotasi')->first();
+        $this->assertNotNull($lesson);
+        $this->assertEquals('pdf', $lesson->content_type);
+        $this->assertNotNull($lesson->pdf_path);
+        Storage::disk('public')->assertExists($lesson->pdf_path);
+
+        // Frontend learning development page renders the PDF item
+        $frontendResponse = $this->get('/learning-development');
+        $frontendResponse->assertStatus(200);
+        $frontendResponse->assertSee('Buku Panduan Makro &amp; Rotasi', false);
+        $frontendResponse->assertSee('PDF');
+
+        // Delete lesson
+        $deleteResponse = $this->actingAs($admin)->delete(route('management.learning.lessons.delete', $lesson));
+        $deleteResponse->assertSessionHas('success');
+        $this->assertDatabaseMissing('learning_lessons', ['id' => $lesson->id]);
+    }
+
+    public function test_bracket_formats_membership_tiers_and_no_round_robin(): void
+    {
+        $response = $this->get('/bracket');
+        $response->assertStatus(200);
+
+        // Membership Tiers Section present on Bracket page
+        $response->assertSee('ROK Learning');
+        $response->assertSee('ROK Challenger');
+        $response->assertSee('ROK Immortal');
+        $response->assertSee('ORGANIZER MEMBERSHIP TIERS');
+        $response->assertSee('Buka Fitur Bracket');
+
+        // Verify format selector options: Round Robin is removed
+        $response->assertDontSee('value="round_robin"', false);
+        $response->assertDontSee('Round Robin', false);
+
+        // Single elimination bye notification text
+        $response->assertSee('Lolos Otomatis ke Babak Berikutnya');
+
+        // Supported formats
+        $response->assertSee('Single Elimination');
+        $response->assertSee('Swiss Stage');
+        $response->assertSee('Double Elimination');
+        $response->assertSee('League System');
     }
 }
