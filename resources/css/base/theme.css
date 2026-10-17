@@ -97,10 +97,10 @@ html[data-theme="light"] {
     --rok-text-muted: #475569;
     --rok-text-bright: #0f172a;
 
-    --rok-gold: #0f172a;
-    --rok-gold-light: #1e293b;
-    --rok-gold-dark: #334155;
-    --rok-gold-glow: rgba(15, 23, 42, 0.12);
+    --rok-gold: #b45309;
+    --rok-gold-light: #d97706;
+    --rok-gold-dark: #92400e;
+    --rok-gold-glow: rgba(180, 83, 9, 0.15);
 }
 
 html[data-theme="light"] body {
@@ -119,9 +119,9 @@ html[data-theme="light"] h6 {
 
 /* Navbar & Footer in Light Mode */
 html[data-theme="light"] .site-nav {
-    background: rgba(255, 255, 255, 0.94) !important;
+    background: rgba(255, 255, 255, 0.96) !important;
     border-bottom: 1px solid #cbd5e1 !important;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
 }
 
 html[data-theme="light"] .site-nav__brand-name {
@@ -149,7 +149,7 @@ html[data-theme="light"] .site-nav__link--studio {
 
 html[data-theme="light"] .theme-toggle-btn {
     background: #f8fafc;
-    border-color: #94a3b8;
+    border-color: #cbd5e1;
     color: #0f172a;
 }
 
@@ -170,7 +170,7 @@ html[data-theme="light"] .site-footer p {
     color: #475569 !important;
 }
 
-/* Page Heroes — keep dramatic image contrast when banner image exists, lighten default hero */
+/* Page Heroes — keep dramatic contrast when banner image exists, soften default hero */
 html[data-theme="light"] .page-hero:not(.page-hero--has-banner) {
     background: linear-gradient(180deg, #e2e8f0 0%, #f8fafc 100%) !important;
     border-bottom: 1px solid #cbd5e1;
@@ -185,7 +185,9 @@ html[data-theme="light"] .page-hero--has-banner .page-subtitle {
     color: #e2e8f0 !important;
 }
 
-/* Cards, Sections, Panels, Tables, Inputs across all pages in Light Mode */
+/* ========================================================
+   LIGHT THEME CARDS & SECTIONS (No Harsh Pitch-Black Blocks)
+   ======================================================== */
 html[data-theme="light"] .generator-card,
 html[data-theme="light"] .tournament-hero-card,
 html[data-theme="light"] .live-bracket-viewer,
@@ -199,6 +201,7 @@ html[data-theme="light"] .founder-card,
 html[data-theme="light"] .division-card,
 html[data-theme="light"] .roster-card,
 html[data-theme="light"] .achievement-card,
+html[data-theme="light"] .achievement-full-card,
 html[data-theme="light"] .trial-card,
 html[data-theme="light"] .lsm-card,
 html[data-theme="light"] .module-card,
@@ -207,15 +210,98 @@ html[data-theme="light"] .stat-card {
     background: #ffffff !important;
     border-color: #cbd5e1 !important;
     color: #1e293b !important;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06) !important;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05) !important;
 }
 
+/* Home Page Division Cards in Light Mode */
+html[data-theme="light"] .division-card__title {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .division-card__desc {
+    color: #475569 !important;
+}
+
+html[data-theme="light"] .division-card__game {
+    color: #b45309 !important;
+}
+
+html[data-theme="light"] .division-card__roster-strip {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+html[data-theme="light"] .roster-count {
+    color: #475569 !important;
+}
+
+html[data-theme="light"] .roster-count strong {
+    color: #b45309 !important;
+}
+
+html[data-theme="light"] .roster-avatars span {
+    background: #e2e8f0 !important;
+    color: #334155 !important;
+    border: 2px solid #ffffff !important;
+}
+
+html[data-theme="light"] .btn-text-gold {
+    color: #b45309 !important;
+}
+
+/* Achievements Page in Light Mode */
+html[data-theme="light"] .filter-bar {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+}
+
+html[data-theme="light"] .filter-label {
+    color: #334155 !important;
+}
+
+html[data-theme="light"] .filter-select {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .achievement-full-card__media {
+    background: #f1f5f9 !important;
+}
+
+html[data-theme="light"] .achievement-full-card__title {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .achievement-full-card__caption {
+    color: #475569 !important;
+}
+
+html[data-theme="light"] .tag-division {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+html[data-theme="light"] .year-badge {
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #b45309 !important;
+    border-color: #b45309 !important;
+}
+
+html[data-theme="light"] .highlight-badge {
+    background: #b45309 !important;
+    color: #ffffff !important;
+}
+
+/* Studio & Bracket Portal Banners */
 html[data-theme="light"] .studio-portal-banner,
 html[data-theme="light"] .studio-hero-banner {
-    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%) !important;
-    border-color: #94a3b8 !important;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border-color: #cbd5e1 !important;
     color: #0f172a !important;
-    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
 html[data-theme="light"] .studio-portal-badge,
@@ -228,67 +314,101 @@ html[data-theme="light"] .realtime-tier-pill {
 
 html[data-theme="light"] .bracket-realtime-bar {
     background: #f8fafc !important;
-    border-color: #94a3b8 !important;
+    border-color: #cbd5e1 !important;
 }
 
-html[data-theme="light"] .realtime-status-text {
-    color: #15803d !important;
+html[data-theme="light"] .realtime-status-title {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .realtime-status-sub {
+    color: #64748b !important;
 }
 
 /* Match Cards & Bracket Canvas in Light Mode */
-html[data-theme="light"] .match-card--modern,
 html[data-theme="light"] .gen-match-box,
 html[data-theme="light"] .match-card {
     background: #ffffff !important;
     border-color: #cbd5e1 !important;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07) !important;
-}
-
-html[data-theme="light"] .match-card__top-bar {
-    background: #f1f5f9 !important;
-    border-bottom-color: #e2e8f0 !important;
-}
-
-html[data-theme="light"] .match-code-pill {
-    color: #0284c7 !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05) !important;
 }
 
 html[data-theme="light"] .gen-team-row,
 html[data-theme="light"] .match-team {
-    border-bottom-color: #e2e8f0 !important;
-    color: #1e293b !important;
+    border-bottom-color: #f1f5f9 !important;
+    color: #0f172a !important;
 }
 
 html[data-theme="light"] .gen-team-name,
+html[data-theme="light"] .team-name,
 html[data-theme="light"] .output-banner h3 {
     color: #0f172a !important;
 }
 
-html[data-theme="light"] .match-team--modern.is-winner,
-html[data-theme="light"] .gen-team-row.is-winner {
-    background: linear-gradient(90deg, rgba(2, 132, 199, 0.12) 0%, rgba(22, 163, 74, 0.08) 100%) !important;
-    border-left: 3px solid #0284c7 !important;
+html[data-theme="light"] .gen-team-row.is-winner,
+html[data-theme="light"] .match-team.is-winner {
+    background: rgba(180, 83, 9, 0.08) !important;
+    color: #b45309 !important;
 }
 
-html[data-theme="light"] .gen-round-header-modern {
-    background: #f1f5f9 !important;
+html[data-theme="light"] .gen-round-title,
+html[data-theme="light"] .round-title {
+    color: #334155 !important;
+    border-bottom-color: #cbd5e1 !important;
+}
+
+html[data-theme="light"] .gen-score-input {
+    background: #f8fafc !important;
     border-color: #cbd5e1 !important;
-    border-left: 3px solid #0284c7 !important;
+    color: #b45309 !important;
 }
 
+/* Bracket Tree Connectors in Light Mode */
+html[data-theme="light"] .bracket-connector-line,
 html[data-theme="light"] .bracket-arrow-path {
-    stroke: #94a3b8;
+    stroke: #cbd5e1 !important;
 }
 
+html[data-theme="light"] .bracket-connector-line.is-winner,
 html[data-theme="light"] .bracket-arrow-path--winner {
-    stroke: #0284c7;
-    filter: none;
+    stroke: #b45309 !important;
+    filter: none !important;
+}
+
+/* League Standings Table in Light Mode */
+html[data-theme="light"] .league-standings {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #1e293b !important;
+}
+
+html[data-theme="light"] .standings-table th {
+    color: #b45309 !important;
+    border-bottom-color: #cbd5e1 !important;
+}
+
+html[data-theme="light"] .standings-table td {
+    border-bottom-color: #f1f5f9 !important;
+    color: #334155 !important;
+}
+
+/* Champion Spotlight Box in Light Mode */
+html[data-theme="light"] .champ-display-box {
+    background: linear-gradient(135deg, rgba(180, 83, 9, 0.1) 0%, rgba(180, 83, 9, 0.02) 100%) !important;
+    border-color: #b45309 !important;
+}
+
+html[data-theme="light"] .champ-crown-name {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .champ-sub {
+    color: #b45309 !important;
 }
 
 /* Inputs, Selects, and Buttons in Light Mode */
 html[data-theme="light"] .form-input,
 html[data-theme="light"] .form-select,
-html[data-theme="light"] .gen-score-input,
 html[data-theme="light"] .share-url-input,
 html[data-theme="light"] input[type="text"],
 html[data-theme="light"] input[type="email"],
@@ -297,25 +417,33 @@ html[data-theme="light"] input[type="number"],
 html[data-theme="light"] select,
 html[data-theme="light"] textarea {
     background: #f8fafc !important;
-    border-color: #94a3b8 !important;
+    border-color: #cbd5e1 !important;
     color: #0f172a !important;
 }
 
 html[data-theme="light"] .btn-rok--gold {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
     color: #ffffff !important;
-    border-color: #0f172a !important;
+    border-color: #b45309 !important;
+    box-shadow: 0 4px 12px rgba(180, 83, 9, 0.25) !important;
+}
+
+html[data-theme="light"] .btn-rok--gold:hover {
+    background: linear-gradient(135deg, #b45309 0%, #92400e 100%) !important;
+    border-color: #92400e !important;
+    color: #ffffff !important;
 }
 
 html[data-theme="light"] .btn-rok--outline {
     background: #ffffff !important;
-    border-color: #0f172a !important;
+    border-color: #cbd5e1 !important;
     color: #0f172a !important;
 }
 
 html[data-theme="light"] .btn-rok--outline:hover {
-    background: #0f172a !important;
-    color: #ffffff !important;
+    background: #f8fafc !important;
+    border-color: #b45309 !important;
+    color: #b45309 !important;
 }
 
 /* Management & Bracket Studio Portals in Light Mode */
@@ -344,14 +472,37 @@ html[data-theme="light"] .mgmt-nav-link:hover {
     color: #0f172a !important;
 }
 
-html[data-theme="light"] .rok-team-modal__dialog {
+/* Team Modal & WhatsApp Card in Light Mode */
+html[data-theme="light"] .rok-team-modal {
     background: #ffffff !important;
-    border-color: #94a3b8 !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15) !important;
+}
+
+html[data-theme="light"] .rok-team-stat-box {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .rok-team-stat-box__value {
     color: #0f172a !important;
 }
 
-html[data-theme="light"] .team-modal-points-card,
-html[data-theme="light"] .points-stat-box {
+html[data-theme="light"] .rok-team-stat-box--highlight {
+    background: rgba(245, 158, 11, 0.08) !important;
+    border-color: #d97706 !important;
+}
+
+html[data-theme="light"] .rok-team-stat-box--highlight .rok-team-stat-box__value {
+    color: #b45309 !important;
+}
+
+html[data-theme="light"] .rok-team-modal__wa-card {
     background: #f8fafc !important;
-    border-color: #cbd5e1 !important;
+    border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .rok-team-modal__wa-desc {
+    color: #475569 !important;
 }

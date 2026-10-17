@@ -116,7 +116,7 @@
                         <span class="theme-toggle-label" data-theme-label>Terang</span>
                     </button>
                     <a href="{{ url('/') }}" target="_blank" class="btn-public-site">
-                        <span>&#x1F310;</span> Buka Web Publik &rarr;
+                        <span>&#x1F310;</span> Buka Web Publik
                     </a>
                 </div>
             </header>

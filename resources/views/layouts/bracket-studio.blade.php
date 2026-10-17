@@ -90,7 +90,7 @@
                         <span class="theme-toggle-btn__label" data-theme-label>Mode Terang</span>
                     </button>
                     <a href="{{ url('/') }}" class="btn-public-site">
-                        <span>&#x1F310;</span> Web Publik &rarr;
+                        <span>&#x1F310;</span> Web Publik
                     </a>
                 </div>
             </header>

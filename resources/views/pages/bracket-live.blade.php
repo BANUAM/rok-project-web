@@ -19,7 +19,7 @@
             @if ($canEdit)
                 <div style="margin-top: 18px;">
                     <a href="{{ route('bracket.studio.editor', ['slug' => $tournament->slug]) }}" class="btn-rok btn-rok--gold">
-                        &#x2694; Kelola Turnamen Ini di Bracket Studio &rarr;
+                        &#x2694; Kelola Turnamen Ini di Bracket Studio
                     </a>
                 </div>
             @endif

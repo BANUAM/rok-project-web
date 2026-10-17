@@ -16,7 +16,7 @@
                 </p>
             </div>
             <a href="{{ route('bracket.studio.editor') }}" class="btn-rok btn-rok--gold">
-                &#x2694; Buka Live Bracket Editor &rarr;
+                &#x2694; Buka Live Bracket Editor
             </a>
         </div>
     </div>
@@ -55,7 +55,7 @@
                 </div>
 
                 <button type="submit" class="btn-rok btn-rok--gold btn-rok--full">
-                    Buat Turnamen &amp; Buka Studio &rarr;
+                    Buat Turnamen &amp; Buka Studio
                 </button>
             </form>
         </div>

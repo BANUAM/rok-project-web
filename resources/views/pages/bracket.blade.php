@@ -34,15 +34,15 @@
                 <div class="studio-portal-banner__actions">
                     @if(Auth::check() && Auth::user()->hasBracketAccess())
                         <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold">
-                            &#x2694; Buka Bracket Studio &rarr;
+                            &#x2694; Buka Bracket Studio
                         </a>
                     @elseif(Auth::check())
                         <a href="{{ route('membership.payment', ['plan' => 'immortal']) }}" class="btn-rok btn-rok--gold">
-                            &#x1F451; Aktifkan ROK Immortal &rarr;
+                            &#x1F451; Aktifkan ROK Immortal
                         </a>
                     @else
                         <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold">
-                            &#x1F511; Masuk Bracket Studio &rarr;
+                            &#x1F511; Masuk Bracket Studio
                         </a>
                     @endif
                     @if ($activeTournament)
@@ -117,11 +117,11 @@
                         <div class="pricing-footer">
                             <a href="{{ route('membership.payment', ['plan' => $plan->slug]) }}" class="btn-rok {{ $plan->is_featured ? 'btn-rok--gold' : 'btn-rok--outline' }} btn-rok--full" style="text-align: center; text-decoration: none;">
                                 @if($plan->slug === 'challenger')
-                                    Buka Fitur Bracket &rarr;
+                                    Buka Fitur Bracket
                                 @elseif($plan->slug === 'immortal')
-                                    Pilih Paket Immortal &rarr;
+                                    Pilih Paket Immortal
                                 @else
-                                    Pelajari Akses &rarr;
+                                    Pelajari Akses
                                 @endif
                             </a>
                         </div>
@@ -141,11 +141,11 @@
                 <div class="branding-action">
                     @if(Auth::check() && Auth::user()->hasBracketAccess())
                         <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold">
-                            Masuk Bracket Studio &rarr;
+                            Masuk Bracket Studio
                         </a>
                     @else
                         <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="btn-rok btn-rok--gold">
-                            Buka Fitur Bracket &rarr;
+                            Buka Fitur Bracket
                         </a>
                     @endif
                 </div>

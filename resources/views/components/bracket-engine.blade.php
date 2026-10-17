@@ -17,14 +17,14 @@
                     {{ $isReadOnly ? 'LIVE REAL-TIME VIEWER MODE (AUTO-SYNC)' : 'REAL-TIME BRACKET ENGINE AKTIF' }}
                 </strong>
                 <span class="realtime-status-sub" id="realtimeLastSync">
-                    Setiap perubahan skor, tim, &amp; poin langsung tersinkronisasi secara real-time ke seluruh penonton.
+                    Perubahan skor, tim, dan poin otomatis tersinkronisasi secara real-time ke penonton live.
                 </span>
             </div>
         </div>
 
         <div class="bracket-realtime-bar__actions">
             <div class="share-url-box">
-                <span class="share-url-label">&#x1F517; Link Bagikan Live Bracket:</span>
+                <span class="share-url-label">&#x1F517; Link Live Bracket:</span>
                 <input type="text" id="shareBracketUrlInput" class="share-url-input" value="{{ $shareUrl }}" readonly onclick="this.select()">
             </div>
             <button type="button" class="btn-rok btn-rok--gold btn-rok--sm" id="copyShareLinkBtn">
@@ -69,7 +69,6 @@
                     <div class="form-field" id="teamCountField">
                         <label for="teamCountInput" class="form-label" id="teamCountLabel">Jumlah Tim Peserta</label>
 
-                        {{-- Number input for arbitrary team counts (Single Elimination, League, Swiss) --}}
                         <div id="teamCountInputWrapper">
                             <input
                                 type="number"
@@ -81,11 +80,10 @@
                                 placeholder="Contoh: 5, 7, 8, 12, 16"
                             >
                             <span class="form-hint" id="teamCountHint" style="font-size: 11px; color: var(--rok-muted-light); margin-top: 4px; display: block;">
-                                Bebas masukkan jumlah tim (3–64). Tim dengan seed tertinggi otomatis lolos jika bukan pangkat 2.
+                                Bebas masukkan jumlah tim (3–64). Tim seed tertinggi otomatis lolos jika bukan pangkat 2.
                             </span>
                         </div>
 
-                        {{-- Select for Double Elimination (4 or 6 teams) --}}
                         <select id="teamCountSelect" class="form-select" style="display: none;">
                             <option value="4">4 Tim</option>
                             <option value="6" selected>6 Tim (2 Seed Teratas Mendapat Bye)</option>
@@ -99,45 +97,45 @@
 
                 {{-- Dynamic Teams Input Container (Team Name + WhatsApp + Team Logo) --}}
                 <div class="team-inputs-container">
-                    <div class="team-inputs-header">
+                    <div class="team-inputs-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
                         <div>
-                            <h4 class="inputs-subtitle" style="margin-bottom: 2px;">Daftar Tim, Seeding, Kontak WhatsApp &amp; Logo Tim:</h4>
+                            <h4 class="inputs-subtitle" style="margin: 0 0 2px 0;">Daftar Tim, Seeding, Kontak WhatsApp &amp; Logo Tim:</h4>
                             <p style="font-size: 12px; color: var(--rok-muted-light); margin: 0;">
-                                Klik logo pada bagan pertandingan untuk melihat <strong>Poin Pertandingan</strong> dan tombol <strong>Chat Lawan Tanding via WhatsApp</strong>.
+                                Masukkan nama tim dan nomor WhatsApp kapten. Klik logo tim pada bagan pertandingan untuk melihat <strong>Poin Pertandingan</strong> dan <strong>Chat WhatsApp Lawan</strong>.
                             </p>
                         </div>
                         @if ($hasLogoAccess)
-                            <span class="membership-unlocked-pill">
+                            <span class="membership-unlocked-pill" style="font-size: 11px; padding: 4px 10px; background: rgba(251,191,36,0.14); border: 1px solid #fbbf24; color: #fbbf24; border-radius: 999px; font-weight: 700;">
                                 &#x1F451; Fitur Logo Tim &amp; Kontak WA Terbuka ({{ strtoupper(Auth::user()?->membershipTierSlug() ?? 'PRO') }})
                             </span>
                         @else
-                            <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="membership-locked-pill">
-                                &#x1F512; Aktifkan ROK Challenger / Immortal untuk Kustomisasi Logo Tim &rarr;
+                            <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="membership-locked-pill" style="font-size: 11px; padding: 4px 10px; background: rgba(148,163,184,0.12); border: 1px solid var(--rok-surface-border); color: var(--rok-silver); border-radius: 999px; text-decoration: none;">
+                                &#x1F512; Aktifkan ROK Challenger / Immortal untuk Kustomisasi Logo Tim
                             </a>
                         @endif
                     </div>
 
-                    <div class="team-inputs-grid" id="teamInputsGrid">
+                    <div class="team-inputs-grid" id="teamInputsGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px;">
                         {{-- Populated by JavaScript --}}
                     </div>
                 </div>
 
-                <div class="generator-actions" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+                <div class="generator-actions" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-top: 24px;">
                     <div style="font-size: 12px; color: var(--rok-muted-light);">
-                        &#x1F4A1; <strong>Tips Pro:</strong> Ubah nama tim, nomor WhatsApp, logo, atau skor pertandingan — semua perubahan langsung tersimpan &amp; tampil real-time di link share!
+                        &#x1F4A1; <strong>Info:</strong> Perubahan skor, nama tim, WhatsApp, dan bagan langsung tersimpan dan dapat diakses penonton secara real-time.
                     </div>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                         <button type="button" class="btn-rok btn-rok--outline" id="resetScoresBtn">
                             &#x21BA; Reset Skor
                         </button>
                         <button type="button" class="btn-rok btn-rok--gold btn-rok--lg" id="generateBracketBtn">
-                            Generate &amp; Simpan Live Bracket &rarr;
+                            Generate &amp; Simpan Bagan
                         </button>
                     </div>
                 </div>
             </div>
         @else
-            {{-- Hidden inputs for Read-Only Viewer Mode so JS engine works identically --}}
+            {{-- Hidden inputs for Read-Only Viewer Mode --}}
             <input type="hidden" id="tourneyName" value="{{ $initialState['title'] ?? ($activeTournament->name ?? 'ROK Community Cup 2026') }}">
             <input type="hidden" id="tourneyFormat" value="{{ $initialState['format'] ?? 'single' }}">
             <input type="hidden" id="teamCountInput" value="{{ $initialState['teamCount'] ?? 8 }}">
@@ -148,94 +146,99 @@
             <div id="teamInputsGrid" style="display:none;"></div>
         @endif
 
-        {{-- Output Visualizer --}}
+        {{-- Output Visualizer Deck --}}
         <div class="generated-bracket-output" id="bracketOutputWrapper">
             <div class="output-banner">
                 <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                    <span class="live-indicator-badge">&#x1F534; LIVE BRACKET</span>
-                    <h3 id="outputTourneyTitle" style="margin: 0;">{{ $initialState['title'] ?? 'ROK Community Cup 2026' }}</h3>
+                    <span class="live-indicator-badge" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #ef4444; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px;">&#x1F534; LIVE BRACKET</span>
+                    <h3 id="outputTourneyTitle" style="margin: 0; font-size: 22px;">{{ $initialState['title'] ?? 'ROK Community Cup 2026' }}</h3>
                 </div>
                 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                    <span class="bracket-hint-ClickLogo">&#x1F446; Klik Logo Tim di bagan untuk Poin &amp; Chat WhatsApp Lawan</span>
+                    <span class="bracket-hint-ClickLogo" style="font-size: 12px; color: var(--rok-muted-light);">&#x1F446; Klik Logo Tim untuk Poin &amp; Kontak WhatsApp Lawan</span>
                     <span class="badge-mini" id="outputFormatBadge">Single Elimination</span>
                 </div>
             </div>
 
-            <div class="generated-tree-deck" id="generatedTreeDeck">
-                {{-- Rendered Bracket Tree + Directional SVG Arrows --}}
+            <div class="generated-tree-deck" id="generatedTreeDeck" style="position: relative; overflow-x: auto; padding: 12px 6px 30px 6px;">
+                {{-- Rendered Bracket Tree using native .gen-* classes + SVG tournament lines --}}
             </div>
         </div>
     </div>
 </div>
 
 {{-- Interactive Team Info, Match Points & Direct WhatsApp Modal --}}
-<div class="rok-team-modal-backdrop" id="rokTeamModal" hidden aria-modal="true" role="dialog">
-    <div class="rok-team-modal">
+<div class="rok-team-modal" id="rokTeamModal" hidden aria-modal="true" role="dialog">
+    <div class="rok-team-modal__backdrop" id="closeTeamModalBackdrop"></div>
+    <div class="rok-team-modal__dialog">
         <button type="button" class="rok-team-modal__close" id="closeTeamModalBtn" aria-label="Tutup">&times;</button>
 
-        <div class="rok-team-modal__header">
-            <div class="rok-team-modal__logo-wrap">
-                <img src="/storage/tournaments/team-rok.svg" alt="Team Logo" id="modalTeamLogo" class="rok-team-modal__logo">
-                <span class="rok-team-modal__seed" id="modalTeamSeed">#1</span>
+        <div class="team-modal-header">
+            <div class="team-modal-logo-wrap">
+                <img src="/storage/tournaments/team-rok.svg" alt="Team Logo" id="modalTeamLogo" class="team-modal-logo">
             </div>
             <div>
-                <span class="rok-team-modal__badge" id="modalTeamStatusBadge">PESERTA AKTIF</span>
-                <h3 class="rok-team-modal__name" id="modalTeamName">ROK Prime</h3>
-                <p class="rok-team-modal__tourney" id="modalTeamTourney">ROK Community Cup 2026</p>
+                <span class="badge-mini" id="modalTeamSeed">SEED #1</span>
+                <h3 class="team-modal-title" id="modalTeamName">ROK Prime</h3>
+                <span class="team-modal-seed" id="modalTeamTourney">ROK Community Cup 2026</span>
             </div>
         </div>
 
-        <div class="rok-team-modal__stats-grid">
-            <div class="rok-team-stat-box rok-team-stat-box--highlight">
-                <span class="rok-team-stat-box__label">TOTAL POIN PERTANDINGAN</span>
-                <strong class="rok-team-stat-box__value" id="modalTeamPoints">0 Pts</strong>
-                <small class="rok-team-stat-box__sub">3 Poin/Menang + Skor Game</small>
+        <div class="team-modal-points-card">
+            <div class="points-card-header">
+                <span>STATISTIK &amp; POIN PERTANDINGAN</span>
+                <span style="color: var(--rok-gold);">&#x2605; LIVE SCORING</span>
             </div>
-            <div class="rok-team-stat-box">
-                <span class="rok-team-stat-box__label">REKOR PERTANDINGAN</span>
-                <strong class="rok-team-stat-box__value" id="modalTeamRecord">0W - 0L</strong>
-                <small class="rok-team-stat-box__sub" id="modalTeamPlayed">0 Match Dimainkan</small>
-            </div>
-            <div class="rok-team-stat-box">
-                <span class="rok-team-stat-box__label">SKOR GAME (+/-)</span>
-                <strong class="rok-team-stat-box__value" id="modalTeamGameScore">0 - 0 (0)</strong>
-                <small class="rok-team-stat-box__sub">Akumulasi Game Menang</small>
+            <div class="points-stat-grid">
+                <div class="points-stat-box points-stat-box--highlight">
+                    <span class="stat-value" id="modalTeamPoints">0 Pts</span>
+                    <span class="stat-label">Total Poin</span>
+                </div>
+                <div class="points-stat-box">
+                    <span class="stat-value" id="modalTeamWins">0W</span>
+                    <span class="stat-label">Menang</span>
+                </div>
+                <div class="points-stat-box">
+                    <span class="stat-value" id="modalTeamLosses">0L</span>
+                    <span class="stat-label">Kalah</span>
+                </div>
+                <div class="points-stat-box">
+                    <span class="stat-value" id="modalTeamGameScore">0</span>
+                    <span class="stat-label">Skor Game</span>
+                </div>
             </div>
         </div>
 
-        <div class="rok-team-modal__wa-card">
-            <div class="rok-team-modal__wa-info">
-                <span class="rok-team-modal__wa-label">&#x1F4F1; KONTAK RESMI KAPTEN / MANAJER TIM (WHATSAPP)</span>
-                <strong class="rok-team-modal__wa-number" id="modalTeamWaNumber">+62 812-3456-7890</strong>
-                <p class="rok-team-modal__wa-desc">
-                    Hubungi tim ini secara langsung melalui WhatsApp untuk koordinasi lobby custom, jadwal tanding (janjian scrim/match), atau verifikasi hasil pertandingan.
-                </p>
-            </div>
-            <a href="#" target="_blank" rel="noopener noreferrer" class="rok-wa-direct-btn" id="modalTeamWaBtn">
-                <span class="rok-wa-direct-btn__icon">&#x1F4AC;</span>
-                <span>Chat Tim via WhatsApp Sekarang &rarr;</span>
+        <div class="team-modal-wa-section">
+            <div class="wa-section-label">&#x1F4F1; KONTAK RESMI KAPTEN TIM (WHATSAPP)</div>
+            <div class="wa-number-display" id="modalTeamWaNumber">+62 812-3456-7890</div>
+            <p style="font-size: 12px; color: var(--rok-muted-light); margin: 0 0 12px 0;">
+                Hubungi tim ini langsung via WhatsApp untuk verifikasi hasil, koordinasi jadwal, atau pembagian lobby turnamen.
+            </p>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--gold btn-rok--full btn-wa-direct" id="modalTeamWaBtn" style="text-decoration: none; justify-content: center;">
+                <span>&#x1F4AC; Chat Tim via WhatsApp</span>
             </a>
         </div>
     </div>
 </div>
 
 {{-- Team Logo Selector & Custom Upload Modal (For Challenger / Immortal Members) --}}
-<div class="rok-team-modal-backdrop" id="rokLogoPickerModal" hidden aria-modal="true" role="dialog">
-    <div class="rok-team-modal" style="max-width: 520px;">
+<div class="rok-team-modal" id="rokLogoPickerModal" hidden aria-modal="true" role="dialog">
+    <div class="rok-team-modal__backdrop" id="closeLogoPickerBackdrop"></div>
+    <div class="rok-team-modal__dialog" style="max-width: 480px;">
         <button type="button" class="rok-team-modal__close" id="closeLogoPickerBtn" aria-label="Tutup">&times;</button>
-        <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 4px;" id="logoPickerTitle">Pilih / Unggah Logo Tim</h3>
-        <p style="font-size: 13px; color: var(--rok-muted-light); margin-bottom: 16px;">
-            Fitur eksklusif Membership ROK Challenger &amp; Immortal. Pilih emblem esports resmi atau unggah file logo tim Anda sendiri.
+        <h3 style="font-size: 18px; font-weight: 800; margin: 0 0 4px 0;">Pilih Emblem atau Unggah Logo Tim</h3>
+        <p style="font-size: 12px; color: var(--rok-muted-light); margin: 0 0 16px 0;">
+            Kustomisasi logo resmi tim turnamen (Khusus Member ROK Challenger &amp; Immortal).
         </p>
 
         <div style="margin-bottom: 18px;">
-            <label class="form-label" style="display: block; margin-bottom: 8px; font-size: 12px;">Unggah File Logo Tim Kustom (PNG, JPG, SVG, WebP):</label>
-            <input type="file" id="customLogoFileInput" class="form-input" accept="image/png,image/jpeg,image/webp,image/svg+xml" style="padding: 8px;">
+            <label class="form-label" style="display: block; margin-bottom: 6px; font-size: 12px;">Unggah File Logo (PNG, JPG, SVG, WebP):</label>
+            <input type="file" id="customLogoFileInput" class="form-input" accept="image/*" style="padding: 6px 10px; font-size: 12px;">
         </div>
 
         <div>
-            <span class="form-label" style="display: block; margin-bottom: 8px; font-size: 12px;">Atau Pilih Emblem Esports Resmi ROK:</span>
-            <div class="preset-logos-grid" id="presetLogosGrid">
+            <span class="form-label" style="display: block; margin-bottom: 8px; font-size: 12px;">Atau Pilih Emblem Esports Resmi:</span>
+            <div id="presetLogosGrid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
                 {{-- Populated by JS --}}
             </div>
         </div>
@@ -250,18 +253,6 @@
     const STATE_API_URL = @json(route('api.bracket.state', ['slug' => $activeSlug]));
     const IS_READ_ONLY = @json($isReadOnly);
     const HAS_LOGO_ACCESS = @json($hasLogoAccess);
-    const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-
-    const defaultTeamNames = [
-        'ROK Prime', 'Aether Esports', 'Valkyrie Horizon', 'Shadow Legion',
-        'Apex Titans', 'Celestial Wolves', 'Kitsune Vanguard', 'Solar Eclipse',
-        'Nova Sovereign', 'Phantom Syndicate', 'Crimson Vortex', 'Obsidian Crown',
-        'Thunder Monarch', 'Iron Valkyrie', 'Astral Knights', 'Zenith Dragons',
-        'Stormbreakers', 'Silver Fang', 'Vanguard Zero', 'Omega Protocol',
-        'Royal Knights', 'Cyber Samurai', 'Blaze Phoenix', 'Frost Giants',
-        'Dark Matter', 'Golden Griffin', 'Emerald Viper', 'Titan Slayers',
-        'Shadow Hunters', 'Lunar Eclipse', 'Solar Flare', 'Starlight Rebels'
-    ];
 
     const presetLogos = [
         '/storage/tournaments/team-rok.svg',
@@ -269,909 +260,1202 @@
         '/storage/tournaments/team-valkyrie.svg',
         '/storage/tournaments/team-shadow.svg',
         '/storage/tournaments/team-apex.svg',
-        '/storage/tournaments/team-wolves.svg',
+        '/storage/tournaments/team-celestial.svg',
         '/storage/tournaments/team-kitsune.svg',
         '/storage/tournaments/team-eclipse.svg'
     ];
 
-    const formatNames = {
+    const defaultTeamNames = [
+        'ROK Prime', 'Aether Esports', 'Valkyrie Horizon', 'Shadow Legion',
+        'Apex Titans', 'Celestial Wolves', 'Kitsune Vanguard', 'Solar Eclipse',
+        'Phoenix Force', 'Nexus Gaming', 'Vortex Dynasty', 'Titanium Squad',
+        'Iron Blood', 'Alpha Strike', 'Omega Reign', 'Zenith Hunters',
+        'Mythic Dawn', 'Cyber Dragons', 'Ghost Protocol', 'Thunder Fleet'
+    ];
+
+    const formatLabels = {
         single: 'Single Elimination',
-        double: 'Double Elimination (MPL)',
+        double: 'Double Elimination',
         league: 'League System',
-        swiss: 'Swiss Stage (M7 Format)'
+        swiss: 'Swiss Stage (Format M7 MLBB)'
     };
 
-    let currentTournament = null;
-    let savedScoresMap = {};
-    let lastKnownUpdatedAt = INITIAL_SERVER_STATE?.updatedAt || null;
-    let isApplyingRemoteUpdate = false;
+    let tournamentState = null;
+    let selectedSeedForLogo = null;
     let syncDebounceTimer = null;
-    let activeLogoPickSeed = null;
-
-    // Cross-tab instant broadcast channel
-    const broadcastChannel = ('BroadcastChannel' in window) ? new BroadcastChannel('rok_bracket_' + ACTIVE_SLUG) : null;
+    let autoPollTimer = null;
+    let isApplyingRemoteUpdate = false;
 
     function normalizeWaNumber(raw) {
-        let digits = String(raw || '').replace(/[^0-9]/g, '');
-        if (!digits) return '6281234567890';
-        if (digits.startsWith('0')) {
-            digits = '62' + digits.slice(1);
-        } else if (digits.startsWith('8')) {
-            digits = '62' + digits;
+        if (!raw) return '';
+        let clean = String(raw).replace(/\D+/g, '');
+        if (clean.startsWith('0')) {
+            clean = '62' + clean.slice(1);
+        } else if (!clean.startsWith('62') && clean.length > 0) {
+            clean = '62' + clean;
         }
-        return digits;
+        return clean;
     }
 
     function formatWaDisplay(raw) {
-        const digits = normalizeWaNumber(raw);
-        if (digits.length >= 10) {
-            return '+' + digits.slice(0, 2) + ' ' + digits.slice(2, 5) + '-' + digits.slice(5, 9) + '-' + digits.slice(9);
+        const clean = normalizeWaNumber(raw);
+        if (!clean) return 'Belum diisi';
+        if (clean.startsWith('62')) {
+            return '+62 ' + clean.slice(2, 5) + '-' + clean.slice(5, 9) + '-' + clean.slice(9);
         }
-        return '+' + digits;
-    }
-
-    function getSelectedFormat() {
-        return document.getElementById('tourneyFormat')?.value || 'single';
+        return '+' + clean;
     }
 
     function getTeamCount() {
-        const format = getSelectedFormat();
+        const format = document.getElementById('tourneyFormat')?.value || 'single';
         if (format === 'double') {
-            const val = Number.parseInt(document.getElementById('teamCountSelect')?.value, 10);
-            return [4, 6].includes(val) ? val : 6;
+            const select = document.getElementById('teamCountSelect');
+            return select ? parseInt(select.value, 10) : 6;
         }
-        if (format === 'swiss') {
-            return 16;
-        }
-        const raw = Number.parseInt(document.getElementById('teamCountInput')?.value, 10);
-        if (Number.isNaN(raw) || raw < 3) return 3;
-        if (raw > 64) return 64;
-        return raw;
+        const input = document.getElementById('teamCountInput');
+        return input ? Math.max(3, Math.min(64, parseInt(input.value, 10) || 8)) : 8;
     }
 
     function syncTeamCountOptions() {
-        if (IS_READ_ONLY) return;
-        const format = getSelectedFormat();
-        const inputWrapper = document.getElementById('teamCountInputWrapper');
-        const inputEl = document.getElementById('teamCountInput');
-        const hintEl = document.getElementById('teamCountHint');
-        const selectEl = document.getElementById('teamCountSelect');
-        const warning = document.getElementById('doubleEliminationWarning');
+        const formatEl = document.getElementById('tourneyFormat');
+        if (!formatEl) return;
+        const format = formatEl.value;
 
-        if (!inputWrapper || !selectEl) return;
+        const inputWrapper = document.getElementById('teamCountInputWrapper');
+        const countInput = document.getElementById('teamCountInput');
+        const countSelect = document.getElementById('teamCountSelect');
+        const warning = document.getElementById('doubleEliminationWarning');
+        const hint = document.getElementById('teamCountHint');
 
         if (format === 'double') {
-            inputWrapper.style.display = 'none';
-            selectEl.style.display = 'block';
-            if (!['4', '6'].includes(selectEl.value)) {
-                selectEl.value = '6';
-            }
+            if (inputWrapper) inputWrapper.style.display = 'none';
+            if (countSelect) countSelect.style.display = 'block';
             if (warning) warning.hidden = false;
-        } else if (format === 'swiss') {
-            inputWrapper.style.display = 'block';
-            selectEl.style.display = 'none';
-            inputEl.value = '16';
-            inputEl.readOnly = true;
-            if (hintEl) hintEl.textContent = 'Swiss Stage (Format M7 MLBB) menggunakan standar 16 tim (3 Menang = Lolos, 3 Kalah = Gugur).';
-            if (warning) warning.hidden = true;
         } else {
-            inputWrapper.style.display = 'block';
-            selectEl.style.display = 'none';
-            inputEl.readOnly = false;
-            if (Number.parseInt(inputEl.value, 10) < 3) inputEl.value = '8';
-            if (hintEl) {
-                hintEl.textContent = format === 'single'
-                    ? 'Bebas masukkan jumlah tim (3–64). Jika bukan kelipatan pangkat 2, tim dengan seed teratas otomatis mendapat hak lolos babak awal.'
-                    : 'Masukkan jumlah tim peserta liga (3–32 tim).';
-            }
+            if (inputWrapper) inputWrapper.style.display = 'block';
+            if (countSelect) countSelect.style.display = 'none';
             if (warning) warning.hidden = true;
-        }
-    }
 
-    function collectCurrentTeamInputs() {
-        const map = new Map();
-        if (currentTournament && Array.isArray(currentTournament.teams)) {
-            currentTournament.teams.forEach(t => {
-                map.set(t.seed, {
-                    name: t.name,
-                    whatsapp: t.whatsapp,
-                    logo: t.logo
-                });
-            });
-        }
-        document.querySelectorAll('.team-entry-card').forEach(card => {
-            const seed = Number.parseInt(card.dataset.seed, 10);
-            const nameInput = card.querySelector('.team-seed-input');
-            const waInput = card.querySelector('.team-wa-input');
-            const logoImg = card.querySelector('.team-entry-logo');
-            if (seed) {
-                map.set(seed, {
-                    name: nameInput?.value?.trim() || map.get(seed)?.name || `Tim ${seed}`,
-                    whatsapp: waInput?.value?.trim() || map.get(seed)?.whatsapp || `628123456789${seed % 10}`,
-                    logo: logoImg?.getAttribute('src') || map.get(seed)?.logo || presetLogos[(seed - 1) % presetLogos.length]
-                });
+            if (hint) {
+                if (format === 'swiss') {
+                    hint.textContent = 'Format Swiss Stage turnamen resmi M7 MLBB menggunakan 16 tim peserta.';
+                    if (countInput) countInput.value = '16';
+                } else if (format === 'league') {
+                    hint.textContent = 'Format League System (kompetisi poin klasemen). Rekomendasi 4–16 tim.';
+                } else {
+                    hint.textContent = 'Bebas masukkan jumlah tim (3–64). Tim seed tertinggi otomatis lolos jika bukan pangkat 2.';
+                }
             }
-        });
-        return map;
+        }
     }
 
     function renderTeamInputs(existingTeams = null) {
-        const grid = document.getElementById('teamInputsGrid');
-        if (!grid) return;
-
+        const container = document.getElementById('teamInputsGrid');
+        if (!container) return;
         const count = getTeamCount();
-        const currentMap = collectCurrentTeamInputs();
-
-        if (Array.isArray(existingTeams)) {
-            existingTeams.forEach((t, idx) => {
-                const seed = t.seed || (idx + 1);
-                currentMap.set(seed, {
-                    name: t.name || defaultTeamNames[idx] || `Tim ${seed}`,
-                    whatsapp: t.whatsapp || `628123456789${idx % 10}`,
-                    logo: t.logo || presetLogos[idx % presetLogos.length]
-                });
-            });
-        }
-
-        grid.innerHTML = '';
+        container.replaceChildren();
 
         for (let i = 0; i < count; i++) {
             const seed = i + 1;
-            const saved = currentMap.get(seed);
-            const teamName = saved?.name || defaultTeamNames[i] || `Tim ${seed}`;
-            const teamWa = saved?.whatsapp || `628123456789${i % 10}`;
-            const teamLogo = saved?.logo || presetLogos[i % presetLogos.length];
+            const existing = existingTeams && existingTeams[i] ? existingTeams[i] : null;
+            const defaultName = defaultTeamNames[i] || `Team ${seed}`;
+            const nameVal = existing?.name || defaultName;
+            const waVal = existing?.wa || '';
+            const logoVal = existing?.logo || presetLogos[i % presetLogos.length];
 
-            const card = document.createElement('div');
-            card.className = 'team-entry-card';
-            card.dataset.seed = String(seed);
+            const item = document.createElement('div');
+            item.className = 'team-input-item';
+            item.style.cssText = 'display:flex;align-items:center;gap:8px;background:var(--rok-surface-card);border:1px solid var(--rok-surface-border);border-radius:var(--radius-sm);padding:8px 10px;';
 
-            // Seed + Logo trigger
-            const topRow = document.createElement('div');
-            topRow.className = 'team-entry-card__top';
+            const seedBadge = document.createElement('span');
+            seedBadge.className = 'seed-badge';
+            seedBadge.style.cssText = 'font-weight:800;font-family:var(--font-sub);color:var(--rok-gold);font-size:12px;width:55px;flex-shrink:0;';
+            seedBadge.textContent = `Seed #${seed}`;
 
             const logoBtn = document.createElement('button');
             logoBtn.type = 'button';
-            logoBtn.className = 'team-entry-logo-btn';
-            logoBtn.title = HAS_LOGO_ACCESS ? 'Klik untuk mengganti Logo Tim' : 'Fitur kustomisasi logo untuk member Challenger/Immortal';
-            logoBtn.innerHTML = `
-                <img src="${teamLogo}" alt="Logo" class="team-entry-logo" onerror="this.src='/img/dummy-division.svg'">
-                <span class="team-entry-logo-edit">${HAS_LOGO_ACCESS ? '&#x270E;' : '&#x1F512;'}</span>
-            `;
-            logoBtn.addEventListener('click', () => {
-                if (!HAS_LOGO_ACCESS) {
-                    openTeamModalBySeed(seed);
-                    return;
-                }
-                openLogoPicker(seed);
-            });
+            logoBtn.dataset.seed = seed;
+            logoBtn.title = HAS_LOGO_ACCESS ? 'Ganti Logo Tim' : 'Aktifkan ROK Challenger / Immortal untuk kustomisasi logo';
+            logoBtn.style.cssText = 'width:28px;height:28px;border-radius:50%;padding:0;border:1px solid var(--rok-gold);background:#090b10;cursor:pointer;flex-shrink:0;overflow:hidden;';
 
-            const seedBadge = document.createElement('span');
-            seedBadge.className = 'seed-number';
-            seedBadge.textContent = `#${seed}`;
+            const logoImg = document.createElement('img');
+            logoImg.src = logoVal;
+            logoImg.alt = nameVal;
+            logoImg.id = `team_logo_preview_${i}`;
+            logoImg.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+            logoImg.onerror = () => { logoImg.src = presetLogos[0]; };
+            logoBtn.appendChild(logoImg);
+
+            if (HAS_LOGO_ACCESS) {
+                logoBtn.addEventListener('click', () => openLogoPicker(seed));
+            } else {
+                logoBtn.addEventListener('click', () => {
+                    alert('Kustomisasi logo tim eksklusif untuk Member ROK Challenger & ROK Immortal.');
+                });
+            }
 
             const nameInput = document.createElement('input');
             nameInput.type = 'text';
-            nameInput.className = 'form-input team-seed-input';
-            nameInput.dataset.seed = String(seed);
-            nameInput.value = teamName;
+            nameInput.className = 'form-input team-name-input';
+            nameInput.id = `team_input_${i}`;
+            nameInput.value = nameVal;
             nameInput.placeholder = `Nama Tim ${seed}`;
+            nameInput.maxLength = 60;
+            nameInput.style.cssText = 'flex:1 1 120px;min-width:100px;font-size:13px;padding:6px 10px;';
+
             nameInput.addEventListener('input', () => {
-                updateTeamDataInPlace(seed);
+                if (tournamentState && tournamentState.teams && tournamentState.teams[i]) {
+                    tournamentState.teams[i].name = nameInput.value.trim() || `Team ${seed}`;
+                    renderTournament(true);
+                }
             });
-
-            topRow.append(seedBadge, logoBtn, nameInput);
-
-            // WhatsApp row
-            const waRow = document.createElement('div');
-            waRow.className = 'team-entry-card__wa';
-
-            const waIcon = document.createElement('span');
-            waIcon.className = 'team-entry-wa-icon';
-            waIcon.innerHTML = '&#x1F4F1; WA:';
 
             const waInput = document.createElement('input');
-            waInput.type = 'text';
+            waInput.type = 'tel';
             waInput.className = 'form-input team-wa-input';
-            waInput.dataset.seed = String(seed);
-            waInput.value = teamWa;
-            waInput.placeholder = '62812xxxxxxx';
-            waInput.addEventListener('input', () => {
-                updateTeamDataInPlace(seed);
-            });
-
-            const waQuickLink = document.createElement('a');
-            waQuickLink.href = `https://wa.me/${normalizeWaNumber(teamWa)}`;
-            waQuickLink.target = '_blank';
-            waQuickLink.rel = 'noopener noreferrer';
-            waQuickLink.className = 'team-entry-wa-chat';
-            waQuickLink.title = 'Tes Hubungi WhatsApp Tim ini';
-            waQuickLink.innerHTML = '&#x1F4AC; Chat';
+            waInput.id = `team_wa_${i}`;
+            waInput.value = waVal;
+            waInput.placeholder = 'No WA: 0812...';
+            waInput.style.cssText = 'flex:1 1 110px;min-width:90px;font-size:12px;padding:6px 10px;';
 
             waInput.addEventListener('input', () => {
-                waQuickLink.href = `https://wa.me/${normalizeWaNumber(waInput.value)}`;
+                if (tournamentState && tournamentState.teams && tournamentState.teams[i]) {
+                    tournamentState.teams[i].wa = waInput.value.trim();
+                    scheduleRealtimeSync();
+                }
             });
 
-            waRow.append(waIcon, waInput, waQuickLink);
-            card.append(topRow, waRow);
-            grid.appendChild(card);
+            item.append(seedBadge, logoBtn, nameInput, waInput);
+            container.appendChild(item);
         }
     }
 
-    function updateTeamDataInPlace(seed) {
-        if (!currentTournament) return;
-        const card = document.querySelector(`.team-entry-card[data-seed="${seed}"]`);
-        if (!card) return;
-        const team = currentTournament.teams.find(t => t.seed === seed);
-        if (team) {
-            team.name = card.querySelector('.team-seed-input')?.value?.trim() || `Tim ${seed}`;
-            team.whatsapp = card.querySelector('.team-wa-input')?.value?.trim() || '';
-            team.logo = card.querySelector('.team-entry-logo')?.getAttribute('src') || presetLogos[(seed - 1) % presetLogos.length];
-            renderTournament(false);
-            scheduleRealtimeSync();
-        }
-    }
-
-    function getTeamsFromInputs() {
+    function collectCurrentTeams() {
         const count = getTeamCount();
-        const cards = document.querySelectorAll('.team-entry-card');
-        if (cards.length > 0) {
-            return Array.from(cards).slice(0, count).map((card, index) => {
-                const seed = index + 1;
-                const name = card.querySelector('.team-seed-input')?.value?.trim() || defaultTeamNames[index] || `Tim ${seed}`;
-                const whatsapp = card.querySelector('.team-wa-input')?.value?.trim() || `628123456789${index % 10}`;
-                const logo = card.querySelector('.team-entry-logo')?.getAttribute('src') || presetLogos[index % presetLogos.length];
-                return { id: seed, seed, name, whatsapp, logo };
+        const teams = [];
+        for (let i = 0; i < count; i++) {
+            const seed = i + 1;
+            const nameEl = document.getElementById(`team_input_${i}`);
+            const waEl = document.getElementById(`team_wa_${i}`);
+            const logoImg = document.getElementById(`team_logo_preview_${i}`);
+
+            teams.push({
+                id: seed,
+                seed: seed,
+                name: (nameEl?.value || '').trim() || (defaultTeamNames[i] || `Team ${seed}`),
+                wa: (waEl?.value || '').trim(),
+                logo: logoImg?.src || presetLogos[i % presetLogos.length]
             });
         }
+        return teams;
+    }
 
-        if (INITIAL_SERVER_STATE && Array.isArray(INITIAL_SERVER_STATE.teams)) {
-            return INITIAL_SERVER_STATE.teams.slice(0, count).map((t, index) => ({
-                id: index + 1,
-                seed: index + 1,
-                name: t.name || defaultTeamNames[index] || `Tim ${index + 1}`,
-                whatsapp: t.whatsapp || `628123456789${index % 10}`,
-                logo: t.logo || presetLogos[index % presetLogos.length]
-            }));
-        }
-
-        return Array.from({ length: count }, (_, index) => ({
-            id: index + 1,
-            seed: index + 1,
-            name: defaultTeamNames[index] || `Tim ${index + 1}`,
-            whatsapp: `628123456789${index % 10}`,
-            logo: presetLogos[index % presetLogos.length]
-        }));
+    // ====================================================
+    // BRACKET STRUCTURE GENERATORS (MATCH CALCULATIONS)
+    // ====================================================
+    function newMatch(id, round, number, source1, source2, extra = {}) {
+        return {
+            id,
+            round,
+            number,
+            source1,
+            source2,
+            score1: null,
+            score2: null,
+            winner: null,
+            loser: null,
+            ...extra
+        };
     }
 
     function teamSource(team) {
-        return team ? { type: 'team', team } : null;
+        return { type: 'team', team };
     }
 
-    function winnerSource(matchId, label = `Pemenang ${matchId}`) {
-        return { type: 'winner', matchId, label };
+    function matchSource(match, outcome = 'winner') {
+        return { type: outcome, matchId: match.id };
     }
 
-    function loserSource(matchId, label = `Kalah ${matchId}`) {
-        return { type: 'loser', matchId, label };
-    }
-
-    function createMatch(config) {
-        const saved = savedScoresMap[config.id];
-        return {
-            id: config.id,
-            round: config.round,
-            section: config.section || 'Main',
-            title: config.title,
-            source1: config.source1 || null,
-            source2: config.source2 || null,
-            team1: null,
-            team2: null,
-            score1: saved && saved.score1 !== undefined ? saved.score1 : null,
-            score2: saved && saved.score2 !== undefined ? saved.score2 : null,
-            winner: null,
-            loser: null,
-            eliminateLoser: Boolean(config.eliminateLoser),
-            note: config.note || ''
-        };
-    }
-
-    function resolveSource(source, matchMap) {
+    function resolveSource(source, matches) {
         if (!source) return null;
         if (source.type === 'team') return source.team;
-        const ref = matchMap.get(source.matchId);
-        if (!ref) return null;
-        return source.type === 'loser' ? ref.loser : ref.winner;
-    }
-
-    function sourcePlaceholder(source) {
-        return source?.label || 'Menunggu Pemenang';
+        const parent = matches.find(m => m.id === source.matchId);
+        if (!parent) return null;
+        return source.type === 'loser' ? parent.loser : parent.winner;
     }
 
     function calculateMatch(match, matches) {
-        const matchMap = new Map(matches.map(item => [item.id, item]));
-        match.team1 = resolveSource(match.source1, matchMap);
-        match.team2 = resolveSource(match.source2, matchMap);
+        const a = resolveSource(match.source1, matches);
+        const b = resolveSource(match.source2, matches);
+        match.team1 = a;
+        match.team2 = b;
+        match.winner = null;
+        match.loser = null;
 
-        if (!match.team1 || !match.team2) {
-            match.winner = null;
-            match.loser = null;
+        if (a && !b && match.autoAdvance) {
+            match.winner = a;
             return;
         }
-
-        if (!Number.isInteger(match.score1) || !Number.isInteger(match.score2) || match.score1 < 0 || match.score2 < 0 || match.score1 === match.score2) {
-            match.winner = null;
-            match.loser = null;
+        if (b && !a && match.autoAdvance) {
+            match.winner = b;
             return;
         }
-
-        if (match.score1 > match.score2) {
-            match.winner = match.team1;
-            match.loser = match.team2;
-        } else {
-            match.winner = match.team2;
-            match.loser = match.team1;
+        if (a && b && Number.isInteger(match.score1) && Number.isInteger(match.score2) && match.score1 !== match.score2) {
+            match.winner = match.score1 > match.score2 ? a : b;
+            match.loser = match.score1 > match.score2 ? b : a;
         }
     }
 
-    // Compute live points and match stats for each team across all played matches
-    function computeAllTeamStats(state) {
-        const statsMap = new Map();
-        if (!state || !Array.isArray(state.teams)) return statsMap;
+    function getSeededPairs(size) {
+        if (size <= 2) return [[1, 2]];
+        let seeds = [1, 2];
+        while (seeds.length < size) {
+            const next = [];
+            const sum = seeds.length * 2 + 1;
+            for (const s of seeds) {
+                next.push(s);
+                next.push(sum - s);
+            }
+            seeds = next;
+        }
+        const pairs = [];
+        for (let i = 0; i < size; i += 2) {
+            pairs.push([seeds[i], seeds[i + 1]]);
+        }
+        return pairs;
+    }
 
-        state.teams.forEach(t => {
-            statsMap.set(t.id, {
+    function makeElimination(teams) {
+        const N = teams.length;
+        let P = 1;
+        while (P < N) P *= 2;
+
+        const pairs = getSeededPairs(P);
+        const matches = [];
+        const rounds = [];
+
+        // Round 1
+        const round1Matches = [];
+        let matchIdx = 1;
+
+        for (let i = 0; i < pairs.length; i++) {
+            const [seed1, seed2] = pairs[i];
+            const team1 = teams[seed1 - 1] || null;
+            const team2 = (seed2 <= N) ? teams[seed2 - 1] : null;
+
+            if (team1 && !team2) {
+                const m = newMatch(`R1M${matchIdx++}`, 1, matchIdx, teamSource(team1), null, {
+                    autoAdvance: true,
+                    autoAdvanceNote: 'Lolos Otomatis ke Babak Berikutnya'
+                });
+                matches.push(m);
+                round1Matches.push(m);
+            } else if (team1 && team2) {
+                const m = newMatch(`R1M${matchIdx++}`, 1, matchIdx, teamSource(team1), teamSource(team2));
+                matches.push(m);
+                round1Matches.push(m);
+            }
+        }
+
+        rounds.push({
+            title: eliminationRoundTitle(pairs.length, P, 1),
+            matches: round1Matches
+        });
+
+        // Subsequent rounds
+        let prevMatches = round1Matches;
+        let roundNo = 2;
+        let matchCount = prevMatches.length / 2;
+
+        while (matchCount >= 1) {
+            const currentMatches = [];
+            for (let i = 0; i < matchCount; i++) {
+                const m = newMatch(`R${roundNo}M${i + 1}`, roundNo, i + 1,
+                    matchSource(prevMatches[i * 2]),
+                    matchSource(prevMatches[i * 2 + 1])
+                );
+                matches.push(m);
+                currentMatches.push(m);
+            }
+            rounds.push({
+                title: eliminationRoundTitle(matchCount, P, roundNo),
+                matches: currentMatches
+            });
+            prevMatches = currentMatches;
+            matchCount /= 2;
+            roundNo++;
+        }
+
+        return {
+            matches,
+            rounds,
+            championSource: prevMatches[0] ? matchSource(prevMatches[0]) : null
+        };
+    }
+
+    function eliminationRoundTitle(matchCount, totalSize, roundNo) {
+        if (matchCount === 1) return 'Grand Final';
+        if (matchCount === 2) return 'Semi Finals';
+        if (matchCount === 4) return 'Quarter Finals';
+        if (matchCount === 8) return 'Babak 16 Besar';
+        return `Babak Penyisihan (Ronde ${roundNo})`;
+    }
+
+    function makeDoubleElimination(teams) {
+        if (teams.length === 6) {
+            const matches = [], rounds = [];
+            const add = (id, round, number, a, b, title, extra = {}) => {
+                const match = newMatch(id, round, number, a, b, extra);
+                matches.push(match);
+                let group = rounds.find(item => item.title === title);
+                if (!group) { group = { title, matches: [] }; rounds.push(group); }
+                group.matches.push(match);
+                return match;
+            };
+
+            const deciding1 = add('M1', 1, 1, teamSource(teams[2]), teamSource(teams[5]), 'Babak Penentuan', { eliminateLoser: true });
+            const deciding2 = add('M2', 1, 2, teamSource(teams[3]), teamSource(teams[4]), 'Babak Penentuan', { eliminateLoser: true });
+
+            const upper1a = add('M3', 2, 1, teamSource(teams[0]), matchSource(deciding1), 'Upper Bracket — Round 1');
+            const upper1b = add('M4', 2, 2, teamSource(teams[1]), matchSource(deciding2), 'Upper Bracket — Round 1');
+
+            const lower1 = add('M5', 3, 1, matchSource(upper1a, 'loser'), matchSource(upper1b, 'loser'), 'Lower Bracket — Round 1');
+            const upperFinal = add('M6', 4, 1, matchSource(upper1a), matchSource(upper1b), 'Upper Bracket Final');
+
+            const lowerFinal = add('M7', 5, 1, matchSource(lower1), matchSource(upperFinal, 'loser'), 'Lower Bracket — Round 2');
+            const grandFinal = add('M8', 6, 1, matchSource(upperFinal), matchSource(lowerFinal), 'Grand Final');
+            return { matches, rounds, championSource: matchSource(grandFinal) };
+        }
+
+        // 4 teams
+        const matches = [], rounds = [];
+        let upperPrev = teams.map(teamSource), upperRound = 1, upperCount = teams.length / 2;
+        const upperRounds = [];
+        while (upperCount >= 1) {
+            const current = [];
+            for (let i = 0; i < upperCount; i++) {
+                const m = newMatch(`U${upperRound}M${i+1}`, upperRound, i+1, upperPrev[i*2], upperPrev[i*2+1]);
+                matches.push(m); current.push(m);
+            }
+            upperRounds.push(current);
+            rounds.push({ title: upperCount === 1 ? 'Upper Bracket Final' : `Upper Bracket — Round ${upperRound}`, matches: current });
+            upperPrev = current.map(m => matchSource(m));
+            upperCount /= 2;
+            upperRound++;
+        }
+
+        let lowerSources = upperRounds[0].map(m => matchSource(m, 'loser'));
+        let lowerRoundNo = 1;
+        let lowerMatches = [];
+        for (let i = 0; i < lowerSources.length; i += 2) {
+            const m = newMatch(`L${lowerRoundNo}M${i/2+1}`, lowerRoundNo, i/2+1, lowerSources[i], lowerSources[i+1]);
+            matches.push(m); lowerMatches.push(m);
+        }
+        rounds.push({ title: 'Lower Bracket — Final', matches: lowerMatches });
+        const grandFinal = newMatch('GF1', 99, 1, upperPrev[0], matchSource(lowerMatches[0]), { grandFinal: true });
+        matches.push(grandFinal);
+        rounds.push({ title: 'Grand Final', matches: [grandFinal] });
+        return { matches, rounds, championSource: matchSource(grandFinal) };
+    }
+
+    function makeRoundRobin(teams) {
+        const matches = [], rounds = [];
+        const roster = [...teams];
+        if (roster.length % 2) roster.push(null);
+        const n = roster.length, totalRounds = n - 1;
+        let rotating = [...roster];
+        for (let r = 0; r < totalRounds; r++) {
+            const list = [];
+            for (let i = 0; i < n / 2; i++) {
+                const a = rotating[i], b = rotating[n - 1 - i];
+                if (a && b) {
+                    const m = newMatch(`R${r + 1}M${list.length + 1}`, r + 1, list.length + 1, teamSource(a), teamSource(b));
+                    matches.push(m);
+                    list.push(m);
+                }
+            }
+            rounds.push({ title: `League System — Pekan ${r + 1}`, matches: list });
+            rotating = [rotating[0], rotating[n - 1], ...rotating.slice(1, n - 1)];
+        }
+        return { matches, rounds, championSource: null };
+    }
+
+    // ====================================================
+    // SWISS STAGE (M7 MLBB FORMAT)
+    // ====================================================
+    function getSwissTeamRecords(teams, allMatches) {
+        const records = new Map();
+        teams.forEach(t => {
+            records.set(t.id, {
                 team: t,
-                played: 0,
                 wins: 0,
                 losses: 0,
-                scored: 0,
-                conceded: 0,
-                points: 0,
-                isEliminated: false,
-                isChampion: false
+                playedOpponents: new Set(),
+                status: 'active'
             });
         });
 
-        state.matches.forEach(m => {
-            const a = m.team1 ? statsMap.get(m.team1.id) : null;
-            const b = m.team2 ? statsMap.get(m.team2.id) : null;
-            if (a && Number.isInteger(m.score1)) a.scored += m.score1;
-            if (a && Number.isInteger(m.score2)) a.conceded += m.score2;
-            if (b && Number.isInteger(m.score2)) b.scored += m.score2;
-            if (b && Number.isInteger(m.score1)) b.conceded += m.score1;
-
-            if (m.winner && m.loser) {
-                const winStat = statsMap.get(m.winner.id);
-                const loseStat = statsMap.get(m.loser.id);
-                if (winStat) {
-                    winStat.played++;
-                    winStat.wins++;
-                }
-                if (loseStat) {
-                    loseStat.played++;
-                    loseStat.losses++;
-                    if (state.format === 'single' || m.eliminateLoser) {
-                        loseStat.isEliminated = true;
-                    }
-                }
+        allMatches.forEach(m => {
+            if (!m.winner || !m.loser) return;
+            const w = records.get(m.winner.id);
+            const l = records.get(m.loser.id);
+            if (w && l) {
+                w.wins++;
+                w.playedOpponents.add(l.team.id);
+                l.losses++;
+                l.playedOpponents.add(w.team.id);
             }
         });
 
-        statsMap.forEach(stat => {
-            stat.points = (stat.wins * 3) + stat.scored;
-        });
-
-        return statsMap;
-    }
-
-    // ====================================================
-    // 1. SINGLE ELIMINATION (Arbitrary N Teams, Byes)
-    // ====================================================
-    function getSeedOrder(bracketSize) {
-        let rounds = Math.log2(bracketSize);
-        let pls = [1, 2];
-        for (let i = 0; i < rounds - 1; i++) {
-            let out = [];
-            let length = pls.length * 2 + 1;
-            pls.forEach(d => {
-                out.push(d);
-                out.push(length - d);
-            });
-            pls = out;
-        }
-        return pls;
-    }
-
-    function singleRoundName(roundIndex, totalRounds) {
-        const remaining = totalRounds - roundIndex;
-        if (remaining === 0) return 'Grand Final';
-        if (remaining === 1) return 'Semi Finals';
-        if (remaining === 2) return 'Quarter Finals';
-        if (remaining === 3) return 'Babak 16 Besar';
-        return `Babak ${roundIndex}`;
-    }
-
-    function buildSingleElimination(teams) {
-        const N = teams.length;
-        const M = Math.pow(2, Math.ceil(Math.log2(Math.max(2, N))));
-        const totalRounds = Math.log2(M);
-        const seedOrder = getSeedOrder(M);
-
-        const rounds = [];
-        const matches = [];
-        const autoAdvancedTeams = [];
-
-        const r1Name = singleRoundName(1, totalRounds);
-        const r1Slots = [];
-        let r1MatchCounter = 1;
-
-        for (let i = 0; i < M; i += 2) {
-            const s1 = seedOrder[i];
-            const s2 = seedOrder[i + 1];
-            const t1 = s1 <= N ? teams[s1 - 1] : null;
-            const t2 = s2 <= N ? teams[s2 - 1] : null;
-
-            if (t1 && t2) {
-                const matchId = `R1-M${r1MatchCounter++}`;
-                const match = createMatch({
-                    id: matchId,
-                    round: 1,
-                    section: r1Name,
-                    title: `${r1Name} #${r1MatchCounter - 1}`,
-                    source1: teamSource(t1),
-                    source2: teamSource(t2)
-                });
-                matches.push(match);
-                r1Slots.push({ type: 'match', match });
-            } else if (t1 && !t2) {
-                autoAdvancedTeams.push(t1);
-                r1Slots.push({ type: 'advance', team: t1 });
-            } else if (!t1 && t2) {
-                autoAdvancedTeams.push(t2);
-                r1Slots.push({ type: 'advance', team: t2 });
-            }
-        }
-
-        const r1RealMatches = r1Slots.filter(s => s.type === 'match').map(s => s.match);
-        if (r1RealMatches.length > 0) {
-            rounds.push({
-                number: 1,
-                title: r1Name,
-                matches: r1RealMatches,
-                autoAdvanced: autoAdvancedTeams
-            });
-        }
-
-        let prevSlots = r1Slots;
-
-        for (let r = 2; r <= totalRounds; r++) {
-            const rName = singleRoundName(r, totalRounds);
-            const currentSlots = [];
-            const rMatches = [];
-            let mCounter = 1;
-
-            for (let i = 0; i < prevSlots.length; i += 2) {
-                const left = prevSlots[i];
-                const right = prevSlots[i + 1];
-
-                const src1 = left.type === 'advance'
-                    ? teamSource(left.team)
-                    : winnerSource(left.match.id, `Pemenang ${left.match.id}`);
-
-                const src2 = right.type === 'advance'
-                    ? teamSource(right.team)
-                    : winnerSource(right.match.id, `Pemenang ${right.match.id}`);
-
-                const matchId = `R${r}-M${mCounter}`;
-                const match = createMatch({
-                    id: matchId,
-                    round: r,
-                    section: rName,
-                    title: r === totalRounds ? 'Grand Final' : `${rName} #${mCounter}`,
-                    source1: src1,
-                    source2: src2
-                });
-
-                matches.push(match);
-                rMatches.push(match);
-                currentSlots.push({ type: 'match', match });
-                mCounter++;
-            }
-
-            rounds.push({
-                number: r,
-                title: rName,
-                matches: rMatches
-            });
-
-            prevSlots = currentSlots;
-        }
-
-        return { format: 'single', teams, rounds, matches, autoAdvancedTeams };
-    }
-
-    // ====================================================
-    // 2. DOUBLE ELIMINATION (MPL Format - UNTOUCHED LOGIC)
-    // ====================================================
-    function buildDoubleElimination(teams) {
-        if (teams.length === 4) {
-            const ub1 = createMatch({ id: 'UB-M1', round: 1, section: 'Upper Bracket', title: 'Upper Semifinal 1', source1: teamSource(teams[0]), source2: teamSource(teams[3]) });
-            const ub2 = createMatch({ id: 'UB-M2', round: 1, section: 'Upper Bracket', title: 'Upper Semifinal 2', source1: teamSource(teams[1]), source2: teamSource(teams[2]) });
-            const ubFinal = createMatch({ id: 'UB-F', round: 2, section: 'Upper Bracket', title: 'Upper Final', source1: winnerSource('UB-M1'), source2: winnerSource('UB-M2') });
-            const lbSemi = createMatch({ id: 'LB-S1', round: 2, section: 'Lower Bracket', title: 'Lower Semifinal', source1: loserSource('UB-M1'), source2: loserSource('UB-M2'), eliminateLoser: true });
-            const lbFinal = createMatch({ id: 'LB-F', round: 3, section: 'Lower Bracket', title: 'Lower Final', source1: loserSource('UB-F'), source2: winnerSource('LB-S1'), eliminateLoser: true });
-            const grandFinal = createMatch({ id: 'GF', round: 4, section: 'Grand Final', title: 'Grand Final', source1: winnerSource('UB-F'), source2: winnerSource('LB-F'), eliminateLoser: true });
-
-            const matches = [ub1, ub2, ubFinal, lbSemi, lbFinal, grandFinal];
-            return {
-                format: 'double',
-                teams,
-                matches,
-                rounds: [
-                    { number: 1, title: 'Ronde 1 · Upper Semifinal', matches: [ub1, ub2] },
-                    { number: 2, title: 'Ronde 2 · Upper Final & Lower Semifinal', matches: [ubFinal, lbSemi] },
-                    { number: 3, title: 'Ronde 3 · Lower Final', matches: [lbFinal] },
-                    { number: 4, title: 'Ronde 4 · Grand Final', matches: [grandFinal] }
-                ]
-            };
-        }
-
-        const qf1 = createMatch({
-            id: 'UB-R1-M1',
-            round: 1,
-            section: 'Upper Bracket',
-            title: 'Play-In / Upper R1 #1',
-            source1: teamSource(teams[2]),
-            source2: teamSource(teams[5]),
-            eliminateLoser: true,
-            note: 'Kalah langsung gugur (Format MPL 6 Tim)'
-        });
-        const qf2 = createMatch({
-            id: 'UB-R1-M2',
-            round: 1,
-            section: 'Upper Bracket',
-            title: 'Play-In / Upper R1 #2',
-            source1: teamSource(teams[3]),
-            source2: teamSource(teams[4]),
-            eliminateLoser: true,
-            note: 'Kalah langsung gugur (Format MPL 6 Tim)'
-        });
-        const ubSemi1 = createMatch({
-            id: 'UB-S1',
-            round: 2,
-            section: 'Upper Bracket',
-            title: 'Upper Semifinal #1',
-            source1: teamSource(teams[0]),
-            source2: winnerSource('UB-R1-M2'),
-            note: 'Kalah turun ke Lower Semifinal'
-        });
-        const ubSemi2 = createMatch({
-            id: 'UB-S2',
-            round: 2,
-            section: 'Upper Bracket',
-            title: 'Upper Semifinal #2',
-            source1: teamSource(teams[1]),
-            source2: winnerSource('UB-R1-M1'),
-            note: 'Kalah turun ke Lower Semifinal'
-        });
-        const ubFinal = createMatch({
-            id: 'UB-F',
-            round: 3,
-            section: 'Upper Bracket',
-            title: 'Upper Final',
-            source1: winnerSource('UB-S1'),
-            source2: winnerSource('UB-S2'),
-            note: 'Pemenang ke Grand Final, kalah ke Lower Final'
-        });
-        const lbSemi = createMatch({
-            id: 'LB-S1',
-            round: 3,
-            section: 'Lower Bracket',
-            title: 'Lower Semifinal',
-            source1: loserSource('UB-S1'),
-            source2: loserSource('UB-S2'),
-            eliminateLoser: true
-        });
-        const lbFinal = createMatch({
-            id: 'LB-F',
-            round: 4,
-            section: 'Lower Bracket',
-            title: 'Lower Final',
-            source1: loserSource('UB-F'),
-            source2: winnerSource('LB-S1'),
-            eliminateLoser: true
-        });
-        const grandFinal = createMatch({
-            id: 'GF',
-            round: 5,
-            section: 'Grand Final',
-            title: 'Grand Final',
-            source1: winnerSource('UB-F'),
-            source2: winnerSource('LB-F'),
-            eliminateLoser: true
-        });
-
-        const matches = [qf1, qf2, ubSemi1, ubSemi2, ubFinal, lbSemi, lbFinal, grandFinal];
-        return {
-            format: 'double',
-            teams,
-            matches,
-            rounds: [
-                { number: 1, title: 'Ronde 1 · Play-In (Kalah Gugur)', matches: [qf1, qf2] },
-                { number: 2, title: 'Ronde 2 · Upper Semifinal (Seed #1 & #2 Masuk)', matches: [ubSemi1, ubSemi2] },
-                { number: 3, title: 'Ronde 3 · Upper Final & Lower Semifinal', matches: [ubFinal, lbSemi] },
-                { number: 4, title: 'Ronde 4 · Lower Final', matches: [lbFinal] },
-                { number: 5, title: 'Ronde 5 · Grand Final', matches: [grandFinal] }
-            ]
-        };
-    }
-
-    // ====================================================
-    // 3. LEAGUE SYSTEM (UNTOUCHED LOGIC)
-    // ====================================================
-    function buildRoundRobinSchedule(teams) {
-        const list = [...teams];
-        if (list.length % 2 === 1) list.push(null);
-        const totalRounds = list.length - 1;
-        const half = list.length / 2;
-        const rounds = [];
-        const matches = [];
-
-        for (let round = 1; round <= totalRounds; round++) {
-            const roundMatches = [];
-            for (let i = 0; i < half; i++) {
-                const a = list[i];
-                const b = list[list.length - 1 - i];
-                if (a && b) {
-                    const match = createMatch({
-                        id: `RR-R${round}-M${roundMatches.length + 1}`,
-                        round,
-                        section: 'League Matchday',
-                        title: `Matchday ${round} · Match ${roundMatches.length + 1}`,
-                        source1: teamSource(a),
-                        source2: teamSource(b)
-                    });
-                    roundMatches.push(match);
-                    matches.push(match);
-                }
-            }
-            rounds.push({ number: round, title: `Pekan Pertandingan ${round}`, matches: roundMatches });
-            list.splice(1, 0, list.pop());
-        }
-
-        return { format: 'league', teams, rounds, matches };
-    }
-
-    // ====================================================
-    // 4. SWISS STAGE (M7 MLBB 16-Team 5-Round System)
-    // ====================================================
-    function buildSwissTournament(teams) {
-        const state = {
-            format: 'swiss',
-            teams,
-            rounds: [],
-            matches: [],
-            maxRounds: 5,
-            targetWins: 3,
-            targetLosses: 3
-        };
-        generateSwissRound(state, 1);
-        return state;
-    }
-
-    function getSwissRecords(state, upToRound = Infinity) {
-        const records = new Map(state.teams.map(team => [team.id, {
-            team,
-            wins: 0,
-            losses: 0,
-            points: 0,
-            diff: 0,
-            opponents: new Set(),
-            status: 'active',
-            qualifiedRound: null,
-            eliminatedRound: null
-        }]));
-
-        state.matches.filter(m => m.round <= upToRound).forEach(match => {
-            if (!match.team1 || !match.team2 || !match.winner || !match.loser) return;
-            const rec1 = records.get(match.team1.id);
-            const rec2 = records.get(match.team2.id);
-            rec1.opponents.add(match.team2.id);
-            rec2.opponents.add(match.team1.id);
-            rec1.diff += (match.score1 - match.score2);
-            rec2.diff += (match.score2 - match.score1);
-
-            if (match.winner.id === match.team1.id) {
-                rec1.wins += 1;
-                rec1.points += 3;
-                rec2.losses += 1;
-            } else {
-                rec2.wins += 1;
-                rec2.points += 3;
-                rec1.losses += 1;
-            }
-
-            if (rec1.wins >= 3 && rec1.status === 'active') {
-                rec1.status = 'qualified';
-                rec1.qualifiedRound = match.round;
-            }
-            if (rec2.wins >= 3 && rec2.status === 'active') {
-                rec2.status = 'qualified';
-                rec2.qualifiedRound = match.round;
-            }
-            if (rec1.losses >= 3 && rec1.status === 'active') {
-                rec1.status = 'eliminated';
-                rec1.eliminatedRound = match.round;
-            }
-            if (rec2.losses >= 3 && rec2.status === 'active') {
-                rec2.status = 'eliminated';
-                rec2.eliminatedRound = match.round;
-            }
+        records.forEach(rec => {
+            if (rec.wins >= 3) rec.status = 'qualified';
+            else if (rec.losses >= 3) rec.status = 'eliminated';
+            else rec.status = 'active';
         });
 
         return records;
     }
 
-    function generateSwissRound(state, roundNumber) {
-        if (roundNumber > state.maxRounds || state.rounds.some(r => r.number === roundNumber)) return;
+    function buildSwissRoundM7(teams, allMatches, roundNumber) {
+        const records = getSwissTeamRecords(teams, allMatches);
+        const matches = [];
 
-        const recordsMap = getSwissRecords(state, roundNumber - 1);
-        const activeList = [...recordsMap.values()].filter(r => r.wins < 3 && r.losses < 3);
+        if (roundNumber === 1) {
+            const sorted = [...teams].sort((a, b) => a.seed - b.seed);
+            const half = sorted.length / 2;
+            for (let i = 0; i < half; i++) {
+                const teamA = sorted[i];
+                const teamB = sorted[i + half];
+                matches.push(newMatch(`SW1M${i + 1}`, 1, i + 1, teamSource(teamA), teamSource(teamB), {
+                    poolLabel: 'POOL 0-0 (STAGE 1)'
+                }));
+            }
+            return {
+                title: `Swiss Stage — Stage 1 (Rekor 0-0)`,
+                roundNumber: 1,
+                matches
+            };
+        }
 
-        if (activeList.length < 2) return;
-
-        const poolsMap = new Map();
-        activeList.forEach(item => {
-            const key = `${item.wins}-${item.losses}`;
-            if (!poolsMap.has(key)) poolsMap.set(key, []);
-            poolsMap.get(key).push(item);
+        const activeTeams = [...records.values()].filter(r => r.status === 'active');
+        const groups = new Map();
+        activeTeams.forEach(r => {
+            const key = `${r.wins}-${r.losses}`;
+            if (!groups.has(key)) groups.set(key, []);
+            groups.get(key).push(r);
         });
 
-        const sortedPoolKeys = [...poolsMap.keys()].sort((a, b) => {
-            const [wa, la] = a.split('-').map(Number);
-            const [wb, lb] = b.split('-').map(Number);
-            return (wb - wa) || (la - lb);
+        let matchIdx = 1;
+        const sortedKeys = [...groups.keys()].sort((a, b) => {
+            const [wA, lA] = a.split('-').map(Number);
+            const [wB, lB] = b.split('-').map(Number);
+            return wB - wA || lA - lB;
         });
 
-        const roundMatches = [];
-        const poolsRenderData = [];
-        let matchCounter = 1;
+        sortedKeys.forEach(key => {
+            const pool = groups.get(key);
+            const poolTeams = pool.map(p => p.team).sort((a, b) => a.seed - b.seed);
+            const unassigned = [...poolTeams];
 
-        sortedPoolKeys.forEach(poolKey => {
-            const group = poolsMap.get(poolKey);
-            group.sort((a, b) => a.team.seed - b.team.seed);
+            let poolTitle = `POOL ${key}`;
+            if (key === '2-0' || key === '2-1') poolTitle += ' (MATCH KUALIFIKASI)';
+            else if (key === '0-2' || key === '1-2') poolTitle += ' (MATCH ELIMINASI)';
+            else if (key === '2-2') poolTitle += ' (MATCH PENENTUAN FINAL)';
 
-            const used = new Set();
-            const poolMatches = [];
+            while (unassigned.length >= 2) {
+                const teamA = unassigned.shift();
+                const recA = records.get(teamA.id);
 
-            for (let i = 0; i < group.length; i++) {
-                const first = group[i];
-                if (used.has(first.team.id)) continue;
-
-                let partner = null;
-                if (roundNumber === 1) {
-                    const half = group.length / 2;
-                    const candidate = group[i + half];
-                    if (candidate && !used.has(candidate.team.id)) {
-                        partner = candidate;
+                let opponentIdx = -1;
+                for (let i = 0; i < unassigned.length; i++) {
+                    const teamB = unassigned[i];
+                    if (!recA.playedOpponents.has(teamB.id)) {
+                        opponentIdx = i;
+                        break;
                     }
                 }
+                if (opponentIdx === -1) opponentIdx = 0;
 
-                if (!partner) {
-                    partner = group.slice(i + 1).find(item => !used.has(item.team.id) && !first.opponents.has(item.team.id))
-                        || group.slice(i + 1).find(item => !used.has(item.team.id));
-                }
-
-                if (!partner) continue;
-
-                used.add(first.team.id);
-                used.add(partner.team.id);
-
-                const [w, l] = poolKey.split('-').map(Number);
-                let poolType = 'normal';
-                let poolLabel = `Pool ${poolKey}`;
-                if (w === 2 && l < 2) { poolType = 'qualification'; poolLabel = `Pool ${poolKey} (Match Penentuan Lolos)`; }
-                else if (l === 2 && w < 2) { poolType = 'elimination'; poolLabel = `Pool ${poolKey} (Match Eliminasi)`; }
-                else if (w === 2 && l === 2) { poolType = 'decider'; poolLabel = `Pool 2-2 (Hidup / Mati)`; }
-
-                const match = createMatch({
-                    id: `SW-R${roundNumber}-M${matchCounter}`,
-                    round: roundNumber,
-                    section: poolLabel,
-                    title: `${poolKey} · Match #${matchCounter}`,
-                    source1: teamSource(first.team),
-                    source2: teamSource(partner.team)
-                });
-                match.poolKey = poolKey;
-                match.poolType = poolType;
-
-                roundMatches.push(match);
-                poolMatches.push(match);
-                state.matches.push(match);
-                matchCounter++;
+                const teamB = unassigned.splice(opponentIdx, 1)[0];
+                matches.push(newMatch(`SW${roundNumber}M${matchIdx++}`, roundNumber, matchIdx, teamSource(teamA), teamSource(teamB), {
+                    poolLabel: poolTitle
+                }));
             }
-
-            poolsRenderData.push({
-                poolKey,
-                matches: poolMatches
-            });
         });
 
-        state.rounds.push({
-            number: roundNumber,
-            title: `Swiss Stage ${roundNumber}`,
-            matches: roundMatches,
-            pools: poolsRenderData
-        });
+        return {
+            title: `Swiss Stage — Stage ${roundNumber}`,
+            roundNumber,
+            matches
+        };
     }
 
     function advanceSwiss(state) {
-        state.matches.forEach(match => calculateMatch(match, state.matches));
+        state.matches.forEach(m => calculateMatch(m, state.matches));
+        const current = state.rounds[state.rounds.length - 1];
 
-        for (const round of state.rounds) {
-            const complete = round.matches.length > 0 && round.matches.every(match => Boolean(match.winner));
-            if (!complete) break;
-            if (round.number < state.maxRounds && !state.rounds.some(item => item.number === round.number + 1)) {
-                generateSwissRound(state, round.number + 1);
-                state.matches.forEach(match => calculateMatch(match, state.matches));
+        if (current && current.matches.length && current.matches.every(m => m.winner && m.loser) && state.rounds.length < 5) {
+            const nextRoundNo = state.rounds.length + 1;
+            const next = buildSwissRoundM7(state.teams, state.matches, nextRoundNo);
+            if (next.matches.length > 0) {
+                state.rounds.push(next);
+                state.matches.push(...next.matches);
             }
         }
+        renderTournament(true);
     }
 
     // ====================================================
-    // BUILD & RENDER ORCHESTRATION
+    // TEAM STATS & POINTS CALCULATION
     // ====================================================
-    function buildTournament(syncToServer = true) {
-        const format = getSelectedFormat();
-        const teams = getTeamsFromInputs();
-        const title = document.getElementById('tourneyName')?.value?.trim() || 'ROK Community Cup 2026';
+    function computeAllTeamStats(state) {
+        const stats = new Map();
+        (state.teams || []).forEach(t => {
+            stats.set(t.id, {
+                team: t,
+                played: 0,
+                wins: 0,
+                losses: 0,
+                gameWon: 0,
+                gameLost: 0,
+                points: 0
+            });
+        });
 
-        const titleBanner = document.getElementById('outputTourneyTitle');
-        const badgeBanner = document.getElementById('outputFormatBadge');
-        if (titleBanner) titleBanner.textContent = title;
-        if (badgeBanner) badgeBanner.textContent = `${formatNames[format]} · ${teams.length} Tim`;
+        (state.matches || []).forEach(m => {
+            if (m.autoAdvance) return;
+            const a = m.team1;
+            const b = m.team2;
+            if (!a || !b) return;
 
-        if (format === 'double') {
-            currentTournament = buildDoubleElimination(teams);
-        } else if (format === 'league') {
-            currentTournament = buildRoundRobinSchedule(teams);
-        } else if (format === 'swiss') {
-            currentTournament = buildSwissTournament(teams);
-        } else {
-            currentTournament = buildSingleElimination(teams);
+            const s1 = Number.isInteger(m.score1) ? m.score1 : null;
+            const s2 = Number.isInteger(m.score2) ? m.score2 : null;
+            if (s1 === null || s2 === null) return;
+
+            const stA = stats.get(a.id);
+            const stB = stats.get(b.id);
+            if (stA && stB) {
+                stA.played++;
+                stB.played++;
+                stA.gameWon += s1;
+                stA.gameLost += s2;
+                stB.gameWon += s2;
+                stB.gameLost += s1;
+
+                if (s1 > s2) {
+                    stA.wins++;
+                    stB.losses++;
+                    stA.points += 3 + s1;
+                    stB.points += s2;
+                } else if (s2 > s1) {
+                    stB.wins++;
+                    stA.losses++;
+                    stB.points += 3 + s2;
+                    stA.points += s1;
+                }
+            }
+        });
+
+        return stats;
+    }
+
+    // ====================================================
+    // MODAL OPENERS
+    // ====================================================
+    function openTeamModal(teamId) {
+        if (!tournamentState) return;
+        const team = tournamentState.teams.find(t => t.id === Number(teamId));
+        if (!team) return;
+
+        const statsMap = computeAllTeamStats(tournamentState);
+        const st = statsMap.get(team.id) || { points: 0, wins: 0, losses: 0, gameWon: 0, gameLost: 0 };
+
+        const modal = document.getElementById('rokTeamModal');
+        const logoEl = document.getElementById('modalTeamLogo');
+        const nameEl = document.getElementById('modalTeamName');
+        const seedEl = document.getElementById('modalTeamSeed');
+        const tourneyEl = document.getElementById('modalTeamTourney');
+        const pointsEl = document.getElementById('modalTeamPoints');
+        const winsEl = document.getElementById('modalTeamWins');
+        const lossesEl = document.getElementById('modalTeamLosses');
+        const gameEl = document.getElementById('modalTeamGameScore');
+        const waNumEl = document.getElementById('modalTeamWaNumber');
+        const waBtnEl = document.getElementById('modalTeamWaBtn');
+
+        if (logoEl) logoEl.src = team.logo || presetLogos[0];
+        if (nameEl) nameEl.textContent = team.name;
+        if (seedEl) seedEl.textContent = `SEED #${team.seed}`;
+        if (tourneyEl) tourneyEl.textContent = tournamentState.title || 'ROK Web Tournament';
+        if (pointsEl) pointsEl.textContent = `${st.points} Pts`;
+        if (winsEl) winsEl.textContent = `${st.wins}W`;
+        if (lossesEl) lossesEl.textContent = `${st.losses}L`;
+        if (gameEl) gameEl.textContent = `${st.gameWon}-${st.gameLost} (${st.gameWon - st.gameLost >= 0 ? '+' : ''}${st.gameWon - st.gameLost})`;
+
+        const cleanWa = normalizeWaNumber(team.wa);
+        if (waNumEl) waNumEl.textContent = formatWaDisplay(team.wa);
+        if (waBtnEl) {
+            if (cleanWa) {
+                const msg = encodeURIComponent(`Halo ${team.name}, kami dari panitia / lawan tanding di turnamen ${tournamentState.title}. Ingin koordinasi lobby pertandingan.`);
+                waBtnEl.href = `https://wa.me/${cleanWa}?text=${msg}`;
+                waBtnEl.style.opacity = '1';
+                waBtnEl.style.pointerEvents = 'auto';
+                waBtnEl.innerHTML = `<span>&#x1F4AC; Chat ${team.name} via WhatsApp</span>`;
+            } else {
+                waBtnEl.href = '#';
+                waBtnEl.style.opacity = '0.5';
+                waBtnEl.style.pointerEvents = 'none';
+                waBtnEl.innerHTML = `<span>&#x1F4F1; Nomor WhatsApp Belum Diisi</span>`;
+            }
         }
 
-        renderTournament(syncToServer);
+        if (modal) modal.hidden = false;
     }
 
-    function renderTournament(syncToServer = false) {
+    function closeTeamModal() {
+        const modal = document.getElementById('rokTeamModal');
+        if (modal) modal.hidden = true;
+    }
+
+    function openLogoPicker(seed) {
+        selectedSeedForLogo = seed;
+        const modal = document.getElementById('rokLogoPickerModal');
+        const grid = document.getElementById('presetLogosGrid');
+        if (grid) {
+            grid.replaceChildren();
+            presetLogos.forEach(logoUrl => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.style.cssText = 'padding:6px;background:rgba(255,255,255,0.06);border:1px solid var(--rok-surface-border);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+                const img = document.createElement('img');
+                img.src = logoUrl;
+                img.style.cssText = 'width:42px;height:42px;border-radius:50%;object-fit:cover;display:block;';
+                btn.appendChild(img);
+
+                btn.addEventListener('click', () => {
+                    applyTeamLogo(selectedSeedForLogo, logoUrl);
+                    closeLogoPicker();
+                });
+                grid.appendChild(btn);
+            });
+        }
+        if (modal) modal.hidden = false;
+    }
+
+    function closeLogoPicker() {
+        const modal = document.getElementById('rokLogoPickerModal');
+        if (modal) modal.hidden = true;
+        selectedSeedForLogo = null;
+    }
+
+    function applyTeamLogo(seed, logoUrl) {
+        const idx = seed - 1;
+        const preview = document.getElementById(`team_logo_preview_${idx}`);
+        if (preview) preview.src = logoUrl;
+        if (tournamentState && tournamentState.teams && tournamentState.teams[idx]) {
+            tournamentState.teams[idx].logo = logoUrl;
+            renderTournament(true);
+        }
+    }
+
+    // ====================================================
+    // RENDER MATCH CARD (ORIGINAL ROBUST .gen-* STRUCTURE)
+    // ====================================================
+    function renderMatchCard(match, state) {
+        const card = document.createElement('div');
+        card.className = 'gen-match-box';
+        card.dataset.matchId = match.id;
+        card.dataset.round = match.round;
+
+        if (match.poolLabel) {
+            const poolBadge = document.createElement('div');
+            poolBadge.className = 'pool-tag-badge';
+            poolBadge.style.cssText = 'font-size:10px;font-weight:800;padding:2px 6px;margin-bottom:6px;border-radius:3px;letter-spacing:0.5px;';
+            if (match.poolLabel.includes('KUALIFIKASI')) {
+                poolBadge.style.background = 'rgba(34,197,94,0.15)';
+                poolBadge.style.color = '#4ade80';
+            } else if (match.poolLabel.includes('ELIMINASI')) {
+                poolBadge.style.background = 'rgba(239,68,68,0.15)';
+                poolBadge.style.color = '#f87171';
+            } else {
+                poolBadge.style.background = 'rgba(148,163,184,0.15)';
+                poolBadge.style.color = 'var(--rok-silver)';
+            }
+            poolBadge.textContent = match.poolLabel;
+            card.appendChild(poolBadge);
+        }
+
+        const a = resolveSource(match.source1, state.matches);
+        const b = resolveSource(match.source2, state.matches);
+
+        // Auto-advance slot (Single Elimination BYE)
+        if (match.autoAdvance) {
+            const row = document.createElement('div');
+            row.className = 'gen-team-row is-winner';
+
+            const infoWrap = document.createElement('div');
+            infoWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;';
+
+            if (a) {
+                const logoBtn = document.createElement('button');
+                logoBtn.type = 'button';
+                logoBtn.title = `Klik info Poin & Kontak WhatsApp ${a.name}`;
+                logoBtn.style.cssText = 'background:none;border:none;padding:0;cursor:pointer;line-height:0;flex-shrink:0;';
+                logoBtn.innerHTML = `<img src="${a.logo || presetLogos[0]}" alt="${a.name}" style="width:22px;height:22px;max-width:22px;max-height:22px;border-radius:50%;object-fit:cover;border:1px solid rgba(212,175,55,0.5);display:block;">`;
+                logoBtn.addEventListener('click', () => openTeamModal(a.id));
+                infoWrap.appendChild(logoBtn);
+            }
+
+            const name = document.createElement('span');
+            name.className = 'gen-team-name';
+            name.textContent = a ? a.name : 'TBD';
+            infoWrap.appendChild(name);
+
+            const advBadge = document.createElement('span');
+            advBadge.className = 'badge-auto-advance';
+            advBadge.style.cssText = 'background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid #22c55e;font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px;white-space:nowrap;';
+            advBadge.textContent = 'Lolos Otomatis ke Babak Berikutnya';
+
+            row.append(infoWrap, advBadge);
+            card.appendChild(row);
+            return card;
+        }
+
+        [a, b].forEach((team, i) => {
+            const isWinner = match.winner && team && match.winner.id === team.id;
+            const row = document.createElement('div');
+            row.className = `gen-team-row ${isWinner ? 'is-winner' : ''}`;
+
+            const infoWrap = document.createElement('div');
+            infoWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;';
+
+            if (team) {
+                const logoBtn = document.createElement('button');
+                logoBtn.type = 'button';
+                logoBtn.title = `Klik info Poin & Kontak WhatsApp ${team.name}`;
+                logoBtn.style.cssText = 'background:none;border:none;padding:0;cursor:pointer;line-height:0;flex-shrink:0;';
+                logoBtn.innerHTML = `<img src="${team.logo || presetLogos[0]}" alt="${team.name}" style="width:22px;height:22px;max-width:22px;max-height:22px;border-radius:50%;object-fit:cover;border:1px solid rgba(212,175,55,0.4);display:block;">`;
+                logoBtn.addEventListener('click', () => openTeamModal(team.id));
+                infoWrap.appendChild(logoBtn);
+            }
+
+            const name = document.createElement('span');
+            name.className = 'gen-team-name';
+            name.textContent = team ? team.name : 'TBD';
+            infoWrap.appendChild(name);
+
+            if (team && team.wa) {
+                const cleanWa = normalizeWaNumber(team.wa);
+                const waLink = document.createElement('a');
+                waLink.href = `https://wa.me/${cleanWa}?text=${encodeURIComponent('Halo ' + team.name + ', koordinasi match turnamen.')}`;
+                waLink.target = '_blank';
+                waLink.rel = 'noopener noreferrer';
+                waLink.title = `Chat WA ${team.name}`;
+                waLink.style.cssText = 'font-size:12px;text-decoration:none;margin-left:4px;flex-shrink:0;cursor:pointer;';
+                waLink.textContent = '💬';
+                infoWrap.appendChild(waLink);
+            }
+
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.min = '0';
+            input.max = '999';
+            input.step = '1';
+            input.className = 'gen-score-input';
+            input.setAttribute('aria-label', `Skor ${team?.name || 'TBD'}`);
+            input.value = match[i === 0 ? 'score1' : 'score2'] ?? '';
+            input.disabled = IS_READ_ONLY || !(a && b);
+            input.placeholder = '–';
+
+            input.addEventListener('change', () => {
+                if (state.format === 'swiss' && match.round < state.rounds.length) {
+                    state.rounds = state.rounds.slice(0, match.round);
+                    state.matches = state.matches.filter(item => item.round <= match.round);
+                }
+                const key = i === 0 ? 'score1' : 'score2';
+                const parsed = parseInt(input.value, 10);
+                match[key] = isNaN(parsed) ? null : Math.max(0, parsed);
+
+                calculateMatch(match, state.matches);
+
+                if (state.format === 'swiss') {
+                    advanceSwiss(state);
+                } else {
+                    renderTournament(true);
+                }
+            });
+
+            row.append(infoWrap, input);
+            card.appendChild(row);
+        });
+
+        return card;
+    }
+
+    // ====================================================
+    // CLASSIC TOURNAMENT BRACKET CONNECTORS ("PANAH BAGAN")
+    // Orthogonal tree lines M ... H ... V ... H ... with NO ARROWHEADS
+    // ====================================================
+    function drawAllBracketArrows() {
         const deck = document.getElementById('generatedTreeDeck');
-        if (!deck || !currentTournament) return;
+        if (!deck || !tournamentState) return;
 
-        if (currentTournament.format === 'swiss') {
-            advanceSwiss(currentTournament);
+        // Only draw connector lines for elimination tree structures
+        if (tournamentState.format === 'league' || tournamentState.format === 'swiss') {
+            const oldSvg = deck.querySelector('.bracket-connectors-svg');
+            if (oldSvg) oldSvg.remove();
+            return;
+        }
+
+        const oldSvg = deck.querySelector('.bracket-connectors-svg');
+        if (oldSvg) oldSvg.remove();
+
+        const svgNS = 'http://www.w3.org/2000/svg';
+        const svg = document.createElementNS(svgNS, 'svg');
+        svg.setAttribute('class', 'bracket-connectors-svg');
+        svg.setAttribute('aria-hidden', 'true');
+
+        const width = Math.max(deck.scrollWidth, deck.clientWidth);
+        const height = Math.max(deck.scrollHeight, deck.clientHeight);
+        svg.setAttribute('width', String(width));
+        svg.setAttribute('height', String(height));
+        svg.style.cssText = `position:absolute;top:0;left:0;width:${width}px;height:${height}px;pointer-events:none;z-index:1;overflow:visible;`;
+
+        deck.prepend(svg);
+
+        const deckRect = deck.getBoundingClientRect();
+        const matchMap = new Map(tournamentState.matches.map(m => [m.id, m]));
+
+        tournamentState.matches.forEach(targetMatch => {
+            const targetEl = deck.querySelector(`.gen-match-box[data-match-id="${targetMatch.id}"]`);
+            if (!targetEl) return;
+
+            const sources = [
+                { src: targetMatch.source1, slot: 0 },
+                { src: targetMatch.source2, slot: 1 }
+            ];
+
+            sources.forEach(({ src, slot }) => {
+                if (!src || src.type === 'team' || !src.matchId) return;
+                const sourceEl = deck.querySelector(`.gen-match-box[data-match-id="${src.matchId}"]`);
+                if (!sourceEl) return;
+
+                const sourceMatch = matchMap.get(src.matchId);
+                const sRect = sourceEl.getBoundingClientRect();
+                const tRect = targetEl.getBoundingClientRect();
+
+                const startX = (sRect.right - deckRect.left) + deck.scrollLeft;
+                const startY = (sRect.top - deckRect.top) + deck.scrollTop + (sRect.height / 2);
+
+                const endX = (tRect.left - deckRect.left) + deck.scrollLeft;
+                const rows = targetEl.querySelectorAll('.gen-team-row');
+                let endY = (tRect.top - deckRect.top) + deck.scrollTop + (tRect.height * (slot === 0 ? 0.35 : 0.70));
+                if (rows[slot]) {
+                    const rRect = rows[slot].getBoundingClientRect();
+                    endY = (rRect.top - deckRect.top) + deck.scrollTop + (rRect.height / 2);
+                }
+
+                if (endX <= startX + 10) return; // Only draw left-to-right connections
+
+                const midX = startX + (endX - startX) * 0.5;
+                const pathData = `M ${startX} ${startY} H ${midX} V ${endY} H ${endX}`;
+
+                const path = document.createElementNS(svgNS, 'path');
+                path.setAttribute('d', pathData);
+                path.setAttribute('fill', 'none');
+
+                const isWinnerResolved = (src.type === 'winner' && Boolean(sourceMatch?.winner)) ||
+                                         (src.type === 'loser' && Boolean(sourceMatch?.loser));
+
+                path.setAttribute('class', `bracket-arrow-path ${isWinnerResolved ? 'bracket-arrow-path--winner' : ''}`);
+
+                if (src.type === 'loser') {
+                    path.setAttribute('stroke-dasharray', '5 4');
+                }
+
+                svg.appendChild(path);
+            });
+        });
+    }
+
+    // ====================================================
+    // RENDER DOUBLE ELIMINATION LAYOUT
+    // ====================================================
+    function renderDoubleBracket(deck, state) {
+        const decidingRounds = state.rounds.filter(round => round.title === 'Babak Penentuan');
+        const upperRounds = state.rounds.filter(round => round.title.startsWith('Upper Bracket'));
+        const lowerRounds = state.rounds.filter(round => round.title.startsWith('Lower Bracket'));
+        const grandFinalRounds = state.rounds.filter(round => round.title === 'Grand Final');
+
+        const layout = document.createElement('div');
+        layout.className = 'gen-double-layout';
+
+        const makeColumns = (rounds, trackClass) => {
+            const columns = document.createElement('div');
+            columns.className = `gen-double-columns ${trackClass}`;
+            rounds.forEach(round => {
+                const col = document.createElement('div');
+                col.className = 'gen-round-col gen-round-col--double';
+                col.dataset.roundTitle = round.title;
+
+                const heading = document.createElement('span');
+                heading.className = 'gen-round-title';
+                heading.textContent = round.title;
+                col.appendChild(heading);
+
+                const list = document.createElement('div');
+                list.className = 'gen-matches-list';
+                round.matches.forEach(match => list.appendChild(renderMatchCard(match, state)));
+                col.appendChild(list);
+                columns.appendChild(col);
+            });
+            return columns;
+        };
+
+        if (decidingRounds.length) {
+            layout.classList.add('gen-double-layout--with-deciding');
+            const deciding = document.createElement('section');
+            deciding.className = 'gen-double-deciding';
+            const heading = document.createElement('div');
+            heading.className = 'gen-double-track-label';
+            heading.textContent = 'BABAK PENENTUAN';
+            deciding.appendChild(heading);
+            const note = document.createElement('p');
+            note.className = 'gen-double-deciding-note';
+            note.textContent = 'Pemenang lanjut ke Upper Bracket; peserta yang kalah langsung tereliminasi.';
+            deciding.appendChild(note);
+            deciding.appendChild(makeColumns(decidingRounds, 'gen-double-deciding-columns'));
+            layout.appendChild(deciding);
+        }
+
+        const upper = document.createElement('section');
+        upper.className = 'gen-double-track gen-double-track--upper';
+        const upperLabel = document.createElement('div');
+        upperLabel.className = 'gen-double-track-label';
+        upperLabel.textContent = 'UPPER BRACKET — JALUR PEMENANG';
+        upper.appendChild(upperLabel);
+        upper.appendChild(makeColumns(upperRounds, 'gen-double-upper-columns'));
+        layout.appendChild(upper);
+
+        const lower = document.createElement('section');
+        lower.className = 'gen-double-track gen-double-track--lower';
+        const lowerLabel = document.createElement('div');
+        lowerLabel.className = 'gen-double-track-label';
+        lowerLabel.textContent = 'LOWER BRACKET — JALUR BERTAHAN';
+        lower.appendChild(lowerLabel);
+
+        let displayedLowerRounds = lowerRounds;
+        if (lowerRounds.length > 2) {
+            displayedLowerRounds = [
+                { title: 'Lower Bracket — Round 1', matches: lowerRounds[0].matches },
+                {
+                    title: 'Lower Bracket — Round 2 & Final',
+                    matches: lowerRounds.slice(1).flatMap(round => round.matches)
+                }
+            ];
+        }
+        lower.appendChild(makeColumns(displayedLowerRounds, 'gen-double-lower-columns'));
+        layout.appendChild(lower);
+
+        if (grandFinalRounds.length) {
+            const finalTrack = document.createElement('section');
+            finalTrack.className = 'gen-double-grand-final';
+            const heading = document.createElement('span');
+            heading.className = 'gen-round-title';
+            heading.textContent = 'GRAND FINAL';
+            finalTrack.appendChild(heading);
+            const list = document.createElement('div');
+            list.className = 'gen-matches-list';
+            grandFinalRounds.forEach(round => round.matches.forEach(match => list.appendChild(renderMatchCard(match, state))));
+            finalTrack.appendChild(list);
+            layout.appendChild(finalTrack);
+        }
+
+        deck.appendChild(layout);
+    }
+
+    // ====================================================
+    // RENDER LEAGUE STANDINGS
+    // ====================================================
+    function renderStandings(deck, state) {
+        const stats = computeAllTeamStats(state);
+        const sorted = [...stats.values()].sort((a, b) => {
+            return b.points - a.points || (b.gameWon - b.gameLost) - (a.gameWon - a.gameLost) || b.gameWon - a.gameWon;
+        });
+
+        const box = document.createElement('div');
+        box.className = 'league-standings';
+        box.innerHTML = `
+            <h3>KLASEMEN SEMENTARA POIN LIGA</h3>
+            <table class="standings-table">
+                <thead>
+                    <tr>
+                        <th>Pos</th>
+                        <th>Tim</th>
+                        <th>Main</th>
+                        <th>M</th>
+                        <th>K</th>
+                        <th>+/-</th>
+                        <th>Poin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${sorted.map((item, idx) => `
+                        <tr>
+                            <td>#${idx + 1}</td>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:6px;">
+                                    <img src="${item.team.logo || presetLogos[0]}" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">
+                                    <span>${item.team.name}</span>
+                                </div>
+                            </td>
+                            <td>${item.played}</td>
+                            <td>${item.wins}</td>
+                            <td>${item.losses}</td>
+                            <td>${item.gameWon - item.gameLost >= 0 ? '+' : ''}${item.gameWon - item.gameLost}</td>
+                            <td><strong>${item.points}</strong></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+        deck.appendChild(box);
+    }
+
+    // ====================================================
+    // RENDER SWISS PROGRESS
+    // ====================================================
+    function renderSwissProgress(deck, state) {
+        const records = getSwissTeamRecords(state.teams, state.matches);
+        const qualifiedTeams = [...records.values()].filter(r => r.status === 'qualified');
+        const eliminatedTeams = [...records.values()].filter(r => r.status === 'eliminated');
+        const activeTeams = [...records.values()].filter(r => r.status === 'active');
+
+        const overview = document.createElement('div');
+        overview.className = 'swiss-overview-card';
+        overview.style.cssText = 'min-width:280px;max-width:320px;flex-shrink:0;';
+        overview.innerHTML = `
+            <div style="background:var(--rok-surface-card);border:1px solid #22c55e;border-radius:var(--radius-md);padding:16px;margin-bottom:14px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                    <strong style="color:#22c55e;font-size:12px;font-weight:800;text-transform:uppercase;">&#10003; LOLOS PLAYOFF (${qualifiedTeams.length}/8)</strong>
+                    <span class="badge" style="background:rgba(34,197,94,0.15);color:#22c55e;font-size:10px;padding:2px 6px;border-radius:4px;">3 Menang</span>
+                </div>
+                ${qualifiedTeams.length === 0 ? '<p style="font-size:12px;color:var(--rok-muted-light);margin:0;">Belum ada tim yang lolos.</p>' : ''}
+                <div style="display:grid;gap:6px;">
+                    ${qualifiedTeams.map(q => `
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 8px;background:rgba(34,197,94,0.08);border-radius:4px;font-size:12px;">
+                            <span style="font-weight:700;">${q.team.name}</span>
+                            <strong style="color:#22c55e;font-family:monospace;">${q.wins}-${q.losses}</strong>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <div style="background:var(--rok-surface-card);border:1px solid rgba(239,68,68,0.4);border-radius:var(--radius-md);padding:16px;margin-bottom:14px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                    <strong style="color:#f87171;font-size:12px;font-weight:800;text-transform:uppercase;">&times; TERELIMINASI (${eliminatedTeams.length}/8)</strong>
+                    <span class="badge" style="background:rgba(239,68,68,0.15);color:#f87171;font-size:10px;padding:2px 6px;border-radius:4px;">3 Kalah</span>
+                </div>
+                ${eliminatedTeams.length === 0 ? '<p style="font-size:12px;color:var(--rok-muted-light);margin:0;">Belum ada tim yang tereliminasi.</p>' : ''}
+                <div style="display:grid;gap:6px;">
+                    ${eliminatedTeams.map(e => `
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 8px;background:rgba(239,68,68,0.08);border-radius:4px;font-size:12px;">
+                            <span style="color:var(--rok-silver);">${e.team.name}</span>
+                            <strong style="color:#f87171;font-family:monospace;">${e.wins}-${e.losses}</strong>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <div style="background:var(--rok-surface-card);border:1px solid var(--rok-surface-border);border-radius:var(--radius-md);padding:16px;">
+                <strong style="color:var(--rok-silver);font-size:12px;font-weight:800;text-transform:uppercase;display:block;margin-bottom:8px;">AKTIF BERKOMPETISI (${activeTeams.length})</strong>
+                <div style="display:grid;gap:4px;max-height:220px;overflow-y:auto;">
+                    ${activeTeams.map(a => `
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 6px;font-size:12px;border-bottom:1px solid var(--rok-surface-border);">
+                            <span>${a.team.name}</span>
+                            <span style="color:var(--rok-gold);font-family:monospace;font-weight:700;">${a.wins}W - ${a.losses}L</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        deck.prepend(overview);
+    }
+
+    // ====================================================
+    // MAIN RENDER TOURNAMENT
+    // ====================================================
+    function renderTournament(syncToServer = false) {
+        const state = tournamentState;
+        if (!state) return;
+
+        state.matches.forEach(m => calculateMatch(m, state.matches));
+
+        const titleEl = document.getElementById('outputTourneyTitle');
+        const badgeEl = document.getElementById('outputFormatBadge');
+        if (titleEl) titleEl.textContent = state.title;
+        if (badgeEl) badgeEl.textContent = formatLabels[state.format] || state.format;
+
+        const deck = document.getElementById('generatedTreeDeck');
+        if (!deck) return;
+        deck.replaceChildren();
+
+        if (state.format === 'league') {
+            renderStandings(deck, state);
+        }
+
+        if (state.format === 'double') {
+            renderDoubleBracket(deck, state);
         } else {
-            currentTournament.matches.forEach(match => calculateMatch(match, currentTournament.matches));
+            state.rounds.forEach(round => {
+                const col = document.createElement('div');
+                col.className = 'gen-round-col';
+                col.dataset.roundTitle = round.title;
+
+                const heading = document.createElement('span');
+                heading.className = 'gen-round-title';
+                heading.textContent = round.title;
+                col.appendChild(heading);
+
+                const list = document.createElement('div');
+                list.className = 'gen-matches-list';
+                round.matches.forEach(match => list.appendChild(renderMatchCard(match, state)));
+                if (!round.matches.length) {
+                    const empty = document.createElement('p');
+                    empty.textContent = 'Tidak ada pertandingan pada ronde ini.';
+                    list.appendChild(empty);
+                }
+                col.appendChild(list);
+                deck.appendChild(col);
+            });
         }
 
-        deck.innerHTML = '';
-
-        const statsMap = computeAllTeamStats(currentTournament);
-
-        if (currentTournament.format === 'swiss') {
-            renderSwissM7Layout(deck, currentTournament, statsMap);
-        } else if (currentTournament.format === 'double') {
-            renderDoubleEliminationLayout(deck, currentTournament, statsMap);
-        } else {
-            renderStandardBracketLayout(deck, currentTournament, statsMap);
+        if (state.format === 'swiss') {
+            renderSwissProgress(deck, state);
         }
 
-        if (currentTournament.format === 'league') {
-            renderStandings(deck, currentTournament);
+        if (state.format === 'single' || state.format === 'double') {
+            const champion = state.championSource ? resolveSource(state.championSource, state.matches) : null;
+            const col = document.createElement('div');
+            col.className = 'gen-round-col gen-round-col--champ';
+            const heading = document.createElement('span');
+            heading.className = 'gen-round-title text-gold';
+            heading.textContent = 'CHAMPION';
+            const box = document.createElement('div');
+            box.className = 'champ-display-box';
+            const icon = document.createElement('span');
+            icon.className = 'champ-icon';
+            icon.textContent = '🏆';
+            const name = document.createElement('strong');
+            name.className = 'champ-crown-name';
+            name.textContent = champion ? champion.name : 'Belum ditentukan';
+            const sub = document.createElement('p');
+            sub.className = 'champ-sub';
+            sub.textContent = champion ? 'Tournament Champion' : 'Isi skor pertandingan';
+            box.append(icon, name, sub);
+            col.append(heading, box);
+            deck.appendChild(col);
         }
 
-        // Draw directional SVG connector arrows after DOM layout settles
         requestAnimationFrame(() => {
             drawAllBracketArrows();
         });
@@ -1181,920 +1465,213 @@
         }
     }
 
-    // ====================================================
-    // SVG DIRECTIONAL ARROWS ENGINE
-    // ====================================================
-    function createArrowSvgElement() {
-        const svgNS = 'http://www.w3.org/2000/svg';
-        const svg = document.createElementNS(svgNS, 'svg');
-        svg.setAttribute('class', 'bracket-connectors-svg');
-        svg.setAttribute('aria-hidden', 'true');
-        svg.innerHTML = `
-            <defs>
-                <marker id="rok-arrow-default" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                    <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#64748b"/>
-                </marker>
-                <marker id="rok-arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
-                    <path d="M 0 1 L 9 5 L 0 9 z" fill="#38bdf8"/>
-                </marker>
-                <marker id="rok-arrow-loser" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                    <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#f59e0b"/>
-                </marker>
-            </defs>
-        `;
-        return svg;
-    }
+    function buildTournament(syncToServer = true) {
+        const title = (document.getElementById('tourneyName')?.value || '').trim() || 'ROK Community Cup 2026';
+        const format = document.getElementById('tourneyFormat')?.value || 'single';
+        const teams = collectCurrentTeams();
 
-    function drawAllBracketArrows() {
-        document.querySelectorAll('.bracket-tree-canvas').forEach(canvas => {
-            const oldSvg = canvas.querySelector('.bracket-connectors-svg');
-            if (oldSvg) oldSvg.remove();
-
-            if (!currentTournament) return;
-
-            const svg = createArrowSvgElement();
-            const width = Math.max(canvas.scrollWidth, canvas.clientWidth);
-            const height = Math.max(canvas.scrollHeight, canvas.clientHeight);
-            svg.setAttribute('width', String(width));
-            svg.setAttribute('height', String(height));
-            svg.style.width = width + 'px';
-            svg.style.height = height + 'px';
-            canvas.prepend(svg);
-
-            const canvasRect = canvas.getBoundingClientRect();
-            const matchMap = new Map(currentTournament.matches.map(m => [m.id, m]));
-
-            currentTournament.matches.forEach(targetMatch => {
-                const targetEl = canvas.querySelector(`.bracket-match[data-match-id="${targetMatch.id}"]`);
-                if (!targetEl) return;
-
-                [
-                    { src: targetMatch.source1, slotIndex: 0 },
-                    { src: targetMatch.source2, slotIndex: 1 }
-                ].forEach(({ src, slotIndex }) => {
-                    if (!src || src.type === 'team' || !src.matchId) return;
-
-                    const sourceEl = canvas.querySelector(`.bracket-match[data-match-id="${src.matchId}"]`);
-                    if (!sourceEl) return;
-
-                    const sourceMatch = matchMap.get(src.matchId);
-                    const sRect = sourceEl.getBoundingClientRect();
-                    const tRect = targetEl.getBoundingClientRect();
-
-                    // Calculate coordinates relative to canvas
-                    const startX = (sRect.right - canvasRect.left) + canvas.scrollLeft;
-                    const startY = (sRect.top - canvasRect.top) + canvas.scrollTop + (sRect.height / 2);
-
-                    const endX = (tRect.left - canvasRect.left) + canvas.scrollLeft - 4;
-                    const rowEls = targetEl.querySelectorAll('.bracket-team-row');
-                    let endY = (tRect.top - canvasRect.top) + canvas.scrollTop + (tRect.height * (slotIndex === 0 ? 0.36 : 0.72));
-                    if (rowEls[slotIndex]) {
-                        const rRect = rowEls[slotIndex].getBoundingClientRect();
-                        endY = (rRect.top - canvasRect.top) + canvas.scrollTop + (rRect.height / 2);
-                    }
-
-                    if (endX <= startX + 8) return; // Only draw forward left-to-right connectors cleanly
-
-                    const midX = startX + (endX - startX) * 0.52;
-                    const pathData = `M ${startX} ${startY} L ${midX} ${startY} L ${midX} ${endY} L ${endX} ${endY}`;
-
-                    const isWinnerResolved = src.type === 'winner' && Boolean(sourceMatch?.winner);
-                    const isLoserResolved = src.type === 'loser' && Boolean(sourceMatch?.loser);
-
-                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                    path.setAttribute('d', pathData);
-                    path.setAttribute('fill', 'none');
-                    path.setAttribute('class', `bracket-arrow-path ${isWinnerResolved ? 'is-active' : (isLoserResolved ? 'is-loser' : '')}`);
-                    path.setAttribute('marker-end', isWinnerResolved
-                        ? 'url(#rok-arrow-active)'
-                        : (isLoserResolved ? 'url(#rok-arrow-loser)' : 'url(#rok-arrow-default)')
-                    );
-                    if (src.type === 'loser') {
-                        path.setAttribute('stroke-dasharray', '5 4');
-                    }
-
-                    svg.appendChild(path);
-                });
-            });
-        });
-    }
-
-    window.addEventListener('resize', () => {
-        requestAnimationFrame(drawAllBracketArrows);
-    });
-
-    // ====================================================
-    // LAYOUT RENDERERS
-    // ====================================================
-    function renderStandardBracketLayout(deck, state, statsMap) {
-        if (state.format === 'single' && state.autoAdvancedTeams && state.autoAdvancedTeams.length > 0) {
-            const notice = document.createElement('div');
-            notice.className = 'bracket-auto-advance-banner';
-            const teamNames = state.autoAdvancedTeams.map(t => `<span class="auto-adv-chip">#${t.seed} ${t.name}</span>`).join(' ');
-            notice.innerHTML = `
-                <div class="bracket-auto-advance-banner__title">
-                    <span>&#x2728;</span>
-                    <strong>Lolos Otomatis ke Babak Berikutnya (Unggulan Seed Teratas):</strong>
-                </div>
-                <div class="bracket-auto-advance-banner__chips">${teamNames}</div>
-            `;
-            deck.appendChild(notice);
-        }
-
-        const canvas = document.createElement('div');
-        canvas.className = 'bracket-tree-canvas';
-
-        const grid = document.createElement('div');
-        grid.className = 'bracket-rounds-grid';
-
-        state.rounds.forEach((round, roundIdx) => {
-            const column = document.createElement('section');
-            column.className = 'bracket-round-col';
-
-            const heading = document.createElement('div');
-            heading.className = 'bracket-round-col__header';
-            heading.innerHTML = `
-                <span class="round-step-pill">STAGE ${roundIdx + 1}</span>
-                <h4>${round.title}</h4>
-                ${roundIdx < state.rounds.length - 1 ? '<span class="round-next-arrow" title="Melaju ke babak berikutnya">&rarr;</span>' : '<span class="round-trophy-icon">&#x1F3C6;</span>'}
-            `;
-            column.appendChild(heading);
-
-            const body = document.createElement('div');
-            body.className = 'bracket-round-col__body';
-
-            if (round.autoAdvanced && round.autoAdvanced.length > 0) {
-                round.autoAdvanced.forEach(t => {
-                    const advCard = document.createElement('div');
-                    advCard.className = 'bracket-match bracket-match--auto';
-                    advCard.innerHTML = `
-                        <div class="bracket-match__top">
-                            <span class="match-code-tag">SEED #${t.seed}</span>
-                            <span class="match-status-pill match-status-pill--auto">LOLOS OTOMATIS</span>
-                        </div>
-                        <div class="bracket-team-row is-winner">
-                            <div class="bracket-team-main">
-                                <button type="button" class="bracket-team-logo-btn" data-seed="${t.seed}" title="Klik untuk melihat Poin &amp; Nomor WhatsApp ${t.name}">
-                                    <img src="${t.logo || presetLogos[0]}" alt="${t.name}" onerror="this.src='/img/dummy-division.svg'">
-                                </button>
-                                <span class="bracket-team-name">#${t.seed} ${t.name}</span>
-                            </div>
-                            <span class="auto-pass-badge">Lolos Otomatis ke Babak Berikutnya &rarr;</span>
-                        </div>
-                    `;
-                    advCard.querySelector('.bracket-team-logo-btn')?.addEventListener('click', () => openTeamModalBySeed(t.seed));
-                    body.appendChild(advCard);
-                });
-            }
-
-            round.matches.forEach(match => {
-                body.appendChild(renderMatchCard(match, state, statsMap));
-            });
-
-            column.appendChild(body);
-            grid.appendChild(column);
-        });
-
-        canvas.appendChild(grid);
-        deck.appendChild(canvas);
-
-        // Champion spotlight banner if Grand Final has winner
-        const lastRound = state.rounds[state.rounds.length - 1];
-        const finalMatch = lastRound?.matches?.[0];
-        if (state.format === 'single' && finalMatch?.winner) {
-            renderChampionBanner(deck, finalMatch.winner, statsMap.get(finalMatch.winner.id));
-        }
-    }
-
-    function renderDoubleEliminationLayout(deck, state, statsMap) {
-        const sections = [
-            { title: 'UPPER BRACKET (JALUR UTAMA)', key: 'Upper Bracket', accent: 'upper' },
-            { title: 'LOWER BRACKET (KESEMPATAN KEDUA)', key: 'Lower Bracket', accent: 'lower' },
-            { title: 'GRAND FINAL', key: 'Grand Final', accent: 'final' }
-        ];
-
-        sections.forEach(sec => {
-            const secMatches = state.matches.filter(m => m.section === sec.key);
-            if (secMatches.length === 0) return;
-
-            const block = document.createElement('div');
-            block.className = `double-elim-section double-elim-section--${sec.accent}`;
-
-            const header = document.createElement('div');
-            header.className = 'double-elim-section__header';
-            header.innerHTML = `<h4>${sec.title}</h4>`;
-            block.appendChild(header);
-
-            const canvas = document.createElement('div');
-            canvas.className = 'bracket-tree-canvas';
-
-            const grid = document.createElement('div');
-            grid.className = 'bracket-rounds-grid';
-
-            const roundNums = [...new Set(secMatches.map(m => m.round))].sort((a, b) => a - b);
-            roundNums.forEach((rNum, idx) => {
-                const rMatches = secMatches.filter(m => m.round === rNum);
-                const col = document.createElement('section');
-                col.className = 'bracket-round-col';
-
-                const h = document.createElement('div');
-                h.className = 'bracket-round-col__header';
-                h.innerHTML = `
-                    <span class="round-step-pill">RONDE ${rNum}</span>
-                    <h4>${rMatches[0]?.title?.replace(/#\d+$/, '')?.trim() || ('Babak ' + rNum)}</h4>
-                    ${idx < roundNums.length - 1 ? '<span class="round-next-arrow">&rarr;</span>' : ''}
-                `;
-                col.appendChild(h);
-
-                const body = document.createElement('div');
-                body.className = 'bracket-round-col__body';
-                rMatches.forEach(m => body.appendChild(renderMatchCard(m, state, statsMap)));
-
-                col.appendChild(body);
-                grid.appendChild(col);
-            });
-
-            canvas.appendChild(grid);
-            block.appendChild(canvas);
-            deck.appendChild(block);
-        });
-
-        const gf = state.matches.find(m => m.id === 'GF');
-        if (gf?.winner) {
-            renderChampionBanner(deck, gf.winner, statsMap.get(gf.winner.id));
-        }
-    }
-
-    function renderSwissM7Layout(deck, state, statsMap) {
-        const recordsMap = getSwissRecords(state);
-        const qualifiedList = [...recordsMap.values()].filter(r => r.wins >= 3).sort((a, b) => a.qualifiedRound - b.qualifiedRound || b.diff - a.diff);
-        const eliminatedList = [...recordsMap.values()].filter(r => r.losses >= 3).sort((a, b) => a.eliminatedRound - b.eliminatedRound || a.diff - b.diff);
-
-        const banner = document.createElement('div');
-        banner.className = 'swiss-m7-banner';
-        banner.innerHTML = `
-            <div>
-                <span class="badge-mini">MLBB M7 WORLD CHAMPIONSHIP FORMAT</span>
-                <h4>SWISS STAGE PROGRESSION (16 TIM &bull; 5 STAGES)</h4>
-                <p>Raih <strong>3 Kemenangan</strong> untuk lolos ke Knockout Stage (&rarr;). Tim yang menelan <strong>3 Kekalahan</strong> langsung tereliminasi.</p>
-            </div>
-            <div class="swiss-m7-legend">
-                <span class="swiss-legend-pill swiss-legend-pill--qual">&#10003; 3 Win = LOLOS PLAYOFF (${qualifiedList.length}/8)</span>
-                <span class="swiss-legend-pill swiss-legend-pill--elim">&times; 3 Loss = ELIMINASI (${eliminatedList.length}/8)</span>
-            </div>
-        `;
-        deck.appendChild(banner);
-
-        const flowContainer = document.createElement('div');
-        flowContainer.className = 'swiss-m7-flow-grid';
-
-        for (let r = 1; r <= 5; r++) {
-            const roundObj = state.rounds.find(item => item.number === r);
-            const stageCol = document.createElement('div');
-            stageCol.className = 'swiss-stage-col';
-
-            const stageHeader = document.createElement('div');
-            stageHeader.className = 'swiss-stage-col__header';
-            stageHeader.innerHTML = `<span>STAGE ${r}</span> <span>&rarr;</span>`;
-            stageCol.appendChild(stageHeader);
-
-            if (!roundObj) {
-                const lockedBox = document.createElement('div');
-                lockedBox.className = 'swiss-stage-locked';
-                lockedBox.innerHTML = `Selesaikan seluruh skor di <strong>Stage ${r - 1}</strong> untuk membuka bagan Stage ${r}.`;
-                stageCol.appendChild(lockedBox);
-            } else {
-                roundObj.pools.forEach(pool => {
-                    const [w, l] = pool.poolKey.split('-').map(Number);
-                    let borderColor = 'var(--rok-surface-border)';
-                    let headerBg = 'rgba(148, 163, 184, 0.12)';
-                    let textColor = 'var(--rok-text-bright)';
-                    let subtitle = 'REGULAR POOL';
-
-                    if (w === 2 && l < 2) {
-                        borderColor = '#22c55e';
-                        headerBg = 'rgba(34, 197, 94, 0.16)';
-                        textColor = '#4ade80';
-                        subtitle = 'QUALIFICATION MATCH';
-                    } else if (l === 2 && w < 2) {
-                        borderColor = '#ef4444';
-                        headerBg = 'rgba(239, 68, 68, 0.16)';
-                        textColor = '#f87171';
-                        subtitle = 'ELIMINATION MATCH';
-                    } else if (w === 2 && l === 2) {
-                        borderColor = '#eab308';
-                        headerBg = 'rgba(234, 179, 8, 0.18)';
-                        textColor = '#facc15';
-                        subtitle = 'DECIDER (DO OR DIE)';
-                    }
-
-                    const poolBox = document.createElement('div');
-                    poolBox.className = 'swiss-pool-box';
-                    poolBox.style.borderColor = borderColor;
-
-                    const poolHead = document.createElement('div');
-                    poolHead.className = 'swiss-pool-box__head';
-                    poolHead.style.background = headerBg;
-                    poolHead.style.color = textColor;
-                    poolHead.innerHTML = `<span>BRACKET ${pool.poolKey}</span><span style="font-size:10px;">${subtitle}</span>`;
-                    poolBox.appendChild(poolHead);
-
-                    const matchesContainer = document.createElement('div');
-                    matchesContainer.className = 'swiss-pool-box__matches';
-                    pool.matches.forEach(m => {
-                        matchesContainer.appendChild(renderMatchCard(m, state, statsMap));
-                    });
-
-                    poolBox.appendChild(matchesContainer);
-                    stageCol.appendChild(poolBox);
-                });
-            }
-
-            flowContainer.appendChild(stageCol);
-        }
-
-        // Outcome Column
-        const outcomeCol = document.createElement('div');
-        outcomeCol.className = 'swiss-stage-col';
-        outcomeCol.innerHTML = `<div class="swiss-stage-col__header" style="background: rgba(34,197,94,0.18); border-color:#22c55e; color:#4ade80;"><span>HASIL AKHIR</span> <span>&#x1F3C6;</span></div>`;
-
-        const qualBox = document.createElement('div');
-        qualBox.className = 'swiss-outcome-box swiss-outcome-box--qual';
-        qualBox.innerHTML = `<div class="swiss-outcome-box__title">&#10003; LOLOS KNOCKOUT (3 WIN)</div>`;
-        const qualListEl = document.createElement('div');
-        qualListEl.className = 'swiss-outcome-list';
-        if (qualifiedList.length === 0) {
-            qualListEl.innerHTML = `<div class="swiss-outcome-empty">Menunggu tim mencapai 3 kemenangan...</div>`;
+        let engine;
+        if (format === 'single') {
+            engine = makeElimination(teams);
+        } else if (format === 'double') {
+            engine = makeDoubleElimination(teams);
+        } else if (format === 'league') {
+            engine = makeRoundRobin(teams);
         } else {
-            qualifiedList.forEach(r => {
-                const row = document.createElement('div');
-                row.className = 'swiss-outcome-item swiss-outcome-item--qual';
-                row.innerHTML = `<span>#${r.team.seed} ${r.team.name}</span><strong>${r.wins}-${r.losses}</strong>`;
-                row.addEventListener('click', () => openTeamModalBySeed(r.team.seed));
-                qualListEl.appendChild(row);
-            });
-        }
-        qualBox.appendChild(qualListEl);
-        outcomeCol.appendChild(qualBox);
-
-        const elimBox = document.createElement('div');
-        elimBox.className = 'swiss-outcome-box swiss-outcome-box--elim';
-        elimBox.innerHTML = `<div class="swiss-outcome-box__title">&times; TERELIMINASI (3 LOSS)</div>`;
-        const elimListEl = document.createElement('div');
-        elimListEl.className = 'swiss-outcome-list';
-        if (eliminatedList.length === 0) {
-            elimListEl.innerHTML = `<div class="swiss-outcome-empty">Belum ada tim gugur...</div>`;
-        } else {
-            eliminatedList.forEach(r => {
-                const row = document.createElement('div');
-                row.className = 'swiss-outcome-item swiss-outcome-item--elim';
-                row.innerHTML = `<span>#${r.team.seed} ${r.team.name}</span><strong>${r.wins}-${r.losses}</strong>`;
-                row.addEventListener('click', () => openTeamModalBySeed(r.team.seed));
-                elimListEl.appendChild(row);
-            });
-        }
-        elimBox.appendChild(elimListEl);
-        outcomeCol.appendChild(elimBox);
-
-        flowContainer.appendChild(outcomeCol);
-        deck.appendChild(flowContainer);
-    }
-
-    // ====================================================
-    // MATCH CARD COMPONENT (With Clickable Logo, Points, WA, Arrows)
-    // ====================================================
-    function renderMatchCard(match, state, statsMap) {
-        const card = document.createElement('article');
-        const hasBothTeams = Boolean(match.team1 && match.team2);
-        const isCompleted = Boolean(match.winner);
-
-        card.className = `bracket-match ${isCompleted ? 'is-completed' : (hasBothTeams ? 'is-ready' : 'is-waiting')}`;
-        card.dataset.matchId = match.id;
-
-        const topBar = document.createElement('div');
-        topBar.className = 'bracket-match__top';
-
-        const codeSpan = document.createElement('span');
-        codeSpan.className = 'match-code-tag';
-        codeSpan.textContent = match.id;
-
-        const statusBadge = document.createElement('span');
-        statusBadge.className = `match-status-pill ${isCompleted ? 'match-status-pill--done' : (hasBothTeams ? 'match-status-pill--live' : 'match-status-pill--wait')}`;
-        statusBadge.textContent = isCompleted ? 'SELESAI' : (hasBothTeams ? 'LIVE / SIAP' : 'MENUNGGU');
-
-        topBar.append(codeSpan, statusBadge);
-        card.appendChild(topBar);
-
-        const a = match.team1;
-        const b = match.team2;
-
-        [a, b].forEach((team, i) => {
-            const row = document.createElement('div');
-            const isRowWinner = Boolean(team && match.winner?.id === team.id);
-            const isRowLoser = Boolean(team && match.loser?.id === team.id);
-            row.className = `bracket-team-row ${isRowWinner ? 'is-winner' : ''} ${isRowLoser ? 'is-loser' : ''}`;
-
-            const mainInfo = document.createElement('div');
-            mainInfo.className = 'bracket-team-main';
-
-            if (team) {
-                const stat = statsMap.get(team.id);
-                const pts = stat ? stat.points : 0;
-
-                // Clickable Logo Button -> Opens Team Modal with WhatsApp & Points
-                const logoBtn = document.createElement('button');
-                logoBtn.type = 'button';
-                logoBtn.className = 'bracket-team-logo-btn';
-                logoBtn.title = `Klik untuk melihat Poin Pertandingan (${pts} Pts) & Chat WhatsApp ${team.name}`;
-                logoBtn.innerHTML = `
-                    <img src="${team.logo || presetLogos[(team.seed - 1) % presetLogos.length]}" alt="${team.name}" onerror="this.src='/img/dummy-division.svg'">
-                `;
-                logoBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    openTeamModalBySeed(team.seed);
-                });
-
-                const textWrap = document.createElement('div');
-                textWrap.className = 'bracket-team-text';
-                textWrap.style.cursor = 'pointer';
-                textWrap.title = 'Klik untuk detail tim, poin & kontak WhatsApp';
-                textWrap.addEventListener('click', () => openTeamModalBySeed(team.seed));
-
-                const nameLine = document.createElement('span');
-                nameLine.className = 'bracket-team-name';
-                nameLine.innerHTML = `<small class="team-seed-tag">#${team.seed}</small> ${team.name} ${isRowWinner ? '<span class="winner-crown" title="Pemenang Match">&#x1F451;</span>' : ''}`;
-
-                const metaLine = document.createElement('span');
-                metaLine.className = 'bracket-team-submeta';
-                metaLine.innerHTML = `<strong class="team-pts-pill">${pts} Pts</strong> &bull; <span class="team-wa-hint">&#x1F4AC; Info &amp; WA</span>`;
-
-                textWrap.append(nameLine, metaLine);
-                mainInfo.append(logoBtn, textWrap);
-            } else {
-                const placeholderBadge = document.createElement('div');
-                placeholderBadge.className = 'bracket-team-logo-placeholder';
-                placeholderBadge.innerHTML = '&rarr;';
-
-                const nameSpan = document.createElement('span');
-                nameSpan.className = 'bracket-team-name is-tbd';
-                nameSpan.textContent = sourcePlaceholder(i === 0 ? match.source1 : match.source2);
-
-                mainInfo.append(placeholderBadge, nameSpan);
-            }
-
-            const input = document.createElement('input');
-            input.type = 'number';
-            input.min = '0';
-            input.max = '99';
-            input.step = '1';
-            input.className = 'bracket-score-input';
-            input.setAttribute('aria-label', `Skor ${team?.name || 'TBD'}`);
-            input.value = match[i === 0 ? 'score1' : 'score2'] ?? '';
-            input.disabled = IS_READ_ONLY || !(a && b);
-            input.placeholder = '–';
-
-            input.addEventListener('change', () => {
-                if (IS_READ_ONLY) return;
-                if (state.format === 'swiss' && match.round < state.rounds.length) {
-                    state.rounds = state.rounds.slice(0, match.round);
-                    state.matches = state.matches.filter(item => item.round <= match.round);
-                }
-                const previousWinner = match.winner?.id ?? null;
-                const key = i === 0 ? 'score1' : 'score2';
-                const other = i === 0 ? 'score2' : 'score1';
-                const value = input.value.trim();
-                match[key] = value === '' ? null : Number.parseInt(value, 10);
-                if (match[key] !== null && (!Number.isInteger(match[key]) || match[key] < 0 || match[key] > 999)) {
-                    match[key] = null;
-                }
-                if (match[key] !== null && match[other] !== null && match[key] === match[other]) {
-                    alert('Skor tidak boleh seri untuk pertandingan yang membutuhkan pemenang.');
-                    match[key] = null;
-                }
-
-                // Persist in savedScoresMap
-                savedScoresMap[match.id] = {
-                    score1: match.score1,
-                    score2: match.score2
-                };
-
-                calculateMatch(match, state.matches);
-                if (previousWinner !== (match.winner?.id ?? null)) {
-                    clearDependentScores(state, match.id);
-                }
-                renderTournament(true);
-            });
-
-            row.append(mainInfo, input);
-            card.appendChild(row);
-        });
-
-        if (match.winner) {
-            const footer = document.createElement('div');
-            footer.className = 'bracket-match__footer';
-            footer.innerHTML = `<span class="match-adv-label">&#10003; Pemenang Melaju: <strong>${match.winner.name}</strong> &rarr;</span>`;
-            if (state.format === 'double' && match.eliminateLoser && match.loser) {
-                footer.innerHTML += `<span class="bracket-eliminated-note">&times; Gugur: ${match.loser.name}</span>`;
-            }
-            card.appendChild(footer);
-        } else if (match.note) {
-            const noteEl = document.createElement('div');
-            noteEl.className = 'bracket-match__footer';
-            noteEl.innerHTML = `<span style="color:var(--rok-muted-light);font-size:11px;">${match.note}</span>`;
-            card.appendChild(noteEl);
+            const round1 = buildSwissRoundM7(teams, [], 1);
+            engine = {
+                matches: round1.matches,
+                rounds: [round1],
+                championSource: null
+            };
         }
 
-        return card;
-    }
-
-    function renderChampionBanner(deck, winnerTeam, stat) {
-        const banner = document.createElement('div');
-        banner.className = 'bracket-champion-banner';
-        banner.innerHTML = `
-            <div class="bracket-champion-banner__left">
-                <img src="${winnerTeam.logo || presetLogos[0]}" alt="${winnerTeam.name}" class="champion-logo" onerror="this.src='/img/dummy-division.svg'">
-                <div>
-                    <span class="champion-badge">&#x1F3C6; GRAND CHAMPION TURNAMEN</span>
-                    <h3>${winnerTeam.name} (Seed #${winnerTeam.seed})</h3>
-                    <p>Total Poin Pertandingan: <strong>${stat ? stat.points : 0} Pts</strong> &bull; Rekor: <strong>${stat ? stat.wins : 0}W - ${stat ? stat.losses : 0}L</strong></p>
-                </div>
-            </div>
-            <button type="button" class="btn-rok btn-rok--gold btn-rok--sm" id="championInfoBtn">
-                &#x1F4AC; Lihat Poin &amp; Kontak WhatsApp Juara
-            </button>
-        `;
-        banner.querySelector('#championInfoBtn')?.addEventListener('click', () => openTeamModalBySeed(winnerTeam.seed));
-        deck.appendChild(banner);
-    }
-
-    function clearDependentScores(state, parentMatchId) {
-        const cleared = new Set([parentMatchId]);
-        let changed = true;
-        while (changed) {
-            changed = false;
-            state.matches.forEach(match => {
-                const dependsOnCleared = [match.source1, match.source2].some(source => source && source.type !== 'team' && cleared.has(source.matchId));
-                if (dependsOnCleared && !cleared.has(match.id)) {
-                    match.score1 = null;
-                    match.score2 = null;
-                    match.winner = null;
-                    match.loser = null;
-                    delete savedScoresMap[match.id];
-                    cleared.add(match.id);
-                    changed = true;
-                }
-            });
-        }
-    }
-
-    function renderStandings(deck, state) {
-        const table = document.createElement('div');
-        table.className = 'league-standings';
-        const heading = document.createElement('h3');
-        heading.textContent = 'Klasemen Liga & Poin Pertandingan (League System)';
-        table.appendChild(heading);
-
-        const records = new Map(state.teams.map(t => [t.id, { team: t, played: 0, wins: 0, losses: 0, points: 0, scored: 0, conceded: 0 }]));
-        state.matches.forEach(m => {
-            if (!m.winner || !m.loser) return;
-            const a = records.get(m.team1.id), b = records.get(m.team2.id);
-            a.played++; b.played++;
-            a.scored += m.score1; a.conceded += m.score2;
-            b.scored += m.score2; b.conceded += m.score1;
-            if (m.score1 > m.score2) { a.wins++; b.losses++; a.points += 3; }
-            else { b.wins++; a.losses++; b.points += 3; }
-        });
-
-        const tableEl = document.createElement('table');
-        tableEl.className = 'standings-table';
-        const thead = document.createElement('thead'), hr = document.createElement('tr');
-        ['#', 'Tim (Klik untuk WA)', 'P', 'W', 'L', 'Skor +/-', 'Pts'].forEach(t => {
-            const th = document.createElement('th');
-            th.textContent = t;
-            hr.appendChild(th);
-        });
-        thead.appendChild(hr);
-        tableEl.appendChild(thead);
-
-        const tbody = document.createElement('tbody');
-        [...records.values()].sort((a, b) => b.points - a.points || b.wins - a.wins || (b.scored - b.conceded) - (a.scored - a.conceded) || a.team.seed - b.team.seed).forEach((r, i) => {
-            const tr = document.createElement('tr');
-            tr.style.cursor = 'pointer';
-            tr.addEventListener('click', () => openTeamModalBySeed(r.team.seed));
-            [i + 1, r.team.name, r.played, r.wins, r.losses, `${r.scored - r.conceded}`, r.points].forEach(v => {
-                const td = document.createElement('td');
-                td.textContent = String(v);
-                tr.appendChild(td);
-            });
-            tbody.appendChild(tr);
-        });
-        tableEl.appendChild(tbody);
-        table.appendChild(tableEl);
-        deck.appendChild(table);
-    }
-
-    // ====================================================
-    // INTERACTIVE TEAM MODAL (WhatsApp + Match Points)
-    // ====================================================
-    function openTeamModalBySeed(seed) {
-        if (!currentTournament) return;
-        const team = currentTournament.teams.find(t => t.seed === Number(seed));
-        if (!team) return;
-
-        const statsMap = computeAllTeamStats(currentTournament);
-        const stat = statsMap.get(team.id) || { played: 0, wins: 0, losses: 0, scored: 0, conceded: 0, points: 0, isEliminated: false };
-        const tourneyTitle = document.getElementById('tourneyName')?.value || 'ROK Tournament';
-
-        const modal = document.getElementById('rokTeamModal');
-        if (!modal) return;
-
-        document.getElementById('modalTeamLogo').src = team.logo || presetLogos[(team.seed - 1) % presetLogos.length];
-        document.getElementById('modalTeamSeed').textContent = `#${team.seed}`;
-        document.getElementById('modalTeamName').textContent = team.name;
-        document.getElementById('modalTeamTourney').textContent = `${tourneyTitle} • ${formatNames[currentTournament.format]}`;
-
-        const badgeEl = document.getElementById('modalTeamStatusBadge');
-        if (stat.isEliminated) {
-            badgeEl.textContent = 'TERELIMINASI';
-            badgeEl.style.background = 'rgba(239, 68, 68, 0.18)';
-            badgeEl.style.color = '#f87171';
-        } else if (stat.wins > 0) {
-            badgeEl.textContent = 'TIM UNGGULAN AKTIF';
-            badgeEl.style.background = 'rgba(34, 197, 94, 0.18)';
-            badgeEl.style.color = '#4ade80';
-        } else {
-            badgeEl.textContent = 'PESERTA AKTIF';
-            badgeEl.style.background = 'rgba(56, 189, 248, 0.18)';
-            badgeEl.style.color = '#38bdf8';
-        }
-
-        document.getElementById('modalTeamPoints').textContent = `${stat.points} Pts`;
-        document.getElementById('modalTeamRecord').textContent = `${stat.wins}W - ${stat.losses}L`;
-        document.getElementById('modalTeamPlayed').textContent = `${stat.played} Match Diselesaikan`;
-        const diff = stat.scored - stat.conceded;
-        document.getElementById('modalTeamGameScore').textContent = `${stat.scored} - ${stat.conceded} (${diff >= 0 ? '+' + diff : diff})`;
-
-        const waNormalized = normalizeWaNumber(team.whatsapp);
-        document.getElementById('modalTeamWaNumber').textContent = formatWaDisplay(team.whatsapp);
-        const waMsg = encodeURIComponent(`Halo Kapten/Manajer Tim *${team.name}* (Seed #${team.seed}), kami ingin berkoordinasi mengenai jadwal/lobby pertandingan di turnamen *${tourneyTitle}* (ROK Esports).`);
-        document.getElementById('modalTeamWaBtn').href = `https://wa.me/${waNormalized}?text=${waMsg}`;
-
-        modal.hidden = false;
-    }
-
-    // ====================================================
-    // LOGO PICKER & UPLOADER (Challenger / Immortal)
-    // ====================================================
-    function openLogoPicker(seed) {
-        activeLogoPickSeed = seed;
-        const modal = document.getElementById('rokLogoPickerModal');
-        const grid = document.getElementById('presetLogosGrid');
-        if (!modal || !grid) return;
-
-        const team = currentTournament?.teams?.find(t => t.seed === seed);
-        document.getElementById('logoPickerTitle').textContent = `Pilih Logo — ${team?.name || ('Tim #' + seed)}`;
-
-        grid.innerHTML = '';
-        presetLogos.forEach(logoPath => {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'preset-logo-option';
-            btn.innerHTML = `<img src="${logoPath}" alt="Emblem">`;
-            btn.addEventListener('click', () => {
-                applyLogoToSeed(seed, logoPath);
-                modal.hidden = true;
-            });
-            grid.appendChild(btn);
-        });
-
-        modal.hidden = false;
-    }
-
-    function applyLogoToSeed(seed, logoSrc) {
-        const card = document.querySelector(`.team-entry-card[data-seed="${seed}"]`);
-        const img = card?.querySelector('.team-entry-logo');
-        if (img) img.setAttribute('src', logoSrc);
-        updateTeamDataInPlace(seed);
-    }
-
-    // ====================================================
-    // REAL-TIME SERVER SYNC & POLLING
-    // ====================================================
-    function serializeCurrentState() {
-        if (!currentTournament) return null;
-        const scores = {};
-        currentTournament.matches.forEach(m => {
-            if (m.score1 !== null || m.score2 !== null) {
-                scores[m.id] = { score1: m.score1, score2: m.score2 };
-            }
-        });
-
-        return {
-            title: document.getElementById('tourneyName')?.value?.trim() || 'ROK Community Cup 2026',
-            format: currentTournament.format,
-            teamCount: currentTournament.teams.length,
-            teams: currentTournament.teams,
-            scores
+        tournamentState = {
+            title,
+            format,
+            teamCount: teams.length,
+            teams,
+            ...engine
         };
+
+        renderTournament(syncToServer);
     }
 
+    // ====================================================
+    // REAL-TIME SYNC ENGINE
+    // ====================================================
     function scheduleRealtimeSync() {
-        if (IS_READ_ONLY || isApplyingRemoteUpdate) return;
+        if (IS_READ_ONLY || isApplyingRemoteUpdate || !tournamentState) return;
         clearTimeout(syncDebounceTimer);
-        syncDebounceTimer = setTimeout(() => {
-            pushRealtimeStateToServer();
-        }, 350);
-    }
+        const pulse = document.getElementById('realtimePulseDot');
+        if (pulse) pulse.style.background = '#f59e0b';
 
-    async function pushRealtimeStateToServer() {
-        const payload = serializeCurrentState();
-        if (!payload) return;
-
-        const statusText = document.getElementById('realtimeStatusText');
-        const lastSyncEl = document.getElementById('realtimeLastSync');
-        if (statusText) statusText.textContent = 'MENYIMPAN & MENYINKRONKAN LIVE BRACKET...';
-
-        // Instant cross-tab sync
-        if (broadcastChannel) {
-            broadcastChannel.postMessage({ type: 'BRACKET_UPDATED', state: payload });
-        }
-
-        try {
-            const response = await fetch(SYNC_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': CSRF_TOKEN
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                lastKnownUpdatedAt = data.updated_at || new Date().toISOString();
-                if (statusText) statusText.textContent = 'LIVE REAL-TIME TERSINKRONISASI';
-                if (lastSyncEl) {
-                    const timeStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                    lastSyncEl.textContent = `Tersimpan otomatis pada ${timeStr} • Penonton melihat perubahan ini secara real-time.`;
+        syncDebounceTimer = setTimeout(async () => {
+            try {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                const resp = await fetch(SYNC_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken || ''
+                    },
+                    body: JSON.stringify({ state: tournamentState })
+                });
+                if (resp.ok) {
+                    if (pulse) pulse.style.background = '#22c55e';
+                    const lastSyncEl = document.getElementById('realtimeLastSync');
+                    if (lastSyncEl) {
+                        const now = new Date();
+                        lastSyncEl.textContent = `Tersinkronisasi real-time pada ${now.toLocaleTimeString('id-ID')}.`;
+                    }
                 }
+            } catch (err) {
+                console.error('Failed to sync bracket state:', err);
             }
-        } catch (err) {
-            console.warn('Live sync warning:', err);
-        }
+        }, 600);
     }
 
-    function applyRemoteBracketState(remoteState, updatedAt = null) {
-        if (!remoteState || typeof remoteState !== 'object') return;
-        isApplyingRemoteUpdate = true;
-
-        try {
-            const nameInput = document.getElementById('tourneyName');
-            const formatSelect = document.getElementById('tourneyFormat');
-            const countInput = document.getElementById('teamCountInput');
-            const countSelect = document.getElementById('teamCountSelect');
-
-            if (nameInput && remoteState.title) nameInput.value = remoteState.title;
-            if (formatSelect && remoteState.format) formatSelect.value = remoteState.format;
-
-            const tCount = Number(remoteState.teamCount || remoteState.teams?.length || 8);
-            if (countInput) countInput.value = String(tCount);
-            if (countSelect && [4, 6].includes(tCount)) countSelect.value = String(tCount);
-
-            savedScoresMap = remoteState.scores || {};
-
-            syncTeamCountOptions();
-            renderTeamInputs(remoteState.teams || null);
-            buildTournament(false);
-
-            if (updatedAt) {
-                lastKnownUpdatedAt = updatedAt;
-                const lastSyncEl = document.getElementById('realtimeLastSync');
-                if (lastSyncEl) {
-                    const timeStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                    lastSyncEl.textContent = `Diperbarui secara real-time pada ${timeStr}`;
+    function startAutoPolling() {
+        if (!IS_READ_ONLY) return;
+        autoPollTimer = setInterval(async () => {
+            try {
+                const resp = await fetch(STATE_API_URL, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (resp.ok) {
+                    const data = await resp.json();
+                    if (data && data.state && JSON.stringify(data.state) !== JSON.stringify(tournamentState)) {
+                        isApplyingRemoteUpdate = true;
+                        tournamentState = data.state;
+                        renderTournament(false);
+                        isApplyingRemoteUpdate = false;
+                        const pulse = document.getElementById('realtimePulseDot');
+                        if (pulse) {
+                            pulse.style.background = '#38bdf8';
+                            setTimeout(() => { pulse.style.background = '#22c55e'; }, 1000);
+                        }
+                    }
                 }
+            } catch (err) {
+                // Silently handle offline/poll errors
             }
-        } finally {
-            isApplyingRemoteUpdate = false;
-        }
+        }, 4000);
     }
 
-    async function pollServerState() {
-        try {
-            const res = await fetch(STATE_API_URL + '?_t=' + Date.now(), {
-                headers: { 'Accept': 'application/json' },
-                cache: 'no-store'
-            });
-            if (!res.ok) return;
-            const data = await res.json();
-            if (data.updated_at && data.updated_at !== lastKnownUpdatedAt && data.bracket_state) {
-                // Avoid overwriting if user is actively typing inside an input
-                const activeTag = document.activeElement?.tagName;
-                if (!IS_READ_ONLY && (activeTag === 'INPUT' || activeTag === 'SELECT')) return;
-                applyRemoteBracketState(data.bracket_state, data.updated_at);
-            }
-        } catch (err) {
-            // Silent retry on next interval
-        }
-    }
-
-    // Initialize on DOMContentLoaded
+    // ====================================================
+    // INITIALIZATION & EVENT LISTENERS
+    // ====================================================
     document.addEventListener('DOMContentLoaded', () => {
-        if (INITIAL_SERVER_STATE && typeof INITIAL_SERVER_STATE === 'object') {
-            applyRemoteBracketState(INITIAL_SERVER_STATE, INITIAL_SERVER_STATE.updatedAt || null);
-        } else {
-            syncTeamCountOptions();
-            renderTeamInputs();
-            buildTournament(false);
-        }
+        // Modal close buttons
+        document.getElementById('closeTeamModalBtn')?.addEventListener('click', closeTeamModal);
+        document.getElementById('closeTeamModalBackdrop')?.addEventListener('click', closeTeamModal);
+        document.getElementById('closeLogoPickerBtn')?.addEventListener('click', closeLogoPicker);
+        document.getElementById('closeLogoPickerBackdrop')?.addEventListener('click', closeLogoPicker);
 
-        document.getElementById('tourneyFormat')?.addEventListener('change', () => {
-            savedScoresMap = {};
-            syncTeamCountOptions();
-            renderTeamInputs();
-            buildTournament(true);
-        });
-
-        document.getElementById('teamCountInput')?.addEventListener('input', () => {
-            savedScoresMap = {};
-            renderTeamInputs();
-            buildTournament(true);
-        });
-
-        document.getElementById('teamCountSelect')?.addEventListener('change', () => {
-            savedScoresMap = {};
-            renderTeamInputs();
-            buildTournament(true);
-        });
-
-        document.getElementById('tourneyName')?.addEventListener('input', () => {
-            const titleBanner = document.getElementById('outputTourneyTitle');
-            if (titleBanner) titleBanner.textContent = document.getElementById('tourneyName').value || 'ROK Community Cup';
-            scheduleRealtimeSync();
-        });
-
-        document.getElementById('generateBracketBtn')?.addEventListener('click', () => {
-            buildTournament(true);
-        });
-
-        document.getElementById('resetScoresBtn')?.addEventListener('click', () => {
-            savedScoresMap = {};
-            buildTournament(true);
-        });
-
-        // Copy Shareable Link Button
+        // Copy Share Link Button
         document.getElementById('copyShareLinkBtn')?.addEventListener('click', () => {
-            const urlInput = document.getElementById('shareBracketUrlInput');
-            if (!urlInput) return;
-            urlInput.select();
-            navigator.clipboard?.writeText(urlInput.value);
-            const btn = document.getElementById('copyShareLinkBtn');
-            const prev = btn.innerHTML;
-            btn.innerHTML = '&#10003; Link Tersalin!';
-            setTimeout(() => { btn.innerHTML = prev; }, 2000);
+            const input = document.getElementById('shareBracketUrlInput');
+            if (input) {
+                input.select();
+                navigator.clipboard.writeText(input.value);
+                const btn = document.getElementById('copyShareLinkBtn');
+                if (btn) {
+                    btn.textContent = '✓ Link Tersalin!';
+                    setTimeout(() => { btn.textContent = '📋 Salin Link Live'; }, 2000);
+                }
+            }
         });
 
-        // Modal Close Handlers
-        document.getElementById('closeTeamModalBtn')?.addEventListener('click', () => {
-            document.getElementById('rokTeamModal').hidden = true;
-        });
-        document.getElementById('rokTeamModal')?.addEventListener('click', (e) => {
-            if (e.target.id === 'rokTeamModal') e.target.hidden = true;
-        });
-
-        document.getElementById('closeLogoPickerBtn')?.addEventListener('click', () => {
-            document.getElementById('rokLogoPickerModal').hidden = true;
-        });
-        document.getElementById('rokLogoPickerModal')?.addEventListener('click', (e) => {
-            if (e.target.id === 'rokLogoPickerModal') e.target.hidden = true;
-        });
-
-        // Custom Logo File Upload -> Data URI so it persists everywhere including Vercel
+        // Custom Logo File Input (Data URI for universal support)
         document.getElementById('customLogoFileInput')?.addEventListener('change', (e) => {
             const file = e.target.files?.[0];
-            if (!file || !activeLogoPickSeed) return;
+            if (!file) return;
             const reader = new FileReader();
-            reader.onload = (ev) => {
-                if (ev.target?.result) {
-                    applyLogoToSeed(activeLogoPickSeed, String(ev.target.result));
-                    document.getElementById('rokLogoPickerModal').hidden = true;
+            reader.onload = (event) => {
+                if (selectedSeedForLogo && event.target?.result) {
+                    applyTeamLogo(selectedSeedForLogo, event.target.result);
+                    closeLogoPicker();
                 }
             };
             reader.readAsDataURL(file);
         });
 
-        // BroadcastChannel listener for instant cross-tab updates
-        if (broadcastChannel) {
-            broadcastChannel.onmessage = (event) => {
-                if (event.data?.type === 'BRACKET_UPDATED' && event.data.state) {
-                    applyRemoteBracketState(event.data.state, new Date().toISOString());
+        if (!IS_READ_ONLY) {
+            const formatSelect = document.getElementById('tourneyFormat');
+            const teamCountInput = document.getElementById('teamCountInput');
+            const teamCountSelect = document.getElementById('teamCountSelect');
+            const generateBtn = document.getElementById('generateBracketBtn');
+            const resetBtn = document.getElementById('resetScoresBtn');
+
+            formatSelect?.addEventListener('change', () => {
+                syncTeamCountOptions();
+                renderTeamInputs();
+                buildTournament(true);
+            });
+
+            teamCountInput?.addEventListener('input', () => {
+                renderTeamInputs();
+                buildTournament(true);
+            });
+
+            teamCountSelect?.addEventListener('change', () => {
+                renderTeamInputs();
+                buildTournament(true);
+            });
+
+            generateBtn?.addEventListener('click', () => {
+                buildTournament(true);
+            });
+
+            resetBtn?.addEventListener('click', () => {
+                if (confirm('Reset seluruh skor pertandingan turnamen ini?')) {
+                    if (tournamentState && tournamentState.matches) {
+                        tournamentState.matches.forEach(m => {
+                            m.score1 = null;
+                            m.score2 = null;
+                            m.winner = null;
+                            m.loser = null;
+                        });
+                        renderTournament(true);
+                    }
                 }
-            };
+            });
         }
 
-        // Poll server every 2.5 seconds for real-time updates across devices/users
-        setInterval(pollServerState, 2500);
+        // Initialize state
+        if (INITIAL_SERVER_STATE && INITIAL_SERVER_STATE.teams && INITIAL_SERVER_STATE.matches) {
+            tournamentState = INITIAL_SERVER_STATE;
+            if (!IS_READ_ONLY) {
+                const formatSelect = document.getElementById('tourneyFormat');
+                const titleInput = document.getElementById('tourneyName');
+                const teamCountInput = document.getElementById('teamCountInput');
+                const teamCountSelect = document.getElementById('teamCountSelect');
+
+                if (formatSelect) formatSelect.value = tournamentState.format || 'single';
+                if (titleInput) titleInput.value = tournamentState.title || '';
+                if (tournamentState.format === 'double' && teamCountSelect) {
+                    teamCountSelect.value = String(tournamentState.teamCount || 6);
+                } else if (teamCountInput) {
+                    teamCountInput.value = String(tournamentState.teamCount || 8);
+                }
+                syncTeamCountOptions();
+                renderTeamInputs(tournamentState.teams);
+            }
+            renderTournament(false);
+        } else {
+            syncTeamCountOptions();
+            renderTeamInputs();
+            buildTournament(false);
+        }
+
+        if (IS_READ_ONLY) {
+            startAutoPolling();
+        }
+
+        window.addEventListener('resize', () => {
+            requestAnimationFrame(drawAllBracketArrows);
+        });
     });
 })();
 </script>
