@@ -9,35 +9,37 @@
 <div class="rok-bracket-workspace" id="rokBracketWorkspace" data-slug="{{ $activeSlug }}" data-readonly="{{ $isReadOnly ? '1' : '0' }}" data-logo-access="{{ $hasLogoAccess ? '1' : '0' }}">
 
     {{-- Top Live Sync & Shareable Link Bar --}}
-    <div class="bracket-realtime-bar">
-        <div class="bracket-realtime-bar__status">
-            <span class="realtime-pulse-dot" id="realtimePulseDot"></span>
+    <div class="bracket-realtime-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 14px 20px; margin-bottom: 24px; border-radius: var(--radius-md);">
+        <div class="bracket-realtime-bar__status" style="display: flex; align-items: center; gap: 12px; flex: 1 1 280px; min-width: 240px;">
+            <span class="realtime-pulse-dot" id="realtimePulseDot" style="flex-shrink: 0;"></span>
             <div>
-                <strong class="realtime-status-title" id="realtimeStatusText">
+                <strong class="realtime-status-title" id="realtimeStatusText" style="display: block; font-size: 13px; letter-spacing: 0.6px;">
                     {{ $isReadOnly ? 'LIVE REAL-TIME VIEWER MODE (AUTO-SYNC)' : 'REAL-TIME BRACKET ENGINE AKTIF' }}
                 </strong>
-                <span class="realtime-status-sub" id="realtimeLastSync">
+                <span class="realtime-status-sub" id="realtimeLastSync" style="font-size: 12px; color: var(--rok-muted-light); display: block;">
                     Perubahan skor, tim, dan poin otomatis tersinkronisasi secara real-time ke penonton live.
                 </span>
             </div>
         </div>
 
-        <div class="bracket-realtime-bar__actions">
-            <div class="share-url-box">
-                <span class="share-url-label">&#x1F517; Link Live Bracket:</span>
-                <input type="text" id="shareBracketUrlInput" class="share-url-input" value="{{ $shareUrl }}" readonly onclick="this.select()">
+        <div class="bracket-realtime-bar__actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex: 1 1 auto; justify-content: flex-end;">
+            <div class="share-url-box" style="display: flex; align-items: center; gap: 8px; flex: 1 1 280px; max-width: 440px;">
+                <span class="share-url-label" style="font-size: 12px; font-weight: 700; white-space: nowrap; flex-shrink: 0;">&#x1F517; Link Live:</span>
+                <input type="text" id="shareBracketUrlInput" class="share-url-input" value="{{ $shareUrl }}" readonly onclick="this.select()" style="width: 100%; min-width: 180px; font-size: 12px; padding: 7px 11px;">
             </div>
-            <button type="button" class="btn-rok btn-rok--gold btn-rok--sm" id="copyShareLinkBtn">
-                &#x1F4CB; Salin Link Live
-            </button>
-            <a href="https://wa.me/?text={{ urlencode('Pantau Live Bracket Turnamen secara Real-Time di ROK Web: ' . $shareUrl) }}" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--outline btn-rok--sm" id="waShareLinkBtn">
-                &#x1F4AC; Share WA
-            </a>
-            @if (!$isReadOnly)
-                <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" title="Buka tampilan penonton di tab baru">
-                    &#x1F441; Buka Live View &nearr;
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <button type="button" class="btn-rok btn-rok--gold btn-rok--sm" id="copyShareLinkBtn" style="white-space: nowrap;">
+                    &#x1F4CB; Salin Link Live
+                </button>
+                <a href="https://wa.me/?text={{ urlencode('Pantau Live Bracket Turnamen secara Real-Time di ROK Web: ' . $shareUrl) }}" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--outline btn-rok--sm" id="waShareLinkBtn" style="white-space: nowrap;">
+                    &#x1F4AC; Share WA
                 </a>
-            @endif
+                @if (!$isReadOnly)
+                    <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" title="Buka tampilan penonton di tab baru" style="white-space: nowrap;">
+                        &#x1F441; Buka Live View &nearr;
+                    </a>
+                @endif
+            </div>
         </div>
     </div>
 
@@ -989,11 +991,12 @@
 
         // Auto-advance slot (Single Elimination BYE)
         if (match.autoAdvance) {
-            const row = document.createElement('div');
-            row.className = 'gen-team-row is-winner';
+            const topRow = document.createElement('div');
+            topRow.className = 'gen-team-row is-winner';
+            topRow.style.cssText = 'border-bottom:none;padding:3px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;';
 
             const infoWrap = document.createElement('div');
-            infoWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;';
+            infoWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;overflow:hidden;';
 
             if (a) {
                 const logoBtn = document.createElement('button');
@@ -1007,16 +1010,22 @@
 
             const name = document.createElement('span');
             name.className = 'gen-team-name';
+            name.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700;flex:1 1 auto;min-width:0;';
             name.textContent = a ? a.name : 'TBD';
             infoWrap.appendChild(name);
 
-            const advBadge = document.createElement('span');
-            advBadge.className = 'badge-auto-advance';
-            advBadge.style.cssText = 'background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid #22c55e;font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px;white-space:nowrap;';
-            advBadge.textContent = 'Lolos Otomatis ke Babak Berikutnya';
+            const byeBadge = document.createElement('span');
+            byeBadge.style.cssText = 'font-size:10px;font-weight:800;color:#22c55e;background:rgba(34,197,94,0.14);padding:2px 6px;border-radius:4px;flex-shrink:0;letter-spacing:0.5px;';
+            byeBadge.textContent = 'BYE';
 
-            row.append(infoWrap, advBadge);
-            card.appendChild(row);
+            topRow.append(infoWrap, byeBadge);
+
+            const advBadge = document.createElement('div');
+            advBadge.className = 'badge-auto-advance';
+            advBadge.style.cssText = 'background:rgba(34,197,94,0.1);color:#16a34a;border:1px solid rgba(34,197,94,0.25);font-size:11px;font-weight:700;padding:4px 8px;border-radius:4px;text-align:center;width:100%;box-sizing:border-box;margin-top:4px;';
+            advBadge.textContent = '✓ Lolos Otomatis ke Babak Berikutnya';
+
+            card.append(topRow, advBadge);
             return card;
         }
 
@@ -1026,7 +1035,7 @@
             row.className = `gen-team-row ${isWinner ? 'is-winner' : ''}`;
 
             const infoWrap = document.createElement('div');
-            infoWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;';
+            infoWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;overflow:hidden;';
 
             if (team) {
                 const logoBtn = document.createElement('button');
@@ -1040,6 +1049,7 @@
 
             const name = document.createElement('span');
             name.className = 'gen-team-name';
+            name.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1 1 auto;';
             name.textContent = team ? team.name : 'TBD';
             infoWrap.appendChild(name);
 

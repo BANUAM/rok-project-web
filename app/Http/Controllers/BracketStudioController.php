@@ -33,8 +33,13 @@ class BracketStudioController extends Controller
 
         // Ensure at least one tournament exists for immediate exploration
         if ($myTournaments->isEmpty()) {
-            $defaultTourney = $this->ensureDefaultTournament($user->id, $user->name);
-            $myTournaments = collect([$defaultTourney]);
+            $anyTourney = Tournament::withCount(['teams', 'matches'])->latest('updated_at')->first();
+            if ($anyTourney) {
+                $myTournaments = collect([$anyTourney]);
+            } else {
+                $defaultTourney = $this->ensureDefaultTournament($user->id, $user->name);
+                $myTournaments = collect([$defaultTourney]);
+            }
         }
 
         return view('bracket-studio.index', [
@@ -297,11 +302,21 @@ class BracketStudioController extends Controller
 
     protected function ensureDefaultTournament(?int $userId, string $organizerName): Tournament
     {
+        $existing = Tournament::where('slug', 'rok-invitational-season-1')->first();
+        if ($existing) {
+            return $existing;
+        }
+
+        $baseSlug = 'rok-invitational-season-1';
+        $slug = Tournament::where('slug', $baseSlug)->exists()
+            ? $baseSlug . '-' . strtolower(Str::random(5))
+            : $baseSlug;
+
         $teams = $this->defaultTeamsPayload(8);
         return Tournament::create([
             'user_id' => $userId,
             'name' => 'ROK National Invitational Season 1',
-            'slug' => 'rok-invitational-season-1',
+            'slug' => $slug,
             'format' => 'single_elimination',
             'team_count' => 8,
             'banner_path' => 'tournaments/tourney-banner.svg',

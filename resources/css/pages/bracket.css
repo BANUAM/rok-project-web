@@ -243,6 +243,9 @@
 .gen-team-name {
     font-size: 13px;
     color: #e2e8f0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .gen-score-input {
@@ -433,7 +436,9 @@
 .gen-team-name {
     min-width: 0;
     flex: 1 1 auto;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     line-height: 1.45;
 }
 
