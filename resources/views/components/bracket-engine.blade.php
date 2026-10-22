@@ -180,7 +180,7 @@
             </div>
 
             <div class="generated-tree-deck" id="generatedTreeDeck" style="position: relative; overflow: auto; padding: 16px 12px 24px 12px;">
-                <div class="bracket-zoom-canvas" id="bracketZoomCanvas" style="display: flex; gap: 26px; min-width: max-content; width: fit-content; align-items: stretch; transform-origin: 0 0; transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);">
+                <div class="bracket-zoom-canvas" id="bracketZoomCanvas" style="display: flex; gap: 26px; min-width: max-content; width: fit-content; height: max-content; align-self: flex-start; align-items: stretch; transform-origin: 0 0; transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);">
                     {{-- Rendered Bracket Tree using native .gen-* classes + SVG tournament lines --}}
                 </div>
             </div>
@@ -1573,21 +1573,25 @@
             canvas.style.transform = `scale(${currentZoom})`;
             canvas.style.transformOrigin = '0 0';
 
-            const baseW = canvas.scrollWidth;
-            const baseH = canvas.scrollHeight;
-            const scaledH = Math.round(baseH * currentZoom);
-            const scaledW = Math.round(baseW * currentZoom);
+            const baseW = canvas.offsetWidth;
+            const baseH = canvas.offsetHeight;
 
-            // Dynamically fit deck height so container hugs content snugly without massive empty void
-            deck.style.height = `${scaledH + 36}px`;
-
-            if (currentZoom > 1) {
-                canvas.style.marginBottom = `${Math.max(0, scaledH - baseH + 20)}px`;
-                canvas.style.marginRight = `${Math.max(0, scaledW - baseW + 20)}px`;
+            if (currentZoom < 1) {
+                const pullH = Math.round(baseH * (1 - currentZoom));
+                const pullW = Math.round(baseW * (1 - currentZoom));
+                canvas.style.marginBottom = `-${pullH}px`;
+                canvas.style.marginRight = `-${pullW}px`;
+            } else if (currentZoom > 1) {
+                const pushH = Math.round(baseH * (currentZoom - 1));
+                const pushW = Math.round(baseW * (currentZoom - 1));
+                canvas.style.marginBottom = `${pushH + 24}px`;
+                canvas.style.marginRight = `${pushW + 24}px`;
             } else {
                 canvas.style.marginBottom = '0px';
                 canvas.style.marginRight = '0px';
             }
+
+            deck.style.height = '';
         }
     }
 
