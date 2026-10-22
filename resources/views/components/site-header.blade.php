@@ -42,7 +42,7 @@
                     <button type="submit" class="site-nav__link site-nav__logout-btn">Keluar</button>
                 </form>
             @else
-                <a href="{{ route('login') }}" class="site-nav__link {{ request()->routeIs('login') ? 'is-active' : '' }}" style="color: var(--rok-gold);">Masuk</a>
+                <a href="{{ route('login') }}" class="site-nav__link site-nav__link--login {{ request()->routeIs('login') ? 'is-active' : '' }}">Masuk</a>
             @endauth
 
             {{-- Global Dark / Light Theme Toggle --}}

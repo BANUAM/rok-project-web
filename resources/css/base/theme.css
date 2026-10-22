@@ -117,28 +117,63 @@ html[data-theme="light"] h6 {
     color: #0f172a;
 }
 
-/* Navbar & Footer in Light Mode */
+/* Navbar & Footer in Light Mode — Translucent Frosted Glass & Outlines */
 html[data-theme="light"] .site-nav {
-    background: rgba(255, 255, 255, 0.96) !important;
-    border-bottom: 1px solid #cbd5e1 !important;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+    background: rgba(255, 255, 255, 0.78) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06), inset 0 -1px 0 rgba(180, 83, 9, 0.08) !important;
+}
+
+html[data-theme="light"] .site-nav__logo {
+    background: rgba(180, 83, 9, 0.06);
+    border-color: rgba(180, 83, 9, 0.25);
+    box-shadow: 0 0 12px rgba(180, 83, 9, 0.08);
 }
 
 html[data-theme="light"] .site-nav__brand-name {
-    color: #0f172a !important;
+    background: linear-gradient(135deg, #0f172a 0%, #b45309 80%, #92400e 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
 }
 
 html[data-theme="light"] .site-nav__brand-sub {
-    color: #475569 !important;
+    color: #64748b !important;
 }
 
 html[data-theme="light"] .site-nav__link {
-    color: #334155 !important;
+    color: #475569 !important;
 }
 
-html[data-theme="light"] .site-nav__link:hover,
+html[data-theme="light"] .site-nav__link:hover {
+    color: #0f172a !important;
+    background: rgba(0, 0, 0, 0.04) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
 html[data-theme="light"] .site-nav__link.is-active {
     color: #0f172a !important;
+    background: rgba(180, 83, 9, 0.08) !important;
+    border-color: rgba(180, 83, 9, 0.3) !important;
+    box-shadow: 0 0 14px rgba(180, 83, 9, 0.12) !important;
+}
+
+html[data-theme="light"] .site-nav__link.is-active::after {
+    background: linear-gradient(90deg, transparent 0%, #b45309 50%, transparent 100%) !important;
+    box-shadow: 0 0 6px #b45309 !important;
+}
+
+html[data-theme="light"] .site-nav__link--login {
+    color: #b45309 !important;
+    background: rgba(180, 83, 9, 0.08) !important;
+    border-color: rgba(180, 83, 9, 0.4) !important;
+}
+
+html[data-theme="light"] .site-nav__link--login:hover {
+    background: rgba(180, 83, 9, 0.16) !important;
+    border-color: #b45309 !important;
+    color: #78350f !important;
 }
 
 html[data-theme="light"] .site-nav__link--studio {
@@ -147,10 +182,36 @@ html[data-theme="light"] .site-nav__link--studio {
     color: #b45309 !important;
 }
 
+html[data-theme="light"] .site-nav__user-pill {
+    background: rgba(0, 0, 0, 0.04) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: #0f172a !important;
+}
+
 html[data-theme="light"] .theme-toggle-btn {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-    color: #0f172a;
+    background: rgba(0, 0, 0, 0.04) !important;
+    border-color: rgba(0, 0, 0, 0.12) !important;
+    color: #1e293b !important;
+}
+
+html[data-theme="light"] .theme-toggle-btn:hover {
+    background: rgba(0, 0, 0, 0.08) !important;
+    border-color: #b45309 !important;
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .site-nav__links {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+html[data-theme="light"] .site-nav__hamburger {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+html[data-theme="light"] .site-nav__hamburger span {
+    background: #334155;
 }
 
 html[data-theme="light"] .site-footer {

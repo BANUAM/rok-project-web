@@ -1,18 +1,19 @@
 /* =========================================
-   ROK NAVBAR — Logo left, Links right
-   No underline, No login button
+   ROK NAVBAR — Luxury Modern Frosted Glass & Outline
+   Transparent backdrop-filter, sleek outlines, glowing active pill
 ========================================= */
 
 .site-nav {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
     width: 100%;
-    background: rgba(10, 12, 18, 0.96);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.18);
-    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
+    background: rgba(10, 14, 24, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.35), inset 0 -1px 0 rgba(212, 175, 55, 0.12);
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .site-nav__inner {
@@ -20,11 +21,11 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 1380px;
-    min-height: 64px;
+    max-width: 1400px;
+    min-height: 68px;
     margin: 0 auto;
-    padding: 0 28px;
-    gap: 24px;
+    padding: 0 32px;
+    gap: 20px;
 }
 
 /* ---- Brand ---- */
@@ -34,16 +35,29 @@
     gap: 12px;
     text-decoration: none !important;
     flex-shrink: 0;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.site-nav__brand:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
 }
 
 .site-nav__logo {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     object-fit: contain;
-    border-radius: 6px;
-    /* If logo doesn't load, show a gold-bordered placeholder */
+    border-radius: 9px;
     background: rgba(212, 175, 55, 0.08);
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.12);
+    padding: 2px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.site-nav__brand:hover .site-nav__logo {
+    border-color: rgba(251, 191, 36, 0.55);
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.25);
 }
 
 .site-nav__brand-text {
@@ -54,18 +68,20 @@
 
 .site-nav__brand-name {
     font-family: var(--font-heading);
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 900;
     letter-spacing: 3px;
-    color: var(--rok-gold);
+    background: linear-gradient(135deg, #ffffff 0%, #fbbf24 60%, #d97706 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-transform: uppercase;
 }
 
 .site-nav__brand-sub {
     font-family: var(--font-sub);
     font-size: 10px;
-    font-weight: 600;
-    color: var(--rok-silver);
+    font-weight: 700;
+    color: rgba(203, 213, 225, 0.7);
     letter-spacing: 2px;
     text-transform: uppercase;
 }
@@ -74,46 +90,149 @@
 .site-nav__links {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
 }
 
 .site-nav__link {
     position: relative;
-    color: #cbd5e1;
+    color: rgba(226, 232, 240, 0.78);
     font-family: var(--font-sub);
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
     text-decoration: none !important;
     border-bottom: none !important;
     padding: 8px 14px;
-    border-radius: var(--radius-sm);
-    transition: color 200ms ease, background 200ms ease;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
 }
 
 .site-nav__link:hover {
-    color: var(--rok-gold);
-    text-decoration: none !important;
-    background: rgba(212, 175, 55, 0.07);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
 }
 
+/* Active Link: Elegant glowing pill with clean outline & subtle gradient */
 .site-nav__link.is-active {
-    color: var(--rok-gold);
-    text-decoration: none !important;
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.16) 0%, rgba(212, 175, 55, 0.05) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.38);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .site-nav__link.is-active::after {
     content: '';
     position: absolute;
     bottom: -1px;
-    left: 14px;
-    right: 14px;
+    left: 20%;
+    right: 20%;
     height: 2px;
-    background: var(--rok-gold);
-    box-shadow: 0 0 6px var(--rok-gold);
-    border-radius: 2px;
+    background: linear-gradient(90deg, transparent 0%, #fbbf24 50%, transparent 100%);
+    box-shadow: 0 0 8px #fbbf24;
+    border-radius: 999px;
+}
+
+/* Login Button Outlined Glass Pill */
+.site-nav__link--login {
+    color: #fbbf24 !important;
+    background: rgba(251, 191, 36, 0.08);
+    border: 1px solid rgba(251, 191, 36, 0.38);
+    border-radius: 999px;
+    padding: 7px 18px !important;
+    margin-left: 6px;
+    box-shadow: 0 0 14px rgba(251, 191, 36, 0.12);
+}
+
+.site-nav__link--login:hover {
+    background: rgba(251, 191, 36, 0.2) !important;
+    border-color: #fbbf24 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.32);
+    transform: translateY(-1px);
+}
+
+/* Studio Access Link Pill */
+.site-nav__link--studio {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.18) 0%, rgba(217, 119, 6, 0.12) 100%);
+    border: 1px solid rgba(251, 191, 36, 0.5);
+    color: #fbbf24 !important;
+    padding: 6px 14px !important;
+    border-radius: 999px;
+    font-weight: 800 !important;
+    box-shadow: 0 0 16px rgba(251, 191, 36, 0.16);
+}
+
+.site-nav__link--studio:hover {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.3) 0%, rgba(217, 119, 6, 0.22) 100%);
+    border-color: #fbbf24;
+    box-shadow: 0 0 22px rgba(251, 191, 36, 0.35);
+}
+
+/* User Pill & Tier Tag */
+.site-nav__user-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #e2e8f0 !important;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+.site-nav__logout-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: rgba(203, 213, 225, 0.65);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 7px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.site-nav__logout-btn:hover {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.25);
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    padding: 6px 14px;
+    color: #e2e8f0;
+    font-family: var(--font-sub);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-left: 6px;
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(251, 191, 36, 0.5);
+    box-shadow: 0 0 16px rgba(251, 191, 36, 0.2);
+    transform: translateY(-1px);
+    color: #ffffff;
 }
 
 /* ---- Hamburger (mobile) ---- */
@@ -121,23 +240,30 @@
     display: none;
     flex-direction: column;
     gap: 5px;
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
     cursor: pointer;
-    padding: 6px;
+    padding: 8px 10px;
     flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.site-nav__hamburger:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(251, 191, 36, 0.4);
 }
 
 .site-nav__hamburger span {
     display: block;
-    width: 24px;
+    width: 22px;
     height: 2px;
     background: #e2e8f0;
     border-radius: 2px;
     transition: all 250ms ease;
 }
 
-/* ---- Mobile ---- */
+/* ---- Mobile Responsive ---- */
 @media (max-width: 900px) {
     .site-nav__hamburger {
         display: flex;
@@ -146,15 +272,18 @@
     .site-nav__links {
         display: none;
         position: absolute;
-        top: 64px;
+        top: 68px;
         left: 0;
         right: 0;
         flex-direction: column;
         align-items: stretch;
-        background: rgba(10, 12, 18, 0.98);
-        border-bottom: 1px solid rgba(212, 175, 55, 0.18);
-        padding: 12px 20px 20px;
-        gap: 2px;
+        background: rgba(10, 14, 24, 0.94);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 16px 20px 24px;
+        gap: 6px;
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
         z-index: 99;
     }
 
@@ -165,22 +294,35 @@
     .site-nav__link {
         font-size: 15px;
         padding: 12px 16px;
+        border-radius: 8px;
     }
 
     .site-nav__link.is-active::after {
-        bottom: 4px;
-        left: 16px;
-        right: 16px;
+        display: none;
+    }
+
+    .theme-toggle-btn {
+        margin-left: 0;
+        margin-top: 8px;
+        justify-content: center;
+    }
+
+    .site-nav__link--login {
+        margin-left: 0;
+        margin-top: 4px;
+        text-align: center;
+        justify-content: center;
     }
 }
 
 @media (max-width: 480px) {
     .site-nav__inner {
         padding: 0 16px;
+        min-height: 60px;
     }
 
     .site-nav__brand-name {
-        font-size: 18px;
+        font-size: 20px;
     }
 
     .site-nav__brand-sub {
