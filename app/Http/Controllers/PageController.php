@@ -95,16 +95,46 @@ class PageController extends Controller
         return view('pages.bracket', compact('tournaments', 'activeTournament', 'pageHeader', 'membershipPlans'));
     }
 
-    public function bracketFree(): View
+    public function bracketFree(Request $request): View
     {
-        $tournaments = Tournament::query()
-            ->with(['teams', 'matches.team1', 'matches.team2', 'matches.winner'])
-            ->latest()
-            ->get();
+        $sessionSlug = $request->session()->get('free_tournament_slug');
+        $freeTournament = null;
 
-        $activeTournament = $tournaments->firstWhere('status', 'live') ?? $tournaments->first();
+        if ($sessionSlug) {
+            $freeTournament = Tournament::where('slug', $sessionSlug)->first();
+        }
+
+        if (!$freeTournament) {
+            $freeTournament = Tournament::where('tier_required', 'free')->first();
+        }
+
+        if (!$freeTournament) {
+            $defaultTeams = (new \App\Http\Controllers\BracketStudioController())->defaultTeamsPayload(8);
+            $freeTournament = Tournament::create([
+                'name' => 'ROK Free Community Tournament',
+                'slug' => 'rok-free-tournament',
+                'format' => 'single_elimination',
+                'team_count' => 8,
+                'status' => 'live',
+                'organizer_name' => 'Komunitas ROK Web',
+                'tier_required' => 'free',
+                'is_public' => true,
+                'bracket_state' => [
+                    'title' => 'ROK Free Community Tournament',
+                    'format' => 'single',
+                    'teamCount' => 8,
+                    'teams' => $defaultTeams,
+                    'scores' => [],
+                    'updatedAt' => now()->toIso8601String(),
+                ],
+            ]);
+        }
+
+        $request->session()->put('free_tournament_slug', $freeTournament->slug);
+        $activeTournament = $freeTournament;
         $pageHeader = PageHeader::where('page_key', 'bracket')->where('is_active', true)->first();
         $membershipPlans = MembershipPlan::where('is_active', true)->orderBy('sort_order')->get();
+        $tournaments = Tournament::where('tier_required', 'free')->get();
 
         return view('pages.bracket-free', compact('tournaments', 'activeTournament', 'pageHeader', 'membershipPlans'));
     }

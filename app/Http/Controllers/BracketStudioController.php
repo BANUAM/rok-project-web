@@ -193,43 +193,106 @@ class BracketStudioController extends Controller
     }
 
     /**
-     * Public Pra-Tournament Check-in Portal (/bracket/pra-tournament/{slug})
-     * Allows team captains to claim 1 vacant slot, input their team name, WhatsApp, and logo.
+     * Dedicated Pra-Tournament Free Portal (/bracket/pra-tournament-free/{slug?})
+     * No logo input button allowed.
      */
-    public function praTournament(string $slug): View
+    public function praTournamentFree(Request $request, ?string $slug = null): View
+    {
+        if (empty($slug)) {
+            $slug = $request->session()->get('free_tournament_slug');
+        }
+
+        $tournament = null;
+        if ($slug) {
+            $tournament = Tournament::with(['teams', 'matches'])->where('slug', $slug)->first();
+        }
+
+        if (!$tournament) {
+            $tournament = Tournament::where('tier_required', 'free')->first();
+        }
+
+        if (!$tournament) {
+            $defaultTeams = $this->defaultTeamsPayload(8);
+            $tournament = Tournament::create([
+                'name' => 'ROK Free Community Tournament',
+                'slug' => 'rok-free-tournament',
+                'format' => 'single_elimination',
+                'team_count' => 8,
+                'status' => 'live',
+                'organizer_name' => 'Komunitas ROK Web',
+                'tier_required' => 'free',
+                'is_public' => true,
+                'bracket_state' => [
+                    'title' => 'ROK Free Community Tournament',
+                    'format' => 'single',
+                    'teamCount' => 8,
+                    'teams' => $defaultTeams,
+                    'scores' => [],
+                    'updatedAt' => now()->toIso8601String(),
+                ],
+            ]);
+        }
+
+        return $this->renderPraTournamentView($request, $tournament, true);
+    }
+
+    /**
+     * Dedicated Pra-Tournament Membership Portal (/bracket/pra-tournament-membership/{slug})
+     * With custom logo input button for Challenger & Immortal.
+     */
+    public function praTournamentMembership(Request $request, string $slug): View
     {
         $tournament = Tournament::with(['teams', 'matches'])->where('slug', $slug)->firstOrFail();
+        return $this->renderPraTournamentView($request, $tournament, false);
+    }
 
-        if (empty($tournament->bracket_state) || empty($tournament->bracket_state['teams'])) {
-            $defaultTeams = $this->defaultTeamsPayload($tournament->team_count ?: 8);
+    /**
+     * Public Pra-Tournament Check-in Portal (/bracket/pra-tournament/{slug})
+     * Auto-detects free or membership mode.
+     */
+    public function praTournament(Request $request, string $slug): View
+    {
+        $tournament = Tournament::with(['teams', 'matches'])->where('slug', $slug)->firstOrFail();
+        $isFree = ($tournament->tier_required === 'free');
+        return $this->renderPraTournamentView($request, $tournament, $isFree);
+    }
+
+    protected function renderPraTournamentView(Request $request, Tournament $tournament, bool $isFreeMode): View
+    {
+        $bracketState = $tournament->bracket_state ?? [];
+        $teams = $bracketState['teams'] ?? [];
+
+        if (empty($teams)) {
+            $teams = $this->defaultTeamsPayload($tournament->team_count ?: 8);
+            $bracketState = array_merge($bracketState, [
+                'title' => $tournament->name,
+                'format' => $this->mapJsFormat($tournament->format),
+                'teamCount' => count($teams),
+                'teams' => $teams,
+                'scores' => $bracketState['scores'] ?? [],
+                'updatedAt' => now()->toIso8601String(),
+            ]);
             $tournament->update([
-                'bracket_state' => array_merge($tournament->bracket_state ?? [], [
-                    'title' => $tournament->name,
-                    'format' => $this->mapJsFormat($tournament->format),
-                    'teamCount' => count($defaultTeams),
-                    'teams' => $defaultTeams,
-                    'scores' => $tournament->bracket_state['scores'] ?? [],
-                    'updatedAt' => now()->toIso8601String(),
-                ]),
+                'bracket_state' => $bracketState,
             ]);
             $tournament->refresh();
         }
 
-        $user = $tournament->user;
-        $hasLogoAccess = $user ? ($user->hasBracketAccess() || $user->isAdmin()) : ($tournament->tier_required !== 'free');
-        $canEdit = Auth::check() && ($tournament->user_id === Auth::id() || Auth::user()->isAdmin());
-
-        $teams = $tournament->bracket_state['teams'] ?? [];
         $totalSlots = count($teams) > 0 ? count($teams) : ($tournament->team_count ?: 8);
         $claimedCount = count(array_filter($teams, fn($t) => !empty($t['is_claimed'])));
+        $canEdit = Auth::check() && ($tournament->user_id === Auth::id() || Auth::user()->isAdmin());
+        $hasLogoAccess = !$isFreeMode;
 
         return view('pages.bracket-pra-tournament', [
             'tournament' => $tournament,
+            'isFreeMode' => $isFreeMode,
             'hasLogoAccess' => $hasLogoAccess,
             'canEdit' => $canEdit,
             'totalSlots' => $totalSlots,
             'claimedCount' => $claimedCount,
             'shareUrl' => route('bracket.live', ['slug' => $tournament->slug]),
+            'praTourneyFreeUrl' => route('bracket.pra-tournament.free', ['slug' => $tournament->slug]),
+            'praTourneyMemberUrl' => route('bracket.pra-tournament.membership', ['slug' => $tournament->slug]),
         ]);
     }
 
@@ -296,10 +359,26 @@ class BracketStudioController extends Controller
             }
         }
 
-        // Determine logo
-        $logo = $validated['logo'] ?? null;
-        if (empty($logo)) {
-            $logo = $teams[$slotIdx]['logo'] ?? '/storage/tournaments/team-rok.svg';
+        // Determine logo: On Free mode, force standard preset emblem (no custom logo allowed)
+        $isFree = ($tournament->tier_required === 'free');
+        $presets = [
+            '/storage/tournaments/team-rok.svg',
+            '/storage/tournaments/team-aether.svg',
+            '/storage/tournaments/team-valkyrie.svg',
+            '/storage/tournaments/team-shadow.svg',
+            '/storage/tournaments/team-apex.svg',
+            '/storage/tournaments/team-wolves.svg',
+            '/storage/tournaments/team-kitsune.svg',
+            '/storage/tournaments/team-eclipse.svg',
+        ];
+
+        if ($isFree) {
+            $logo = $presets[$slotIdx % count($presets)];
+        } else {
+            $logo = $validated['logo'] ?? null;
+            if (empty($logo)) {
+                $logo = $teams[$slotIdx]['logo'] ?? $presets[$slotIdx % count($presets)];
+            }
         }
 
         // Update the team in slot
@@ -346,6 +425,7 @@ class BracketStudioController extends Controller
             'status' => $tournament->status,
             'organizer_name' => $tournament->organizer_name,
             'bracket_state' => $tournament->bracket_state,
+            'state' => $tournament->bracket_state,
             'updated_at' => $tournament->updated_at?->toIso8601String(),
         ])->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
     }
@@ -357,26 +437,36 @@ class BracketStudioController extends Controller
     {
         $tournament = Tournament::where('slug', $slug)->first();
 
+        // Support both direct fields and nested { state: { ... } } payload from JS
+        $rawState = $request->input('state');
+        if (!is_array($rawState)) {
+            $rawState = $request->all();
+        }
+
+        $title = (string) ($rawState['title'] ?? $rawState['name'] ?? ($tournament ? $tournament->name : 'ROK Live Tournament'));
+        $format = (string) ($rawState['format'] ?? ($tournament ? $this->mapJsFormat($tournament->format) : 'single'));
+        $teams = is_array($rawState['teams'] ?? null) ? $rawState['teams'] : [];
+        $teamCount = (int) ($rawState['teamCount'] ?? (count($teams) > 0 ? count($teams) : 8));
+        $scores = $rawState['scores'] ?? [];
+        $matches = $rawState['matches'] ?? [];
+        $rounds = $rawState['rounds'] ?? [];
+        $championSource = $rawState['championSource'] ?? null;
+        $matchesSummary = $rawState['matchesSummary'] ?? [];
+
         if (!$tournament) {
+            $isFree = ($slug === 'rok-free-tournament' || str_starts_with($slug, 'rok-free-'));
             $tournament = Tournament::create([
                 'user_id' => Auth::id(),
-                'name' => $request->input('title', 'ROK Live Tournament'),
+                'name' => $title,
                 'slug' => $slug,
-                'format' => $this->mapDbFormat($request->input('format', 'single')),
-                'team_count' => (int) $request->input('teamCount', 8),
+                'format' => $this->mapDbFormat($format),
+                'team_count' => $teamCount,
                 'status' => 'live',
-                'organizer_name' => Auth::user()?->name ?? 'ROK Organizer',
-                'tier_required' => Auth::user()?->membershipTierSlug() ?? 'challenger',
+                'organizer_name' => Auth::user()?->name ?? ($isFree ? 'Komunitas ROK Web' : 'ROK Organizer'),
+                'tier_required' => $isFree ? 'free' : (Auth::user()?->membershipTierSlug() ?? 'challenger'),
                 'is_public' => true,
             ]);
         }
-
-        $title = (string) ($request->input('title') ?: $request->input('name', $tournament->name));
-        $format = (string) $request->input('format', 'single');
-        $teamCount = (int) $request->input('teamCount', 8);
-        $teams = $request->input('teams', []);
-        $scores = $request->input('scores', []);
-        $matchesSummary = $request->input('matchesSummary', []);
 
         $statePayload = [
             'title' => $title,
@@ -385,6 +475,9 @@ class BracketStudioController extends Controller
             'teamCount' => $teamCount,
             'teams' => $teams,
             'scores' => $scores,
+            'matches' => $matches,
+            'rounds' => $rounds,
+            'championSource' => $championSource,
             'matchesSummary' => $matchesSummary,
             'updatedAt' => now()->toIso8601String(),
         ];
@@ -397,8 +490,14 @@ class BracketStudioController extends Controller
             'updated_at' => now(),
         ]);
 
-        if (is_array($teams) && count($teams) > 0) {
+        if (count($teams) > 0) {
             $this->syncTeamsTable($tournament, $teams);
+        }
+
+        // Also save to session if in free session
+        $request->session()->put('free_bracket_state_' . $slug, $statePayload);
+        if ($tournament->tier_required === 'free') {
+            $request->session()->put('free_tournament_slug', $tournament->slug);
         }
 
         return response()->json([
@@ -407,6 +506,7 @@ class BracketStudioController extends Controller
             'share_url' => route('bracket.live', ['slug' => $tournament->slug]),
             'updated_at' => $tournament->updated_at->toIso8601String(),
             'bracket_state' => $statePayload,
+            'state' => $statePayload,
         ]);
     }
 
@@ -479,7 +579,7 @@ class BracketStudioController extends Controller
         ]);
     }
 
-    protected function defaultTeamsPayload(int $count): array
+    public function defaultTeamsPayload(int $count): array
     {
         $presets = [
             ['name' => 'ROK Prime', 'whatsapp' => '6281234567890', 'logo' => '/storage/tournaments/team-rok.svg'],

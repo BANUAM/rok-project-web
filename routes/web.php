@@ -57,6 +57,8 @@ Route::get('/membership/invoice/{order}', [\App\Http\Controllers\MembershipContr
 // ==========================================
 
 Route::get('/bracket/live/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'liveShare'])->name('bracket.live');
+Route::get('/bracket/pra-tournament-free/{slug?}', [\App\Http\Controllers\BracketStudioController::class, 'praTournamentFree'])->name('bracket.pra-tournament.free');
+Route::get('/bracket/pra-tournament-membership/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'praTournamentMembership'])->name('bracket.pra-tournament.membership');
 Route::get('/bracket/pra-tournament/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'praTournament'])->name('bracket.pra-tournament');
 Route::get('/api/bracket/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'getState'])->name('api.bracket.state');
 Route::post('/api/bracket/{slug}/sync', [\App\Http\Controllers\BracketStudioController::class, 'syncState'])->name('api.bracket.sync');

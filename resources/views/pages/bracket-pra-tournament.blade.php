@@ -1,27 +1,58 @@
 @extends('layouts.app')
 
-@section('title', 'Pra-Turnamen & Check-in Tim | ' . $tournament->name . ' | ROK Web')
-@section('description', 'Portal pendaftaran mandiri kapten tim turnamen ' . $tournament->name . '. Masukkan nama tim, nomor WhatsApp, dan logo tim ke slot bagan pertandingan.')
+@section('title', ($isFreeMode ? 'Pra-Turnamen Free' : 'Pra-Turnamen Membership') . ' & Check-in Tim | ' . $tournament->name . ' | ROK Web')
+@section('description', 'Portal pendaftaran mandiri kapten tim turnamen ' . $tournament->name . '. Masukkan nama tim dan nomor WhatsApp kapten ke slot bagan pertandingan.')
 
 @section('content')
-<div class="page-container pra-tournament-page" id="praTourneyApp" data-slug="{{ $tournament->slug }}" data-has-logo="{{ $hasLogoAccess ? '1' : '0' }}">
+<style>
+.pra-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+}
+@media (max-width: 640px) {
+    .pra-slots-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .pra-stat-pill {
+        width: 100%;
+        text-align: center;
+    }
+    .pra-slot-card {
+        padding: 14px !important;
+    }
+}
+</style>
+
+<div class="page-container pra-tournament-page" id="praTourneyApp" data-slug="{{ $tournament->slug }}" data-has-logo="{{ $hasLogoAccess ? '1' : '0' }}" data-free-mode="{{ $isFreeMode ? '1' : '0' }}">
     {{-- Hero Section --}}
     <section class="page-hero">
         <div class="page-hero__inner">
             <div style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
-                <span class="section-badge" style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; color: #38bdf8;">
-                    &#x1F4CB; PORTAL PRA-TURNAMEN &amp; CHECK-IN TIM
-                </span>
+                @if ($isFreeMode)
+                    <span class="section-badge" style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; color: #38bdf8;">
+                        &#x1F3AE; PORTAL PRA-TURNAMEN (EDISI GRATIS)
+                    </span>
+                @else
+                    <span class="section-badge" style="background: rgba(251, 191, 36, 0.15); border: 1px solid var(--rok-gold); color: var(--rok-gold);">
+                        &#x1F451; PORTAL PRA-TURNAMEN (EDISI MEMBERSHIP)
+                    </span>
+                @endif
                 <span class="realtime-pulse-dot" id="praRealtimeDot" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 10px #22c55e;"></span>
                 <span style="font-size: 12px; color: #4ade80; font-weight: 700;">Live Auto-Sync</span>
             </div>
 
             <h1 class="page-title">{{ $tournament->name }}</h1>
             <p class="page-subtitle-gold">
-                Diselenggarakan oleh: {{ $tournament->organizer_name }} &bull; Format: {{ strtoupper($tournament->format ?? 'Single Elimination') }}
+                Diselenggarakan oleh: {{ $tournament->organizer_name }} &bull; Format: {{ strtoupper($tournament->bracket_state['format'] ?? ($tournament->format ?? 'Single Elimination')) }} ({{ $totalSlots }} Tim)
             </p>
             <p class="page-subtitle" style="max-width: 760px; margin: 0 auto 20px auto;">
-                Selamat datang di sesi Pra-Turnamen. Kapten tim dapat memilih <strong>1 slot kosong</strong> yang tersedia untuk memasukkan Nama Tim, Kontak WhatsApp resmi, dan Logo Tim. Setiap kapten hanya diperbolehkan mengklaim 1 slot. Penyelenggara dapat mengacak (reshuffle) urutan tim sebelum kick-off turnamen.
+                @if ($isFreeMode)
+                    Selamat datang di sesi Pra-Turnamen Gratis. Kapten tim dapat memilih <strong>1 slot kosong</strong> yang tersedia untuk mendaftarkan Nama Tim dan Kontak WhatsApp resmi. Slot terkunci setelah check-in berhasil.
+                @else
+                    Selamat datang di sesi Pra-Turnamen Membership. Kapten tim dapat memilih <strong>1 slot kosong</strong> yang tersedia untuk mendaftarkan Nama Tim, Kontak WhatsApp resmi, dan mengunggah Logo Resmi Tim sendiri.
+                @endif
             </p>
 
             {{-- Quick Stats Bar --}}
@@ -43,7 +74,7 @@
             {{-- Top Action Buttons --}}
             <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 22px;">
                 <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="btnCopyPraLink" style="border-radius: 20px; padding: 8px 18px; border-color: rgba(56, 189, 248, 0.5); color: #38bdf8; font-weight: 700;">
-                    &#x1F4CB; Salin Link Pra-Turnamen Ini
+                    &#x1F4CB; Salin Link Pra-Turnamen {{ $isFreeMode ? 'Free' : 'Membership' }}
                 </button>
                 <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" style="border-radius: 20px; padding: 8px 18px;">
                     &#x1F517; Lihat Live Bracket &nearr;
@@ -91,7 +122,7 @@
                 $teamsList = $tournament->bracket_state['teams'] ?? [];
             @endphp
 
-            <div class="pra-slots-grid" id="praSlotsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+            <div class="pra-slots-grid" id="praSlotsGrid">
                 @for ($i = 0; $i < $totalSlots; $i++)
                     @php
                         $team = $teamsList[$i] ?? null;
@@ -176,10 +207,10 @@
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 18px;">
                 <div>
                     <h3 style="font-size: 20px; font-family: var(--font-heading); margin: 0 0 4px 0;">
-                        Bagan Turnamen Real-Time
+                        Bagan Pertandingan Turnamen (Real-Time Live Bracket)
                     </h3>
                     <p style="font-size: 12px; color: var(--rok-muted-light); margin: 0;">
-                        Setiap perubahan slot otomatis tersinkronisasi. Penyelenggara dapat melakukan Drawing / Acak Bagan secara adil sebelum pertandingan dimulai.
+                        Tampilan susunan babak &amp; bagan pertandingan resmi. Penyelenggara dapat melakukan Drawing / Acak Bagan (Reshuffle) sebelum kick-off turnamen.
                     </p>
                 </div>
             </div>
@@ -189,6 +220,7 @@
                 'tournamentSlug' => $tournament->slug,
                 'initialBracketState' => $tournament->bracket_state,
                 'readOnly' => true,
+                'isFreePage' => $isFreeMode,
                 'unlockLogos' => $hasLogoAccess,
                 'showRealtimeBar' => true,
             ])
@@ -230,45 +262,54 @@
                 </span>
             </div>
 
-            {{-- Pilihan Logo Tim --}}
-            <div class="form-field" style="margin-bottom: 20px;">
-                <label class="form-label" style="font-size: 13px; font-weight: 700;">Logo Tim Peserta</label>
-                
-                @if ($hasLogoAccess)
+            {{-- Pilihan Logo Tim (KHUSUS MEMBERSHIP SAJA - PADA FREE TIDAK ADA BUTTON INPUT LOGO) --}}
+            @if (!$isFreeMode)
+                <div class="form-field" style="margin-bottom: 20px;">
+                    <label class="form-label" style="font-size: 13px; font-weight: 700;">Logo Tim Peserta</label>
                     <div style="margin-bottom: 10px;">
                         <span style="font-size: 11px; color: var(--rok-gold); display: block; margin-bottom: 6px; font-weight: 700;">
                             &#x1F451; Akses Member: Unggah Logo Tim Sendiri (PNG/JPG/SVG)
                         </span>
                         <input type="file" id="claimCustomLogoFile" accept="image/*" class="form-input" style="font-size: 12px; padding: 6px 10px;">
                     </div>
-                @else
-                    <span style="font-size: 11px; color: var(--rok-silver); display: block; margin-bottom: 6px;">
-                        Pilih emblem resmi ROK untuk tim Anda:
-                    </span>
-                @endif
 
-                {{-- Preset Logo Selector Grid --}}
-                <div id="claimPresetLogos" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px;">
-                    @php
-                        $presetLogos = [
-                            '/storage/tournaments/team-rok.svg',
-                            '/storage/tournaments/team-aether.svg',
-                            '/storage/tournaments/team-valkyrie.svg',
-                            '/storage/tournaments/team-shadow.svg',
-                            '/storage/tournaments/team-apex.svg',
-                            '/storage/tournaments/team-wolves.svg',
-                            '/storage/tournaments/team-kitsune.svg',
-                            '/storage/tournaments/team-eclipse.svg',
-                        ];
-                    @endphp
-                    @foreach ($presetLogos as $idx => $pLogo)
-                        <label class="preset-logo-opt" style="cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #0b1120; border: 2px solid {{ $idx === 0 ? 'var(--rok-gold)' : 'var(--rok-surface-border)' }}; border-radius: 8px; padding: 6px; transition: all 0.2s;">
-                            <input type="radio" name="claimLogoRadio" value="{{ $pLogo }}" {{ $idx === 0 ? 'checked' : '' }} style="display: none;">
-                            <img src="{{ $pLogo }}" alt="Preset Emblem {{ $idx + 1 }}" style="width: 36px; height: 36px; object-fit: contain;">
-                        </label>
-                    @endforeach
+                    <span style="font-size: 11px; color: var(--rok-silver); display: block; margin-bottom: 6px;">
+                        Atau pilih emblem turnamen resmi ROK:
+                    </span>
+
+                    {{-- Preset Logo Selector Grid --}}
+                    <div id="claimPresetLogos" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px;">
+                        @php
+                            $presetLogos = [
+                                '/storage/tournaments/team-rok.svg',
+                                '/storage/tournaments/team-aether.svg',
+                                '/storage/tournaments/team-valkyrie.svg',
+                                '/storage/tournaments/team-shadow.svg',
+                                '/storage/tournaments/team-apex.svg',
+                                '/storage/tournaments/team-wolves.svg',
+                                '/storage/tournaments/team-kitsune.svg',
+                                '/storage/tournaments/team-eclipse.svg',
+                            ];
+                        @endphp
+                        @foreach ($presetLogos as $idx => $pLogo)
+                            <label class="preset-logo-opt" style="cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #0b1120; border: 2px solid {{ $idx === 0 ? 'var(--rok-gold)' : 'var(--rok-surface-border)' }}; border-radius: 8px; padding: 6px; transition: all 0.2s;">
+                                <input type="radio" name="claimLogoRadio" value="{{ $pLogo }}" {{ $idx === 0 ? 'checked' : '' }} style="display: none;">
+                                <img src="{{ $pLogo }}" alt="Preset Emblem {{ $idx + 1 }}" style="width: 36px; height: 36px; object-fit: contain;">
+                            </label>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
+            @else
+                {{-- Edisi Free: Sama sekali tidak ada button atau input logo --}}
+                <div style="margin-bottom: 16px; padding: 10px 14px; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px;">
+                    <span style="font-size: 12px; color: #38bdf8; display: block; font-weight: 700;">
+                        &#x1F3AE; Edisi Turnamen Gratis
+                    </span>
+                    <span style="font-size: 11px; color: var(--rok-muted-light); display: block; margin-top: 2px;">
+                        Logo tim disematkan secara otomatis menggunakan emblem standar turnamen resmi ROK Web.
+                    </span>
+                </div>
+            @endif
 
             <div id="claimErrorMessage" style="display: none; padding: 10px 14px; background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; border-radius: 8px; color: #fca5a5; font-size: 12px; margin-bottom: 14px;"></div>
 
@@ -288,9 +329,9 @@
 <script>
 (() => {
     const SLUG = @json($tournament->slug);
+    const IS_FREE_MODE = @json($isFreeMode);
     const CLAIM_API_URL = @json(route('api.bracket.claim-slot', ['slug' => $tournament->slug]));
     const STATE_API_URL = @json(route('api.bracket.state', ['slug' => $tournament->slug]));
-    const HAS_LOGO_ACCESS = @json($hasLogoAccess);
     const LOCAL_STORAGE_KEY = 'rok_pra_claimed_slot_' + SLUG;
 
     let selectedCustomLogoDataUrl = null;
@@ -353,33 +394,35 @@
         if (modal) modal.hidden = true;
     }
 
-    // Radio logo border highlight
-    document.querySelectorAll('input[name="claimLogoRadio"]').forEach(radio => {
-        radio.addEventListener('change', () => {
-            document.querySelectorAll('.preset-logo-opt').forEach(opt => {
-                opt.style.borderColor = 'var(--rok-surface-border)';
-            });
-            const parent = radio.closest('.preset-logo-opt');
-            if (parent) parent.style.borderColor = 'var(--rok-gold)';
-            selectedCustomLogoDataUrl = null;
-        });
-    });
-
-    // Custom logo file reader
-    const customFileInput = document.getElementById('claimCustomLogoFile');
-    if (customFileInput) {
-        customFileInput.addEventListener('change', (e) => {
-            const file = e.target.files?.[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                selectedCustomLogoDataUrl = event.target?.result;
+    // Radio logo border highlight (Membership only)
+    if (!IS_FREE_MODE) {
+        document.querySelectorAll('input[name="claimLogoRadio"]').forEach(radio => {
+            radio.addEventListener('change', () => {
                 document.querySelectorAll('.preset-logo-opt').forEach(opt => {
                     opt.style.borderColor = 'var(--rok-surface-border)';
                 });
-            };
-            reader.readAsDataURL(file);
+                const parent = radio.closest('.preset-logo-opt');
+                if (parent) parent.style.borderColor = 'var(--rok-gold)';
+                selectedCustomLogoDataUrl = null;
+            });
         });
+
+        // Custom logo file reader
+        const customFileInput = document.getElementById('claimCustomLogoFile');
+        if (customFileInput) {
+            customFileInput.addEventListener('change', (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    selectedCustomLogoDataUrl = event.target?.result;
+                    document.querySelectorAll('.preset-logo-opt').forEach(opt => {
+                        opt.style.borderColor = 'var(--rok-surface-border)';
+                    });
+                };
+                reader.readAsDataURL(file);
+            });
+        }
     }
 
     // Claim form submission
@@ -409,11 +452,13 @@
             return;
         }
 
-        // Selected logo
-        let finalLogo = selectedCustomLogoDataUrl;
-        if (!finalLogo) {
-            const checkedRadio = document.querySelector('input[name="claimLogoRadio"]:checked');
-            finalLogo = checkedRadio ? checkedRadio.value : '/storage/tournaments/team-rok.svg';
+        let finalLogo = null;
+        if (!IS_FREE_MODE) {
+            finalLogo = selectedCustomLogoDataUrl;
+            if (!finalLogo) {
+                const checkedRadio = document.querySelector('input[name="claimLogoRadio"]:checked');
+                finalLogo = checkedRadio ? checkedRadio.value : null;
+            }
         }
 
         isSubmitting = true;
@@ -435,7 +480,8 @@
                     slot_index: slotIdx,
                     team_name: teamName,
                     whatsapp: teamWa,
-                    logo: finalLogo
+                    logo: finalLogo,
+                    is_free: IS_FREE_MODE ? 1 : 0
                 })
             });
 
@@ -492,21 +538,21 @@
         document.getElementById('closeClaimModalBackdrop')?.addEventListener('click', closeClaimModal);
         document.getElementById('btnCancelClaim')?.addEventListener('click', closeClaimModal);
 
-        // Auto polling every 7 seconds to sync newly claimed slots in real-time
+        // Auto polling every 4 seconds to sync newly claimed slots in real-time
         setInterval(async () => {
             try {
                 const res = await fetch(STATE_API_URL, { headers: { 'Accept': 'application/json' } });
                 if (!res.ok) return;
                 const json = await res.json();
-                if (json && json.bracket_state && json.bracket_state.teams) {
-                    const teams = json.bracket_state.teams;
+                const stateData = json.bracket_state || json.state;
+                if (stateData && stateData.teams) {
+                    const teams = stateData.teams;
                     let claimedCount = 0;
                     teams.forEach((t, idx) => {
                         if (t.is_claimed) {
                             claimedCount++;
                             const card = document.getElementById(`slot_card_${idx}`);
                             if (card && card.getAttribute('data-claimed') !== '1') {
-                                // Slot was just claimed remotely!
                                 card.setAttribute('data-claimed', '1');
                                 card.className = 'pra-slot-card pra-slot-card--claimed';
                                 card.style.borderColor = 'rgba(34, 197, 94, 0.4)';
@@ -542,7 +588,7 @@
             } catch (e) {
                 // Ignore network poll errors
             }
-        }, 7000);
+        }, 4000);
     });
 })();
 </script>

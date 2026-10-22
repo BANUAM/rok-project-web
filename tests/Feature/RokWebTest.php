@@ -604,6 +604,50 @@ class RokWebTest extends TestCase
         $updatedPraPage->assertStatus(200);
         $updatedPraPage->assertSee('Bintang Esports');
         $updatedPraPage->assertSee('TERDAFTAR');
+
+        // 6. Test Free Pra-Tournament Portal: MUST NOT contain custom logo input
+        $freePraPage = $this->get(route('bracket.pra-tournament.free', 'rok-free-tournament'));
+        $freePraPage->assertStatus(200);
+        $freePraPage->assertSee('PORTAL PRA-TURNAMEN (EDISI GRATIS)');
+        $freePraPage->assertDontSee('<input type="file" id="claimCustomLogoFile"', false);
+
+        // 7. Test Membership Pra-Tournament Portal: MUST contain custom logo input
+        $memberPraPage = $this->get(route('bracket.pra-tournament.membership', $tourney->slug));
+        $memberPraPage->assertStatus(200);
+        $memberPraPage->assertSee('PORTAL PRA-TURNAMEN (EDISI MEMBERSHIP)');
+        $memberPraPage->assertSee('<input type="file" id="claimCustomLogoFile"', false);
+
+        // 8. Test generating and syncing 16-team Swiss Stage tournament: reflects immediately
+        $swissTeams = [];
+        for ($s = 1; $s <= 16; $s++) {
+            $swissTeams[] = [
+                'id' => $s,
+                'seed' => $s,
+                'name' => "Swiss Squad $s",
+                'whatsapp' => "6289999000$s",
+                'logo' => '/storage/tournaments/team-rok.svg',
+            ];
+        }
+
+        $syncSwissResponse = $this->postJson(route('api.bracket.sync', 'rok-free-tournament'), [
+            'state' => [
+                'title' => 'Piala Komunitas Swiss M7',
+                'format' => 'swiss',
+                'teamCount' => 16,
+                'teams' => $swissTeams,
+                'scores' => [],
+            ],
+        ]);
+        $syncSwissResponse->assertStatus(200)
+            ->assertJsonPath('bracket_state.format', 'swiss')
+            ->assertJsonPath('bracket_state.teamCount', 16);
+
+        // Verify pra-tournament-free loads Swiss format and 16 slots
+        $swissPraPage = $this->get(route('bracket.pra-tournament.free', 'rok-free-tournament'));
+        $swissPraPage->assertStatus(200);
+        $swissPraPage->assertSee('SWISS');
+        $swissPraPage->assertSee('16 Tim');
+        $swissPraPage->assertSee('slot_card_15');
     }
 }
 

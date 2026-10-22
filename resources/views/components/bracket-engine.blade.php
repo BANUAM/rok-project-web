@@ -7,7 +7,11 @@
     $showRealtimeBar = $showRealtimeBar ?? (!$isPromo);
     $hasLogoAccess = $unlockLogos ?? (!$isFree && (Auth::check() && Auth::user()->hasBracketAccess()));
     $shareUrl = route('bracket.live', ['slug' => $activeSlug]);
-    $praTourneyUrl = route('bracket.pra-tournament', ['slug' => $activeSlug]);
+    $praTourneyFreeUrl = route('bracket.pra-tournament.free', ['slug' => $activeSlug]);
+    $praTourneyMemberUrl = route('bracket.pra-tournament.membership', ['slug' => $activeSlug]);
+    $praTourneyUrl = $isFree ? $praTourneyFreeUrl : $praTourneyMemberUrl;
+    $praTourneyBtnLabel = $isFree ? '&#x1F4CB; Link Pra-Turnamen Free' : '&#x1F4CB; Link Pra-Turnamen Membership';
+    $praTourneyPortalText = $isFree ? 'Portal Pra-Turnamen Free &nearr;' : 'Portal Pra-Turnamen Member &nearr;';
 @endphp
 
 <div class="rok-bracket-workspace" id="rokBracketWorkspace" data-slug="{{ $activeSlug }}" data-readonly="{{ $isReadOnly ? '1' : '0' }}" data-logo-access="{{ $hasLogoAccess ? '1' : '0' }}" data-free-mode="{{ $isFree ? '1' : '0' }}">
@@ -42,10 +46,10 @@
                 </a>
                 @if (!$isReadOnly)
                     <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="copyPraTourneyLinkBtn" data-url="{{ $praTourneyUrl }}" title="Salin Link Pra-Turnamen untuk dibagikan ke Kapten Tim" style="white-space: nowrap; border-color: rgba(56,189,248,0.6); color: #38bdf8;">
-                        &#x1F4CB; Link Pra-Turnamen
+                        {!! $praTourneyBtnLabel !!}
                     </button>
                     <a href="{{ $praTourneyUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" title="Buka Halaman Pra-Turnamen" style="white-space: nowrap; border-color: rgba(56,189,248,0.3); color: #38bdf8;">
-                        Portal Pra-Turnamen &nearr;
+                        {!! $praTourneyPortalText !!}
                     </a>
                     <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" title="Buka tampilan penonton di tab baru" style="white-space: nowrap;">
                         &#x1F441; Buka Live View &nearr;
@@ -1756,9 +1760,24 @@
                 });
                 if (resp.ok) {
                     const data = await resp.json();
-                    if (data && data.state && JSON.stringify(data.state) !== JSON.stringify(tournamentState)) {
+                    const remoteState = data.bracket_state || data.state;
+                    if (remoteState && remoteState.updatedAt && (!tournamentState || remoteState.updatedAt !== tournamentState.updatedAt)) {
                         isApplyingRemoteUpdate = true;
-                        tournamentState = data.state;
+                        if (remoteState.matches && remoteState.matches.length > 0) {
+                            tournamentState = remoteState;
+                        } else {
+                            const teams = remoteState.teams || [];
+                            const fmt = remoteState.format || 'single';
+                            let eng;
+                            if (fmt === 'single') eng = makeElimination(teams);
+                            else if (fmt === 'double') eng = makeDoubleElimination(teams);
+                            else if (fmt === 'league') eng = makeRoundRobin(teams);
+                            else {
+                                const r1 = buildSwissRoundM7(teams, [], 1);
+                                eng = { matches: r1.matches, rounds: [r1], championSource: null };
+                            }
+                            tournamentState = { ...remoteState, ...eng };
+                        }
                         renderTournament(false);
                         isApplyingRemoteUpdate = false;
                         const pulse = document.getElementById('realtimePulseDot');
@@ -1771,7 +1790,7 @@
             } catch (err) {
                 // Silently handle offline/poll errors
             }
-        }, 4000);
+        }, 3500);
     }
 
     // ====================================================
@@ -1869,26 +1888,79 @@
             });
         }
 
-        // Initialize state
-        if (INITIAL_SERVER_STATE && INITIAL_SERVER_STATE.teams && INITIAL_SERVER_STATE.matches) {
-            tournamentState = INITIAL_SERVER_STATE;
-            if (!IS_READ_ONLY) {
-                const formatSelect = document.getElementById('tourneyFormat');
-                const titleInput = document.getElementById('tourneyName');
-                const teamCountInput = document.getElementById('teamCountInput');
-                const teamCountSelect = document.getElementById('teamCountSelect');
+        // Initialize state: restore exact generated format & teams from server/session
+        if (INITIAL_SERVER_STATE && INITIAL_SERVER_STATE.teams && INITIAL_SERVER_STATE.teams.length > 0) {
+            const savedFormat = INITIAL_SERVER_STATE.format || 'single';
+            const savedTitle = INITIAL_SERVER_STATE.title || INITIAL_SERVER_STATE.name || '';
+            const savedCount = INITIAL_SERVER_STATE.teamCount || INITIAL_SERVER_STATE.teams.length;
 
-                if (formatSelect) formatSelect.value = tournamentState.format || 'single';
-                if (titleInput) titleInput.value = tournamentState.title || '';
-                if (tournamentState.format === 'double' && teamCountSelect) {
-                    teamCountSelect.value = String(tournamentState.teamCount || 6);
-                } else if (teamCountInput) {
-                    teamCountInput.value = String(tournamentState.teamCount || 8);
-                }
-                syncTeamCountOptions();
-                renderTeamInputs(tournamentState.teams);
+            const formatSelect = document.getElementById('tourneyFormat');
+            const titleInput = document.getElementById('tourneyName');
+            const teamCountInput = document.getElementById('teamCountInput');
+            const teamCountSelect = document.getElementById('teamCountSelect');
+
+            if (formatSelect) formatSelect.value = savedFormat;
+            if (titleInput && savedTitle) titleInput.value = savedTitle;
+            if (savedFormat === 'double' && teamCountSelect) {
+                teamCountSelect.value = String(savedCount);
+            } else if (teamCountInput) {
+                teamCountInput.value = String(savedCount);
             }
-            renderTournament(false);
+            syncTeamCountOptions();
+
+            if (!IS_READ_ONLY) {
+                renderTeamInputs(INITIAL_SERVER_STATE.teams);
+            }
+
+            if (INITIAL_SERVER_STATE.matches && INITIAL_SERVER_STATE.matches.length > 0) {
+                tournamentState = INITIAL_SERVER_STATE;
+                renderTournament(false);
+            } else {
+                const teams = INITIAL_SERVER_STATE.teams;
+                let engine;
+                if (savedFormat === 'single') {
+                    engine = makeElimination(teams);
+                } else if (savedFormat === 'double') {
+                    engine = makeDoubleElimination(teams);
+                } else if (savedFormat === 'league') {
+                    engine = makeRoundRobin(teams);
+                } else {
+                    const round1 = buildSwissRoundM7(teams, [], 1);
+                    engine = {
+                        matches: round1.matches,
+                        rounds: [round1],
+                        championSource: null
+                    };
+                }
+
+                tournamentState = {
+                    title: savedTitle || (document.getElementById('tourneyName')?.value || 'ROK Tournament'),
+                    format: savedFormat,
+                    teamCount: teams.length,
+                    teams: teams,
+                    scores: INITIAL_SERVER_STATE.scores || {},
+                    ...engine
+                };
+
+                // Re-apply scores if any
+                if (INITIAL_SERVER_STATE.scores && tournamentState.matches) {
+                    tournamentState.matches.forEach(m => {
+                        const sc = INITIAL_SERVER_STATE.scores[m.id];
+                        if (sc) {
+                            m.score1 = sc.s1;
+                            m.score2 = sc.s2;
+                            if (sc.s1 !== null && sc.s2 !== null && sc.s1 !== '' && sc.s2 !== '') {
+                                const n1 = parseInt(sc.s1, 10);
+                                const n2 = parseInt(sc.s2, 10);
+                                if (n1 > n2) { m.winner = m.team1; m.loser = m.team2; }
+                                else if (n2 > n1) { m.winner = m.team2; m.loser = m.team1; }
+                            }
+                        }
+                    });
+                }
+
+                renderTournament(false);
+            }
         } else {
             syncTeamCountOptions();
             renderTeamInputs();

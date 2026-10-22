@@ -62,6 +62,8 @@
 
             @include('components.bracket-engine', [
                 'activeTournament' => $activeTournament,
+                'tournamentSlug' => $activeTournament->slug,
+                'initialBracketState' => $activeTournament->bracket_state,
                 'studioMode' => false,
                 'readonlyMode' => false,
                 'isFreePage' => true,
