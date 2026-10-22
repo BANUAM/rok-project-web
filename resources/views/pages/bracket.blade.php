@@ -62,7 +62,7 @@
     <section class="generator-tool-section" id="generatorTool">
         <div class="section-inner">
             <header class="section-header">
-                <span class="section-badge">REAL-TIME INTERACTIVE BRACKET ENGINE</span>
+                <span class="section-badge">DEMO RULER OF KINGS BRACKET MANAGER</span>
                 <h2 class="section-title">BUAT BAGAN TURNAMEN SENDIRI</h2>
                 <p class="section-description">
                     Buat bagan dan jadwal pertandingan berdasarkan format kompetisi. Masukkan nama tim &amp; nomor WhatsApp kapten, klik logo tim untuk melihat info poin &amp; kontak WA, serta nikmati sinkronisasi skor secara real-time.
@@ -73,6 +73,8 @@
                 'activeTournament' => $activeTournament,
                 'studioMode' => false,
                 'readonlyMode' => false,
+                'isPromoPage' => true,
+                'showRealtimeBar' => false,
             ])
         </div>
     </section>

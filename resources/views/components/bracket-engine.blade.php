@@ -3,13 +3,16 @@
     $initialState = $initialBracketState ?? ($activeTournament->bracket_state ?? null);
     $isReadOnly = $readOnly ?? false;
     $isFree = $isFreePage ?? false;
+    $isPromo = $isPromoPage ?? false;
+    $showRealtimeBar = $showRealtimeBar ?? (!$isPromo);
     $hasLogoAccess = $unlockLogos ?? (!$isFree && (Auth::check() && Auth::user()->hasBracketAccess()));
     $shareUrl = route('bracket.live', ['slug' => $activeSlug]);
 @endphp
 
 <div class="rok-bracket-workspace" id="rokBracketWorkspace" data-slug="{{ $activeSlug }}" data-readonly="{{ $isReadOnly ? '1' : '0' }}" data-logo-access="{{ $hasLogoAccess ? '1' : '0' }}" data-free-mode="{{ $isFree ? '1' : '0' }}">
 
-    {{-- Top Live Sync & Shareable Link Bar --}}
+    {{-- Top Live Sync & Shareable Link Bar (Disembunyikan khusus pada Halaman Promosi Bracket) --}}
+    @if ($showRealtimeBar)
     <div class="bracket-realtime-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 14px 20px; margin-bottom: 24px; border-radius: var(--radius-md);">
         <div class="bracket-realtime-bar__status" style="display: flex; align-items: center; gap: 12px; flex: 1 1 280px; min-width: 240px;">
             <span class="realtime-pulse-dot" id="realtimePulseDot" style="flex-shrink: 0;"></span>
@@ -44,6 +47,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     <div class="generator-card">
         @if (!$isReadOnly)
