@@ -179,8 +179,8 @@
                 </div>
             </div>
 
-            <div class="generated-tree-deck" id="generatedTreeDeck" style="position: relative; overflow: auto; padding: 20px 10px 40px 10px; min-height: 480px;">
-                <div class="bracket-zoom-canvas" id="bracketZoomCanvas" style="display: flex; gap: 48px; min-width: max-content; align-items: stretch; transform-origin: top left; transition: transform 0.18s cubic-bezier(0.2, 0, 0, 1);">
+            <div class="generated-tree-deck" id="generatedTreeDeck" style="position: relative; overflow: auto; padding: 16px 12px 24px 12px;">
+                <div class="bracket-zoom-canvas" id="bracketZoomCanvas" style="display: flex; gap: 26px; min-width: max-content; width: fit-content; align-items: stretch; transform-origin: 0 0; transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);">
                     {{-- Rendered Bracket Tree using native .gen-* classes + SVG tournament lines --}}
                 </div>
             </div>
@@ -1224,6 +1224,35 @@
                 svg.appendChild(path);
             });
         });
+
+        // Connect the final match to the Champion box
+        const champEl = canvas.querySelector('.champ-display-box');
+        if (champEl && tournamentState.matches && tournamentState.matches.length > 0) {
+            const finalMatch = tournamentState.matches.find(m => m.isFinal) || tournamentState.matches[tournamentState.matches.length - 1];
+            if (finalMatch) {
+                const finalEl = canvas.querySelector(`.gen-match-box[data-match-id="${finalMatch.id}"]`);
+                if (finalEl) {
+                    const fRect = finalEl.getBoundingClientRect();
+                    const cRect = champEl.getBoundingClientRect();
+
+                    const startX = (fRect.right - canvasRect.left) / zoom;
+                    const startY = (fRect.top - canvasRect.top + (fRect.height / 2)) / zoom;
+                    const endX = (cRect.left - canvasRect.left) / zoom;
+                    const endY = (cRect.top - canvasRect.top + (cRect.height / 2)) / zoom;
+
+                    if (endX > startX + 5) {
+                        const midX = startX + (endX - startX) * 0.5;
+                        const pathData = `M ${startX} ${startY} H ${midX} V ${endY} H ${endX}`;
+                        const path = document.createElementNS(svgNS, 'path');
+                        path.setAttribute('d', pathData);
+                        path.setAttribute('fill', 'none');
+                        const isChampResolved = Boolean(finalMatch.winner);
+                        path.setAttribute('class', `bracket-arrow-path ${isChampResolved ? 'bracket-arrow-path--winner' : ''}`);
+                        svg.appendChild(path);
+                    }
+                }
+            }
+        }
     }
 
     // ====================================================
@@ -1531,23 +1560,33 @@
         currentZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(zoom * 100) / 100));
         const canvas = document.getElementById('bracketZoomCanvas');
         const zoomBtn = document.getElementById('btnZoomReset');
-        if (zoomBtn) zoomBtn.textContent = `${Math.round(currentZoom * 100)}%`;
+        const deck = document.getElementById('generatedTreeDeck');
 
-        if (canvas) {
+        if (zoomBtn) {
+            zoomBtn.textContent = `${Math.round(currentZoom * 100)}%`;
+            zoomBtn.classList.remove('zoom-pulse-active');
+            void zoomBtn.offsetWidth;
+            zoomBtn.classList.add('zoom-pulse-active');
+        }
+
+        if (canvas && deck) {
             canvas.style.transform = `scale(${currentZoom})`;
-            canvas.style.transformOrigin = 'top left';
+            canvas.style.transformOrigin = '0 0';
 
-            const deck = document.getElementById('generatedTreeDeck');
-            if (deck) {
-                const baseWidth = canvas.scrollWidth;
-                const baseHeight = canvas.scrollHeight;
-                if (currentZoom > 1) {
-                    canvas.style.marginBottom = `${Math.max(0, (baseHeight * currentZoom) - baseHeight + 40)}px`;
-                    canvas.style.marginRight = `${Math.max(0, (baseWidth * currentZoom) - baseWidth + 40)}px`;
-                } else {
-                    canvas.style.marginBottom = '0px';
-                    canvas.style.marginRight = '0px';
-                }
+            const baseW = canvas.scrollWidth;
+            const baseH = canvas.scrollHeight;
+            const scaledH = Math.round(baseH * currentZoom);
+            const scaledW = Math.round(baseW * currentZoom);
+
+            // Dynamically fit deck height so container hugs content snugly without massive empty void
+            deck.style.height = `${scaledH + 36}px`;
+
+            if (currentZoom > 1) {
+                canvas.style.marginBottom = `${Math.max(0, scaledH - baseH + 20)}px`;
+                canvas.style.marginRight = `${Math.max(0, scaledW - baseW + 20)}px`;
+            } else {
+                canvas.style.marginBottom = '0px';
+                canvas.style.marginRight = '0px';
             }
         }
     }

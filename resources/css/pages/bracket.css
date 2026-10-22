@@ -274,9 +274,9 @@
     background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.04) 100%);
     border: 1px solid var(--rok-gold);
     border-radius: var(--radius-sm);
-    padding: 20px;
+    padding: 14px 16px;
     text-align: center;
-    margin-top: 40px;
+    margin: auto 0;
 }
 
 .champ-icon {
@@ -412,18 +412,18 @@
     display: flex;
     align-items: stretch;
     justify-content: flex-start;
-    gap: 48px; /* Jarak antar bagan lebih lega */
+    gap: 26px; /* Jarak antar kolom lebih proporsional */
     min-width: max-content;
-    transform-origin: top left;
+    transform-origin: 0 0;
     position: relative;
-    transition: transform 0.18s cubic-bezier(0.2, 0, 0, 1);
+    transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .gen-round-col {
-    flex: 0 0 280px;
-    width: 280px;
-    min-width: 280px;
-    max-width: 280px;
+    flex: 0 0 220px;
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
     align-self: stretch;
     display: flex;
     flex-direction: column;
@@ -457,8 +457,8 @@
     flex-grow: 1;
     min-height: 100%;
     height: 100%;
-    gap: 32px; /* Jarak antar match lega */
-    padding: 8px 0;
+    gap: 16px; /* Jarak antar match proporsional & rapi */
+    padding: 6px 0;
 }
 
 .gen-match-box {
@@ -468,12 +468,12 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Jarak antara team 1 dan team 2 agar warna tidak bercampur */
+    gap: 6px; /* Jarak antara team 1 dan team 2 agar warna tidak bercampur */
     background: linear-gradient(160deg, #161c28 0%, #0f1420 100%);
     border: 1px solid rgba(255, 255, 255, 0.1); /* Card selalu memiliki warna standar netral, tidak berpihak */
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    padding: 10px;
+    border-radius: 7px;
+    padding: 8px 10px;
     transition: box-shadow 0.2s ease, transform 0.15s ease;
 }
 
@@ -612,6 +612,23 @@
     color: #fbbf24;
 }
 
+@keyframes zoomPulseAnim {
+    0% {
+        transform: scale(1);
+    }
+    45% {
+        transform: scale(1.15);
+        box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.zoom-pulse-active {
+    animation: zoomPulseAnim 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 [data-theme="light"] .bracket-zoom-toolbar {
     background: rgba(241, 245, 249, 0.9);
     border-color: rgba(0, 0, 0, 0.12);
@@ -669,10 +686,14 @@
 }
 
 .gen-round-col--champ {
-    flex-basis: 240px;
-    width: 240px;
-    min-width: 240px;
-    max-width: 240px;
+    flex: 0 0 200px;
+    flex-basis: 200px;
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 @media (max-width: 768px) {
