@@ -7,6 +7,7 @@
     $showRealtimeBar = $showRealtimeBar ?? (!$isPromo);
     $hasLogoAccess = $unlockLogos ?? (!$isFree && (Auth::check() && Auth::user()->hasBracketAccess()));
     $shareUrl = route('bracket.live', ['slug' => $activeSlug]);
+    $praTourneyUrl = route('bracket.pra-tournament', ['slug' => $activeSlug]);
 @endphp
 
 <div class="rok-bracket-workspace" id="rokBracketWorkspace" data-slug="{{ $activeSlug }}" data-readonly="{{ $isReadOnly ? '1' : '0' }}" data-logo-access="{{ $hasLogoAccess ? '1' : '0' }}" data-free-mode="{{ $isFree ? '1' : '0' }}">
@@ -40,6 +41,12 @@
                     <span>Share WA</span>
                 </a>
                 @if (!$isReadOnly)
+                    <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="copyPraTourneyLinkBtn" data-url="{{ $praTourneyUrl }}" title="Salin Link Pra-Turnamen untuk dibagikan ke Kapten Tim" style="white-space: nowrap; border-color: rgba(56,189,248,0.6); color: #38bdf8;">
+                        &#x1F4CB; Link Pra-Turnamen
+                    </button>
+                    <a href="{{ $praTourneyUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" title="Buka Halaman Pra-Turnamen" style="white-space: nowrap; border-color: rgba(56,189,248,0.3); color: #38bdf8;">
+                        Portal Pra-Turnamen &nearr;
+                    </a>
                     <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" title="Buka tampilan penonton di tab baru" style="white-space: nowrap;">
                         &#x1F441; Buka Live View &nearr;
                     </a>
@@ -137,6 +144,9 @@
                         &#x1F4A1; <strong>Info:</strong> Perubahan skor, nama tim, WhatsApp, dan bagan langsung tersimpan dan dapat diakses penonton secara real-time.
                     </div>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn-rok btn-rok--outline" id="btnReshuffleBracket" title="Acak urutan tim peserta (Drawing Turnamen)" style="border-color: #a855f7; color: #c084fc; font-weight: 700;">
+                            &#x1F500; Acak Bagan (Drawing)
+                        </button>
                         <button type="button" class="btn-rok btn-rok--outline" id="resetScoresBtn">
                             &#x21BA; Reset Skor
                         </button>
@@ -178,6 +188,11 @@
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                         </button>
                     </div>
+                    @if (!$isReadOnly)
+                        <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="btnReshuffleQuick" title="Drawing / Acak Urutan Tim Bagan" style="border-color: rgba(168,85,247,0.5); color: #c084fc; font-size: 11px; padding: 4px 10px; font-weight: 700;">
+                            &#x1F500; Acak Bagan
+                        </button>
+                    @endif
                     <span class="bracket-hint-ClickLogo" style="font-size: 12px; color: var(--rok-muted-light);">&#x1F446; Klik Logo Tim untuk Poin &amp; Kontak WhatsApp</span>
                     <span class="badge-mini" id="outputFormatBadge">Single Elimination</span>
                 </div>
@@ -401,7 +416,7 @@
             const existing = existingTeams && existingTeams[i] ? existingTeams[i] : null;
             const defaultName = defaultTeamNames[i] || `Team ${seed}`;
             const nameVal = existing?.name || defaultName;
-            const waVal = existing?.wa || '';
+            const waVal = existing?.wa || existing?.whatsapp || '';
             const logoVal = existing?.logo || presetLogos[i % presetLogos.length];
 
             const item = document.createElement('div');
@@ -462,11 +477,20 @@
             waInput.addEventListener('input', () => {
                 if (tournamentState && tournamentState.teams && tournamentState.teams[i]) {
                     tournamentState.teams[i].wa = waInput.value.trim();
+                    tournamentState.teams[i].whatsapp = waInput.value.trim();
                     scheduleRealtimeSync();
                 }
             });
 
-            item.append(seedBadge, logoBtn, nameInput, waInput);
+            if (existing?.is_claimed) {
+                const claimedBadge = document.createElement('span');
+                claimedBadge.style.cssText = 'font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(34,197,94,0.18);border:1px solid rgba(34,197,94,0.4);color:#4ade80;font-weight:700;white-space:nowrap;flex-shrink:0;';
+                claimedBadge.textContent = '✓ Check-in';
+                claimedBadge.title = 'Tim ini telah terdaftar melalui portal Pra-Turnamen';
+                item.append(seedBadge, claimedBadge, logoBtn, nameInput, waInput);
+            } else {
+                item.append(seedBadge, logoBtn, nameInput, waInput);
+            }
             container.appendChild(item);
         }
     }
@@ -479,13 +503,16 @@
             const nameEl = document.getElementById(`team_input_${i}`);
             const waEl = document.getElementById(`team_wa_${i}`);
             const logoImg = document.getElementById(`team_logo_preview_${i}`);
+            const prev = (tournamentState && tournamentState.teams && tournamentState.teams[i]) ? tournamentState.teams[i] : {};
 
             teams.push({
+                ...prev,
                 id: seed,
                 seed: seed,
                 name: (nameEl?.value || '').trim() || (defaultTeamNames[i] || `Team ${seed}`),
-                wa: (waEl?.value || '').trim(),
-                logo: logoImg?.src || presetLogos[i % presetLogos.length]
+                wa: (waEl?.value || '').trim() || prev.wa || prev.whatsapp || '',
+                whatsapp: (waEl?.value || '').trim() || prev.whatsapp || prev.wa || '',
+                logo: logoImg?.src || prev.logo || presetLogos[i % presetLogos.length]
             });
         }
         return teams;
@@ -1631,6 +1658,60 @@
         renderTournament(syncToServer);
     }
 
+    function reshuffleTeams() {
+        if (!confirm('Acak susunan tim / drawing bagan secara acak? Seluruh skor babak saat ini akan di-reset untuk babak baru yang adil.')) {
+            return;
+        }
+        const teams = collectCurrentTeams();
+        if (teams.length < 2) return;
+
+        // Fisher-Yates shuffle
+        for (let i = teams.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [teams[i], teams[j]] = [teams[j], teams[i]];
+        }
+
+        // Re-assign seeds 1..N
+        teams.forEach((t, idx) => {
+            t.seed = idx + 1;
+            t.id = idx + 1;
+        });
+
+        // Re-render UI inputs with new positions
+        renderTeamInputs(teams);
+
+        // Rebuild tournament bracket
+        const title = (document.getElementById('tourneyName')?.value || '').trim() || 'ROK Community Cup 2026';
+        const format = document.getElementById('tourneyFormat')?.value || 'single';
+
+        let engine;
+        if (format === 'single') {
+            engine = makeElimination(teams);
+        } else if (format === 'double') {
+            engine = makeDoubleElimination(teams);
+        } else if (format === 'league') {
+            engine = makeRoundRobin(teams);
+        } else {
+            const round1 = buildSwissRoundM7(teams, [], 1);
+            engine = {
+                matches: round1.matches,
+                rounds: [round1],
+                championSource: null
+            };
+        }
+
+        tournamentState = {
+            title,
+            format,
+            teamCount: teams.length,
+            teams,
+            ...engine
+        };
+
+        renderTournament(true);
+        alert('Drawing Berhasil! Urutan bagan tim turnamen telah diacak secara adil dan tersimpan.');
+    }
+
     // ====================================================
     // REAL-TIME SYNC ENGINE
     // ====================================================
@@ -1703,6 +1784,18 @@
         document.getElementById('closeLogoPickerBtn')?.addEventListener('click', closeLogoPicker);
         document.getElementById('closeLogoPickerBackdrop')?.addEventListener('click', closeLogoPicker);
 
+        // Copy Pra-Tournament Link Button
+        document.getElementById('copyPraTourneyLinkBtn')?.addEventListener('click', () => {
+            const btn = document.getElementById('copyPraTourneyLinkBtn');
+            const url = btn.getAttribute('data-url');
+            if (url) {
+                navigator.clipboard.writeText(url);
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '&#x2713; Link Pra-Turnamen Tersalin!';
+                setTimeout(() => { btn.innerHTML = originalHtml; }, 2000);
+            }
+        });
+
         // Copy Share Link Button
         document.getElementById('copyShareLinkBtn')?.addEventListener('click', () => {
             const input = document.getElementById('shareBracketUrlInput');
@@ -1757,6 +1850,9 @@
             generateBtn?.addEventListener('click', () => {
                 buildTournament(true);
             });
+
+            document.getElementById('btnReshuffleBracket')?.addEventListener('click', reshuffleTeams);
+            document.getElementById('btnReshuffleQuick')?.addEventListener('click', reshuffleTeams);
 
             resetBtn?.addEventListener('click', () => {
                 if (confirm('Reset seluruh skor pertandingan turnamen ini?')) {

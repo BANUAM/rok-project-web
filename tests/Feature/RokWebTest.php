@@ -14,6 +14,8 @@ use App\Models\MembershipPlan;
 use App\Models\MlTier;
 use App\Models\PageHeader;
 use App\Models\Player;
+use App\Models\Tournament;
+use App\Models\TournamentTeam;
 use App\Models\TrialCandidate;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
@@ -540,6 +542,68 @@ class RokWebTest extends TestCase
         $liveSharePage = $this->get(route('bracket.live', $newTourney->slug));
         $liveSharePage->assertStatus(200);
         $liveSharePage->assertSee('ROK Immortal Masters 2026 — Finals');
+    }
+
+    public function test_pra_tournament_checkin_and_slot_claiming(): void
+    {
+        $tourney = Tournament::where('slug', 'rok-invitational-season-1')->first();
+        $this->assertNotNull($tourney);
+
+        // 1. Visit Pra-Tournament page
+        $praPage = $this->get(route('bracket.pra-tournament', $tourney->slug));
+        $praPage->assertStatus(200);
+        $praPage->assertSee('PORTAL PRA-TURNAMEN');
+        $praPage->assertSee('Daftar Slot Peserta Turnamen');
+
+        // 2. Claim a vacant slot (e.g. slot index 4)
+        $claimPayload = [
+            'slot_index' => 4,
+            'team_name' => 'Bintang Esports',
+            'whatsapp' => '087712345678',
+            'logo' => '/storage/tournaments/team-apex.svg',
+        ];
+
+        $claimResponse = $this->postJson(route('api.bracket.claim-slot', $tourney->slug), $claimPayload);
+        $claimResponse->assertStatus(200)
+            ->assertJson([
+                'ok' => true,
+                'slot_index' => 4,
+            ])
+            ->assertJsonPath('team.name', 'Bintang Esports')
+            ->assertJsonPath('team.whatsapp', '6287712345678')
+            ->assertJsonPath('team.is_claimed', true);
+
+        // Verify Database Persistence
+        $this->assertDatabaseHas('tournament_teams', [
+            'tournament_id' => $tourney->id,
+            'team_name' => 'Bintang Esports',
+            'whatsapp_number' => '6287712345678',
+            'seed' => 5,
+        ]);
+
+        // 3. Attempt to claim the same slot #5 again -> Should fail with 409
+        $conflictResponse = $this->postJson(route('api.bracket.claim-slot', $tourney->slug), [
+            'slot_index' => 4,
+            'team_name' => 'Penyusup Team',
+            'whatsapp' => '08999999999',
+        ]);
+        $conflictResponse->assertStatus(409)
+            ->assertJson(['ok' => false]);
+
+        // 4. Attempt to claim another slot with duplicate WhatsApp -> Should fail with 422
+        $duplicateWaResponse = $this->postJson(route('api.bracket.claim-slot', $tourney->slug), [
+            'slot_index' => 5,
+            'team_name' => 'Tim Kloning',
+            'whatsapp' => '087712345678', // Same number
+        ]);
+        $duplicateWaResponse->assertStatus(422)
+            ->assertJson(['ok' => false]);
+
+        // 5. Verify Pra-Tournament portal displays Bintang Esports as claimed
+        $updatedPraPage = $this->get(route('bracket.pra-tournament', $tourney->slug));
+        $updatedPraPage->assertStatus(200);
+        $updatedPraPage->assertSee('Bintang Esports');
+        $updatedPraPage->assertSee('TERDAFTAR');
     }
 }
 

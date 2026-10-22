@@ -57,8 +57,10 @@ Route::get('/membership/invoice/{order}', [\App\Http\Controllers\MembershipContr
 // ==========================================
 
 Route::get('/bracket/live/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'liveShare'])->name('bracket.live');
+Route::get('/bracket/pra-tournament/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'praTournament'])->name('bracket.pra-tournament');
 Route::get('/api/bracket/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'getState'])->name('api.bracket.state');
 Route::post('/api/bracket/{slug}/sync', [\App\Http\Controllers\BracketStudioController::class, 'syncState'])->name('api.bracket.sync');
+Route::post('/api/bracket/{slug}/claim-slot', [\App\Http\Controllers\BracketStudioController::class, 'claimSlot'])->name('api.bracket.claim-slot');
 
 Route::prefix('bracket-studio')->name('bracket.studio.')->middleware(['auth', 'bracket.member'])->group(function () {
     Route::get('/', [\App\Http\Controllers\BracketStudioController::class, 'index'])->name('index');

@@ -193,6 +193,143 @@ class BracketStudioController extends Controller
     }
 
     /**
+     * Public Pra-Tournament Check-in Portal (/bracket/pra-tournament/{slug})
+     * Allows team captains to claim 1 vacant slot, input their team name, WhatsApp, and logo.
+     */
+    public function praTournament(string $slug): View
+    {
+        $tournament = Tournament::with(['teams', 'matches'])->where('slug', $slug)->firstOrFail();
+
+        if (empty($tournament->bracket_state) || empty($tournament->bracket_state['teams'])) {
+            $defaultTeams = $this->defaultTeamsPayload($tournament->team_count ?: 8);
+            $tournament->update([
+                'bracket_state' => array_merge($tournament->bracket_state ?? [], [
+                    'title' => $tournament->name,
+                    'format' => $this->mapJsFormat($tournament->format),
+                    'teamCount' => count($defaultTeams),
+                    'teams' => $defaultTeams,
+                    'scores' => $tournament->bracket_state['scores'] ?? [],
+                    'updatedAt' => now()->toIso8601String(),
+                ]),
+            ]);
+            $tournament->refresh();
+        }
+
+        $user = $tournament->user;
+        $hasLogoAccess = $user ? ($user->hasBracketAccess() || $user->isAdmin()) : ($tournament->tier_required !== 'free');
+        $canEdit = Auth::check() && ($tournament->user_id === Auth::id() || Auth::user()->isAdmin());
+
+        $teams = $tournament->bracket_state['teams'] ?? [];
+        $totalSlots = count($teams) > 0 ? count($teams) : ($tournament->team_count ?: 8);
+        $claimedCount = count(array_filter($teams, fn($t) => !empty($t['is_claimed'])));
+
+        return view('pages.bracket-pra-tournament', [
+            'tournament' => $tournament,
+            'hasLogoAccess' => $hasLogoAccess,
+            'canEdit' => $canEdit,
+            'totalSlots' => $totalSlots,
+            'claimedCount' => $claimedCount,
+            'shareUrl' => route('bracket.live', ['slug' => $tournament->slug]),
+        ]);
+    }
+
+    /**
+     * API: Team captain claims a vacant slot in pra-tournament.
+     * Enforces: 1 slot per captain, unique WhatsApp number per tournament, vacant slot check.
+     */
+    public function claimSlot(Request $request, string $slug): JsonResponse
+    {
+        $tournament = Tournament::where('slug', $slug)->first();
+        if (!$tournament) {
+            return response()->json(['ok' => false, 'message' => 'Turnamen tidak ditemukan.'], 404);
+        }
+
+        $validated = $request->validate([
+            'slot_index' => ['required', 'integer', 'min:0', 'max:63'],
+            'team_name' => ['required', 'string', 'min:2', 'max:40'],
+            'whatsapp' => ['required', 'string', 'min:8', 'max:25'],
+            'logo' => ['nullable', 'string'],
+        ]);
+
+        $slotIdx = (int) $validated['slot_index'];
+        $cleanWa = preg_replace('/[^0-9]/', '', $validated['whatsapp']);
+        if (str_starts_with($cleanWa, '0')) {
+            $cleanWa = '62' . substr($cleanWa, 1);
+        }
+
+        $bracketState = $tournament->bracket_state ?? [];
+        $teams = !empty($bracketState['teams']) ? $bracketState['teams'] : $this->defaultTeamsPayload($tournament->team_count ?: 8);
+
+        if (!isset($teams[$slotIdx])) {
+            $maxSlots = max(count($teams), $tournament->team_count ?: 8);
+            if ($slotIdx >= 0 && $slotIdx < $maxSlots) {
+                for ($k = count($teams); $k <= $slotIdx; $k++) {
+                    $teams[$k] = [
+                        'id' => $k + 1,
+                        'seed' => $k + 1,
+                        'name' => 'Team ' . ($k + 1),
+                        'whatsapp' => '',
+                        'logo' => '/storage/tournaments/team-rok.svg',
+                        'is_claimed' => false,
+                    ];
+                }
+            } else {
+                return response()->json(['ok' => false, 'message' => 'Slot nomor ' . ($slotIdx + 1) . ' tidak valid.'], 422);
+            }
+        }
+
+        // Check if slot is already claimed
+        if (!empty($teams[$slotIdx]['is_claimed'])) {
+            return response()->json(['ok' => false, 'message' => 'Slot #' . ($slotIdx + 1) . ' baru saja diklaim oleh tim lain. Silakan pilih slot lain.'], 409);
+        }
+
+        // Check if WhatsApp is already used by another claimed team in this tournament
+        foreach ($teams as $idx => $t) {
+            if ($idx !== $slotIdx && !empty($t['is_claimed']) && !empty($t['whatsapp'])) {
+                $existingCleanWa = preg_replace('/[^0-9]/', '', $t['whatsapp']);
+                if (str_starts_with($existingCleanWa, '0')) {
+                    $existingCleanWa = '62' . substr($existingCleanWa, 1);
+                }
+                if ($existingCleanWa === $cleanWa) {
+                    return response()->json(['ok' => false, 'message' => 'Nomor WhatsApp ' . $validated['whatsapp'] . ' sudah terdaftar pada tim "' . ($t['name'] ?? 'lain') . '" di turnamen ini.'], 422);
+                }
+            }
+        }
+
+        // Determine logo
+        $logo = $validated['logo'] ?? null;
+        if (empty($logo)) {
+            $logo = $teams[$slotIdx]['logo'] ?? '/storage/tournaments/team-rok.svg';
+        }
+
+        // Update the team in slot
+        $teams[$slotIdx]['name'] = trim($validated['team_name']);
+        $teams[$slotIdx]['whatsapp'] = $cleanWa;
+        $teams[$slotIdx]['wa'] = $cleanWa;
+        $teams[$slotIdx]['logo'] = $logo;
+        $teams[$slotIdx]['is_claimed'] = true;
+        $teams[$slotIdx]['claimed_at'] = now()->toIso8601String();
+
+        $bracketState['teams'] = $teams;
+        $bracketState['updatedAt'] = now()->toIso8601String();
+
+        $tournament->update([
+            'bracket_state' => $bracketState,
+            'updated_at' => now(),
+        ]);
+
+        $this->syncTeamsTable($tournament, $teams);
+
+        return response()->json([
+            'ok' => true,
+            'message' => 'Selamat! Tim "' . $validated['team_name'] . '" berhasil dikonfirmasi di Slot #' . ($slotIdx + 1) . '.',
+            'slot_index' => $slotIdx,
+            'team' => $teams[$slotIdx],
+            'bracket_state' => $bracketState,
+        ]);
+    }
+
+    /**
      * Real-Time API Endpoint: Get latest bracket state JSON for polling viewers.
      */
     public function getState(string $slug): JsonResponse
