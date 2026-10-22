@@ -466,12 +466,15 @@
     width: 100%;
     min-width: 0;
     box-sizing: border-box;
-    background: linear-gradient(160deg, #161c28 0%, #0f1420 100%); /* Tidak transparan, bergradasi */
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Jarak antara team 1 dan team 2 agar warna tidak bercampur */
+    background: linear-gradient(160deg, #161c28 0%, #0f1420 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Card selalu memiliki warna standar netral, tidak berpihak */
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
-    padding: 12px 14px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+    padding: 10px;
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
 }
 
 [data-theme="light"] .gen-match-box {
@@ -480,35 +483,29 @@
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-.gen-match-box.has-winner {
-    border-color: rgba(34, 197, 94, 0.35);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 10px rgba(34, 197, 94, 0.12);
-}
-
 .gen-team-row {
     gap: 10px;
     min-width: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 8px;
+    padding: 6px 10px;
     border-radius: 6px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    transition: outline 0.15s ease, box-shadow 0.15s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.02);
+    transition: outline 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
 [data-theme="light"] .gen-team-row {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.gen-team-row:last-child {
-    border-bottom: none;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(0, 0, 0, 0.02);
 }
 
 /* Pembeda Menang: Outline Hijau Cukup Outline Saja Jangan Keseluruhan Bagan */
 .gen-team-row.is-winner {
     background: transparent !important;
     outline: 1.5px solid #22c55e !important;
+    border-color: #22c55e !important;
     outline-offset: -1px;
     box-shadow: 0 0 8px rgba(34, 197, 94, 0.25);
 }
@@ -533,6 +530,7 @@
 .gen-team-row.is-loser {
     background: transparent !important;
     outline: 1.5px solid #ef4444 !important;
+    border-color: #ef4444 !important;
     outline-offset: -1px;
     box-shadow: 0 0 6px rgba(239, 68, 68, 0.2);
 }
@@ -1061,14 +1059,13 @@
 
 .studio-portal-banner {
     margin-top: 28px;
-    padding: 22px 28px;
+    padding: 24px 28px;
     background: linear-gradient(135deg, rgba(21, 26, 36, 0.95) 0%, rgba(15, 20, 30, 0.95) 100%);
-    border: 1px solid rgba(226, 232, 240, 0.25);
+    border: 1px solid rgba(226, 232, 240, 0.2);
     border-radius: var(--radius-lg);
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
+    flex-direction: column;
+    gap: 16px;
     text-align: left;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
@@ -1087,30 +1084,41 @@
     margin-bottom: 6px;
 }
 
+.studio-portal-banner__info {
+    width: 100%;
+}
+
 .studio-portal-banner__info h3 {
     font-size: 20px;
     font-weight: 800;
-    margin-bottom: 4px;
+    margin: 4px 0 6px 0;
+    line-height: 1.35;
+    color: #ffffff;
+}
+
+[data-theme="light"] .studio-portal-banner__info h3 {
+    color: #0f172a;
 }
 
 .studio-portal-banner__info p {
-    font-size: 13px;
+    font-size: 13.5px;
+    line-height: 1.6;
     color: var(--rok-muted-light);
-    max-width: 600px;
+    max-width: 100%;
+    margin: 0;
 }
 
 .studio-portal-banner__actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
-    flex-shrink: 0;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-@media (max-width: 768px) {
-    .studio-portal-banner {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+[data-theme="light"] .studio-portal-banner__actions {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 /* Real-Time Status & Share Link Bar */

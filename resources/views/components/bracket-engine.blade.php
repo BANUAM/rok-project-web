@@ -1028,7 +1028,7 @@
         if (match.autoAdvance) {
             const topRow = document.createElement('div');
             topRow.className = 'gen-team-row is-winner';
-            topRow.style.cssText = 'border-bottom:none;padding:3px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;';
+            topRow.style.cssText = 'padding:6px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-radius:6px;';
 
             const infoWrap = document.createElement('div');
             infoWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;overflow:hidden;';
@@ -1057,15 +1057,11 @@
 
             const advBadge = document.createElement('div');
             advBadge.className = 'badge-auto-advance';
-            advBadge.style.cssText = 'background:rgba(34,197,94,0.1);color:#16a34a;border:1px solid rgba(34,197,94,0.25);font-size:11px;font-weight:700;padding:4px 8px;border-radius:4px;text-align:center;width:100%;box-sizing:border-box;margin-top:4px;';
+            advBadge.style.cssText = 'background:rgba(34,197,94,0.08);color:#16a34a;border:1px solid rgba(34,197,94,0.22);font-size:11px;font-weight:700;padding:6px 10px;border-radius:6px;text-align:center;width:100%;box-sizing:border-box;';
             advBadge.textContent = '✓ Lolos Otomatis ke Babak Berikutnya';
 
             card.append(topRow, advBadge);
             return card;
-        }
-
-        if (match.winner) {
-            card.classList.add('has-winner');
         }
 
         [a, b].forEach((team, i) => {
