@@ -35,6 +35,7 @@
                 <li><a href="{{ url('/trial') }}">Join Trial</a></li>
                 <li><a href="{{ url('/learning-development') }}">Learning &amp; Dev</a></li>
                 <li><a href="{{ url('/bracket') }}">Tournament Bracket</a></li>
+                <li><a href="{{ url('/bracket/free') }}">Free Bracket Generator</a></li>
             </ul>
         </div>
 

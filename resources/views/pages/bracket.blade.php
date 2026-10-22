@@ -50,6 +50,9 @@
                             &#x1F517; Lihat Live Share Link
                         </a>
                     @endif
+                    <a href="{{ route('bracket.free') }}" class="btn-rok btn-rok--outline" style="border-color: rgba(251,191,36,0.6); color: var(--rok-gold);">
+                        &#x1F3AE; Gunakan Versi Gratis
+                    </a>
                 </div>
             </div>
         </div>

@@ -94,4 +94,18 @@ class PageController extends Controller
 
         return view('pages.bracket', compact('tournaments', 'activeTournament', 'pageHeader', 'membershipPlans'));
     }
+
+    public function bracketFree(): View
+    {
+        $tournaments = Tournament::query()
+            ->with(['teams', 'matches.team1', 'matches.team2', 'matches.winner'])
+            ->latest()
+            ->get();
+
+        $activeTournament = $tournaments->firstWhere('status', 'live') ?? $tournaments->first();
+        $pageHeader = PageHeader::where('page_key', 'bracket')->where('is_active', true)->first();
+        $membershipPlans = MembershipPlan::where('is_active', true)->orderBy('sort_order')->get();
+
+        return view('pages.bracket-free', compact('tournaments', 'activeTournament', 'pageHeader', 'membershipPlans'));
+    }
 }

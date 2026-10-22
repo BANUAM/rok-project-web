@@ -615,7 +615,10 @@
 .team-slot--winner {
     color: #ffffff;
     font-weight: 700;
-    background: rgba(212, 175, 55, 0.08);
+    background: transparent !important;
+    outline: 1.5px solid #22c55e !important;
+    outline-offset: -1px;
+    border-radius: 4px;
 }
 
 .team-seed {

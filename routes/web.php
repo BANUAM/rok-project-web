@@ -15,6 +15,7 @@ Route::get('/teams', [PageController::class, 'teams'])->name('teams');
 Route::get('/achievements', [PageController::class, 'achievements'])->name('achievements');
 Route::get('/learning-development', [PageController::class, 'learningDevelopment'])->name('learning-development');
 Route::get('/bracket', [PageController::class, 'bracket'])->name('bracket');
+Route::get('/bracket/free', [PageController::class, 'bracketFree'])->name('bracket.free');
 
 // Trial Workflow
 Route::get('/trial', [TrialController::class, 'index'])->name('trial');

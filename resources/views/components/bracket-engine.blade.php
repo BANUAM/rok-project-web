@@ -2,11 +2,12 @@
     $activeSlug = $tournamentSlug ?? ($activeTournament->slug ?? 'rok-invitational-season-1');
     $initialState = $initialBracketState ?? ($activeTournament->bracket_state ?? null);
     $isReadOnly = $readOnly ?? false;
-    $hasLogoAccess = $unlockLogos ?? (Auth::check() && Auth::user()->hasBracketAccess());
+    $isFree = $isFreePage ?? false;
+    $hasLogoAccess = $unlockLogos ?? (!$isFree && (Auth::check() && Auth::user()->hasBracketAccess()));
     $shareUrl = route('bracket.live', ['slug' => $activeSlug]);
 @endphp
 
-<div class="rok-bracket-workspace" id="rokBracketWorkspace" data-slug="{{ $activeSlug }}" data-readonly="{{ $isReadOnly ? '1' : '0' }}" data-logo-access="{{ $hasLogoAccess ? '1' : '0' }}">
+<div class="rok-bracket-workspace" id="rokBracketWorkspace" data-slug="{{ $activeSlug }}" data-readonly="{{ $isReadOnly ? '1' : '0' }}" data-logo-access="{{ $hasLogoAccess ? '1' : '0' }}" data-free-mode="{{ $isFree ? '1' : '0' }}">
 
     {{-- Top Live Sync & Shareable Link Bar --}}
     <div class="bracket-realtime-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 14px 20px; margin-bottom: 24px; border-radius: var(--radius-md);">
@@ -31,8 +32,9 @@
                 <button type="button" class="btn-rok btn-rok--gold btn-rok--sm" id="copyShareLinkBtn" style="white-space: nowrap;">
                     &#x1F4CB; Salin Link Live
                 </button>
-                <a href="https://wa.me/?text={{ urlencode('Pantau Live Bracket Turnamen secara Real-Time di ROK Web: ' . $shareUrl) }}" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--outline btn-rok--sm" id="waShareLinkBtn" style="white-space: nowrap;">
-                    &#x1F4AC; Share WA
+                <a href="https://wa.me/?text={{ urlencode('Pantau Live Bracket Turnamen secara Real-Time di ROK Web: ' . $shareUrl) }}" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--outline btn-rok--sm" id="waShareLinkBtn" style="white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="color: #25D366; flex-shrink: 0;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.69C7.02 10.9 7.9 12.07 8.02 12.23C8.14 12.4 9.75 14.9 12.24 15.96C14.31 16.85 14.73 16.67 15.18 16.63C15.64 16.59 16.64 16.03 16.85 15.45C17.05 14.86 17.05 14.36 16.99 14.26C16.93 14.16 16.77 14.1 16.52 13.97C16.27 13.85 15.06 13.25 14.83 13.17C14.61 13.09 14.45 13.05 14.28 13.29C14.12 13.54 13.65 14.1 13.51 14.26C13.37 14.43 13.22 14.45 12.98 14.33C12.73 14.2 11.93 13.94 10.99 13.1C10.25 12.44 9.75 11.63 9.61 11.39C9.46 11.14 9.59 11.01 9.72 10.88C9.83 10.77 9.97 10.59 10.1 10.43C10.22 10.28 10.26 10.16 10.34 9.99C10.42 9.83 10.38 9.69 10.32 9.56C10.26 9.44 9.79 8.28 9.59 7.81C9.4 7.36 9.2 7.42 9.05 7.41C8.91 7.41 8.75 7.41 8.59 7.41L8.53 7.33Z"/></svg>
+                    <span>Share WA</span>
                 </a>
                 @if (!$isReadOnly)
                     <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" title="Buka tampilan penonton di tab baru" style="white-space: nowrap;">
@@ -110,6 +112,10 @@
                             <span class="membership-unlocked-pill" style="font-size: 11px; padding: 4px 10px; background: rgba(251,191,36,0.14); border: 1px solid #fbbf24; color: #fbbf24; border-radius: 999px; font-weight: 700;">
                                 &#x1F451; Fitur Logo Tim &amp; Kontak WA Terbuka ({{ strtoupper(Auth::user()?->membershipTierSlug() ?? 'PRO') }})
                             </span>
+                        @elseif ($isFree)
+                            <span class="membership-locked-pill" style="font-size: 11px; padding: 4px 10px; background: rgba(148,163,184,0.12); border: 1px solid var(--rok-surface-border); color: var(--rok-silver); border-radius: 999px;">
+                                &#x1F512; Edisi Gratis: Logo Tim Standar ROK Web (Fitur Bagan Lainnya Lengkap &amp; Bebas Digunakan)
+                            </span>
                         @else
                             <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="membership-locked-pill" style="font-size: 11px; padding: 4px 10px; background: rgba(148,163,184,0.12); border: 1px solid var(--rok-surface-border); color: var(--rok-silver); border-radius: 999px; text-decoration: none;">
                                 &#x1F512; Aktifkan ROK Challenger / Immortal untuk Kustomisasi Logo Tim
@@ -150,19 +156,33 @@
 
         {{-- Output Visualizer Deck --}}
         <div class="generated-bracket-output" id="bracketOutputWrapper">
-            <div class="output-banner">
+            <div class="output-banner" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px;">
                 <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
                     <span class="live-indicator-badge" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #ef4444; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px;">&#x1F534; LIVE BRACKET</span>
                     <h3 id="outputTourneyTitle" style="margin: 0; font-size: 22px;">{{ $initialState['title'] ?? 'ROK Community Cup 2026' }}</h3>
                 </div>
                 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                    <span class="bracket-hint-ClickLogo" style="font-size: 12px; color: var(--rok-muted-light);">&#x1F446; Klik Logo Tim untuk Poin &amp; Kontak WhatsApp Lawan</span>
+                    {{-- Zoom In & Zoom Out Interactive Toolbar --}}
+                    <div class="bracket-zoom-toolbar" style="display: inline-flex; align-items: center; background: rgba(15, 23, 42, 0.7); border: 1px solid var(--rok-surface-border); border-radius: 8px; padding: 2px 4px; gap: 2px;">
+                        <button type="button" class="btn-rok-zoom" id="btnZoomOut" title="Perkecil Bagan (Zoom Out)" aria-label="Zoom Out" style="background: transparent; border: none; color: var(--rok-silver); width: 28px; height: 28px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700;">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
+                        </button>
+                        <button type="button" class="btn-rok-zoom btn-rok-zoom--reset" id="btnZoomReset" title="Reset Zoom ke 100%" style="background: rgba(255,255,255,0.06); border: none; color: var(--rok-gold); font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; cursor: pointer; min-width: 44px; text-align: center;">
+                            100%
+                        </button>
+                        <button type="button" class="btn-rok-zoom" id="btnZoomIn" title="Perbesar Bagan (Zoom In)" aria-label="Zoom In" style="background: transparent; border: none; color: var(--rok-silver); width: 28px; height: 28px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700;">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        </button>
+                    </div>
+                    <span class="bracket-hint-ClickLogo" style="font-size: 12px; color: var(--rok-muted-light);">&#x1F446; Klik Logo Tim untuk Poin &amp; Kontak WhatsApp</span>
                     <span class="badge-mini" id="outputFormatBadge">Single Elimination</span>
                 </div>
             </div>
 
-            <div class="generated-tree-deck" id="generatedTreeDeck" style="position: relative; overflow-x: auto; padding: 12px 6px 30px 6px;">
-                {{-- Rendered Bracket Tree using native .gen-* classes + SVG tournament lines --}}
+            <div class="generated-tree-deck" id="generatedTreeDeck" style="position: relative; overflow: auto; padding: 20px 10px 40px 10px; min-height: 480px;">
+                <div class="bracket-zoom-canvas" id="bracketZoomCanvas" style="display: flex; gap: 48px; min-width: max-content; align-items: stretch; transform-origin: top left; transition: transform 0.18s cubic-bezier(0.2, 0, 0, 1);">
+                    {{-- Rendered Bracket Tree using native .gen-* classes + SVG tournament lines --}}
+                </div>
             </div>
         </div>
     </div>
@@ -216,8 +236,9 @@
             <p style="font-size: 12px; color: var(--rok-muted-light); margin: 0 0 12px 0;">
                 Hubungi tim ini langsung via WhatsApp untuk verifikasi hasil, koordinasi jadwal, atau pembagian lobby turnamen.
             </p>
-            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--gold btn-rok--full btn-wa-direct" id="modalTeamWaBtn" style="text-decoration: none; justify-content: center;">
-                <span>&#x1F4AC; Chat Tim via WhatsApp</span>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--gold btn-rok--full btn-wa-direct" id="modalTeamWaBtn" style="text-decoration: none; justify-content: center; display: inline-flex; align-items: center; gap: 8px;">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="color:#25D366;flex-shrink:0;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.69C7.02 10.9 7.9 12.07 8.02 12.23C8.14 12.4 9.75 14.9 12.24 15.96C14.31 16.85 14.73 16.67 15.18 16.63C15.64 16.59 16.64 16.03 16.85 15.45C17.05 14.86 17.05 14.36 16.99 14.26C16.93 14.16 16.77 14.1 16.52 13.97C16.27 13.85 15.06 13.25 14.83 13.17C14.61 13.09 14.45 13.05 14.28 13.29C14.12 13.54 13.65 14.1 13.51 14.26C13.37 14.43 13.22 14.45 12.98 14.33C12.73 14.2 11.93 13.94 10.99 13.1C10.25 12.44 9.75 11.63 9.61 11.39C9.46 11.14 9.59 11.01 9.72 10.88C9.83 10.77 9.97 10.59 10.1 10.43C10.22 10.28 10.26 10.16 10.34 9.99C10.42 9.83 10.38 9.69 10.32 9.56C10.26 9.44 9.79 8.28 9.59 7.81C9.4 7.36 9.2 7.42 9.05 7.41C8.91 7.41 8.75 7.41 8.59 7.41L8.53 7.33Z"/></svg>
+                <span>Chat Tim via WhatsApp</span>
             </a>
         </div>
     </div>
@@ -306,6 +327,20 @@
             return '+62 ' + clean.slice(2, 5) + '-' + clean.slice(5, 9) + '-' + clean.slice(9);
         }
         return '+' + clean;
+    }
+
+    function getOfficialWhatsAppSvg(size = 14) {
+        return `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="currentColor" style="display:inline-block;vertical-align:middle;color:#25D366;flex-shrink:0;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.69C7.02 10.9 7.9 12.07 8.02 12.23C8.14 12.4 9.75 14.9 12.24 15.96C14.31 16.85 14.73 16.67 15.18 16.63C15.64 16.59 16.64 16.03 16.85 15.45C17.05 14.86 17.05 14.36 16.99 14.26C16.93 14.16 16.77 14.1 16.52 13.97C16.27 13.85 15.06 13.25 14.83 13.17C14.61 13.09 14.45 13.05 14.28 13.29C14.12 13.54 13.65 14.1 13.51 14.26C13.37 14.43 13.22 14.45 12.98 14.33C12.73 14.2 11.93 13.94 10.99 13.1C10.25 12.44 9.75 11.63 9.61 11.39C9.46 11.14 9.59 11.01 9.72 10.88C9.83 10.77 9.97 10.59 10.1 10.43C10.22 10.28 10.26 10.16 10.34 9.99C10.42 9.83 10.38 9.69 10.32 9.56C10.26 9.44 9.79 8.28 9.59 7.81C9.4 7.36 9.2 7.42 9.05 7.41C8.91 7.41 8.75 7.41 8.59 7.41L8.53 7.33Z"/></svg>`;
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
 
     function getTeamCount() {
@@ -1029,10 +1064,15 @@
             return card;
         }
 
+        if (match.winner) {
+            card.classList.add('has-winner');
+        }
+
         [a, b].forEach((team, i) => {
             const isWinner = match.winner && team && match.winner.id === team.id;
+            const isLoser = match.winner && team && match.winner.id !== team.id;
             const row = document.createElement('div');
-            row.className = `gen-team-row ${isWinner ? 'is-winner' : ''}`;
+            row.className = `gen-team-row ${isWinner ? 'is-winner' : ''} ${isLoser ? 'is-loser' : ''}`.trim();
 
             const infoWrap = document.createElement('div');
             infoWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;overflow:hidden;';
@@ -1060,8 +1100,9 @@
                 waLink.target = '_blank';
                 waLink.rel = 'noopener noreferrer';
                 waLink.title = `Chat WA ${team.name}`;
-                waLink.style.cssText = 'font-size:12px;text-decoration:none;margin-left:4px;flex-shrink:0;cursor:pointer;';
-                waLink.textContent = '💬';
+                waLink.className = 'team-wa-badge-link';
+                waLink.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;padding:2px 5px;border-radius:4px;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.35);text-decoration:none;margin-left:4px;flex-shrink:0;cursor:pointer;line-height:1;transition:transform 0.15s;';
+                waLink.innerHTML = getOfficialWhatsAppSvg(13);
                 infoWrap.appendChild(waLink);
             }
 
@@ -1107,16 +1148,17 @@
     // ====================================================
     function drawAllBracketArrows() {
         const deck = document.getElementById('generatedTreeDeck');
-        if (!deck || !tournamentState) return;
+        const canvas = document.getElementById('bracketZoomCanvas') || deck;
+        if (!deck || !canvas || !tournamentState) return;
 
         // Only draw connector lines for elimination tree structures
         if (tournamentState.format === 'league' || tournamentState.format === 'swiss') {
-            const oldSvg = deck.querySelector('.bracket-connectors-svg');
+            const oldSvg = canvas.querySelector('.bracket-connectors-svg');
             if (oldSvg) oldSvg.remove();
             return;
         }
 
-        const oldSvg = deck.querySelector('.bracket-connectors-svg');
+        const oldSvg = canvas.querySelector('.bracket-connectors-svg');
         if (oldSvg) oldSvg.remove();
 
         const svgNS = 'http://www.w3.org/2000/svg';
@@ -1124,19 +1166,20 @@
         svg.setAttribute('class', 'bracket-connectors-svg');
         svg.setAttribute('aria-hidden', 'true');
 
-        const width = Math.max(deck.scrollWidth, deck.clientWidth);
-        const height = Math.max(deck.scrollHeight, deck.clientHeight);
+        const width = Math.max(canvas.scrollWidth, canvas.clientWidth);
+        const height = Math.max(canvas.scrollHeight, canvas.clientHeight);
         svg.setAttribute('width', String(width));
         svg.setAttribute('height', String(height));
         svg.style.cssText = `position:absolute;top:0;left:0;width:${width}px;height:${height}px;pointer-events:none;z-index:1;overflow:visible;`;
 
-        deck.prepend(svg);
+        canvas.prepend(svg);
 
-        const deckRect = deck.getBoundingClientRect();
+        const canvasRect = canvas.getBoundingClientRect();
+        const zoom = currentZoom || 1.0;
         const matchMap = new Map(tournamentState.matches.map(m => [m.id, m]));
 
         tournamentState.matches.forEach(targetMatch => {
-            const targetEl = deck.querySelector(`.gen-match-box[data-match-id="${targetMatch.id}"]`);
+            const targetEl = canvas.querySelector(`.gen-match-box[data-match-id="${targetMatch.id}"]`);
             if (!targetEl) return;
 
             const sources = [
@@ -1146,25 +1189,25 @@
 
             sources.forEach(({ src, slot }) => {
                 if (!src || src.type === 'team' || !src.matchId) return;
-                const sourceEl = deck.querySelector(`.gen-match-box[data-match-id="${src.matchId}"]`);
+                const sourceEl = canvas.querySelector(`.gen-match-box[data-match-id="${src.matchId}"]`);
                 if (!sourceEl) return;
 
                 const sourceMatch = matchMap.get(src.matchId);
                 const sRect = sourceEl.getBoundingClientRect();
                 const tRect = targetEl.getBoundingClientRect();
 
-                const startX = (sRect.right - deckRect.left) + deck.scrollLeft;
-                const startY = (sRect.top - deckRect.top) + deck.scrollTop + (sRect.height / 2);
+                const startX = (sRect.right - canvasRect.left) / zoom;
+                const startY = (sRect.top - canvasRect.top + (sRect.height / 2)) / zoom;
 
-                const endX = (tRect.left - deckRect.left) + deck.scrollLeft;
+                const endX = (tRect.left - canvasRect.left) / zoom;
                 const rows = targetEl.querySelectorAll('.gen-team-row');
-                let endY = (tRect.top - deckRect.top) + deck.scrollTop + (tRect.height * (slot === 0 ? 0.35 : 0.70));
+                let endY = (tRect.top - canvasRect.top + (tRect.height * (slot === 0 ? 0.35 : 0.70))) / zoom;
                 if (rows[slot]) {
                     const rRect = rows[slot].getBoundingClientRect();
-                    endY = (rRect.top - deckRect.top) + deck.scrollTop + (rRect.height / 2);
+                    endY = (rRect.top - canvasRect.top + (rRect.height / 2)) / zoom;
                 }
 
-                if (endX <= startX + 10) return; // Only draw left-to-right connections
+                if (endX <= startX + 5) return; // Only draw left-to-right connections
 
                 const midX = startX + (endX - startX) * 0.5;
                 const pathData = `M ${startX} ${startY} H ${midX} V ${endY} H ${endX}`;
@@ -1406,15 +1449,22 @@
         if (badgeEl) badgeEl.textContent = formatLabels[state.format] || state.format;
 
         const deck = document.getElementById('generatedTreeDeck');
+        let canvas = document.getElementById('bracketZoomCanvas');
         if (!deck) return;
-        deck.replaceChildren();
+        if (!canvas) {
+            canvas = document.createElement('div');
+            canvas.className = 'bracket-zoom-canvas';
+            canvas.id = 'bracketZoomCanvas';
+            deck.appendChild(canvas);
+        }
+        canvas.replaceChildren();
 
         if (state.format === 'league') {
-            renderStandings(deck, state);
+            renderStandings(canvas, state);
         }
 
         if (state.format === 'double') {
-            renderDoubleBracket(deck, state);
+            renderDoubleBracket(canvas, state);
         } else {
             state.rounds.forEach(round => {
                 const col = document.createElement('div');
@@ -1435,12 +1485,12 @@
                     list.appendChild(empty);
                 }
                 col.appendChild(list);
-                deck.appendChild(col);
+                canvas.appendChild(col);
             });
         }
 
         if (state.format === 'swiss') {
-            renderSwissProgress(deck, state);
+            renderSwissProgress(canvas, state);
         }
 
         if (state.format === 'single' || state.format === 'double') {
@@ -1463,15 +1513,46 @@
             sub.textContent = champion ? 'Tournament Champion' : 'Isi skor pertandingan';
             box.append(icon, name, sub);
             col.append(heading, box);
-            deck.appendChild(col);
+            canvas.appendChild(col);
         }
 
         requestAnimationFrame(() => {
             drawAllBracketArrows();
+            applyZoom(currentZoom);
         });
 
         if (syncToServer && !IS_READ_ONLY && !isApplyingRemoteUpdate) {
             scheduleRealtimeSync();
+        }
+    }
+
+    let currentZoom = 1.0;
+    const MIN_ZOOM = 0.5;
+    const MAX_ZOOM = 2.0;
+    const ZOOM_STEP = 0.15;
+
+    function applyZoom(zoom) {
+        currentZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(zoom * 100) / 100));
+        const canvas = document.getElementById('bracketZoomCanvas');
+        const zoomBtn = document.getElementById('btnZoomReset');
+        if (zoomBtn) zoomBtn.textContent = `${Math.round(currentZoom * 100)}%`;
+
+        if (canvas) {
+            canvas.style.transform = `scale(${currentZoom})`;
+            canvas.style.transformOrigin = 'top left';
+
+            const deck = document.getElementById('generatedTreeDeck');
+            if (deck) {
+                const baseWidth = canvas.scrollWidth;
+                const baseHeight = canvas.scrollHeight;
+                if (currentZoom > 1) {
+                    canvas.style.marginBottom = `${Math.max(0, (baseHeight * currentZoom) - baseHeight + 40)}px`;
+                    canvas.style.marginRight = `${Math.max(0, (baseWidth * currentZoom) - baseWidth + 40)}px`;
+                } else {
+                    canvas.style.marginBottom = '0px';
+                    canvas.style.marginRight = '0px';
+                }
+            }
         }
     }
 
@@ -1679,8 +1760,29 @@
             startAutoPolling();
         }
 
+        const btnZoomIn = document.getElementById('btnZoomIn');
+        const btnZoomOut = document.getElementById('btnZoomOut');
+        const btnZoomReset = document.getElementById('btnZoomReset');
+        const deckEl = document.getElementById('generatedTreeDeck');
+
+        if (btnZoomIn) btnZoomIn.addEventListener('click', () => applyZoom(currentZoom + ZOOM_STEP));
+        if (btnZoomOut) btnZoomOut.addEventListener('click', () => applyZoom(currentZoom - ZOOM_STEP));
+        if (btnZoomReset) btnZoomReset.addEventListener('click', () => applyZoom(1.0));
+
+        if (deckEl) {
+            deckEl.addEventListener('wheel', (e) => {
+                if (e.ctrlKey) {
+                    e.preventDefault();
+                    applyZoom(currentZoom + (e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP));
+                }
+            }, { passive: false });
+        }
+
         window.addEventListener('resize', () => {
-            requestAnimationFrame(drawAllBracketArrows);
+            requestAnimationFrame(() => {
+                drawAllBracketArrows();
+                applyZoom(currentZoom);
+            });
         });
     });
 })();
