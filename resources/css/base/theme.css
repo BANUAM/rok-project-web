@@ -148,26 +148,27 @@ html[data-theme="light"] .site-nav__link {
 
 html[data-theme="light"] .site-nav__link:hover {
     color: #0f172a !important;
-    background: rgba(0, 0, 0, 0.04) !important;
-    border-color: rgba(0, 0, 0, 0.08) !important;
+    background: transparent !important;
+    border: none !important;
 }
 
 html[data-theme="light"] .site-nav__link.is-active {
-    color: #0f172a !important;
-    background: rgba(180, 83, 9, 0.08) !important;
-    border-color: rgba(180, 83, 9, 0.3) !important;
-    box-shadow: 0 0 14px rgba(180, 83, 9, 0.12) !important;
+    color: #b45309 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 html[data-theme="light"] .site-nav__link.is-active::after {
-    background: linear-gradient(90deg, transparent 0%, #b45309 50%, transparent 100%) !important;
-    box-shadow: 0 0 6px #b45309 !important;
+    background: #b45309 !important;
+    box-shadow: 0 0 8px rgba(180, 83, 9, 0.5) !important;
 }
 
 html[data-theme="light"] .site-nav__link--login {
     color: #b45309 !important;
     background: rgba(180, 83, 9, 0.08) !important;
-    border-color: rgba(180, 83, 9, 0.4) !important;
+    border: 1.5px solid rgba(180, 83, 9, 0.45) !important;
+    border-radius: 20px !important;
 }
 
 html[data-theme="light"] .site-nav__link--login:hover {
@@ -178,20 +179,23 @@ html[data-theme="light"] .site-nav__link--login:hover {
 
 html[data-theme="light"] .site-nav__link--studio {
     background: rgba(217, 119, 6, 0.12) !important;
-    border-color: #d97706 !important;
+    border: 1.5px solid #d97706 !important;
     color: #b45309 !important;
+    border-radius: 20px !important;
 }
 
 html[data-theme="light"] .site-nav__user-pill {
     background: rgba(0, 0, 0, 0.04) !important;
-    border-color: rgba(0, 0, 0, 0.1) !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.12) !important;
     color: #0f172a !important;
+    border-radius: 20px !important;
 }
 
 html[data-theme="light"] .theme-toggle-btn {
     background: rgba(0, 0, 0, 0.04) !important;
-    border-color: rgba(0, 0, 0, 0.12) !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.14) !important;
     color: #1e293b !important;
+    border-radius: 20px !important;
 }
 
 html[data-theme="light"] .theme-toggle-btn:hover {
