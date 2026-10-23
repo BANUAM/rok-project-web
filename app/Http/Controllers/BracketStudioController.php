@@ -198,24 +198,34 @@ class BracketStudioController extends Controller
      */
     public function praTournamentFree(Request $request, ?string $slug = null): View
     {
-        if (empty($slug)) {
-            $slug = $request->session()->get('free_tournament_slug');
-        }
-
         $tournament = null;
-        if ($slug) {
+        if (!empty($slug)) {
             $tournament = Tournament::with(['teams', 'matches'])->where('slug', $slug)->first();
         }
 
         if (!$tournament) {
-            $tournament = Tournament::where('tier_required', 'free')->first();
+            $cookieSlug = $request->cookie('rok_last_free_slug');
+            if ($cookieSlug) {
+                $tournament = Tournament::with(['teams', 'matches'])->where('slug', $cookieSlug)->first();
+            }
+        }
+
+        if (!$tournament) {
+            $tournament = Tournament::where('tier_required', 'free')->latest('updated_at')->first();
         }
 
         if (!$tournament) {
             $defaultTeams = $this->defaultTeamsPayload(8);
+            foreach ($defaultTeams as &$t) {
+                $t['logo'] = null;
+                $t['is_claimed'] = false;
+            }
+            unset($t);
+
+            $uniqueSlug = 'rok-free-' . strtolower(Str::random(6));
             $tournament = Tournament::create([
                 'name' => 'ROK Free Community Tournament',
-                'slug' => 'rok-free-tournament',
+                'slug' => $uniqueSlug,
                 'format' => 'single_elimination',
                 'team_count' => 8,
                 'status' => 'live',
@@ -224,6 +234,7 @@ class BracketStudioController extends Controller
                 'is_public' => true,
                 'bracket_state' => [
                     'title' => 'ROK Free Community Tournament',
+                    'name' => 'ROK Free Community Tournament',
                     'format' => 'single',
                     'teamCount' => 8,
                     'teams' => $defaultTeams,
@@ -330,9 +341,9 @@ class BracketStudioController extends Controller
                     $teams[$k] = [
                         'id' => $k + 1,
                         'seed' => $k + 1,
-                        'name' => 'Team ' . ($k + 1),
+                        'name' => 'Nama Tim ' . ($k + 1),
                         'whatsapp' => '',
-                        'logo' => '/storage/tournaments/team-rok.svg',
+                        'logo' => null,
                         'is_claimed' => false,
                     ];
                 }
@@ -359,22 +370,21 @@ class BracketStudioController extends Controller
             }
         }
 
-        // Determine logo: On Free mode, force standard preset emblem (no custom logo allowed)
+        // Determine logo: On Free mode, force logo to null/empty (pure text & WhatsApp only)
         $isFree = ($tournament->tier_required === 'free');
-        $presets = [
-            '/storage/tournaments/team-rok.svg',
-            '/storage/tournaments/team-aether.svg',
-            '/storage/tournaments/team-valkyrie.svg',
-            '/storage/tournaments/team-shadow.svg',
-            '/storage/tournaments/team-apex.svg',
-            '/storage/tournaments/team-wolves.svg',
-            '/storage/tournaments/team-kitsune.svg',
-            '/storage/tournaments/team-eclipse.svg',
-        ];
-
         if ($isFree) {
-            $logo = $presets[$slotIdx % count($presets)];
+            $logo = null;
         } else {
+            $presets = [
+                '/storage/tournaments/team-rok.svg',
+                '/storage/tournaments/team-aether.svg',
+                '/storage/tournaments/team-valkyrie.svg',
+                '/storage/tournaments/team-shadow.svg',
+                '/storage/tournaments/team-apex.svg',
+                '/storage/tournaments/team-wolves.svg',
+                '/storage/tournaments/team-kitsune.svg',
+                '/storage/tournaments/team-eclipse.svg',
+            ];
             $logo = $validated['logo'] ?? null;
             if (empty($logo)) {
                 $logo = $teams[$slotIdx]['logo'] ?? $presets[$slotIdx % count($presets)];
@@ -494,12 +504,6 @@ class BracketStudioController extends Controller
             $this->syncTeamsTable($tournament, $teams);
         }
 
-        // Also save to session if in free session
-        $request->session()->put('free_bracket_state_' . $slug, $statePayload);
-        if ($tournament->tier_required === 'free') {
-            $request->session()->put('free_tournament_slug', $tournament->slug);
-        }
-
         return response()->json([
             'ok' => true,
             'slug' => $tournament->slug,
@@ -582,22 +586,14 @@ class BracketStudioController extends Controller
     public function defaultTeamsPayload(int $count): array
     {
         $presets = [
-            ['name' => 'ROK Prime', 'whatsapp' => '6281234567890', 'logo' => '/storage/tournaments/team-rok.svg'],
-            ['name' => 'Aether Esports', 'whatsapp' => '6281234567891', 'logo' => '/storage/tournaments/team-aether.svg'],
-            ['name' => 'Valkyrie Horizon', 'whatsapp' => '6281234567892', 'logo' => '/storage/tournaments/team-valkyrie.svg'],
-            ['name' => 'Shadow Legion', 'whatsapp' => '6281234567893', 'logo' => '/storage/tournaments/team-shadow.svg'],
-            ['name' => 'Apex Titans', 'whatsapp' => '6281234567894', 'logo' => '/storage/tournaments/team-apex.svg'],
-            ['name' => 'Celestial Wolves', 'whatsapp' => '6281234567895', 'logo' => '/storage/tournaments/team-wolves.svg'],
-            ['name' => 'Kitsune Vanguard', 'whatsapp' => '6281234567896', 'logo' => '/storage/tournaments/team-kitsune.svg'],
-            ['name' => 'Solar Eclipse', 'whatsapp' => '6281234567897', 'logo' => '/storage/tournaments/team-eclipse.svg'],
-            ['name' => 'Nova Sovereign', 'whatsapp' => '6281234567898', 'logo' => '/storage/tournaments/team-rok.svg'],
-            ['name' => 'Phantom Syndicate', 'whatsapp' => '6281234567899', 'logo' => '/storage/tournaments/team-shadow.svg'],
-            ['name' => 'Crimson Vortex', 'whatsapp' => '6281234567800', 'logo' => '/storage/tournaments/team-apex.svg'],
-            ['name' => 'Obsidian Crown', 'whatsapp' => '6281234567801', 'logo' => '/storage/tournaments/team-aether.svg'],
-            ['name' => 'Thunder Monarch', 'whatsapp' => '6281234567802', 'logo' => '/storage/tournaments/team-wolves.svg'],
-            ['name' => 'Iron Valkyrie', 'whatsapp' => '6281234567803', 'logo' => '/storage/tournaments/team-valkyrie.svg'],
-            ['name' => 'Astral Knights', 'whatsapp' => '6281234567804', 'logo' => '/storage/tournaments/team-kitsune.svg'],
-            ['name' => 'Zenith Dragons', 'whatsapp' => '6281234567805', 'logo' => '/storage/tournaments/team-eclipse.svg'],
+            '/storage/tournaments/team-rok.svg',
+            '/storage/tournaments/team-aether.svg',
+            '/storage/tournaments/team-valkyrie.svg',
+            '/storage/tournaments/team-shadow.svg',
+            '/storage/tournaments/team-apex.svg',
+            '/storage/tournaments/team-wolves.svg',
+            '/storage/tournaments/team-kitsune.svg',
+            '/storage/tournaments/team-eclipse.svg',
         ];
 
         $result = [];
@@ -606,9 +602,9 @@ class BracketStudioController extends Controller
             $result[] = [
                 'id' => $i + 1,
                 'seed' => $i + 1,
-                'name' => $i < count($presets) ? $preset['name'] : ('Tim Esports ' . ($i + 1)),
-                'whatsapp' => $preset['whatsapp'],
-                'logo' => $preset['logo'],
+                'name' => 'Nama Tim ' . ($i + 1),
+                'whatsapp' => '',
+                'logo' => $preset,
             ];
         }
 

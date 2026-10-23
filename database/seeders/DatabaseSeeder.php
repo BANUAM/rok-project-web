@@ -545,14 +545,14 @@ class DatabaseSeeder extends Seeder
         );
 
         $teams = [
-            ['team_name' => 'ROK Prime', 'logo_path' => 'tournaments/team-rok.svg', 'whatsapp_number' => '6281234567890', 'seed' => 1],
-            ['team_name' => 'Aether Esports', 'logo_path' => 'tournaments/team-aether.svg', 'whatsapp_number' => '6281234567891', 'seed' => 2],
-            ['team_name' => 'Valkyrie Horizon', 'logo_path' => 'tournaments/team-valkyrie.svg', 'whatsapp_number' => '6281234567892', 'seed' => 3],
-            ['team_name' => 'Shadow Legion', 'logo_path' => 'tournaments/team-shadow.svg', 'whatsapp_number' => '6281234567893', 'seed' => 4],
-            ['team_name' => 'Apex Titans', 'logo_path' => 'tournaments/team-apex.svg', 'whatsapp_number' => '6281234567894', 'seed' => 5],
-            ['team_name' => 'Celestial Wolves', 'logo_path' => 'tournaments/team-wolves.svg', 'whatsapp_number' => '6281234567895', 'seed' => 6],
-            ['team_name' => 'Kitsune Vanguard', 'logo_path' => 'tournaments/team-kitsune.svg', 'whatsapp_number' => '6281234567896', 'seed' => 7],
-            ['team_name' => 'Solar Eclipse', 'logo_path' => 'tournaments/team-eclipse.svg', 'whatsapp_number' => '6281234567897', 'seed' => 8],
+            ['team_name' => 'Nama Tim 1', 'logo_path' => 'tournaments/team-rok.svg', 'whatsapp_number' => '', 'seed' => 1],
+            ['team_name' => 'Nama Tim 2', 'logo_path' => 'tournaments/team-aether.svg', 'whatsapp_number' => '', 'seed' => 2],
+            ['team_name' => 'Nama Tim 3', 'logo_path' => 'tournaments/team-valkyrie.svg', 'whatsapp_number' => '', 'seed' => 3],
+            ['team_name' => 'Nama Tim 4', 'logo_path' => 'tournaments/team-shadow.svg', 'whatsapp_number' => '', 'seed' => 4],
+            ['team_name' => 'Nama Tim 5', 'logo_path' => 'tournaments/team-apex.svg', 'whatsapp_number' => '', 'seed' => 5],
+            ['team_name' => 'Nama Tim 6', 'logo_path' => 'tournaments/team-wolves.svg', 'whatsapp_number' => '', 'seed' => 6],
+            ['team_name' => 'Nama Tim 7', 'logo_path' => 'tournaments/team-kitsune.svg', 'whatsapp_number' => '', 'seed' => 7],
+            ['team_name' => 'Nama Tim 8', 'logo_path' => 'tournaments/team-eclipse.svg', 'whatsapp_number' => '', 'seed' => 8],
         ];
 
         $teamModels = [];
@@ -760,14 +760,14 @@ class DatabaseSeeder extends Seeder
 
         // Populate rich initial live bracket_state on the main tournament
         $initialTeamsState = [
-            ['id' => 1, 'seed' => 1, 'name' => 'ROK Prime', 'whatsapp' => '6281234567890', 'logo' => '/storage/tournaments/team-rok.svg'],
-            ['id' => 2, 'seed' => 2, 'name' => 'Aether Esports', 'whatsapp' => '6281234567891', 'logo' => '/storage/tournaments/team-aether.svg'],
-            ['id' => 3, 'seed' => 3, 'name' => 'Valkyrie Horizon', 'whatsapp' => '6281234567892', 'logo' => '/storage/tournaments/team-valkyrie.svg'],
-            ['id' => 4, 'seed' => 4, 'name' => 'Shadow Legion', 'whatsapp' => '6281234567893', 'logo' => '/storage/tournaments/team-shadow.svg'],
-            ['id' => 5, 'seed' => 5, 'name' => 'Apex Titans', 'whatsapp' => '6281234567894', 'logo' => '/storage/tournaments/team-apex.svg'],
-            ['id' => 6, 'seed' => 6, 'name' => 'Celestial Wolves', 'whatsapp' => '6281234567895', 'logo' => '/storage/tournaments/team-wolves.svg'],
-            ['id' => 7, 'seed' => 7, 'name' => 'Kitsune Vanguard', 'whatsapp' => '6281234567896', 'logo' => '/storage/tournaments/team-kitsune.svg'],
-            ['id' => 8, 'seed' => 8, 'name' => 'Solar Eclipse', 'whatsapp' => '6281234567897', 'logo' => '/storage/tournaments/team-eclipse.svg'],
+            ['id' => 1, 'seed' => 1, 'name' => 'Nama Tim 1', 'whatsapp' => '', 'logo' => '/storage/tournaments/team-rok.svg'],
+            ['id' => 2, 'seed' => 2, 'name' => 'Nama Tim 2', 'whatsapp' => '', 'logo' => '/storage/tournaments/team-aether.svg'],
+            ['id' => 3, 'seed' => 3, 'name' => 'Nama Tim 3', 'whatsapp' => '', 'logo' => '/storage/tournaments/team-valkyrie.svg'],
+            ['id' => 4, 'seed' => 4, 'name' => 'Nama Tim 4', 'whatsapp' => '', 'logo' => '/storage/tournaments/team-shadow.svg'],
+            ['id' => 5, 'seed' => 5, 'name' => 'Nama Tim 5', 'whatsapp' => '', 'logo' => '/storage/tournaments/team-apex.svg'],
+            ['id' => 6, 'seed' => 6, 'name' => 'Nama Tim 6', 'whatsapp' => '', 'logo' => '/storage/tournaments/team-wolves.svg'],
+            ['id' => 7, 'seed' => 7, 'name' => 'Nama Tim 7', 'whatsapp' => '', 'logo' => '/storage/tournaments/team-kitsune.svg'],
+            ['id' => 8, 'seed' => 8, 'name' => 'Nama Tim 8', 'whatsapp' => '', 'logo' => '/storage/tournaments/team-eclipse.svg'],
         ];
 
         $tourney->update([

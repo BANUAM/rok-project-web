@@ -156,9 +156,11 @@
 
                         {{-- Card Body --}}
                         <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
-                            <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; border: 2px solid {{ $isClaimed ? '#22c55e' : 'var(--rok-surface-border)' }}; flex-shrink: 0; background: #0f172a; display: flex; align-items: center; justify-content: center;">
-                                <img src="{{ $teamLogo }}" alt="{{ $teamName }}" class="slot-logo-img" style="width: 100%; height: 100%; object-fit: cover; {{ $isClaimed ? '' : 'opacity: 0.4;' }}" onerror="this.src='/storage/tournaments/team-rok.svg'">
-                            </div>
+                            @if (!$isFreeMode)
+                                <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; border: 2px solid {{ $isClaimed ? '#22c55e' : 'var(--rok-surface-border)' }}; flex-shrink: 0; background: #0f172a; display: flex; align-items: center; justify-content: center;">
+                                    <img src="{{ $teamLogo }}" alt="{{ $teamName }}" class="slot-logo-img" style="width: 100%; height: 100%; object-fit: cover; {{ $isClaimed ? '' : 'opacity: 0.4;' }}" onerror="this.src='/storage/tournaments/team-rok.svg'">
+                                </div>
+                            @endif
                             <div style="min-width: 0; flex: 1;">
                                 <h4 class="slot-team-name" style="margin: 0 0 4px 0; font-size: 15px; font-weight: 700; color: {{ $isClaimed ? '#fff' : 'var(--rok-muted-light)' }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                     {{ $isClaimed ? $teamName : 'Slot Kosong' }}
@@ -250,7 +252,7 @@
             {{-- Nama Tim --}}
             <div class="form-field" style="margin-bottom: 14px;">
                 <label for="claimTeamName" class="form-label" style="font-size: 13px; font-weight: 700;">Nama Tim Resmi *</label>
-                <input type="text" id="claimTeamName" class="form-input" placeholder="Contoh: ROK Prime Esports" required minlength="2" maxlength="40" style="font-size: 13px;">
+                <input type="text" id="claimTeamName" class="form-input" placeholder="Contoh: Nama Tim Anda" required minlength="2" maxlength="40" style="font-size: 13px;">
             </div>
 
             {{-- Nomor WhatsApp --}}
@@ -303,10 +305,10 @@
                 {{-- Edisi Free: Sama sekali tidak ada button atau input logo --}}
                 <div style="margin-bottom: 16px; padding: 10px 14px; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px;">
                     <span style="font-size: 12px; color: #38bdf8; display: block; font-weight: 700;">
-                        &#x1F3AE; Edisi Turnamen Gratis
+                        &#x1F3AE; Edisi Turnamen Gratis (Tanpa Logo)
                     </span>
                     <span style="font-size: 11px; color: var(--rok-muted-light); display: block; margin-top: 2px;">
-                        Logo tim disematkan secara otomatis menggunakan emblem standar turnamen resmi ROK Web.
+                        Pendaftaran berfokus pada Nama Tim &amp; Kontak WhatsApp kapten. Kustomisasi logo resmi tim tersedia pada Turnamen Membership.
                     </span>
                 </div>
             @endif
@@ -558,11 +560,11 @@
                                 card.style.borderColor = 'rgba(34, 197, 94, 0.4)';
                                 const nameEl = card.querySelector('.slot-team-name');
                                 if (nameEl) {
-                                    nameEl.textContent = t.name || `Team ${idx + 1}`;
+                                    nameEl.textContent = t.name || `Nama Tim ${idx + 1}`;
                                     nameEl.style.color = '#fff';
                                 }
                                 const logoImg = card.querySelector('.slot-logo-img');
-                                if (logoImg && t.logo) {
+                                if (!IS_FREE_MODE && logoImg && t.logo) {
                                     logoImg.src = t.logo;
                                     logoImg.style.opacity = '1';
                                 }

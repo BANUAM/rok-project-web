@@ -23,24 +23,32 @@
             </p>
 
             {{-- Free Edition Banner with link to Membership & Promo --}}
-            <div class="studio-portal-banner" style="background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border-left: 4px solid var(--rok-gold);">
+            <div class="studio-portal-banner" style="background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%); border-left: 4px solid #38bdf8; border-radius: var(--radius-md); padding: 22px;">
                 <div class="studio-portal-banner__info">
-                    <span class="studio-portal-badge" style="background: rgba(251, 191, 36, 0.15); color: var(--rok-gold); border: 1px solid rgba(251, 191, 36, 0.4);">&#x1F513; EDISI GRATIS AKTIF</span>
-                    <h3 style="font-size: 18px; margin: 6px 0;">SEMUA FITUR BAGAN AKTIF (KECUALI KUSTOMISASI LOGO TIM)</h3>
-                    <p style="font-size: 13px; margin: 0; color: var(--rok-text-muted);">
-                        Butuh halaman kerja khusus <strong>Bracket Studio</strong> seperti panel Management dan ingin memasang <strong>Logo Resmi Tim</strong> sendiri? Anda bisa meng-upgrade ke paket <strong>ROK Challenger</strong> atau <strong>ROK Immortal</strong> kapan saja.
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+                        <span class="studio-portal-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4);">&#x1F513; EDISI GRATIS TERISOLASI</span>
+                        <span style="font-size: 11px; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 4px; color: var(--rok-silver); font-family: monospace;">
+                            ID: {{ $activeTournament->slug }}
+                        </span>
+                    </div>
+                    <h3 style="font-size: 18px; margin: 4px 0 8px 0;">SEMUA FITUR BAGAN AKTIF (RUANG KERJA TURNAMEN ANDA)</h3>
+                    <p style="font-size: 13px; margin: 0; color: var(--rok-text-muted); line-height: 1.5;">
+                        Setiap turnamen gratis memiliki URL unik dan tersimpan mandiri di database. Bagikan <strong>Link Pra-Turnamen Free</strong> di bawah ke kapten tim Anda. Kapten hanya akan mengisi slot di turnamen ini tanpa risiko bentrok dengan penyelenggara turnamen lain.
                     </p>
                 </div>
-                <div class="studio-portal-banner__actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <a href="{{ route('bracket') }}" class="btn-rok btn-rok--outline">
-                        &#x1F4CB; Halaman Promosi &amp; Info Paket
+                <div class="studio-portal-banner__actions" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 14px;">
+                    <a href="{{ route('bracket.free') }}?new=1" class="btn-rok btn-rok--sm" style="background: #0284c7; color: #fff; font-weight: 700; border-radius: 20px; padding: 7px 16px;" onclick="return confirm('Buat turnamen gratis baru dengan tautan dan bagan yang baru?')">
+                        &#x2795; Buat Turnamen Baru
+                    </a>
+                    <a href="{{ route('bracket') }}" class="btn-rok btn-rok--outline btn-rok--sm" style="border-radius: 20px; padding: 7px 16px;">
+                        &#x1F4CB; Halaman Promosi
                     </a>
                     @if(Auth::check() && Auth::user()->hasBracketAccess())
-                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold">
+                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold btn-rok--sm" style="border-radius: 20px; padding: 7px 16px;">
                             &#x2694; Buka Bracket Studio Member
                         </a>
                     @else
-                        <a href="{{ route('membership.index') }}" class="btn-rok btn-rok--gold">
+                        <a href="{{ route('membership.index') }}" class="btn-rok btn-rok--gold btn-rok--sm" style="border-radius: 20px; padding: 7px 16px;">
                             &#x1F451; Lihat Paket Membership
                         </a>
                     @endif
@@ -92,4 +100,19 @@
         </div>
     </section>
 </div>
+
+<script>
+(() => {
+    const currentSlug = @json($activeTournament->slug);
+    const currentTitle = @json($activeTournament->name);
+    try {
+        localStorage.setItem('rok_last_free_slug', currentSlug);
+        let recents = JSON.parse(localStorage.getItem('rok_free_recent_tourneys') || '[]');
+        recents = recents.filter(t => t.slug !== currentSlug);
+        recents.unshift({ slug: currentSlug, name: currentTitle, time: Date.now() });
+        if (recents.length > 5) recents = recents.slice(0, 5);
+        localStorage.setItem('rok_free_recent_tourneys', JSON.stringify(recents));
+    } catch (e) {}
+})();
+</script>
 @endsection

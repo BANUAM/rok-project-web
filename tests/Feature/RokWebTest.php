@@ -90,7 +90,7 @@ class RokWebTest extends TestCase
 
     public function test_bracket_free_page_renders(): void
     {
-        $response = $this->get('/bracket/free');
+        $response = $this->followingRedirects()->get('/bracket/free');
         $response->assertStatus(200);
         $response->assertSee('BAGAN TURNAMEN GRATIS');
         $response->assertSee('FREE TOURNAMENT GENERATOR');

@@ -223,7 +223,7 @@
             </div>
             <div>
                 <span class="badge-mini" id="modalTeamSeed">SEED #1</span>
-                <h3 class="team-modal-title" id="modalTeamName">ROK Prime</h3>
+                <h3 class="team-modal-title" id="modalTeamName">Nama Tim</h3>
                 <span class="team-modal-seed" id="modalTeamTourney">ROK Community Cup 2026</span>
             </div>
         </div>
@@ -299,6 +299,8 @@
     const STATE_API_URL = @json(route('api.bracket.state', ['slug' => $activeSlug]));
     const IS_READ_ONLY = @json($isReadOnly);
     const HAS_LOGO_ACCESS = @json($hasLogoAccess);
+    const IS_FREE = @json($isFree);
+    const IS_PROMO = @json($isPromo);
 
     const presetLogos = [
         '/storage/tournaments/team-rok.svg',
@@ -311,13 +313,7 @@
         '/storage/tournaments/team-eclipse.svg'
     ];
 
-    const defaultTeamNames = [
-        'ROK Prime', 'Aether Esports', 'Valkyrie Horizon', 'Shadow Legion',
-        'Apex Titans', 'Celestial Wolves', 'Kitsune Vanguard', 'Solar Eclipse',
-        'Phoenix Force', 'Nexus Gaming', 'Vortex Dynasty', 'Titanium Squad',
-        'Iron Blood', 'Alpha Strike', 'Omega Reign', 'Zenith Hunters',
-        'Mythic Dawn', 'Cyber Dragons', 'Ghost Protocol', 'Thunder Fleet'
-    ];
+    const defaultTeamNames = Array.from({ length: 64 }, (_, i) => `Nama Tim ${i + 1}`);
 
     const formatLabels = {
         single: 'Single Elimination',
@@ -418,14 +414,14 @@
         for (let i = 0; i < count; i++) {
             const seed = i + 1;
             const existing = existingTeams && existingTeams[i] ? existingTeams[i] : null;
-            const defaultName = defaultTeamNames[i] || `Team ${seed}`;
+            const defaultName = defaultTeamNames[i] || `Nama Tim ${seed}`;
             const nameVal = existing?.name || defaultName;
             const waVal = existing?.wa || existing?.whatsapp || '';
             const logoVal = existing?.logo || presetLogos[i % presetLogos.length];
 
             const item = document.createElement('div');
             item.className = 'team-input-item';
-            item.style.cssText = 'display:flex;align-items:center;gap:8px;background:var(--rok-surface-card);border:1px solid var(--rok-surface-border);border-radius:var(--radius-sm);padding:8px 10px;';
+            item.style.cssText = 'position:relative;display:flex;align-items:center;gap:8px;background:var(--rok-surface-card);border:1px solid var(--rok-surface-border);border-radius:var(--radius-sm);padding:8px 10px;';
 
             const seedBadge = document.createElement('span');
             seedBadge.className = 'seed-badge';
@@ -465,7 +461,7 @@
 
             nameInput.addEventListener('input', () => {
                 if (tournamentState && tournamentState.teams && tournamentState.teams[i]) {
-                    tournamentState.teams[i].name = nameInput.value.trim() || `Team ${seed}`;
+                    tournamentState.teams[i].name = nameInput.value.trim() || `Nama Tim ${seed}`;
                     renderTournament(true);
                 }
             });
@@ -488,10 +484,15 @@
 
             if (existing?.is_claimed) {
                 const claimedBadge = document.createElement('span');
-                claimedBadge.style.cssText = 'font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(34,197,94,0.18);border:1px solid rgba(34,197,94,0.4);color:#4ade80;font-weight:700;white-space:nowrap;flex-shrink:0;';
+                claimedBadge.className = 'claimed-checkin-badge';
+                claimedBadge.style.cssText = 'position:absolute;top:-7px;right:10px;font-size:9px;padding:2px 7px;border-radius:10px;background:#15803d;border:1px solid #4ade80;color:#ffffff;font-weight:800;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(0,0,0,0.4);pointer-events:none;z-index:2;';
                 claimedBadge.textContent = '✓ Check-in';
                 claimedBadge.title = 'Tim ini telah terdaftar melalui portal Pra-Turnamen';
-                item.append(seedBadge, claimedBadge, logoBtn, nameInput, waInput);
+                item.appendChild(claimedBadge);
+            }
+
+            if (IS_FREE) {
+                item.append(seedBadge, nameInput, waInput);
             } else {
                 item.append(seedBadge, logoBtn, nameInput, waInput);
             }
@@ -513,10 +514,10 @@
                 ...prev,
                 id: seed,
                 seed: seed,
-                name: (nameEl?.value || '').trim() || (defaultTeamNames[i] || `Team ${seed}`),
+                name: (nameEl?.value || '').trim() || (defaultTeamNames[i] || `Nama Tim ${seed}`),
                 wa: (waEl?.value || '').trim() || prev.wa || prev.whatsapp || '',
                 whatsapp: (waEl?.value || '').trim() || prev.whatsapp || prev.wa || '',
-                logo: logoImg?.src || prev.logo || presetLogos[i % presetLogos.length]
+                logo: IS_FREE ? null : (logoImg?.src || prev.logo || presetLogos[i % presetLogos.length])
             });
         }
         return teams;
@@ -954,7 +955,17 @@
         const waNumEl = document.getElementById('modalTeamWaNumber');
         const waBtnEl = document.getElementById('modalTeamWaBtn');
 
-        if (logoEl) logoEl.src = team.logo || presetLogos[0];
+        if (logoEl) {
+            const logoWrap = logoEl.closest('.team-modal-logo-wrap');
+            if (IS_FREE) {
+                logoEl.style.display = 'none';
+                if (logoWrap) logoWrap.style.display = 'none';
+            } else {
+                logoEl.style.display = 'block';
+                if (logoWrap) logoWrap.style.display = 'flex';
+                logoEl.src = team.logo || presetLogos[0];
+            }
+        }
         if (nameEl) nameEl.textContent = team.name;
         if (seedEl) seedEl.textContent = `SEED #${team.seed}`;
         if (tourneyEl) tourneyEl.textContent = tournamentState.title || 'ROK Web Tournament';
@@ -1068,7 +1079,7 @@
             const infoWrap = document.createElement('div');
             infoWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;overflow:hidden;';
 
-            if (a) {
+            if (a && !IS_FREE) {
                 const logoBtn = document.createElement('button');
                 logoBtn.type = 'button';
                 logoBtn.title = `Klik info Poin & Kontak WhatsApp ${a.name}`;
@@ -1080,8 +1091,12 @@
 
             const name = document.createElement('span');
             name.className = 'gen-team-name';
-            name.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700;flex:1 1 auto;min-width:0;';
+            name.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700;flex:1 1 auto;min-width:0;cursor:pointer;';
             name.textContent = a ? a.name : 'TBD';
+            if (a) {
+                name.title = `Klik info Poin & Kontak WhatsApp ${a.name}`;
+                name.addEventListener('click', () => openTeamModal(a.id));
+            }
             infoWrap.appendChild(name);
 
             const byeBadge = document.createElement('span');
@@ -1108,7 +1123,7 @@
             const infoWrap = document.createElement('div');
             infoWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;overflow:hidden;';
 
-            if (team) {
+            if (team && !IS_FREE) {
                 const logoBtn = document.createElement('button');
                 logoBtn.type = 'button';
                 logoBtn.title = `Klik info Poin & Kontak WhatsApp ${team.name}`;
@@ -1120,8 +1135,12 @@
 
             const name = document.createElement('span');
             name.className = 'gen-team-name';
-            name.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1 1 auto;';
+            name.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1 1 auto;cursor:pointer;';
             name.textContent = team ? team.name : 'TBD';
+            if (team) {
+                name.title = `Klik info Poin & Kontak WhatsApp ${team.name}`;
+                name.addEventListener('click', () => openTeamModal(team.id));
+            }
             infoWrap.appendChild(name);
 
             if (team && team.wa) {
@@ -1417,7 +1436,7 @@
                             <td>#${idx + 1}</td>
                             <td>
                                 <div style="display:flex;align-items:center;gap:6px;">
-                                    <img src="${item.team.logo || presetLogos[0]}" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">
+                                    ${IS_FREE ? '' : `<img src="${item.team.logo || presetLogos[0]}" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">`}
                                     <span>${item.team.name}</span>
                                 </div>
                             </td>
@@ -1720,7 +1739,7 @@
     // REAL-TIME SYNC ENGINE
     // ====================================================
     function scheduleRealtimeSync() {
-        if (IS_READ_ONLY || isApplyingRemoteUpdate || !tournamentState) return;
+        if (IS_READ_ONLY || IS_PROMO || isApplyingRemoteUpdate || !tournamentState) return;
         clearTimeout(syncDebounceTimer);
         const pulse = document.getElementById('realtimePulseDot');
         if (pulse) pulse.style.background = '#f59e0b';
