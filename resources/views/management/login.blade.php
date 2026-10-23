@@ -37,8 +37,8 @@
                         name="email"
                         id="email"
                         class="form-input"
-                        value="{{ old('email', 'admin@rok.com') }}"
-                        placeholder="admin@rok.com"
+                        value="{{ old('email') }}"
+                        placeholder="admin@domain.com"
                         required
                         autofocus
                     >
@@ -51,7 +51,6 @@
                         name="password"
                         id="password"
                         class="form-input"
-                        value="admin123"
                         placeholder="••••••••"
                         required
                     >
@@ -59,7 +58,7 @@
 
                 <div class="login-remember-row">
                     <label class="remember-label">
-                        <input type="checkbox" name="remember" value="1" checked>
+                        <input type="checkbox" name="remember" value="1">
                         <span>Ingat saya di perangkat ini</span>
                     </label>
                 </div>
@@ -70,7 +69,6 @@
             </form>
 
             <div class="login-footer">
-                <p>Default Admin: <code>admin@rok.com</code> / <code>admin123</code></p>
                 <a href="{{ url('/') }}" class="back-link">&larr; Kembali ke Website Publik</a>
             </div>
         </div>

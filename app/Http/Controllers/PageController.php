@@ -100,7 +100,7 @@ class PageController extends Controller
             'format' => 'single_elimination',
             'team_count' => 8,
             'status' => 'live',
-            'organizer_name' => 'ROK Esports Demo',
+            'organizer_name' => 'ROK Esports Official',
             'tier_required' => 'immortal',
             'is_public' => true,
             'bracket_state' => [
