@@ -1747,7 +1747,7 @@
         syncDebounceTimer = setTimeout(async () => {
             try {
                 const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-                const resp = await fetch(SYNC_API_URL, {
+                let resp = await fetch(SYNC_API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1756,6 +1756,17 @@
                     },
                     body: JSON.stringify({ state: tournamentState })
                 });
+                if (resp.status === 404) {
+                    resp = await fetch('/bracket/' + encodeURIComponent(ACTIVE_SLUG) + '/sync', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken || ''
+                        },
+                        body: JSON.stringify({ state: tournamentState })
+                    });
+                }
                 if (resp.ok) {
                     if (pulse) pulse.style.background = '#22c55e';
                     const lastSyncEl = document.getElementById('realtimeLastSync');
@@ -1774,9 +1785,14 @@
         if (!IS_READ_ONLY) return;
         autoPollTimer = setInterval(async () => {
             try {
-                const resp = await fetch(STATE_API_URL, {
+                let resp = await fetch(STATE_API_URL, {
                     headers: { 'Accept': 'application/json' }
                 });
+                if (resp.status === 404) {
+                    resp = await fetch('/bracket/' + encodeURIComponent(ACTIVE_SLUG) + '/state', {
+                        headers: { 'Accept': 'application/json' }
+                    });
+                }
                 if (resp.ok) {
                     const data = await resp.json();
                     const remoteState = data.bracket_state || data.state;

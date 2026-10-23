@@ -61,8 +61,15 @@ Route::get('/bracket/pra-tournament-free/{slug?}', [\App\Http\Controllers\Bracke
 Route::get('/bracket/pra-tournament-membership/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'praTournamentMembership'])->name('bracket.pra-tournament.membership');
 Route::get('/bracket/pra-tournament/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'praTournament'])->name('bracket.pra-tournament');
 Route::get('/api/bracket/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'getState'])->name('api.bracket.state');
+Route::get('/api/bracket/{slug}/state', [\App\Http\Controllers\BracketStudioController::class, 'getState']);
 Route::post('/api/bracket/{slug}/sync', [\App\Http\Controllers\BracketStudioController::class, 'syncState'])->name('api.bracket.sync');
 Route::post('/api/bracket/{slug}/claim-slot', [\App\Http\Controllers\BracketStudioController::class, 'claimSlot'])->name('api.bracket.claim-slot');
+
+// Serverless / Vercel fallback routes (when /api prefix is stripped by lambda runtime)
+Route::get('/bracket/{slug}/state', [\App\Http\Controllers\BracketStudioController::class, 'getState']);
+Route::get('/bracket/{slug}', [\App\Http\Controllers\BracketStudioController::class, 'getState']);
+Route::post('/bracket/{slug}/sync', [\App\Http\Controllers\BracketStudioController::class, 'syncState']);
+Route::post('/bracket/{slug}/claim-slot', [\App\Http\Controllers\BracketStudioController::class, 'claimSlot']);
 
 Route::prefix('bracket-studio')->name('bracket.studio.')->middleware(['auth', 'bracket.member'])->group(function () {
     Route::get('/', [\App\Http\Controllers\BracketStudioController::class, 'index'])->name('index');

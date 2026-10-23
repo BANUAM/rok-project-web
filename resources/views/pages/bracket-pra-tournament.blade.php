@@ -471,7 +471,7 @@
 
         try {
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-            const res = await fetch(CLAIM_API_URL, {
+            let res = await fetch(CLAIM_API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -486,6 +486,24 @@
                     is_free: IS_FREE_MODE ? 1 : 0
                 })
             });
+
+            if (res.status === 404) {
+                res = await fetch('/bracket/' + encodeURIComponent(SLUG) + '/claim-slot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken || '',
+                    },
+                    body: JSON.stringify({
+                        slot_index: slotIdx,
+                        team_name: teamName,
+                        whatsapp: teamWa,
+                        logo: finalLogo,
+                        is_free: IS_FREE_MODE ? 1 : 0
+                    })
+                });
+            }
 
             const data = await res.json();
 
@@ -543,7 +561,10 @@
         // Auto polling every 4 seconds to sync newly claimed slots in real-time
         setInterval(async () => {
             try {
-                const res = await fetch(STATE_API_URL, { headers: { 'Accept': 'application/json' } });
+                let res = await fetch(STATE_API_URL, { headers: { 'Accept': 'application/json' } });
+                if (res.status === 404) {
+                    res = await fetch('/bracket/' + encodeURIComponent(SLUG) + '/state', { headers: { 'Accept': 'application/json' } });
+                }
                 if (!res.ok) return;
                 const json = await res.json();
                 const stateData = json.bracket_state || json.state;
