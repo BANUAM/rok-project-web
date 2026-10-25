@@ -259,6 +259,13 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
+    transition: color 0.15s ease, text-decoration 0.15s ease;
+}
+
+.gen-team-name:hover {
+    color: var(--rok-gold, #f59e0b) !important;
+    text-decoration: underline !important;
 }
 
 .gen-score-input {

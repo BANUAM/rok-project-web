@@ -3,6 +3,10 @@
 @section('title', $tournament->name . ' — Live Real-Time Bracket | ROK Web')
 @section('description', 'Pantau bagan turnamen ' . $tournament->name . ' secara real-time, lihat poin pertandingan, dan hubungi tim lawan melalui WhatsApp.')
 
+@php
+    $isFree = ($tournament->tier_required === 'free' || str_starts_with($tournament->slug, 'rok-free-'));
+@endphp
+
 @section('content')
 <div class="page-container">
     <section class="page-hero">
@@ -13,7 +17,7 @@
                 Diselenggarakan oleh: {{ $tournament->organizer_name }} &bull; Real-Time Sync Aktif
             </p>
             <p class="page-subtitle">
-                Halaman ini terhubung secara real-time. Ketika penyelenggara memperbarui skor atau tim, bagan di layar Anda akan otomatis berubah tanpa perlu me-refresh halaman. Klik <strong>Logo Tim</strong> untuk melihat <strong>Poin Pertandingan</strong> dan <strong>Chat WhatsApp Tim</strong>.
+                Halaman ini terhubung secara real-time. Ketika penyelenggara memperbarui skor atau tim, bagan di layar Anda akan otomatis berubah tanpa perlu me-refresh halaman. Klik <strong>{{ $isFree ? 'Nama Tim' : 'Logo Tim' }}</strong> untuk melihat <strong>Poin Pertandingan</strong> dan <strong>Chat WhatsApp Tim</strong>.
             </p>
 
             @if ($canEdit)
@@ -33,7 +37,8 @@
                 'tournamentSlug' => $tournament->slug,
                 'initialBracketState' => $tournament->bracket_state,
                 'readOnly' => true,
-                'unlockLogos' => true,
+                'unlockLogos' => !$isFree,
+                'isFreePage' => $isFree,
             ])
         </div>
     </section>

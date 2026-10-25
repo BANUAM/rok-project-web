@@ -2,7 +2,8 @@
     $activeSlug = $tournamentSlug ?? ($activeTournament->slug ?? 'rok-invitational-season-1');
     $initialState = $initialBracketState ?? ($activeTournament->bracket_state ?? null);
     $isReadOnly = $readOnly ?? false;
-    $isFree = $isFreePage ?? false;
+    $isFreeTournament = ($activeTournament && (($activeTournament->tier_required ?? '') === 'free' || str_starts_with($activeSlug, 'rok-free-')));
+    $isFree = $isFreePage ?? $isFreeTournament;
     $isPromo = $isPromoPage ?? false;
     $showRealtimeBar = $showRealtimeBar ?? (!$isPromo);
     $hasLogoAccess = $unlockLogos ?? (!$isFree && (Auth::check() && Auth::user()->hasBracketAccess()));
@@ -197,7 +198,7 @@
                             &#x1F500; Acak Bagan
                         </button>
                     @endif
-                    <span class="bracket-hint-ClickLogo" style="font-size: 12px; color: var(--rok-muted-light);">&#x1F446; Klik Logo Tim untuk Poin &amp; Kontak WhatsApp</span>
+                    <span class="bracket-hint-ClickLogo" style="font-size: 12px; color: var(--rok-muted-light);">&#x1F446; {{ $isFree ? 'Klik Nama Tim untuk Skor, Poin & Kontak WhatsApp' : 'Klik Logo Tim untuk Poin & Kontak WhatsApp' }}</span>
                     <span class="badge-mini" id="outputFormatBadge">Single Elimination</span>
                 </div>
             </div>
@@ -1119,11 +1120,19 @@
 
             const name = document.createElement('span');
             name.className = 'gen-team-name';
-            name.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700;flex:1 1 auto;min-width:0;cursor:pointer;';
+            name.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700;flex:1 1 auto;min-width:0;cursor:pointer;transition:all 0.15s ease;';
             name.textContent = a ? a.name : 'TBD';
             if (a) {
-                name.title = `Klik info Poin & Kontak WhatsApp ${a.name}`;
+                name.title = `Klik info Skor, Poin & Kontak WhatsApp ${a.name}`;
                 name.addEventListener('click', () => openTeamModal(a.id));
+                name.addEventListener('mouseenter', () => {
+                    name.style.color = '#f59e0b';
+                    name.style.textDecoration = 'underline';
+                });
+                name.addEventListener('mouseleave', () => {
+                    name.style.color = '';
+                    name.style.textDecoration = 'none';
+                });
             }
             infoWrap.appendChild(name);
 
@@ -1163,11 +1172,19 @@
 
             const name = document.createElement('span');
             name.className = 'gen-team-name';
-            name.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1 1 auto;cursor:pointer;';
+            name.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1 1 auto;cursor:pointer;font-weight:700;transition:all 0.15s ease;';
             name.textContent = team ? team.name : 'TBD';
             if (team) {
-                name.title = `Klik info Poin & Kontak WhatsApp ${team.name}`;
+                name.title = `Klik info Skor, Poin & Kontak WhatsApp ${team.name}`;
                 name.addEventListener('click', () => openTeamModal(team.id));
+                name.addEventListener('mouseenter', () => {
+                    name.style.color = '#f59e0b';
+                    name.style.textDecoration = 'underline';
+                });
+                name.addEventListener('mouseleave', () => {
+                    name.style.color = '';
+                    name.style.textDecoration = 'none';
+                });
             }
             infoWrap.appendChild(name);
 
