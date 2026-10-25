@@ -410,11 +410,12 @@
         const container = document.getElementById('teamInputsGrid');
         if (!container) return;
         const count = getTeamCount();
+        const currentList = existingTeams || (tournamentState?.teams) || null;
         container.replaceChildren();
 
         for (let i = 0; i < count; i++) {
             const seed = i + 1;
-            const existing = existingTeams && existingTeams[i] ? existingTeams[i] : null;
+            const existing = currentList && currentList[i] ? currentList[i] : null;
             const defaultName = defaultTeamNames[i] || `Nama Tim ${seed}`;
             const nameVal = existing?.name || defaultName;
             const waVal = existing?.wa || existing?.whatsapp || '';
@@ -519,7 +520,6 @@
             container.appendChild(item);
         }
         window.renderLucideIcons?.();
-    }
     }
 
     function collectCurrentTeams() {
