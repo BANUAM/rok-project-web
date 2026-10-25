@@ -145,7 +145,7 @@
 
                 <div class="generator-actions" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-top: 24px;">
                     <div style="font-size: 12px; color: var(--rok-muted-light);">
-                        &#x1F4A1; <strong>Info:</strong> Perubahan skor, nama tim, WhatsApp, dan bagan langsung tersimpan dan dapat diakses penonton secara real-time.
+                        &#x1F4A1; <strong>Info:</strong> Atur nama turnamen, format, tim &amp; nomor WhatsApp, lalu klik <strong>"Generate &amp; Simpan Bagan"</strong>. Perubahan skor pada bagan tersimpan otomatis secara real-time.
                     </div>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                         <button type="button" class="btn-rok btn-rok--outline" id="btnReshuffleBracket" title="Acak urutan tim peserta (Drawing Turnamen)" style="border-color: #a855f7; color: #c084fc; font-weight: 700;">
@@ -464,14 +464,14 @@
                     const defaultName = defaultTeamNames[i] || `Nama Tim ${seed}`;
                     tournamentState.teams[i].name = nameInput.value.trim() || defaultName;
 
-                    // If WhatsApp number is empty, ensure team is marked unclaimed and remove badge
+                    // If WhatsApp number is empty, ensure team is marked unclaimed and remove badge visually
                     if (!waInput.value.trim()) {
                         tournamentState.teams[i].is_claimed = false;
                         tournamentState.teams[i].claimed_at = null;
                         const badge = item.querySelector('.claimed-checkin-badge');
                         if (badge) badge.remove();
                     }
-                    renderTournament(true);
+                    // TAHAN: Perubahan nama tim disimpan ke bagan saat klik 'Generate & Simpan Bagan'
                 }
             });
 
@@ -496,7 +496,7 @@
                         const badge = item.querySelector('.claimed-checkin-badge');
                         if (badge) badge.remove();
                     }
-                    scheduleRealtimeSync();
+                    // TAHAN: Perubahan nomor WA disimpan ke bagan saat klik 'Generate & Simpan Bagan'
                 }
             });
 
@@ -1916,21 +1916,37 @@
             formatSelect?.addEventListener('change', () => {
                 syncTeamCountOptions();
                 renderTeamInputs();
-                buildTournament(true);
+                // TAHAN DULU: Jangan langsung generate bagan sampai tombol 'Generate & Simpan Bagan' diklik
             });
 
             teamCountInput?.addEventListener('input', () => {
                 renderTeamInputs();
-                buildTournament(true);
+                // TAHAN DULU: Jangan langsung generate bagan sampai tombol 'Generate & Simpan Bagan' diklik
             });
 
             teamCountSelect?.addEventListener('change', () => {
                 renderTeamInputs();
-                buildTournament(true);
+                // TAHAN DULU: Jangan langsung generate bagan sampai tombol 'Generate & Simpan Bagan' diklik
             });
 
             generateBtn?.addEventListener('click', () => {
                 buildTournament(true);
+                const originalHtml = generateBtn.innerHTML;
+                generateBtn.innerHTML = '&#x2713; Bagan Berhasil Digenerate &amp; Disimpan!';
+                generateBtn.style.background = '#15803d';
+                generateBtn.style.borderColor = '#4ade80';
+                generateBtn.style.color = '#ffffff';
+                setTimeout(() => {
+                    generateBtn.innerHTML = originalHtml;
+                    generateBtn.style.background = '';
+                    generateBtn.style.borderColor = '';
+                    generateBtn.style.color = '';
+                }, 2200);
+
+                const bracketDeck = document.getElementById('bracketDeck');
+                if (bracketDeck) {
+                    bracketDeck.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
             });
 
             document.getElementById('btnReshuffleBracket')?.addEventListener('click', reshuffleTeams);
