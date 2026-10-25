@@ -290,7 +290,7 @@ class BracketStudioController extends Controller
         }
 
         $totalSlots = count($teams) > 0 ? count($teams) : ($tournament->team_count ?: 8);
-        $claimedCount = count(array_filter($teams, fn($t) => !empty($t['is_claimed'])));
+        $claimedCount = count(array_filter($teams, fn($t) => !empty($t['is_claimed']) && !empty($t['whatsapp'] ?? ($t['wa'] ?? ''))));
         $canEdit = Auth::check() && ($tournament->user_id === Auth::id() || Auth::user()->isAdmin());
         $hasLogoAccess = !$isFreeMode;
 
@@ -456,6 +456,19 @@ class BracketStudioController extends Controller
         $title = (string) ($rawState['title'] ?? $rawState['name'] ?? ($tournament ? $tournament->name : 'ROK Live Tournament'));
         $format = (string) ($rawState['format'] ?? ($tournament ? $this->mapJsFormat($tournament->format) : 'single'));
         $teams = is_array($rawState['teams'] ?? null) ? $rawState['teams'] : [];
+        foreach ($teams as &$t) {
+            $wa = trim((string)($t['whatsapp'] ?? $t['wa'] ?? ''));
+            if ($wa === '') {
+                $t['is_claimed'] = false;
+                $t['claimed_at'] = null;
+                $t['whatsapp'] = '';
+                $t['wa'] = '';
+            } else {
+                $t['whatsapp'] = $wa;
+                $t['wa'] = $wa;
+            }
+        }
+        unset($t);
         $teamCount = (int) ($rawState['teamCount'] ?? (count($teams) > 0 ? count($teams) : 8));
         $scores = $rawState['scores'] ?? [];
         $matches = $rawState['matches'] ?? [];

@@ -126,9 +126,9 @@
                 @for ($i = 0; $i < $totalSlots; $i++)
                     @php
                         $team = $teamsList[$i] ?? null;
-                        $isClaimed = !empty($team['is_claimed']);
-                        $teamName = $team['name'] ?? ('Slot #' . ($i + 1));
                         $teamWa = $team['whatsapp'] ?? ($team['wa'] ?? '');
+                        $isClaimed = !empty($team['is_claimed']) && !empty($teamWa);
+                        $teamName = $team['name'] ?? ('Slot #' . ($i + 1));
                         $teamLogo = $team['logo'] ?? '/storage/tournaments/team-rok.svg';
                     @endphp
 
@@ -572,13 +572,20 @@
                     const teams = stateData.teams;
                     let claimedCount = 0;
                     teams.forEach((t, idx) => {
-                        if (t.is_claimed) {
+                        const isClaimed = !!(t.is_claimed && (t.whatsapp || t.wa));
+                        const card = document.getElementById(`slot_card_${idx}`);
+                        if (isClaimed) {
                             claimedCount++;
-                            const card = document.getElementById(`slot_card_${idx}`);
                             if (card && card.getAttribute('data-claimed') !== '1') {
                                 card.setAttribute('data-claimed', '1');
                                 card.className = 'pra-slot-card pra-slot-card--claimed';
                                 card.style.borderColor = 'rgba(34, 197, 94, 0.4)';
+                                const topBadge = card.querySelector('.badge-claimed, .badge-vacant');
+                                if (topBadge) {
+                                    topBadge.className = 'badge-claimed';
+                                    topBadge.style.cssText = 'font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(34, 197, 94, 0.16); border: 1px solid #22c55e; color: #4ade80; font-weight: 700;';
+                                    topBadge.innerHTML = '&#x2713; TERDAFTAR';
+                                }
                                 const nameEl = card.querySelector('.slot-team-name');
                                 if (nameEl) {
                                     nameEl.textContent = t.name || `Nama Tim ${idx + 1}`;
@@ -597,6 +604,37 @@
                                             ${t.whatsapp ? `<a href="https://wa.me/${t.whatsapp}" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--outline btn-rok--sm" style="font-size: 11px; padding: 4px 10px; border-radius: 20px; border-color: rgba(37, 211, 102, 0.4); color: #25D366; text-decoration: none;">Chat WA</a>` : ''}
                                         </div>
                                     `;
+                                }
+                            }
+                        } else {
+                            // If previously claimed but now vacant / number deleted by organizer
+                            if (card && card.getAttribute('data-claimed') === '1') {
+                                card.setAttribute('data-claimed', '0');
+                                card.className = 'pra-slot-card pra-slot-card--vacant';
+                                card.style.borderColor = 'var(--rok-surface-border)';
+                                const topBadge = card.querySelector('.badge-claimed, .badge-vacant');
+                                if (topBadge) {
+                                    topBadge.className = 'badge-vacant';
+                                    topBadge.style.cssText = 'font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: 700;';
+                                    topBadge.innerHTML = '&#x25CB; TERSEDIA';
+                                }
+                                const nameEl = card.querySelector('.slot-team-name');
+                                if (nameEl) {
+                                    nameEl.textContent = 'Slot Kosong';
+                                    nameEl.style.color = 'var(--rok-muted-light)';
+                                }
+                                const logoImg = card.querySelector('.slot-logo-img');
+                                if (!IS_FREE_MODE && logoImg) {
+                                    logoImg.style.opacity = '0.4';
+                                }
+                                const actions = card.querySelector('.slot-card-actions');
+                                if (actions) {
+                                    actions.innerHTML = `
+                                        <button type="button" class="btn-rok btn-rok--gold btn-rok--full btn-claim-slot" data-slot="${idx}" style="border-radius: 20px; font-weight: 700; font-size: 13px; padding: 8px 14px;">
+                                            &#x270D; Klaim Slot #${idx + 1}
+                                        </button>
+                                    `;
+                                    actions.querySelector('.btn-claim-slot')?.addEventListener('click', () => openClaimModal(idx));
                                 }
                             }
                         }

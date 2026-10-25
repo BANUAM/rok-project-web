@@ -461,7 +461,16 @@
 
             nameInput.addEventListener('input', () => {
                 if (tournamentState && tournamentState.teams && tournamentState.teams[i]) {
-                    tournamentState.teams[i].name = nameInput.value.trim() || `Nama Tim ${seed}`;
+                    const defaultName = defaultTeamNames[i] || `Nama Tim ${seed}`;
+                    tournamentState.teams[i].name = nameInput.value.trim() || defaultName;
+
+                    // If WhatsApp number is empty, ensure team is marked unclaimed and remove badge
+                    if (!waInput.value.trim()) {
+                        tournamentState.teams[i].is_claimed = false;
+                        tournamentState.teams[i].claimed_at = null;
+                        const badge = item.querySelector('.claimed-checkin-badge');
+                        if (badge) badge.remove();
+                    }
                     renderTournament(true);
                 }
             });
@@ -476,13 +485,23 @@
 
             waInput.addEventListener('input', () => {
                 if (tournamentState && tournamentState.teams && tournamentState.teams[i]) {
-                    tournamentState.teams[i].wa = waInput.value.trim();
-                    tournamentState.teams[i].whatsapp = waInput.value.trim();
+                    const cleanVal = waInput.value.trim();
+                    tournamentState.teams[i].wa = cleanVal;
+                    tournamentState.teams[i].whatsapp = cleanVal;
+
+                    if (!cleanVal) {
+                        // User erased / deleted the WhatsApp number: remove check-in status and badge immediately
+                        tournamentState.teams[i].is_claimed = false;
+                        tournamentState.teams[i].claimed_at = null;
+                        const badge = item.querySelector('.claimed-checkin-badge');
+                        if (badge) badge.remove();
+                    }
                     scheduleRealtimeSync();
                 }
             });
 
-            if (existing?.is_claimed) {
+            const isActuallyClaimed = !!(existing?.is_claimed && (existing?.whatsapp || existing?.wa));
+            if (isActuallyClaimed) {
                 const claimedBadge = document.createElement('span');
                 claimedBadge.className = 'claimed-checkin-badge';
                 claimedBadge.style.cssText = 'position:absolute;top:-7px;right:10px;font-size:9px;padding:2px 7px;border-radius:10px;background:#15803d;border:1px solid #4ade80;color:#ffffff;font-weight:800;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(0,0,0,0.4);pointer-events:none;z-index:2;';
@@ -510,13 +529,22 @@
             const logoImg = document.getElementById(`team_logo_preview_${i}`);
             const prev = (tournamentState && tournamentState.teams && tournamentState.teams[i]) ? tournamentState.teams[i] : {};
 
+            const nameVal = nameEl ? nameEl.value.trim() : (prev.name || '');
+            const finalName = nameVal || (defaultTeamNames[i] || `Nama Tim ${seed}`);
+
+            // Respect the actual current input value; do NOT resurrect deleted number from prev
+            const waVal = waEl ? waEl.value.trim() : (prev.whatsapp || prev.wa || '');
+            const isClaimed = !!(prev.is_claimed && waVal);
+
             teams.push({
                 ...prev,
                 id: seed,
                 seed: seed,
-                name: (nameEl?.value || '').trim() || (defaultTeamNames[i] || `Nama Tim ${seed}`),
-                wa: (waEl?.value || '').trim() || prev.wa || prev.whatsapp || '',
-                whatsapp: (waEl?.value || '').trim() || prev.whatsapp || prev.wa || '',
+                name: finalName,
+                wa: waVal,
+                whatsapp: waVal,
+                is_claimed: isClaimed,
+                claimed_at: isClaimed ? (prev.claimed_at || null) : null,
                 logo: IS_FREE ? null : (logoImg?.src || prev.logo || presetLogos[i % presetLogos.length])
             });
         }

@@ -61,4 +61,54 @@ class BracketFreeIsolationTest extends TestCase
         $this->assertEquals('Nama Tim 1', $teamsB[0]['name']);
         $this->assertTrue(empty($teamsB[0]['is_claimed']));
     }
+
+    public function test_clearing_whatsapp_unclaims_team_slot(): void
+    {
+        $tourney = Tournament::create([
+            'name' => 'ROK Free Test',
+            'slug' => 'rok-free-test-unclaim',
+            'format' => 'single_elimination',
+            'team_count' => 8,
+            'status' => 'live',
+            'tier_required' => 'free',
+            'is_public' => true,
+            'bracket_state' => [
+                'teams' => [
+                    [
+                        'id' => 1,
+                        'seed' => 1,
+                        'name' => 'Tim Claimed',
+                        'whatsapp' => '628123456789',
+                        'wa' => '628123456789',
+                        'is_claimed' => true,
+                        'claimed_at' => now()->toIso8601String(),
+                    ]
+                ]
+            ]
+        ]);
+
+        // Sync with WhatsApp deleted/cleared
+        $resp = $this->postJson(route('api.bracket.sync', ['slug' => $tourney->slug]), [
+            'state' => [
+                'title' => 'ROK Free Test',
+                'teams' => [
+                    [
+                        'id' => 1,
+                        'seed' => 1,
+                        'name' => 'Nama Tim 1',
+                        'whatsapp' => '',
+                        'wa' => '',
+                        'is_claimed' => true, // even if client erroneously sent is_claimed: true
+                    ]
+                ]
+            ]
+        ]);
+        $resp->assertOk();
+
+        $tourney->refresh();
+        $teams = $tourney->bracket_state['teams'];
+        $this->assertFalse($teams[0]['is_claimed']);
+        $this->assertNull($teams[0]['claimed_at']);
+        $this->assertEquals('', $teams[0]['whatsapp']);
+    }
 }
