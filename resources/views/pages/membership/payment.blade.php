@@ -78,7 +78,7 @@
                                     @if(is_array($plan->features))
                                         @foreach ($plan->features as $feat)
                                             <li style="display: flex; gap: 8px; align-items: flex-start;">
-                                                <span style="color: #4ade80; font-weight: bold;">&#10003;</span>
+                                                <span style="color: #4ade80; font-weight: bold; flex-shrink: 0;"><i data-lucide="check" style="width:13px;height:13px;"></i></span>
                                                 <span>{{ $feat }}</span>
                                             </li>
                                         @endforeach

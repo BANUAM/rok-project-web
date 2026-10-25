@@ -29,21 +29,21 @@
 
                 <ul class="learning-feature-list">
                     <li class="feature-item">
-                        <span class="feature-item__check">&#10003;</span>
+                        <span class="feature-item__check"><i data-lucide="check" style="width:13px;height:13px;"></i></span>
                         <div class="feature-item__text">
                             <strong>Access Exclusive Module</strong>
                             <p>Modul taktik draft pick, wave management, dan objective setup.</p>
                         </div>
                     </li>
                     <li class="feature-item">
-                        <span class="feature-item__check">&#10003;</span>
+                        <span class="feature-item__check"><i data-lucide="check" style="width:13px;height:13px;"></i></span>
                         <div class="feature-item__text">
                             <strong>Video Strategy Breakdown</strong>
                             <p>Bedah tayangan ulang pertandingan turnamen tier 1.</p>
                         </div>
                     </li>
                     <li class="feature-item">
-                        <span class="feature-item__check">&#10003;</span>
+                        <span class="feature-item__check"><i data-lucide="check" style="width:13px;height:13px;"></i></span>
                         <div class="feature-item__text">
                             <strong>Tactical Knowledge Test</strong>
                             <p>Uji pemahaman situasional in-game melalui evaluasi interaktif.</p>

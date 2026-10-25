@@ -181,7 +181,7 @@
                 <div class="form-row-3">
                     <div class="upload-field-card">
                         <label for="profile_screenshot" class="upload-label">
-                            <span class="upload-icon">&#x1F4C1;</span>
+                            <span class="upload-icon"><i data-lucide="file-image" style="width:24px;height:24px;"></i></span>
                             <strong>1. Screenshot Profil MLBB</strong>
                             <p>Menampilkan ID, nickname, dan level akun</p>
                         </label>
@@ -193,14 +193,14 @@
                             class="upload-input"
                         >
                         @if ($candidate->profile_screenshot_path)
-                            <span class="upload-status upload-status--saved">&#10003; Berkas sudah diunggah</span>
+                            <span class="upload-status upload-status--saved" style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="check" style="width:12px;height:12px;"></i> Berkas sudah diunggah</span>
                         @endif
                         @error('profile_screenshot') <span class="form-error">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="upload-field-card">
                         <label for="hero_screenshot" class="upload-label">
-                            <span class="upload-icon">&#x2694;</span>
+                            <span class="upload-icon"><i data-lucide="swords" style="width:24px;height:24px;"></i></span>
                             <strong>2. Screenshot Hero Favorit</strong>
                             <p>Menampilkan total pertandingan &amp; win rate hero andalan</p>
                         </label>
@@ -212,14 +212,14 @@
                             class="upload-input"
                         >
                         @if ($candidate->favorite_hero_screenshot_path)
-                            <span class="upload-status upload-status--saved">&#10003; Berkas sudah diunggah</span>
+                            <span class="upload-status upload-status--saved" style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="check" style="width:12px;height:12px;"></i> Berkas sudah diunggah</span>
                         @endif
                         @error('hero_screenshot') <span class="form-error">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="upload-field-card">
                         <label for="tier_screenshot" class="upload-label">
-                            <span class="upload-icon">&#x1F3C6;</span>
+                            <span class="upload-icon"><i data-lucide="trophy" style="width:24px;height:24px;"></i></span>
                             <strong>3. Screenshot Tier &amp; Stars</strong>
                             <p>Menampilkan bukti tier rank terkini musim ini</p>
                         </label>
@@ -231,7 +231,7 @@
                             class="upload-input"
                         >
                         @if ($candidate->tier_screenshot_path)
-                            <span class="upload-status upload-status--saved">&#10003; Berkas sudah diunggah</span>
+                            <span class="upload-status upload-status--saved" style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="check" style="width:12px;height:12px;"></i> Berkas sudah diunggah</span>
                         @endif
                         @error('tier_screenshot') <span class="form-error">{{ $message }}</span> @enderror
                     </div>

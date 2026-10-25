@@ -459,3 +459,27 @@ img {
         transform: translateY(0);
     }
 }
+
+/* =========================================
+   LUCIDE ICONS UTILITY & DEFAULTS
+========================================= */
+.lucide-icon, svg.lucide {
+    display: inline-block;
+    vertical-align: -0.18em;
+    width: 1.15em;
+    height: 1.15em;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+}
+.lucide-icon--sm, svg.lucide--sm {
+    width: 0.9em;
+    height: 0.9em;
+}
+.lucide-icon--lg, svg.lucide--lg {
+    width: 1.4em;
+    height: 1.4em;
+}

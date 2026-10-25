@@ -25,7 +25,7 @@
             {{-- Dedicated Portal Banner for ROK Challenger & Immortal --}}
             <div class="studio-portal-banner">
                 <div class="studio-portal-banner__info">
-                    <span class="studio-portal-badge">&#x1F451; DEDICATED ORGANIZER PORTAL</span>
+                    <span class="studio-portal-badge" style="display:inline-flex;align-items:center;gap:5px;"><i data-lucide="crown" style="width:13px;height:13px;"></i> DEDICATED ORGANIZER PORTAL</span>
                     <h3>ROK BRACKET STUDIO (KHUSUS MEMBER CHALLENGER &amp; IMMORTAL)</h3>
                     <p>
                         Kelola multi-turnamen, kustomisasi logo tim &amp; kontak WhatsApp kapten, pantau poin real-time, dan bagikan tautan live bracket di ruang kerja khusus seperti portal Management.
@@ -33,25 +33,25 @@
                 </div>
                 <div class="studio-portal-banner__actions">
                     @if(Auth::check() && Auth::user()->hasBracketAccess())
-                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold">
-                            &#x2694; Buka Bracket Studio
+                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold" style="display:inline-flex;align-items:center;gap:6px;">
+                            <i data-lucide="swords" style="width:14px;height:14px;"></i> Buka Bracket Studio
                         </a>
                     @elseif(Auth::check())
-                        <a href="{{ route('membership.payment', ['plan' => 'immortal']) }}" class="btn-rok btn-rok--gold">
-                            &#x1F451; Aktifkan ROK Immortal
+                        <a href="{{ route('membership.payment', ['plan' => 'immortal']) }}" class="btn-rok btn-rok--gold" style="display:inline-flex;align-items:center;gap:6px;">
+                            <i data-lucide="crown" style="width:14px;height:14px;"></i> Aktifkan ROK Immortal
                         </a>
                     @else
-                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold">
-                            &#x1F511; Masuk Bracket Studio
+                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold" style="display:inline-flex;align-items:center;gap:6px;">
+                            <i data-lucide="key" style="width:14px;height:14px;"></i> Masuk Bracket Studio
                         </a>
                     @endif
                     @if ($activeTournament)
-                        <a href="{{ route('bracket.live', $activeTournament->slug) }}" class="btn-rok btn-rok--outline">
-                            &#x1F517; Lihat Live Share Link
+                        <a href="{{ route('bracket.live', $activeTournament->slug) }}" class="btn-rok btn-rok--outline" style="display:inline-flex;align-items:center;gap:6px;">
+                            <i data-lucide="external-link" style="width:14px;height:14px;"></i> Lihat Live Share Link
                         </a>
                     @endif
-                    <a href="{{ route('bracket.free') }}" class="btn-rok btn-rok--outline" style="border-color: rgba(251,191,36,0.6); color: var(--rok-gold);">
-                        &#x1F3AE; Gunakan Versi Gratis
+                    <a href="{{ route('bracket.free') }}" class="btn-rok btn-rok--outline" style="border-color: rgba(251,191,36,0.6); color: var(--rok-gold); display:inline-flex; align-items:center; gap:6px;">
+                        <i data-lucide="gamepad-2" style="width:14px;height:14px;"></i> Gunakan Versi Gratis
                     </a>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                                 @if (is_array($plan->features))
                                     @foreach ($plan->features as $feature)
                                         <li style="display: flex; gap: 8px; align-items: flex-start;">
-                                            <span style="color: #4ade80; font-weight: bold;">&#10003;</span>
+                                            <span style="color: #4ade80; font-weight: bold; flex-shrink: 0;"><i data-lucide="check" style="width:14px;height:14px;"></i></span>
                                             <span>{{ $feature }}</span>
                                         </li>
                                     @endforeach

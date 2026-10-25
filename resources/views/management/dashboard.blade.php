@@ -8,7 +8,7 @@
     {{-- Metrics Cards --}}
     <div class="metrics-grid">
         <div class="metric-card metric-card--gold">
-            <div class="metric-icon">&#x1F4CB;</div>
+            <div class="metric-icon"><i data-lucide="clipboard-list"></i></div>
             <div class="metric-body">
                 <span class="metric-label">TOTAL KANDIDAT TRIAL</span>
                 <strong class="metric-value">{{ $metrics['candidates_count'] }}</strong>
@@ -17,7 +17,7 @@
         </div>
 
         <div class="metric-card">
-            <div class="metric-icon">&#x1F3AE;</div>
+            <div class="metric-icon"><i data-lucide="gamepad-2"></i></div>
             <div class="metric-body">
                 <span class="metric-label">ATLET ROSTER AKTIF</span>
                 <strong class="metric-value">{{ $metrics['players_count'] }}</strong>
@@ -26,7 +26,7 @@
         </div>
 
         <div class="metric-card">
-            <div class="metric-icon">&#x1F3C6;</div>
+            <div class="metric-icon"><i data-lucide="trophy"></i></div>
             <div class="metric-body">
                 <span class="metric-label">TROFI &amp; PRESTASI</span>
                 <strong class="metric-value">{{ $metrics['achievements_count'] }}</strong>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="metric-card">
-            <div class="metric-icon">&#x1F91D;</div>
+            <div class="metric-icon"><i data-lucide="handshake"></i></div>
             <div class="metric-body">
                 <span class="metric-label">OFFICIAL PARTNERS</span>
                 <strong class="metric-value">{{ $metrics['partners_count'] }}</strong>
@@ -47,19 +47,19 @@
     {{-- Quick Action Cards --}}
     <div class="quick-actions-bar">
         <a href="{{ route('management.candidates') }}" class="quick-action-btn">
-            <span>&#x1F50D;</span> Evaluasi Calon Pemain
+            <span><i data-lucide="search"></i></span> Evaluasi Calon Pemain
         </a>
         <a href="{{ route('management.players') }}" class="quick-action-btn">
-            <span>&#x2795;</span> Tambah Roster Tim
+            <span><i data-lucide="plus"></i></span> Tambah Roster Tim
         </a>
         <a href="{{ route('management.hero-slides') }}" class="quick-action-btn">
-            <span>&#x1F5BC;</span> Kelola Banner Home
+            <span><i data-lucide="film"></i></span> Kelola Banner Home
         </a>
         <a href="{{ route('management.achievements') }}" class="quick-action-btn">
-            <span>&#x1F3C6;</span> Tambah Prestasi
+            <span><i data-lucide="trophy"></i></span> Tambah Prestasi
         </a>
         <a href="{{ route('management.lsm') }}" class="quick-action-btn">
-            <span>&#x1F9E0;</span> Konfigurasi Tes LSM
+            <span><i data-lucide="brain"></i></span> Konfigurasi Tes LSM
         </a>
     </div>
 

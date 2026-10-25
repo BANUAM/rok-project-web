@@ -123,8 +123,8 @@
 
                     @if ($staff->isNotEmpty())
                         <div class="roster-tier">
-                            <h4 class="roster-tier__title">
-                                <span>&#9881;</span> MANAGEMENT &amp; COACHING STAFF
+                            <h4 class="roster-tier__title" style="display:flex;align-items:center;gap:6px;">
+                                <span><i data-lucide="settings" style="width:14px;height:14px;"></i></span> MANAGEMENT &amp; COACHING STAFF
                             </h4>
                             <div class="roster-grid roster-grid--staff">
                                 @foreach ($staff as $person)
@@ -151,8 +151,8 @@
 
                     {{-- 5 Roles Players Roster --}}
                     <div class="roster-tier">
-                        <h4 class="roster-tier__title">
-                            <span>&#x1F3AE;</span> ACTIVE PLAYERS (LINEUP)
+                        <h4 class="roster-tier__title" style="display:flex;align-items:center;gap:6px;">
+                            <span><i data-lucide="gamepad-2" style="width:14px;height:14px;"></i></span> ACTIVE PLAYERS (LINEUP)
                         </h4>
                         @if ($roster->isNotEmpty())
                             <div class="roster-grid">

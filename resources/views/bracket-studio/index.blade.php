@@ -9,14 +9,14 @@
     <div class="mgmt-card mb-4" style="border-left: 4px solid #38bdf8;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
             <div>
-                <span class="badge-mini" style="margin-bottom: 6px; display: inline-block;">&#x1F451; MEMBERSHIP AKTIF: ROK {{ strtoupper($tierSlug) }}</span>
+                <span class="badge-mini" style="margin-bottom: 6px; display: inline-flex; align-items: center; gap: 5px;"><i data-lucide="crown" style="width:13px;height:13px;"></i> MEMBERSHIP AKTIF: ROK {{ strtoupper($tierSlug) }}</span>
                 <h3 style="font-size: 20px; margin-bottom: 4px;">Selamat Datang di Workspace Khusus Bracket Turnamen, {{ Auth::user()->name }}!</h3>
                 <p class="text-sm text-muted" style="margin: 0;">
                     Kelola bagan pertandingan secara real-time, unggah logo tim resmi, hubungkan nomor WhatsApp setiap tim lawan tanding, dan bagikan tautan live bracket ke seluruh peserta.
                 </p>
             </div>
-            <a href="{{ route('bracket.studio.editor') }}" class="btn-rok btn-rok--gold">
-                &#x2694; Buka Live Bracket Editor
+            <a href="{{ route('bracket.studio.editor') }}" class="btn-rok btn-rok--gold" style="display:inline-flex;align-items:center;gap:6px;">
+                <i data-lucide="swords" style="width:14px;height:14px;"></i> Buka Live Bracket Editor
             </a>
         </div>
     </div>
@@ -25,7 +25,7 @@
         {{-- Create New Tournament Card --}}
         <div class="mgmt-card">
             <div class="mgmt-card__header">
-                <h3>&#x2795; BUAT TURNAMEN LIVE BARU</h3>
+                <h3 style="display:inline-flex;align-items:center;gap:6px;"><i data-lucide="plus" style="width:16px;height:16px;"></i> BUAT TURNAMEN LIVE BARU</h3>
             </div>
             <form method="POST" action="{{ route('bracket.studio.store') }}">
                 @csrf
@@ -63,7 +63,7 @@
         {{-- Existing Tournaments List --}}
         <div class="mgmt-card">
             <div class="mgmt-card__header">
-                <h3>&#x1F3C6; DAFTAR TURNAMEN LIVE ANDA ({{ $tournaments->count() }})</h3>
+                <h3 style="display:inline-flex;align-items:center;gap:6px;"><i data-lucide="trophy" style="width:16px;height:16px;"></i> DAFTAR TURNAMEN LIVE ANDA ({{ $tournaments->count() }})</h3>
             </div>
 
             <div style="display: grid; gap: 14px;">
@@ -80,18 +80,18 @@
                                     Terakhir diperbarui: {{ $tourney->updated_at?->diffForHumans() ?? 'Baru saja' }}
                                 </p>
                             </div>
-                            <span class="status-live-badge" style="font-size: 11px; padding: 4px 10px;">&#x1F534; LIVE REAL-TIME</span>
+                            <span class="status-live-badge" style="font-size: 11px; padding: 4px 10px; display:inline-flex; align-items:center; gap:5px;"><i data-lucide="radio" style="width:12px;height:12px;"></i> LIVE REAL-TIME</span>
                         </div>
 
                         <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 8px;">
-                            <a href="{{ route('bracket.studio.editor', ['slug' => $tourney->slug]) }}" class="btn-rok btn-rok--gold btn-rok--sm">
-                                &#x270E; Kelola &amp; Edit Skor Live
+                            <a href="{{ route('bracket.studio.editor', ['slug' => $tourney->slug]) }}" class="btn-rok btn-rok--gold btn-rok--sm" style="display:inline-flex;align-items:center;gap:5px;">
+                                <i data-lucide="edit-3" style="width:13px;height:13px;"></i> Kelola &amp; Edit Skor Live
                             </a>
-                            <a href="{{ $shareLink }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm">
-                                &#x1F517; Buka Link Share Penonton &nearr;
+                            <a href="{{ $shareLink }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" style="display:inline-flex;align-items:center;gap:5px;">
+                                <i data-lucide="external-link" style="width:13px;height:13px;"></i> Buka Link Share Penonton &nearr;
                             </a>
-                            <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" onclick="navigator.clipboard.writeText('{{ $shareLink }}'); this.textContent='✓ Link Tersalin!';">
-                                &#x1F4CB; Copy Link
+                            <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" onclick="navigator.clipboard.writeText('{{ $shareLink }}'); this.innerHTML='<i data-lucide=\'check\' style=\'width:13px;height:13px;\'></i> Link Tersalin!'; window.renderLucideIcons?.();" style="display:inline-flex;align-items:center;gap:5px;">
+                                <i data-lucide="copy" style="width:13px;height:13px;"></i> Copy Link
                             </button>
                         </div>
                     </div>

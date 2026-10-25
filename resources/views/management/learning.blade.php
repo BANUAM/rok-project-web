@@ -48,12 +48,12 @@
                                     </td>
                                     <td>
                                         @if ($lesson->isPdf())
-                                            <span class="badge" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;">
-                                                &#x1F4C4; PDF
+                                            <span class="badge" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; display:inline-flex; align-items:center; gap:4px;">
+                                                <i data-lucide="file-text" style="width:12px;height:12px;"></i> PDF
                                             </span>
                                         @else
-                                            <span class="badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;">
-                                                &#x1F3AC; Video
+                                            <span class="badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; display:inline-flex; align-items:center; gap:4px;">
+                                                <i data-lucide="video" style="width:12px;height:12px;"></i> Video
                                             </span>
                                         @endif
                                     </td>
@@ -162,11 +162,11 @@
                 <div style="display: flex; gap: 20px; margin-top: 6px;">
                     <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: #ffffff;">
                         <input type="radio" name="content_type" value="video" checked onchange="toggleLessonType('video')">
-                        <span>&#x1F3AC; Video Pembelajaran (YouTube/Vimeo)</span>
+                        <span style="display:inline-flex;align-items:center;gap:5px;"><i data-lucide="video" style="width:14px;height:14px;"></i> Video Pembelajaran (YouTube/Vimeo)</span>
                     </label>
                     <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: #ffffff;">
                         <input type="radio" name="content_type" value="pdf" onchange="toggleLessonType('pdf')">
-                        <span>&#x1F4C4; Dokumen / Playbook PDF</span>
+                        <span style="display:inline-flex;align-items:center;gap:5px;"><i data-lucide="file-text" style="width:14px;height:14px;"></i> Dokumen / Playbook PDF</span>
                     </label>
                 </div>
             </div>

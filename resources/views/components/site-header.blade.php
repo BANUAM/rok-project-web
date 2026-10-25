@@ -27,12 +27,12 @@
 
             @auth
                 @if(Auth::user()->hasBracketAccess())
-                    <a href="{{ route('bracket.studio.index') }}" class="site-nav__link site-nav__link--studio {{ request()->is('bracket-studio*') ? 'is-active' : '' }}">
-                        &#x1F451; Bracket Studio
+                    <a href="{{ route('bracket.studio.index') }}" class="site-nav__link site-nav__link--studio {{ request()->is('bracket-studio*') ? 'is-active' : '' }}" style="display:inline-flex;align-items:center;gap:5px;">
+                        <i data-lucide="crown" style="width:14px;height:14px;"></i> Bracket Studio
                     </a>
                 @endif
-                <span class="site-nav__link site-nav__user-pill" title="{{ Auth::user()->activeMembershipPlan()?->name ?? 'ROK Member' }}">
-                    &#x1F464; {{ Auth::user()->username ?? Str::words(Auth::user()->name, 1, '') }}
+                <span class="site-nav__link site-nav__user-pill" title="{{ Auth::user()->activeMembershipPlan()?->name ?? 'ROK Member' }}" style="display:inline-flex;align-items:center;gap:5px;">
+                    <i data-lucide="user" style="width:13px;height:13px;"></i> {{ Auth::user()->username ?? Str::words(Auth::user()->name, 1, '') }}
                     @if(Auth::user()->membershipTierSlug() !== 'free')
                         <span class="user-tier-tag">{{ strtoupper(Auth::user()->membershipTierSlug()) }}</span>
                     @endif
@@ -47,7 +47,7 @@
 
             {{-- Global Dark / Light Theme Toggle --}}
             <button type="button" class="theme-toggle-btn" data-theme-toggle title="Ubah Tema Gelap / Terang" aria-label="Toggle Tema Gelap atau Terang">
-                <span class="theme-toggle-icon" data-theme-icon>&#x2600;&#xFE0F;</span>
+                <span class="theme-toggle-icon" data-theme-icon><i data-lucide="sun" style="width:14px;height:14px;"></i></span>
                 <span class="theme-toggle-label" data-theme-label>Terang</span>
             </button>
         </div>

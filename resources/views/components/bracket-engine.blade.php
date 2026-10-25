@@ -11,7 +11,7 @@
     $praTourneyFreeUrl = route('bracket.pra-tournament.free', ['slug' => $activeSlug]);
     $praTourneyMemberUrl = route('bracket.pra-tournament.membership', ['slug' => $activeSlug]);
     $praTourneyUrl = $isFree ? $praTourneyFreeUrl : $praTourneyMemberUrl;
-    $praTourneyBtnLabel = $isFree ? '&#x1F4CB; Link Pra-Turnamen Free' : '&#x1F4CB; Link Pra-Turnamen Membership';
+    $praTourneyBtnLabel = $isFree ? '<i data-lucide="clipboard-list"></i> Link Pra-Turnamen Free' : '<i data-lucide="clipboard-list"></i> Link Pra-Turnamen Membership';
     $praTourneyPortalText = $isFree ? 'Portal Pra-Turnamen Free &nearr;' : 'Portal Pra-Turnamen Member &nearr;';
 @endphp
 
@@ -34,12 +34,12 @@
 
         <div class="bracket-realtime-bar__actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex: 1 1 auto; justify-content: flex-end;">
             <div class="share-url-box" style="display: flex; align-items: center; gap: 8px; flex: 1 1 280px; max-width: 440px;">
-                <span class="share-url-label" style="font-size: 12px; font-weight: 700; white-space: nowrap; flex-shrink: 0;">&#x1F517; Link Live:</span>
+                <span class="share-url-label" style="font-size: 12px; font-weight: 700; white-space: nowrap; flex-shrink: 0;"><i data-lucide="link"></i> Link Live:</span>
                 <input type="text" id="shareBracketUrlInput" class="share-url-input" value="{{ $shareUrl }}" readonly onclick="this.select()" style="width: 100%; min-width: 180px; font-size: 12px; padding: 7px 11px;">
             </div>
             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                 <button type="button" class="btn-rok btn-rok--gold btn-rok--sm" id="copyShareLinkBtn" style="white-space: nowrap;">
-                    &#x1F4CB; Salin Link Live
+                    <i data-lucide="copy"></i> Salin Link Live
                 </button>
                 <a href="https://wa.me/?text={{ urlencode('Pantau Live Bracket Turnamen secara Real-Time di ROK Web: ' . $shareUrl) }}" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--outline btn-rok--sm" id="waShareLinkBtn" style="white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
                     <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="color: #25D366; flex-shrink: 0;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.69C7.02 10.9 7.9 12.07 8.02 12.23C8.14 12.4 9.75 14.9 12.24 15.96C14.31 16.85 14.73 16.67 15.18 16.63C15.64 16.59 16.64 16.03 16.85 15.45C17.05 14.86 17.05 14.36 16.99 14.26C16.93 14.16 16.77 14.1 16.52 13.97C16.27 13.85 15.06 13.25 14.83 13.17C14.61 13.09 14.45 13.05 14.28 13.29C14.12 13.54 13.65 14.1 13.51 14.26C13.37 14.43 13.22 14.45 12.98 14.33C12.73 14.2 11.93 13.94 10.99 13.1C10.25 12.44 9.75 11.63 9.61 11.39C9.46 11.14 9.59 11.01 9.72 10.88C9.83 10.77 9.97 10.59 10.1 10.43C10.22 10.28 10.26 10.16 10.34 9.99C10.42 9.83 10.38 9.69 10.32 9.56C10.26 9.44 9.79 8.28 9.59 7.81C9.4 7.36 9.2 7.42 9.05 7.41C8.91 7.41 8.75 7.41 8.59 7.41L8.53 7.33Z"/></svg>
@@ -53,7 +53,7 @@
                         {!! $praTourneyPortalText !!}
                     </a>
                     <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" title="Buka tampilan penonton di tab baru" style="white-space: nowrap;">
-                        &#x1F441; Buka Live View &nearr;
+                        <i data-lucide="external-link"></i> Buka Live View &nearr;
                     </a>
                 @endif
             </div>
@@ -125,16 +125,16 @@
                             </p>
                         </div>
                         @if ($hasLogoAccess)
-                            <span class="membership-unlocked-pill" style="font-size: 11px; padding: 4px 10px; background: rgba(251,191,36,0.14); border: 1px solid #fbbf24; color: #fbbf24; border-radius: 999px; font-weight: 700;">
-                                &#x1F451; Fitur Logo Tim &amp; Kontak WA Terbuka ({{ strtoupper(Auth::user()?->membershipTierSlug() ?? 'PRO') }})
+                            <span class="membership-unlocked-pill" style="font-size: 11px; padding: 4px 10px; background: rgba(251,191,36,0.14); border: 1px solid #fbbf24; color: #fbbf24; border-radius: 999px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="crown"></i> Fitur Logo Tim &amp; Kontak WA Terbuka ({{ strtoupper(Auth::user()?->membershipTierSlug() ?? 'PRO') }})
                             </span>
                         @elseif ($isFree)
-                            <span class="membership-locked-pill" style="font-size: 11px; padding: 4px 10px; background: rgba(148,163,184,0.12); border: 1px solid var(--rok-surface-border); color: var(--rok-silver); border-radius: 999px;">
-                                &#x1F512; Edisi Gratis: Logo Tim Standar ROK Web (Fitur Bagan Lainnya Lengkap &amp; Bebas Digunakan)
+                            <span class="membership-locked-pill" style="font-size: 11px; padding: 4px 10px; background: rgba(148,163,184,0.12); border: 1px solid var(--rok-surface-border); color: var(--rok-silver); border-radius: 999px; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="shield"></i> Edisi Gratis: Logo Tim Standar ROK Web (Fitur Bagan Lainnya Lengkap &amp; Bebas Digunakan)
                             </span>
                         @else
-                            <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="membership-locked-pill" style="font-size: 11px; padding: 4px 10px; background: rgba(148,163,184,0.12); border: 1px solid var(--rok-surface-border); color: var(--rok-silver); border-radius: 999px; text-decoration: none;">
-                                &#x1F512; Aktifkan ROK Challenger / Immortal untuk Kustomisasi Logo Tim
+                            <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="membership-locked-pill" style="font-size: 11px; padding: 4px 10px; background: rgba(148,163,184,0.12); border: 1px solid var(--rok-surface-border); color: var(--rok-silver); border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="lock"></i> Aktifkan ROK Challenger / Immortal untuk Kustomisasi Logo Tim
                             </a>
                         @endif
                     </div>
@@ -145,18 +145,18 @@
                 </div>
 
                 <div class="generator-actions" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-top: 24px;">
-                    <div style="font-size: 12px; color: var(--rok-muted-light);">
-                        &#x1F4A1; <strong>Info:</strong> Atur nama turnamen, format, tim &amp; nomor WhatsApp, lalu klik <strong>"Generate &amp; Simpan Bagan"</strong>. Perubahan skor pada bagan tersimpan otomatis secara real-time.
+                    <div style="font-size: 12px; color: var(--rok-muted-light); display: flex; align-items: center; gap: 6px;">
+                        <i data-lucide="info"></i> <span><strong>Info:</strong> Atur nama turnamen, format, tim &amp; nomor WhatsApp, lalu klik <strong>"Generate &amp; Simpan Bagan"</strong>. Perubahan skor pada bagan tersimpan otomatis secara real-time.</span>
                     </div>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <button type="button" class="btn-rok btn-rok--outline" id="btnReshuffleBracket" title="Acak urutan tim peserta (Drawing Turnamen)" style="border-color: #a855f7; color: #c084fc; font-weight: 700;">
-                            &#x1F500; Acak Bagan (Drawing)
+                        <button type="button" class="btn-rok btn-rok--outline" id="btnReshuffleBracket" title="Acak urutan tim peserta (Drawing Turnamen)" style="border-color: #a855f7; color: #c084fc; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                            <i data-lucide="shuffle"></i> Acak Bagan (Drawing)
                         </button>
-                        <button type="button" class="btn-rok btn-rok--outline" id="resetScoresBtn">
-                            &#x21BA; Reset Skor
+                        <button type="button" class="btn-rok btn-rok--outline" id="resetScoresBtn" style="display: inline-flex; align-items: center; gap: 6px;">
+                            <i data-lucide="rotate-ccw"></i> Reset Skor
                         </button>
-                        <button type="button" class="btn-rok btn-rok--gold btn-rok--lg" id="generateBracketBtn">
-                            Generate &amp; Simpan Bagan
+                        <button type="button" class="btn-rok btn-rok--gold btn-rok--lg" id="generateBracketBtn" style="display: inline-flex; align-items: center; gap: 8px;">
+                            <i data-lucide="sparkles"></i> Generate &amp; Simpan Bagan
                         </button>
                     </div>
                 </div>
@@ -177,7 +177,7 @@
         <div class="generated-bracket-output" id="bracketOutputWrapper">
             <div class="output-banner" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px;">
                 <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                    <span class="live-indicator-badge" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #ef4444; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px;">&#x1F534; LIVE BRACKET</span>
+                    <span class="live-indicator-badge" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #ef4444; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 5px;"><i data-lucide="radio" style="width:12px;height:12px;"></i> LIVE BRACKET</span>
                     <h3 id="outputTourneyTitle" style="margin: 0; font-size: 22px;">{{ $initialState['title'] ?? 'ROK Community Cup 2026' }}</h3>
                 </div>
                 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
@@ -194,11 +194,11 @@
                         </button>
                     </div>
                     @if (!$isReadOnly)
-                        <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="btnReshuffleQuick" title="Drawing / Acak Urutan Tim Bagan" style="border-color: rgba(168,85,247,0.5); color: #c084fc; font-size: 11px; padding: 4px 10px; font-weight: 700;">
-                            &#x1F500; Acak Bagan
+                        <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="btnReshuffleQuick" title="Drawing / Acak Urutan Tim Bagan" style="border-color: rgba(168,85,247,0.5); color: #c084fc; font-size: 11px; padding: 4px 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+                            <i data-lucide="shuffle" style="width:13px;height:13px;"></i> Acak Bagan
                         </button>
                     @endif
-                    <span class="bracket-hint-ClickLogo" style="font-size: 12px; color: var(--rok-muted-light);">&#x1F446; {{ $isFree ? 'Klik Nama Tim untuk Skor, Poin & Kontak WhatsApp' : 'Klik Logo Tim untuk Poin & Kontak WhatsApp' }}</span>
+                    <span class="bracket-hint-ClickLogo" style="font-size: 12px; color: var(--rok-muted-light); display: inline-flex; align-items: center; gap: 5px;"><i data-lucide="mouse-pointer-click" style="width:13px;height:13px;"></i> {{ $isFree ? 'Klik Nama Tim untuk Skor, Poin & Kontak WhatsApp' : 'Klik Logo Tim untuk Poin & Kontak WhatsApp' }}</span>
                     <span class="badge-mini" id="outputFormatBadge">Single Elimination</span>
                 </div>
             </div>
@@ -232,7 +232,7 @@
         <div class="team-modal-points-card">
             <div class="points-card-header">
                 <span>STATISTIK &amp; POIN PERTANDINGAN</span>
-                <span style="color: var(--rok-gold);">&#x2605; LIVE SCORING</span>
+                <span style="color: var(--rok-gold); display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="activity" style="width:13px;height:13px;"></i> LIVE SCORING</span>
             </div>
             <div class="points-stat-grid">
                 <div class="points-stat-box points-stat-box--highlight">
@@ -255,7 +255,7 @@
         </div>
 
         <div class="team-modal-wa-section">
-            <div class="wa-section-label">&#x1F4F1; KONTAK RESMI KAPTEN TIM (WHATSAPP)</div>
+            <div class="wa-section-label" style="display: flex; align-items: center; gap: 6px;"><i data-lucide="smartphone" style="width:14px;height:14px;"></i> KONTAK RESMI KAPTEN TIM (WHATSAPP)</div>
             <div class="wa-number-display" id="modalTeamWaNumber">+62 812-3456-7890</div>
             <p style="font-size: 12px; color: var(--rok-muted-light); margin: 0 0 12px 0;">
                 Hubungi tim ini langsung via WhatsApp untuk verifikasi hasil, koordinasi jadwal, atau pembagian lobby turnamen.
@@ -505,8 +505,8 @@
             if (isActuallyClaimed) {
                 const claimedBadge = document.createElement('span');
                 claimedBadge.className = 'claimed-checkin-badge';
-                claimedBadge.style.cssText = 'position:absolute;top:-7px;right:10px;font-size:9px;padding:2px 7px;border-radius:10px;background:#15803d;border:1px solid #4ade80;color:#ffffff;font-weight:800;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(0,0,0,0.4);pointer-events:none;z-index:2;';
-                claimedBadge.textContent = '✓ Check-in';
+                claimedBadge.style.cssText = 'position:absolute;top:-7px;right:10px;font-size:9px;padding:2px 7px;border-radius:10px;background:#15803d;border:1px solid #4ade80;color:#ffffff;font-weight:800;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(0,0,0,0.4);pointer-events:none;z-index:2;display:inline-flex;align-items:center;gap:3px;';
+                claimedBadge.innerHTML = '<i data-lucide="check" style="width:10px;height:10px;"></i> Check-in';
                 claimedBadge.title = 'Tim ini telah terdaftar melalui portal Pra-Turnamen';
                 item.appendChild(claimedBadge);
             }
@@ -518,6 +518,8 @@
             }
             container.appendChild(item);
         }
+        window.renderLucideIcons?.();
+    }
     }
 
     function collectCurrentTeams() {
@@ -1011,13 +1013,14 @@
                 waBtnEl.href = `https://wa.me/${cleanWa}?text=${msg}`;
                 waBtnEl.style.opacity = '1';
                 waBtnEl.style.pointerEvents = 'auto';
-                waBtnEl.innerHTML = `<span>&#x1F4AC; Chat ${team.name} via WhatsApp</span>`;
+                waBtnEl.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><i data-lucide="message-circle" style="width:16px;height:16px;"></i> Chat ${team.name} via WhatsApp</span>`;
             } else {
                 waBtnEl.href = '#';
                 waBtnEl.style.opacity = '0.5';
                 waBtnEl.style.pointerEvents = 'none';
-                waBtnEl.innerHTML = `<span>&#x1F4F1; Nomor WhatsApp Belum Diisi</span>`;
+                waBtnEl.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><i data-lucide="smartphone" style="width:16px;height:16px;"></i> Nomor WhatsApp Belum Diisi</span>`;
             }
+            window.renderLucideIcons?.();
         }
 
         if (modal) modal.hidden = false;
@@ -1144,8 +1147,8 @@
 
             const advBadge = document.createElement('div');
             advBadge.className = 'badge-auto-advance';
-            advBadge.style.cssText = 'background:rgba(34,197,94,0.08);color:#16a34a;border:1px solid rgba(34,197,94,0.22);font-size:11px;font-weight:700;padding:6px 10px;border-radius:6px;text-align:center;width:100%;box-sizing:border-box;';
-            advBadge.textContent = '✓ Lolos Otomatis ke Babak Berikutnya';
+            advBadge.style.cssText = 'background:rgba(34,197,94,0.08);color:#16a34a;border:1px solid rgba(34,197,94,0.22);font-size:11px;font-weight:700;padding:6px 10px;border-radius:6px;text-align:center;width:100%;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:5px;';
+            advBadge.innerHTML = '<i data-lucide="check-circle" style="width:13px;height:13px;"></i> Lolos Otomatis ke Babak Berikutnya';
 
             card.append(topRow, advBadge);
             return card;
@@ -1513,7 +1516,7 @@
         overview.innerHTML = `
             <div style="background:var(--rok-surface-card);border:1px solid #22c55e;border-radius:var(--radius-md);padding:16px;margin-bottom:14px;">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                    <strong style="color:#22c55e;font-size:12px;font-weight:800;text-transform:uppercase;">&#10003; LOLOS PLAYOFF (${qualifiedTeams.length}/8)</strong>
+                    <strong style="color:#22c55e;font-size:12px;font-weight:800;text-transform:uppercase;display:inline-flex;align-items:center;gap:4px;"><i data-lucide="check" style="width:13px;height:13px;"></i> LOLOS PLAYOFF (${qualifiedTeams.length}/8)</strong>
                     <span class="badge" style="background:rgba(34,197,94,0.15);color:#22c55e;font-size:10px;padding:2px 6px;border-radius:4px;">3 Menang</span>
                 </div>
                 ${qualifiedTeams.length === 0 ? '<p style="font-size:12px;color:var(--rok-muted-light);margin:0;">Belum ada tim yang lolos.</p>' : ''}
@@ -1628,7 +1631,7 @@
             box.className = 'champ-display-box';
             const icon = document.createElement('span');
             icon.className = 'champ-icon';
-            icon.textContent = '🏆';
+            icon.innerHTML = '<i data-lucide="trophy" style="width:32px;height:32px;color:#f59e0b;"></i>';
             const name = document.createElement('strong');
             name.className = 'champ-crown-name';
             name.textContent = champion ? champion.name : 'Belum ditentukan';
@@ -1639,6 +1642,8 @@
             col.append(heading, box);
             canvas.appendChild(col);
         }
+
+        window.renderLucideIcons?.();
 
         requestAnimationFrame(() => {
             drawAllBracketArrows();
@@ -1890,8 +1895,9 @@
             if (url) {
                 navigator.clipboard.writeText(url);
                 const originalHtml = btn.innerHTML;
-                btn.innerHTML = '&#x2713; Link Pra-Turnamen Tersalin!';
-                setTimeout(() => { btn.innerHTML = originalHtml; }, 2000);
+                btn.innerHTML = '<i data-lucide="check" style="width:14px;height:14px;vertical-align:-2px;"></i> Link Pra-Turnamen Tersalin!';
+                window.renderLucideIcons?.();
+                setTimeout(() => { btn.innerHTML = originalHtml; window.renderLucideIcons?.(); }, 2000);
             }
         });
 
@@ -1903,8 +1909,9 @@
                 navigator.clipboard.writeText(input.value);
                 const btn = document.getElementById('copyShareLinkBtn');
                 if (btn) {
-                    btn.textContent = '✓ Link Tersalin!';
-                    setTimeout(() => { btn.textContent = '📋 Salin Link Live'; }, 2000);
+                    btn.innerHTML = '<i data-lucide="check" style="width:14px;height:14px;vertical-align:-2px;"></i> Link Tersalin!';
+                    window.renderLucideIcons?.();
+                    setTimeout(() => { btn.innerHTML = '<i data-lucide="copy" style="width:14px;height:14px;vertical-align:-2px;"></i> Salin Link Live'; window.renderLucideIcons?.(); }, 2000);
                 }
             }
         });
@@ -1949,15 +1956,17 @@
             generateBtn?.addEventListener('click', () => {
                 buildTournament(true);
                 const originalHtml = generateBtn.innerHTML;
-                generateBtn.innerHTML = '&#x2713; Bagan Berhasil Digenerate &amp; Disimpan!';
+                generateBtn.innerHTML = '<i data-lucide="check-circle" style="width:16px;height:16px;vertical-align:-2px;"></i> Bagan Berhasil Digenerate &amp; Disimpan!';
                 generateBtn.style.background = '#15803d';
                 generateBtn.style.borderColor = '#4ade80';
                 generateBtn.style.color = '#ffffff';
+                window.renderLucideIcons?.();
                 setTimeout(() => {
                     generateBtn.innerHTML = originalHtml;
                     generateBtn.style.background = '';
                     generateBtn.style.borderColor = '';
                     generateBtn.style.color = '';
+                    window.renderLucideIcons?.();
                 }, 2200);
 
                 const bracketDeck = document.getElementById('bracketDeck');

@@ -20,7 +20,7 @@
             {{-- Candidate Profile Card --}}
             <div class="candidate-summary-card">
                 <div class="summary-left">
-                    <span class="candidate-avatar-icon">&#x1F947;</span>
+                    <span class="candidate-avatar-icon"><i data-lucide="medal" style="width:24px;height:24px;color:#f59e0b;"></i></span>
                     <div>
                         <span class="badge-mini">KANDIDAT TRIAL</span>
                         <h2 class="candidate-name">{{ $candidate->name }}</h2>
@@ -48,35 +48,41 @@
                     @endphp
 
                     <div class="step-node {{ $currentIndex >= 0 ? 'is-done' : '' }}">
-                        <div class="step-bubble">&#10003;</div>
+                        <div class="step-bubble"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
                         <span class="step-label">Pendaftaran Awal</span>
                     </div>
 
                     <div class="step-line {{ $currentIndex >= 1 ? 'is-done' : '' }}"></div>
 
                     <div class="step-node {{ $currentIndex >= 1 ? 'is-done' : '' }}">
-                        <div class="step-bubble">&#10003;</div>
+                        <div class="step-bubble"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
                         <span class="step-label">Profil &amp; Berkas</span>
                     </div>
 
                     <div class="step-line {{ $currentIndex >= 2 ? 'is-done' : '' }}"></div>
 
                     <div class="step-node {{ $currentIndex >= 2 ? 'is-done' : '' }}">
-                        <div class="step-bubble">&#10003;</div>
+                        <div class="step-bubble"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
                         <span class="step-label">Ujian LSM Selesai</span>
                     </div>
 
                     <div class="step-line {{ $currentIndex >= 3 ? 'is-done' : '' }}"></div>
 
                     <div class="step-node {{ $currentIndex >= 3 ? 'is-done' : '' }} {{ $candidate->status === 'rejected' ? 'is-rejected' : '' }}">
-                        <div class="step-bubble">{{ $candidate->status === 'rejected' ? '!' : '&#9881;' }}</div>
+                        <div class="step-bubble">
+                            @if ($candidate->status === 'rejected')
+                                <i data-lucide="x" style="width:14px;height:14px;"></i>
+                            @else
+                                <i data-lucide="settings" style="width:14px;height:14px;"></i>
+                            @endif
+                        </div>
                         <span class="step-label">Review Coach</span>
                     </div>
 
                     <div class="step-line {{ $currentIndex >= 4 ? 'is-done' : '' }}"></div>
 
                     <div class="step-node {{ $candidate->status === 'passed' ? 'is-done is-passed' : '' }}">
-                        <div class="step-bubble">&#x1F3C6;</div>
+                        <div class="step-bubble"><i data-lucide="trophy" style="width:14px;height:14px;"></i></div>
                         <span class="step-label">Penerimaan Roster</span>
                     </div>
                 </div>

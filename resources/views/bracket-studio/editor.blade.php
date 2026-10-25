@@ -20,8 +20,8 @@
                 @endforeach
             </div>
         </div>
-        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--outline btn-rok--sm">
-            &#x2795; Buat Turnamen Baru
+        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--outline btn-rok--sm" style="display:inline-flex;align-items:center;gap:6px;">
+            <i data-lucide="plus" style="width:13px;height:13px;"></i> Buat Turnamen Baru
         </a>
     </div>
 

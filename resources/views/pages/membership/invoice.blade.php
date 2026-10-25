@@ -18,12 +18,12 @@
                 </div>
                 <div>
                     @if ($order->isPaid())
-                        <span style="display: inline-block; padding: 6px 16px; background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; border-radius: 6px; color: #4ade80; font-size: 13px; font-weight: 800; text-transform: uppercase;">
-                            &check; PEMBAYARAN LUNAS
+                        <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; border-radius: 6px; color: #4ade80; font-size: 13px; font-weight: 800; text-transform: uppercase;">
+                            <i data-lucide="check-circle-2" style="width:14px;height:14px;"></i> PEMBAYARAN LUNAS
                         </span>
                     @else
-                        <span style="display: inline-block; padding: 6px 16px; background: rgba(234, 179, 8, 0.15); border: 1px solid #eab308; border-radius: 6px; color: #fde047; font-size: 13px; font-weight: 800; text-transform: uppercase;">
-                            &#x23F3; MENUNGGU PEMBAYARAN
+                        <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; background: rgba(234, 179, 8, 0.15); border: 1px solid #eab308; border-radius: 6px; color: #fde047; font-size: 13px; font-weight: 800; text-transform: uppercase;">
+                            <i data-lucide="hourglass" style="width:14px;height:14px;"></i> MENUNGGU PEMBAYARAN
                         </span>
                     @endif
                 </div>

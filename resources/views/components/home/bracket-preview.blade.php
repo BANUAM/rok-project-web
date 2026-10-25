@@ -105,7 +105,7 @@
                 <div class="bracket-col bracket-col--champ">
                     <span class="round-label text-gold">CHAMPION</span>
                     <div class="champ-crown-box">
-                        <span class="crown-icon">&#x1F451;</span>
+                        <span class="crown-icon"><i data-lucide="crown" style="width:28px;height:28px;color:#f59e0b;"></i></span>
                         <strong>TROPHY STAGE</strong>
                         <p class="champ-hint">BO5 Grand Final Match</p>
                     </div>

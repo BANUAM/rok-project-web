@@ -16,7 +16,7 @@
         <div class="mgmt-card mb-4">
             <div class="mgmt-card__header">
                 <div>
-                    <span class="status-live-badge">&#x1F534; {{ strtoupper($tourney->status) }}</span>
+                    <span class="status-live-badge" style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="radio" style="width:12px;height:12px;"></i> {{ strtoupper($tourney->status) }}</span>
                     <h3 class="mt-1">{{ $tourney->name }}</h3>
                     <div class="text-muted text-xs">Penyelenggara: {{ $tourney->organizer_name }} &bull; Format: {{ ucwords(str_replace('_', ' ', $tourney->format)) }}</div>
                 </div>
@@ -72,7 +72,7 @@
                                 </td>
                                 <td>
                                     @if ($match->winner)
-                                        <strong class="text-gold">&#x1F3C6; {{ $match->winner->team_name }}</strong>
+                                        <strong class="text-gold" style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="trophy" style="width:13px;height:13px;"></i> {{ $match->winner->team_name }}</strong>
                                     @else
                                         <span class="text-muted">Belum Ditentukan</span>
                                     @endif

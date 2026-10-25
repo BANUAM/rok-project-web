@@ -7,7 +7,7 @@
 <div class="mgmt-page-deck">
     <div class="mgmt-card mb-4">
         <div class="mgmt-card__header">
-            <h3>&#x1F5BC; BANNER HEADER HALAMAN PUBLIK</h3>
+            <h3 style="display:inline-flex;align-items:center;gap:6px;"><i data-lucide="image" style="width:16px;height:16px;"></i> BANNER HEADER HALAMAN PUBLIK</h3>
         </div>
         <p class="text-sm text-muted">
             Kelola judul, subjudul, dan gambar banner untuk bagian header pada halaman publik utama (Teams, Trial, Achievements, Learning &amp; Development, dan Bracket). Gambar akan otomatis beradaptasi dengan rasio lanskap dan gradasi estetik gelap ROK.
@@ -43,7 +43,7 @@
                         </div>
                     @else
                         <div style="padding: 30px 20px; text-align: center; color: #64748b;">
-                            <span style="font-size: 28px; display: block; margin-bottom: 6px;">&#x1F5BC;</span>
+                            <span style="display: flex; justify-content: center; margin-bottom: 8px;"><i data-lucide="image" style="width:36px;height:36px;"></i></span>
                             <span style="font-size: 13px;">Belum ada gambar banner kustom (menggunakan tampilan default website)</span>
                         </div>
                     @endif

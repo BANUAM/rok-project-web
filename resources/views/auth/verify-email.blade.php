@@ -7,7 +7,7 @@
 <div class="page-container" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 60px 20px;">
     <div style="width: 100%; max-width: 500px; background: #111622; border: 1px solid var(--rok-surface-border); border-radius: var(--radius-md); padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); text-align: center;">
         <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-size: 28px; margin-bottom: 20px;">
-            &#x2709;
+            <i data-lucide="mail" style="width:30px;height:30px;"></i>
         </div>
 
         <span class="badge-mini" style="font-size: 11px; letter-spacing: 2px;">EMAIL VERIFICATION REQUIRED</span>
@@ -40,8 +40,8 @@
         <div style="display: flex; flex-direction: column; gap: 12px;">
             <form method="POST" action="{{ route('verification.send') }}">
                 @csrf
-                <button type="submit" class="hero-button hero-button--primary" style="width: 100%; padding: 12px; font-size: 13px; font-weight: 800; cursor: pointer; border: none; border-radius: 6px;">
-                    &#x21BB; KIRIM ULANG EMAIL VERIFIKASI
+                <button type="submit" class="hero-button hero-button--primary" style="width: 100%; padding: 12px; font-size: 13px; font-weight: 800; cursor: pointer; border: none; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                    <i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> KIRIM ULANG EMAIL VERIFIKASI
                 </button>
             </form>
 

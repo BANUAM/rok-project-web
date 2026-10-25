@@ -125,28 +125,28 @@
                     <h3 class="rules-title">PERSYARATAN MINIMAL</h3>
                     <ul class="rules-list">
                         <li>
-                            <span class="rules-bullet">&#x2713;</span>
+                            <span class="rules-bullet"><i data-lucide="check" style="width:12px;height:12px;"></i></span>
                             <div>
                                 <strong>Rank Mobile Legends</strong>
                                 <p>Minimal Mythical Glory atau Mythical Immortal musim saat ini/terakhir.</p>
                             </div>
                         </li>
                         <li>
-                            <span class="rules-bullet">&#x2713;</span>
+                            <span class="rules-bullet"><i data-lucide="check" style="width:12px;height:12px;"></i></span>
                             <div>
                                 <strong>Kesiapan Waktu &amp; Disiplin</strong>
                                 <p>Siap mengikuti sesi latihan (scrim), evaluasi taktis, dan coaching rutin.</p>
                             </div>
                         </li>
                         <li>
-                            <span class="rules-bullet">&#x2713;</span>
+                            <span class="rules-bullet"><i data-lucide="check" style="width:12px;height:12px;"></i></span>
                             <div>
                                 <strong>Dokumentasi Profil Game</strong>
                                 <p>Menyiapkan 3 screenshot: profil MLBB, win rate hero favorit, dan tier stars terkini.</p>
                             </div>
                         </li>
                         <li>
-                            <span class="rules-bullet">&#x2713;</span>
+                            <span class="rules-bullet"><i data-lucide="check" style="width:12px;height:12px;"></i></span>
                             <div>
                                 <strong>Tes LSM (Logika Strategi &amp; Makro)</strong>
                                 <p>Wajib menyelesaikan ujian pilihan ganda secara objektif tanpa bantuan pihak ketiga.</p>
@@ -155,7 +155,7 @@
                     </ul>
 
                     <div class="rules-note">
-                        <span class="note-icon">&#9432;</span>
+                        <span class="note-icon"><i data-lucide="info" style="width:14px;height:14px;"></i></span>
                         <p>Kontrak fisik atlet dilakukan secara resmi di luar sistem setelah calon pemain dinyatakan lulus seleksi dan evaluasi tatap muka.</p>
                     </div>
                 </div>

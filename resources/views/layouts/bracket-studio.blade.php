@@ -39,30 +39,30 @@
             <nav class="mgmt-nav">
                 <div class="nav-section-label">WORKSPACE TURNAMEN</div>
                 <a href="{{ route('bracket.studio.index') }}" class="mgmt-nav-link {{ request()->routeIs('bracket.studio.index') ? 'is-active' : '' }}">
-                    <span class="nav-icon">&#x1F3C6;</span> Daftar Turnamen Saya
+                    <span class="nav-icon"><i data-lucide="trophy"></i></span> Daftar Turnamen Saya
                 </a>
                 <a href="{{ route('bracket.studio.editor') }}" class="mgmt-nav-link {{ request()->routeIs('bracket.studio.editor*') ? 'is-active' : '' }}">
-                    <span class="nav-icon">&#x2694;</span> Live Bracket Editor
+                    <span class="nav-icon"><i data-lucide="swords"></i></span> Live Bracket Editor
                 </a>
 
                 <div class="nav-section-label">FITUR MEMBERSHIP</div>
                 <a href="{{ route('learning-development') }}" class="mgmt-nav-link">
-                    <span class="nav-icon">&#x1F4DA;</span> Akademi &amp; Playbook PDF
+                    <span class="nav-icon"><i data-lucide="book-open"></i></span> Akademi &amp; Playbook PDF
                 </a>
                 <a href="{{ route('bracket') }}" class="mgmt-nav-link">
-                    <span class="nav-icon">&#x1F310;</span> Halaman Bracket Publik
+                    <span class="nav-icon"><i data-lucide="globe"></i></span> Halaman Bracket Publik
                 </a>
                 @if (Auth::user()?->isAdmin())
                     <div class="nav-section-label">ADMIN PANEL</div>
                     <a href="{{ route('management.dashboard') }}" class="mgmt-nav-link">
-                        <span class="nav-icon">&#x2699;</span> Management Portal
+                        <span class="nav-icon"><i data-lucide="settings"></i></span> Management Portal
                     </a>
                 @endif
             </nav>
 
             <div class="mgmt-sidebar__footer">
                 <div class="user-badge-mini">
-                    <div class="user-avatar-mini">&#x1F451;</div>
+                    <div class="user-avatar-mini"><i data-lucide="crown"></i></div>
                     <div class="user-details">
                         <strong>{{ Auth::user()->name ?? 'Organizer' }}</strong>
                         <span style="color: #38bdf8;">PAKET: {{ strtoupper(Auth::user()?->membershipTierSlug() ?? 'PRO') }}</span>
@@ -71,8 +71,8 @@
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="btn-logout" title="Keluar">
-                        &#x23FB; Keluar Akun
+                    <button type="submit" class="btn-logout" title="Keluar" style="display:inline-flex;align-items:center;gap:6px;">
+                        <i data-lucide="log-out" style="width:14px;height:14px;"></i> Keluar Akun
                     </button>
                 </form>
             </div>
@@ -86,25 +86,25 @@
                 </div>
                 <div class="topbar-actions" style="display: flex; align-items: center; gap: 10px;">
                     <button type="button" class="theme-toggle-btn" data-theme-toggle title="Ubah Tema Gelap / Terang">
-                        <span class="theme-toggle-btn__icon" data-theme-icon>&#x2600;&#xFE0F;</span>
+                        <span class="theme-toggle-btn__icon" data-theme-icon><i data-lucide="sun" style="width:14px;height:14px;"></i></span>
                         <span class="theme-toggle-btn__label" data-theme-label>Mode Terang</span>
                     </button>
-                    <a href="{{ url('/') }}" class="btn-public-site">
-                        <span>&#x1F310;</span> Web Publik
+                    <a href="{{ url('/') }}" class="btn-public-site" style="display:inline-flex;align-items:center;gap:5px;">
+                        <span><i data-lucide="globe" style="width:14px;height:14px;"></i></span> Web Publik
                     </a>
                 </div>
             </header>
 
             @if (session('success'))
                 <div class="mgmt-alert mgmt-alert--success" role="alert">
-                    <span>&#10003;</span>
+                    <span><i data-lucide="check" style="width:16px;height:16px;"></i></span>
                     <p>{{ session('success') }}</p>
                 </div>
             @endif
 
             @if (session('error'))
                 <div class="mgmt-alert mgmt-alert--error" role="alert">
-                    <span>&excl;</span>
+                    <span><i data-lucide="alert-circle" style="width:16px;height:16px;"></i></span>
                     <p>{{ session('error') }}</p>
                 </div>
             @endif

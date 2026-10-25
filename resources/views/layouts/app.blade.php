@@ -35,7 +35,7 @@
 
     @if (session('success'))
         <aside class="flash-toast flash-toast--success" role="status" aria-live="polite">
-            <span class="flash-toast__icon">&#10003;</span>
+            <span class="flash-toast__icon"><i data-lucide="check" style="width:16px;height:16px;"></i></span>
             <div class="flash-toast__content">
                 <strong>Berhasil!</strong>
                 <p>{{ session('success') }}</p>
@@ -46,7 +46,7 @@
 
     @if (session('error'))
         <aside class="flash-toast flash-toast--error" role="alert">
-            <span class="flash-toast__icon">&excl;</span>
+            <span class="flash-toast__icon"><i data-lucide="alert-circle" style="width:16px;height:16px;"></i></span>
             <div class="flash-toast__content">
                 <strong>Perhatian!</strong>
                 <p>{{ session('error') }}</p>

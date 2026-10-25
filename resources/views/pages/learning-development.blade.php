@@ -42,9 +42,9 @@
                         Bedah detail rotasi 90 detik awal dan kontrol vision river. Trik membaca rute jungler lawan dan mengeksekusi dive turret dengan aman.
                     </p>
                     <div class="video-meta-tags">
-                        <span>&#x23F1; Durasi: 14 Menit</span>
-                        <span>&#x1F3AE; Mobile Legends: Bang Bang</span>
-                        <span>&#x1F451; Coach Zen &amp; Analyst DataMind</span>
+                        <span style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="clock" style="width:13px;height:13px;"></i> Durasi: 14 Menit</span>
+                        <span style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="gamepad-2" style="width:13px;height:13px;"></i> Mobile Legends: Bang Bang</span>
+                        <span style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="crown" style="width:13px;height:13px;"></i> Coach Zen &amp; Analyst DataMind</span>
                     </div>
                 </div>
             </div>
@@ -80,9 +80,9 @@
                                         <li class="lesson-item">
                                             <div class="lesson-item__left">
                                                 @if ($lesson->isPdf())
-                                                    <span class="lesson-play-icon" style="background: rgba(239, 68, 68, 0.2); color: #f87171;">&#x1F4C4;</span>
+                                                    <span class="lesson-play-icon" style="background: rgba(239, 68, 68, 0.2); color: #f87171; display:flex; align-items:center; justify-content:center;"><i data-lucide="file-text" style="width:14px;height:14px;"></i></span>
                                                 @else
-                                                    <span class="lesson-play-icon">&#9658;</span>
+                                                    <span class="lesson-play-icon" style="display:flex; align-items:center; justify-content:center;"><i data-lucide="play" style="width:14px;height:14px;"></i></span>
                                                 @endif
                                                 <div>
                                                     <span class="lesson-title">{{ $lesson->title }}</span>
@@ -97,19 +97,19 @@
                                             <div class="lesson-item__right">
                                                 @if ($lesson->is_free_preview)
                                                     @if ($lesson->isPdf() && $lesson->pdf_url)
-                                                        <a href="{{ $lesson->pdf_url }}" target="_blank" class="badge-free" style="text-decoration: none;">
-                                                            &#x1F4E5; Unduh PDF
+                                                        <a href="{{ $lesson->pdf_url }}" target="_blank" class="badge-free" style="text-decoration: none; display:inline-flex; align-items:center; gap:4px;">
+                                                            <i data-lucide="download" style="width:13px;height:13px;"></i> Unduh PDF
                                                         </a>
                                                     @elseif ($lesson->video_url)
-                                                        <a href="{{ $lesson->video_url }}" target="_blank" class="badge-free" style="text-decoration: none;">
-                                                            &#9658; Tonton Gratis
+                                                        <a href="{{ $lesson->video_url }}" target="_blank" class="badge-free" style="text-decoration: none; display:inline-flex; align-items:center; gap:4px;">
+                                                            <i data-lucide="play" style="width:13px;height:13px;"></i> Tonton Gratis
                                                         </a>
                                                     @else
                                                         <span class="badge-free">Free Preview</span>
                                                     @endif
                                                 @else
-                                                    <a href="{{ route('membership.payment', ['plan' => 'learning']) }}" class="badge-lock" style="text-decoration: none;" title="Buka akses via Membership">
-                                                        &#x1F512; Member Only
+                                                    <a href="{{ route('membership.payment', ['plan' => 'learning']) }}" class="badge-lock" style="text-decoration: none; display:inline-flex; align-items:center; gap:4px;" title="Buka akses via Membership">
+                                                        <i data-lucide="lock" style="width:13px;height:13px;"></i> Member Only
                                                     </a>
                                                 @endif
 
@@ -155,10 +155,10 @@
                     </div>
                     <div class="pricing-body">
                         <ul class="pricing-features">
-                            <li><span class="check">&#10003;</span> Akses seluruh modul &amp; video strategi</li>
-                            <li><span class="check">&#10003;</span> Unduh panduan kurikulum format PDF</li>
-                            <li><span class="check">&#10003;</span> Tes evaluasi pengetahuan game (Quiz)</li>
-                            <li><span class="check">&#10003;</span> Akses Discord Komunitas Diskusi</li>
+                            <li><span class="check"><i data-lucide="check" style="width:13px;height:13px;"></i></span> Akses seluruh modul &amp; video strategi</li>
+                            <li><span class="check"><i data-lucide="check" style="width:13px;height:13px;"></i></span> Unduh panduan kurikulum format PDF</li>
+                            <li><span class="check"><i data-lucide="check" style="width:13px;height:13px;"></i></span> Tes evaluasi pengetahuan game (Quiz)</li>
+                            <li><span class="check"><i data-lucide="check" style="width:13px;height:13px;"></i></span> Akses Discord Komunitas Diskusi</li>
                             <li><span class="cross">&times;</span> Tidak termasuk fitur turnamen branding</li>
                         </ul>
                     </div>
@@ -178,10 +178,10 @@
                     </div>
                     <div class="pricing-body">
                         <ul class="pricing-features">
-                            <li><span class="check">&#10003;</span> Buat turnamen tanpa batas tim</li>
-                            <li><span class="check">&#10003;</span> <strong>Kustomisasi Logo Tim</strong> di Bracket</li>
-                            <li><span class="check">&#10003;</span> Banner &amp; Tournament Branding resmi</li>
-                            <li><span class="check">&#10003;</span> Tampilan Live Bracket publik</li>
+                            <li><span class="check"><i data-lucide="check" style="width:13px;height:13px;"></i></span> Buat turnamen tanpa batas tim</li>
+                            <li><span class="check"><i data-lucide="check" style="width:13px;height:13px;"></i></span> <strong>Kustomisasi Logo Tim</strong> di Bracket</li>
+                            <li><span class="check"><i data-lucide="check" style="width:13px;height:13px;"></i></span> Banner &amp; Tournament Branding resmi</li>
+                            <li><span class="check"><i data-lucide="check" style="width:13px;height:13px;"></i></span> Tampilan Live Bracket publik</li>
                             <li><span class="cross">&times;</span> Tidak termasuk modul pembelajaran</li>
                         </ul>
                     </div>
@@ -201,10 +201,10 @@
                     </div>
                     <div class="pricing-body">
                         <ul class="pricing-features">
-                            <li><span class="check">&#10003;</span> <strong>Semua fasilitas ROK Challenger</strong></li>
-                            <li><span class="check">&#10003;</span> <strong>Semua fasilitas ROK Learning</strong></li>
-                            <li><span class="check">&#10003;</span> Prioritas konsultasi turnamen organizer</li>
-                            <li><span class="check">&#10003;</span> Badge Immortal di portal komunitas</li>
+                            <li><span class="check"><i data-lucide="check" style="width:13px;height:13px;"></i></span> <strong>Semua fasilitas ROK Challenger</strong></li>
+                            <li><span class="check"><i data-lucide="check" style="width:13px;height:13px;"></i></span> <strong>Semua fasilitas ROK Learning</strong></li>
+                            <li><span class="check"><i data-lucide="check" style="width:13px;height:13px;"></i></span> Prioritas konsultasi turnamen organizer</li>
+                            <li><span class="check"><i data-lucide="check" style="width:13px;height:13px;"></i></span> Badge Immortal di portal komunitas</li>
                         </ul>
                     </div>
                     <div class="pricing-footer">
@@ -232,45 +232,45 @@
                         <tbody>
                             <tr>
                                 <td>Akses Website Publik</td>
-                                <td>&#10003; Ya</td>
-                                <td>&#10003; Ya</td>
-                                <td>&#10003; Ya</td>
-                                <td class="col-highlight">&#10003; Ya</td>
+                                <td><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
+                                <td><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
+                                <td><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
+                                <td class="col-highlight"><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
                             </tr>
                             <tr>
                                 <td>Membuat Bracket Turnamen</td>
-                                <td>&#10003; Ya (Dasar)</td>
+                                <td><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya (Dasar)</td>
                                 <td>&times; Tidak Otomatis</td>
-                                <td>&#10003; Ya</td>
-                                <td class="col-highlight">&#10003; Ya</td>
+                                <td><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
+                                <td class="col-highlight"><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
                             </tr>
                             <tr>
                                 <td>Generate &amp; Live Bracket</td>
-                                <td>&#10003; Ya</td>
+                                <td><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
                                 <td>&times; Tidak Otomatis</td>
-                                <td>&#10003; Ya</td>
-                                <td class="col-highlight">&#10003; Ya</td>
+                                <td><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
+                                <td class="col-highlight"><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
                             </tr>
                             <tr>
                                 <td>Logo Tim Peserta</td>
                                 <td>&times; Terkunci</td>
                                 <td>&times; Terkunci</td>
-                                <td>&#10003; Ya</td>
-                                <td class="col-highlight">&#10003; Ya</td>
+                                <td><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
+                                <td class="col-highlight"><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
                             </tr>
                             <tr>
                                 <td>Tournament Branding &amp; Banner</td>
                                 <td>&times; Terkunci</td>
                                 <td>&times; Terkunci</td>
-                                <td>&#10003; Ya</td>
-                                <td class="col-highlight">&#10003; Ya</td>
+                                <td><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
+                                <td class="col-highlight"><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
                             </tr>
                             <tr>
                                 <td>Learning &amp; Development Penuh</td>
                                 <td>&times; Terkunci</td>
-                                <td>&#10003; Ya</td>
+                                <td><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
                                 <td>&times; Terkunci</td>
-                                <td class="col-highlight">&#10003; Ya</td>
+                                <td class="col-highlight"><i data-lucide="check" style="width:14px;height:14px;color:#22c55e;vertical-align:-2px;"></i> Ya</td>
                             </tr>
                         </tbody>
                     </table>

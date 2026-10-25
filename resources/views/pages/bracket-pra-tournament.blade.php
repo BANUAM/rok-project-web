@@ -31,12 +31,12 @@
         <div class="page-hero__inner">
             <div style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
                 @if ($isFreeMode)
-                    <span class="section-badge" style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; color: #38bdf8;">
-                        &#x1F3AE; PORTAL PRA-TURNAMEN (EDISI GRATIS)
+                    <span class="section-badge" style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; color: #38bdf8; display:inline-flex; align-items:center; gap:5px;">
+                        <i data-lucide="gamepad-2" style="width:13px;height:13px;"></i> PORTAL PRA-TURNAMEN (EDISI GRATIS)
                     </span>
                 @else
-                    <span class="section-badge" style="background: rgba(251, 191, 36, 0.15); border: 1px solid var(--rok-gold); color: var(--rok-gold);">
-                        &#x1F451; PORTAL PRA-TURNAMEN (EDISI MEMBERSHIP)
+                    <span class="section-badge" style="background: rgba(251, 191, 36, 0.15); border: 1px solid var(--rok-gold); color: var(--rok-gold); display:inline-flex; align-items:center; gap:5px;">
+                        <i data-lucide="crown" style="width:13px;height:13px;"></i> PORTAL PRA-TURNAMEN (EDISI MEMBERSHIP)
                     </span>
                 @endif
                 <span class="realtime-pulse-dot" id="praRealtimeDot" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 10px #22c55e;"></span>
@@ -73,15 +73,15 @@
 
             {{-- Top Action Buttons --}}
             <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 22px;">
-                <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="btnCopyPraLink" style="border-radius: 20px; padding: 8px 18px; border-color: rgba(56, 189, 248, 0.5); color: #38bdf8; font-weight: 700;">
-                    &#x1F4CB; Salin Link Pra-Turnamen {{ $isFreeMode ? 'Free' : 'Membership' }}
+                <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="btnCopyPraLink" style="border-radius: 20px; padding: 8px 18px; border-color: rgba(56, 189, 248, 0.5); color: #38bdf8; font-weight: 700; display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="copy" style="width:14px;height:14px;"></i> Salin Link Pra-Turnamen {{ $isFreeMode ? 'Free' : 'Membership' }}
                 </button>
-                <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" style="border-radius: 20px; padding: 8px 18px;">
-                    &#x1F517; Lihat Live Bracket &nearr;
+                <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" style="border-radius: 20px; padding: 8px 18px; display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="external-link" style="width:14px;height:14px;"></i> Lihat Live Bracket &nearr;
                 </a>
                 @if ($canEdit)
-                    <a href="{{ route('bracket.studio.editor', ['slug' => $tournament->slug]) }}" class="btn-rok btn-rok--gold btn-rok--sm" style="border-radius: 20px; padding: 8px 18px;">
-                        &#x2694; Kelola Master di Bracket Studio
+                    <a href="{{ route('bracket.studio.editor', ['slug' => $tournament->slug]) }}" class="btn-rok btn-rok--gold btn-rok--sm" style="border-radius: 20px; padding: 8px 18px; display:inline-flex; align-items:center; gap:6px;">
+                        <i data-lucide="swords" style="width:14px;height:14px;"></i> Kelola Master di Bracket Studio
                     </a>
                 @endif
             </div>
@@ -92,7 +92,7 @@
     <div class="section-inner" id="myClaimedBanner" style="display: none; margin-bottom: 24px;">
         <div style="background: rgba(34, 197, 94, 0.12); border: 1px solid #22c55e; border-radius: 12px; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
             <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 24px;">&#x2705;</span>
+                <i data-lucide="check-circle-2" style="width:24px;height:24px;color:#4ade80;"></i>
                 <div>
                     <strong style="color: #4ade80; font-size: 14px; display: block;">Perangkat Anda Telah Melakukan Check-in Turnamen</strong>
                     <span style="font-size: 13px; color: var(--rok-silver);" id="myClaimedDetails">
@@ -144,12 +144,12 @@
                                 SLOT #{{ $i + 1 }}
                             </span>
                             @if ($isClaimed)
-                                <span class="badge-claimed" style="font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(34, 197, 94, 0.16); border: 1px solid #22c55e; color: #4ade80; font-weight: 700;">
-                                    &#x2713; TERDAFTAR
+                                <span class="badge-claimed" style="font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(34, 197, 94, 0.16); border: 1px solid #22c55e; color: #4ade80; font-weight: 700; display:inline-flex; align-items:center; gap:4px;">
+                                    <i data-lucide="check" style="width:11px;height:11px;"></i> TERDAFTAR
                                 </span>
                             @else
-                                <span class="badge-vacant" style="font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: 700;">
-                                    &#x25CB; TERSEDIA
+                                <span class="badge-vacant" style="font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: 700; display:inline-flex; align-items:center; gap:4px;">
+                                    <i data-lucide="circle" style="width:11px;height:11px;"></i> TERSEDIA
                                 </span>
                             @endif
                         </div>
@@ -166,8 +166,8 @@
                                     {{ $isClaimed ? $teamName : 'Slot Kosong' }}
                                 </h4>
                                 @if ($isClaimed)
-                                    <span style="font-size: 12px; color: #4ade80; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                        &#x1F4F1; {{ !empty($teamWa) ? substr($teamWa, 0, 4) . '****' . substr($teamWa, -3) : 'WhatsApp Terdata' }}
+                                    <span style="font-size: 12px; color: #4ade80; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                        <i data-lucide="smartphone" style="width:12px;height:12px;"></i> {{ !empty($teamWa) ? substr($teamWa, 0, 4) . '****' . substr($teamWa, -3) : 'WhatsApp Terdata' }}
                                     </span>
                                 @else
                                     <span style="font-size: 12px; color: var(--rok-muted-light); display: block;">
@@ -181,8 +181,8 @@
                         <div class="slot-card-actions">
                             @if ($isClaimed)
                                 <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-                                    <span style="font-size: 11px; color: var(--rok-muted-light);">
-                                        &#x1F512; Slot Terkunci
+                                    <span style="font-size: 11px; color: var(--rok-muted-light); display: inline-flex; align-items: center; gap: 4px;">
+                                        <i data-lucide="lock" style="width:11px;height:11px;"></i> Slot Terkunci
                                     </span>
                                     @if (!empty($teamWa))
                                         <a href="https://wa.me/{{ $teamWa }}" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--outline btn-rok--sm" style="font-size: 11px; padding: 4px 10px; border-radius: 20px; border-color: rgba(37, 211, 102, 0.4); color: #25D366; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
@@ -192,8 +192,8 @@
                                     @endif
                                 </div>
                             @else
-                                <button type="button" class="btn-rok btn-rok--gold btn-rok--full btn-claim-slot" data-slot="{{ $i }}" style="border-radius: 20px; font-weight: 700; font-size: 13px; padding: 8px 14px;">
-                                    &#x270E; Klaim Slot #{{ $i + 1 }}
+                                <button type="button" class="btn-rok btn-rok--gold btn-rok--full btn-claim-slot" data-slot="{{ $i }}" style="border-radius: 20px; font-weight: 700; font-size: 13px; padding: 8px 14px; display:inline-flex; align-items:center; justify-content:center; gap:5px;">
+                                    <i data-lucide="edit-3" style="width:13px;height:13px;"></i> Klaim Slot #{{ $i + 1 }}
                                 </button>
                             @endif
                         </div>
@@ -269,8 +269,8 @@
                 <div class="form-field" style="margin-bottom: 20px;">
                     <label class="form-label" style="font-size: 13px; font-weight: 700;">Logo Tim Peserta</label>
                     <div style="margin-bottom: 10px;">
-                        <span style="font-size: 11px; color: var(--rok-gold); display: block; margin-bottom: 6px; font-weight: 700;">
-                            &#x1F451; Akses Member: Unggah Logo Tim Sendiri (PNG/JPG/SVG)
+                        <span style="font-size: 11px; color: var(--rok-gold); display: inline-flex; align-items: center; gap: 4px; margin-bottom: 6px; font-weight: 700;">
+                            <i data-lucide="crown" style="width:12px;height:12px;"></i> Akses Member: Unggah Logo Tim Sendiri (PNG/JPG/SVG)
                         </span>
                         <input type="file" id="claimCustomLogoFile" accept="image/*" class="form-input" style="font-size: 12px; padding: 6px 10px;">
                     </div>
@@ -304,8 +304,8 @@
             @else
                 {{-- Edisi Free: Sama sekali tidak ada button atau input logo --}}
                 <div style="margin-bottom: 16px; padding: 10px 14px; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px;">
-                    <span style="font-size: 12px; color: #38bdf8; display: block; font-weight: 700;">
-                        &#x1F3AE; Edisi Turnamen Gratis (Tanpa Logo)
+                    <span style="font-size: 12px; color: #38bdf8; display: inline-flex; align-items: center; gap: 4px; font-weight: 700;">
+                        <i data-lucide="gamepad-2" style="width:13px;height:13px;"></i> Edisi Turnamen Gratis (Tanpa Logo)
                     </span>
                     <span style="font-size: 11px; color: var(--rok-muted-light); display: block; margin-top: 2px;">
                         Pendaftaran berfokus pada Nama Tim &amp; Kontak WhatsApp kapten. Kustomisasi logo resmi tim tersedia pada Turnamen Membership.
@@ -357,10 +357,14 @@
                 card.style.boxShadow = '0 0 16px rgba(251, 191, 36, 0.2)';
                 const badge = card.querySelector('.badge-claimed');
                 if (badge) {
-                    badge.innerHTML = '&#x2605; TIM ANDA';
+                    badge.innerHTML = '<i data-lucide="star" style="width:11px;height:11px;"></i> TIM ANDA';
                     badge.style.background = 'rgba(251, 191, 36, 0.2)';
                     badge.style.borderColor = 'var(--rok-gold)';
                     badge.style.color = 'var(--rok-gold)';
+                    badge.style.display = 'inline-flex';
+                    badge.style.alignItems = 'center';
+                    badge.style.gap = '4px';
+                    window.renderLucideIcons?.();
                 }
             }
         }
@@ -537,9 +541,10 @@
         navigator.clipboard.writeText(window.location.href);
         const btn = document.getElementById('btnCopyPraLink');
         if (btn) {
-            const original = btn.textContent;
-            btn.textContent = '✓ Link Pra-Turnamen Tersalin!';
-            setTimeout(() => { btn.textContent = original; }, 2000);
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i data-lucide="check" style="width:13px;height:13px;"></i> Link Pra-Turnamen Tersalin!';
+            window.renderLucideIcons?.();
+            setTimeout(() => { btn.innerHTML = original; window.renderLucideIcons?.(); }, 2000);
         }
     });
 
@@ -583,8 +588,8 @@
                                 const topBadge = card.querySelector('.badge-claimed, .badge-vacant');
                                 if (topBadge) {
                                     topBadge.className = 'badge-claimed';
-                                    topBadge.style.cssText = 'font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(34, 197, 94, 0.16); border: 1px solid #22c55e; color: #4ade80; font-weight: 700;';
-                                    topBadge.innerHTML = '&#x2713; TERDAFTAR';
+                                    topBadge.style.cssText = 'font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(34, 197, 94, 0.16); border: 1px solid #22c55e; color: #4ade80; font-weight: 700; display:inline-flex; align-items:center; gap:4px;';
+                                    topBadge.innerHTML = '<i data-lucide="check" style="width:11px;height:11px;"></i> TERDAFTAR';
                                 }
                                 const nameEl = card.querySelector('.slot-team-name');
                                 if (nameEl) {
@@ -600,11 +605,12 @@
                                 if (actions) {
                                     actions.innerHTML = `
                                         <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-                                            <span style="font-size: 11px; color: var(--rok-muted-light);">&#x1F512; Slot Terkunci</span>
+                                            <span style="font-size: 11px; color: var(--rok-muted-light); display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="lock" style="width:11px;height:11px;"></i> Slot Terkunci</span>
                                             ${t.whatsapp ? `<a href="https://wa.me/${t.whatsapp}" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--outline btn-rok--sm" style="font-size: 11px; padding: 4px 10px; border-radius: 20px; border-color: rgba(37, 211, 102, 0.4); color: #25D366; text-decoration: none;">Chat WA</a>` : ''}
                                         </div>
                                     `;
                                 }
+                                window.renderLucideIcons?.();
                             }
                         } else {
                             // If previously claimed but now vacant / number deleted by organizer
@@ -615,8 +621,8 @@
                                 const topBadge = card.querySelector('.badge-claimed, .badge-vacant');
                                 if (topBadge) {
                                     topBadge.className = 'badge-vacant';
-                                    topBadge.style.cssText = 'font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: 700;';
-                                    topBadge.innerHTML = '&#x25CB; TERSEDIA';
+                                    topBadge.style.cssText = 'font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: 700; display:inline-flex; align-items:center; gap:4px;';
+                                    topBadge.innerHTML = '<i data-lucide="circle" style="width:11px;height:11px;"></i> TERSEDIA';
                                 }
                                 const nameEl = card.querySelector('.slot-team-name');
                                 if (nameEl) {
@@ -630,12 +636,13 @@
                                 const actions = card.querySelector('.slot-card-actions');
                                 if (actions) {
                                     actions.innerHTML = `
-                                        <button type="button" class="btn-rok btn-rok--gold btn-rok--full btn-claim-slot" data-slot="${idx}" style="border-radius: 20px; font-weight: 700; font-size: 13px; padding: 8px 14px;">
-                                            &#x270D; Klaim Slot #${idx + 1}
+                                        <button type="button" class="btn-rok btn-rok--gold btn-rok--full btn-claim-slot" data-slot="${idx}" style="border-radius: 20px; font-weight: 700; font-size: 13px; padding: 8px 14px; display:inline-flex; align-items:center; justify-content:center; gap:5px;">
+                                            <i data-lucide="edit-3" style="width:13px;height:13px;"></i> Klaim Slot #${idx + 1}
                                         </button>
                                     `;
                                     actions.querySelector('.btn-claim-slot')?.addEventListener('click', () => openClaimModal(idx));
                                 }
+                                window.renderLucideIcons?.();
                             }
                         }
                     });

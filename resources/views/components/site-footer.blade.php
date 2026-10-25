@@ -44,15 +44,15 @@
             <h3 class="site-footer__heading">Community</h3>
             <div class="site-footer__social-list">
                 <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="social-badge">
-                    <span class="social-badge__icon">⚡</span>
+                    <span class="social-badge__icon"><i data-lucide="zap" style="width:14px;height:14px;"></i></span>
                     <span class="social-badge__name">Discord</span>
                 </a>
                 <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-badge">
-                    <span class="social-badge__icon">📸</span>
+                    <span class="social-badge__icon"><i data-lucide="instagram" style="width:14px;height:14px;"></i></span>
                     <span class="social-badge__name">Instagram</span>
                 </a>
                 <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-badge">
-                    <span class="social-badge__icon">▶</span>
+                    <span class="social-badge__icon"><i data-lucide="youtube" style="width:14px;height:14px;"></i></span>
                     <span class="social-badge__name">YouTube</span>
                 </a>
             </div>

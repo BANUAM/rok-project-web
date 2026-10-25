@@ -20,7 +20,7 @@
             {{-- Exam Header Bar: Timer & Counter --}}
             <div class="exam-status-bar">
                 <div class="exam-candidate-info">
-                    <span class="avatar-circle">&#x1F464;</span>
+                    <span class="avatar-circle"><i data-lucide="user" style="width:18px;height:18px;"></i></span>
                     <div>
                         <strong>{{ $candidate->name }} ({{ $candidate->nickname }})</strong>
                         <span class="candidate-role-pill">{{ $candidate->role }} &bull; {{ $candidate->rank_display }}</span>
@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="exam-timer-box" id="examTimerBox">
-                    <span class="timer-icon">&#x23F1;</span>
+                    <span class="timer-icon"><i data-lucide="clock" style="width:16px;height:16px;"></i></span>
                     <span>Waktu Tersisa:</span>
                     <strong id="timerDisplay">{{ sprintf('%02d:00', $lsm->duration_minutes) }}</strong>
                 </div>
@@ -127,10 +127,10 @@
                         type="submit"
                         id="btnSubmitExam"
                         class="btn-rok btn-rok--gold"
-                        style="display: none;"
+                        style="display: none; align-items: center; gap: 6px;"
                         onclick="return confirm('Apakah kamu yakin ingin menyelesaikan dan mengirimkan hasil ujian LSM ini? Jawaban tidak dapat diubah kembali.')"
                     >
-                        Kirim Jawaban LSM &#10003;
+                        <span>Kirim Jawaban LSM</span> <i data-lucide="check" style="width:14px;height:14px;"></i>
                     </button>
                 </div>
             </form>

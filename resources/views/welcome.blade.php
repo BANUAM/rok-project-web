@@ -60,8 +60,8 @@
 
                 @if ($heroSlides->count() > 1)
                     <div class="hero-slider__controls">
-                        <button type="button" id="heroPrevious" aria-label="Previous banner">
-                            &#8592;
+                        <button type="button" id="heroPrevious" aria-label="Previous banner" style="display:inline-flex;align-items:center;justify-content:center;">
+                            <i data-lucide="chevron-left" style="width:20px;height:20px;"></i>
                         </button>
 
                         <div class="hero-slider__indicators" id="heroIndicators">
@@ -76,8 +76,8 @@
                             @endforeach
                         </div>
 
-                        <button type="button" id="heroNext" aria-label="Next banner">
-                            &#8594;
+                        <button type="button" id="heroNext" aria-label="Next banner" style="display:inline-flex;align-items:center;justify-content:center;">
+                            <i data-lucide="chevron-right" style="width:20px;height:20px;"></i>
                         </button>
                     </div>
                 @endif

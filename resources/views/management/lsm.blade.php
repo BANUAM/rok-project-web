@@ -127,7 +127,7 @@
                                         <div class="q-admin-option {{ $opt->is_correct ? 'is-correct' : '' }}">
                                             <span>{{ chr(65 + $oIdx) }}. {{ $opt->option_text }}</span>
                                             @if ($opt->is_correct)
-                                                <strong class="text-gold">&#10003; Kunci Jawaban</strong>
+                                                <strong class="text-gold" style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="check" style="width:13px;height:13px;"></i> Kunci Jawaban</strong>
                                             @endif
                                         </div>
                                     @endforeach

@@ -11,7 +11,7 @@
 <div class="page-container">
     <section class="page-hero">
         <div class="page-hero__inner">
-            <span class="section-badge">&#x1F534; LIVE REAL-TIME SHARED BRACKET</span>
+            <span class="section-badge" style="display:inline-flex;align-items:center;gap:6px;"><i data-lucide="radio" style="width:12px;height:12px;"></i> LIVE REAL-TIME SHARED BRACKET</span>
             <h1 class="page-title">{{ $tournament->name }}</h1>
             <p class="page-subtitle-gold">
                 Diselenggarakan oleh: {{ $tournament->organizer_name }} &bull; Real-Time Sync Aktif
@@ -22,8 +22,8 @@
 
             @if ($canEdit)
                 <div style="margin-top: 18px;">
-                    <a href="{{ route('bracket.studio.editor', ['slug' => $tournament->slug]) }}" class="btn-rok btn-rok--gold">
-                        &#x2694; Kelola Turnamen Ini di Bracket Studio
+                    <a href="{{ route('bracket.studio.editor', ['slug' => $tournament->slug]) }}" class="btn-rok btn-rok--gold" style="display:inline-flex;align-items:center;gap:6px;">
+                        <i data-lucide="swords" style="width:14px;height:14px;"></i> Kelola Turnamen Ini di Bracket Studio
                     </a>
                 </div>
             @endif

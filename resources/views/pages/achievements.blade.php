@@ -68,7 +68,7 @@
                             >
                             <span class="year-badge">{{ $achievement->event_year }}</span>
                             @if ($achievement->is_highlight)
-                                <span class="highlight-badge">&#x2B50; Major Title</span>
+                                <span class="highlight-badge" style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="star" style="width:12px;height:12px;color:#f59e0b;"></i> Major Title</span>
                             @endif
                         </div>
 

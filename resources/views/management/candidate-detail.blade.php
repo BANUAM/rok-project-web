@@ -7,7 +7,7 @@
 <div class="mgmt-page-deck">
     <div class="candidate-detail-header-card mgmt-card">
         <div class="cd-left">
-            <span class="avatar-large">&#x1F3C5;</span>
+            <span class="avatar-large"><i data-lucide="medal" style="width:36px;height:36px;"></i></span>
             <div>
                 <span class="badge-mini">KANDIDAT TRIAL ID: #{{ $candidate->id }}</span>
                 <h2 class="cd-name">{{ $candidate->name }}</h2>
@@ -231,7 +231,7 @@
             {{-- PROMOTE TO ROSTER ACTION --}}
             <div class="mgmt-card mt-4 mgmt-card--highlight">
                 <div class="mgmt-card__header">
-                    <h3>&#x1F451; INTEGRASI KE ROSTER TIM AKTIF</h3>
+                    <h3 style="display:inline-flex;align-items:center;gap:6px;"><i data-lucide="crown" style="width:16px;height:16px;"></i> INTEGRASI KE ROSTER TIM AKTIF</h3>
                 </div>
                 @if ($candidate->created_player_id)
                     <div class="alert-box alert-box--success">
@@ -269,8 +269,8 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn-rok btn-rok--gold btn-rok--full mt-2">
-                            &#x26A1; Pindahkan ke Roster Aktif &rarr;
+                        <button type="submit" class="btn-rok btn-rok--gold btn-rok--full mt-2" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;">
+                            <i data-lucide="zap" style="width:14px;height:14px;"></i> Pindahkan ke Roster Aktif &rarr;
                         </button>
                     </form>
                 @endif

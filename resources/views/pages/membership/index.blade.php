@@ -55,7 +55,7 @@
                                 @if (is_array($plan->features))
                                     @foreach ($plan->features as $feature)
                                         <li style="display: flex; gap: 10px; align-items: flex-start;">
-                                            <span style="color: #22c55e; font-weight: bold; flex-shrink: 0;">&#10003;</span>
+                                            <span style="color: #22c55e; font-weight: bold; flex-shrink: 0;"><i data-lucide="check" style="width:13px;height:13px;"></i></span>
                                             <span style="line-height: 1.45;">{{ $feature }}</span>
                                         </li>
                                     @endforeach
@@ -65,8 +65,8 @@
 
                         <div class="pricing-footer">
                             @if ($isCurrent)
-                                <button type="button" class="btn-rok btn-rok--outline btn-rok--full" style="text-align: center; opacity: 0.7; cursor: default;" disabled>
-                                    &#10003; Paket Anda Saat Ini
+                                <button type="button" class="btn-rok btn-rok--outline btn-rok--full" style="text-align: center; opacity: 0.7; cursor: default; display:inline-flex; align-items:center; justify-content:center; gap:5px;" disabled>
+                                    <i data-lucide="check" style="width:13px;height:13px;"></i> Paket Anda Saat Ini
                                 </button>
                             @elseif ($plan->price == 0)
                                 <a href="{{ route('register') }}" class="btn-rok btn-rok--outline btn-rok--full" style="text-align: center; text-decoration: none;">
@@ -85,7 +85,7 @@
             {{-- Feature Highlights Grid --}}
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 50px;">
                 <div style="background: var(--rok-surface-card, #111622); border: 1px solid var(--rok-surface-border); border-radius: var(--radius-md); padding: 26px;">
-                    <div style="font-size: 32px; margin-bottom: 12px;">&#x1F3C6;</div>
+                    <div style="margin-bottom: 12px; color: var(--rok-gold);"><i data-lucide="trophy" style="width:32px;height:32px;"></i></div>
                     <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">Workspace ROK Bracket Studio</h3>
                     <p style="font-size: 13px; color: var(--rok-text-muted); line-height: 1.6; margin: 0;">
                         Kelola turnamen tanpa batas, bagan Single/Double Elimination dan Swiss M7, dengan sinkronisasi skor real-time serta tautan live viewer untuk publik.
@@ -103,7 +103,7 @@
                 </div>
 
                 <div style="background: var(--rok-surface-card, #111622); border: 1px solid var(--rok-surface-border); border-radius: var(--radius-md); padding: 26px;">
-                    <div style="font-size: 32px; margin-bottom: 12px;">&#x1F4DA;</div>
+                    <div style="margin-bottom: 12px; color: #38bdf8;"><i data-lucide="book-open" style="width:32px;height:32px;"></i></div>
                     <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">Akademi &amp; Taktik Playbook PDF</h3>
                     <p style="font-size: 13px; color: var(--rok-text-muted); line-height: 1.6; margin: 0;">
                         Akses modul strategi pro esports Ruler of Kings: panduan drafting, makro manajemen, rotasi jungle, dan video breakdown eksklusif.
@@ -114,15 +114,15 @@
             {{-- Bottom Banner CTA --}}
             <div class="studio-portal-banner">
                 <div class="studio-portal-banner__info">
-                    <span class="studio-portal-badge">&#x1F451; SUDAH MEMILIKI MEMBERSHIP?</span>
+                    <span class="studio-portal-badge" style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="crown" style="width:13px;height:13px;"></i> SUDAH MEMILIKI MEMBERSHIP?</span>
                     <h3>LANGSUNG MASUK KE ROK BRACKET STUDIO</h3>
                     <p>
                         Akses workspace organizer Anda sekarang juga untuk mulai membuat bagan turnamen, mengunggah emblem tim resmi, dan membagikan link live bracket.
                     </p>
                 </div>
                 <div class="studio-portal-banner__actions">
-                    <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold">
-                        &#x2694; Buka Bracket Studio
+                    <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold" style="display:inline-flex;align-items:center;gap:6px;">
+                        <i data-lucide="swords" style="width:14px;height:14px;"></i> Buka Bracket Studio
                     </a>
                 </div>
             </div>
