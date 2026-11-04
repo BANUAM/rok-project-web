@@ -23,10 +23,10 @@
             </p>
 
             {{-- Free Edition Banner with link to Membership & Promo --}}
-            <div class="studio-portal-banner" style="background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.7) 100%); border-left: 3px solid #38bdf8; border-radius: 12px; padding: 16px 20px; backdrop-filter: blur(10px);">
+            <div class="studio-portal-banner" style="border-radius: 12px; padding: 16px 20px;">
                 <div class="studio-portal-banner__info">
                     <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
-                        <span class="studio-portal-badge" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 999px; padding: 2px 9px; font-size: 11px; display:inline-flex; align-items:center; gap:4px;"><i data-lucide="unlock" style="width:12px;height:12px;"></i> SEMUA FITUR BAGAN AKTIF</span>
+                        <span class="studio-portal-badge" style="border-radius: 999px; padding: 2px 9px; font-size: 11px; display:inline-flex; align-items:center; gap:4px;"><i data-lucide="unlock" style="width:12px;height:12px;"></i> SEMUA FITUR BAGAN AKTIF</span>
                         <span style="font-size: 11px; color: var(--rok-silver); font-family: monospace; opacity: 0.75;">
                             {{ $activeTournament->slug }}
                         </span>

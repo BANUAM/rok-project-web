@@ -6,7 +6,7 @@
 @section('content')
 <div class="mgmt-page-deck">
     {{-- Switcher Bar between User's Tournaments --}}
-    <div class="mgmt-card mb-4" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 12px 18px; border-radius: 12px; background: rgba(15, 23, 42, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(10px);">
+    <div class="mgmt-card mb-4" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 12px 18px; border-radius: 12px;">
         <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
             <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--rok-muted-light);">PILIH TURNAMEN:</span>
             <div style="display: flex; gap: 6px; flex-wrap: wrap;">

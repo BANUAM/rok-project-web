@@ -157,12 +157,12 @@
                         {{-- Card Body --}}
                         <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
                             @if (!$isFreeMode)
-                                <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; border: 2px solid {{ $isClaimed ? '#22c55e' : 'var(--rok-surface-border)' }}; flex-shrink: 0; background: #0f172a; display: flex; align-items: center; justify-content: center;">
+                                <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; border: 2px solid {{ $isClaimed ? '#22c55e' : 'var(--rok-surface-border)' }}; flex-shrink: 0; background: var(--rok-surface-card); display: flex; align-items: center; justify-content: center;">
                                     <img src="{{ $teamLogo }}" alt="{{ $teamName }}" class="slot-logo-img" style="width: 100%; height: 100%; object-fit: cover; {{ $isClaimed ? '' : 'opacity: 0.4;' }}" onerror="this.src='/storage/tournaments/team-rok.svg'">
                                 </div>
                             @endif
                             <div style="min-width: 0; flex: 1;">
-                                <h4 class="slot-team-name" style="margin: 0 0 4px 0; font-size: 15px; font-weight: 700; color: {{ $isClaimed ? '#fff' : 'var(--rok-muted-light)' }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                <h4 class="slot-team-name" style="margin: 0 0 4px 0; font-size: 15px; font-weight: 700; color: {{ $isClaimed ? 'var(--rok-text-bright)' : 'var(--rok-muted-light)' }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                     {{ $isClaimed ? $teamName : 'Slot Kosong' }}
                                 </h4>
                                 @if ($isClaimed)
@@ -594,7 +594,7 @@
                                 const nameEl = card.querySelector('.slot-team-name');
                                 if (nameEl) {
                                     nameEl.textContent = t.name || `Nama Tim ${idx + 1}`;
-                                    nameEl.style.color = '#fff';
+                                    nameEl.style.color = 'var(--rok-text-bright)';
                                 }
                                 const logoImg = card.querySelector('.slot-logo-img');
                                 if (!IS_FREE_MODE && logoImg && t.logo) {
