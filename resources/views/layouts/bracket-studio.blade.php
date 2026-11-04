@@ -9,7 +9,7 @@
     <script>
         (function() {
             try {
-                var savedTheme = localStorage.getItem('rok_theme') || 'dark';
+                var savedTheme = localStorage.getItem('rok-theme') || localStorage.getItem('rok_theme') || 'dark';
                 document.documentElement.setAttribute('data-theme', savedTheme);
             } catch (e) {}
         })();

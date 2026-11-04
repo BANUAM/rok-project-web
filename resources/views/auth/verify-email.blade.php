@@ -5,23 +5,23 @@
 
 @section('content')
 <div class="page-container" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 60px 20px;">
-    <div style="width: 100%; max-width: 500px; background: #111622; border: 1px solid var(--rok-surface-border); border-radius: var(--radius-md); padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); text-align: center;">
-        <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-size: 28px; margin-bottom: 20px;">
+    <div class="auth-card" style="width: 100%; max-width: 500px; background: var(--rok-card-bg, #111622); border: 1px solid var(--rok-surface-border); border-radius: var(--radius-md); padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); text-align: center;">
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #0284c7; font-size: 28px; margin-bottom: 20px;">
             <i data-lucide="mail" style="width:30px;height:30px;"></i>
         </div>
 
         <span class="badge-mini" style="font-size: 11px; letter-spacing: 2px;">EMAIL VERIFICATION REQUIRED</span>
-        <h1 style="font-size: 24px; font-weight: 800; color: #ffffff; margin: 10px 0 12px 0;">VERIFIKASI EMAIL ANDA</h1>
+        <h1 style="font-size: 24px; font-weight: 800; color: var(--rok-text-bright); margin: 10px 0 12px 0;">VERIFIKASI EMAIL ANDA</h1>
 
-        <p style="color: #cbd5e1; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+        <p style="color: var(--rok-text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
             Terima kasih telah mendaftar di <strong>Ruler Of Kings</strong>! Sebelum melanjutkan ke proses pembayaran membership, kami telah mengirimkan tautan verifikasi ke:
         </p>
 
-        <div style="background: #0b0e15; border: 1px solid var(--rok-surface-border); border-radius: 6px; padding: 12px; margin-bottom: 24px;">
-            <strong style="color: #38bdf8; font-size: 15px;">{{ Auth::user()->email }}</strong>
+        <div style="background: var(--rok-bg); border: 1px solid var(--rok-surface-border); border-radius: 6px; padding: 12px; margin-bottom: 24px;">
+            <strong style="color: #0284c7; font-size: 15px;">{{ Auth::user()->email }}</strong>
         </div>
 
-        <p style="color: #94a3b8; font-size: 13px; line-height: 1.5; margin-bottom: 28px;">
+        <p style="color: var(--rok-text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 28px;">
             Silakan periksa kotak masuk (inbox) atau folder spam email Anda, lalu klik tautan verifikasi yang tersedia.
         </p>
 
