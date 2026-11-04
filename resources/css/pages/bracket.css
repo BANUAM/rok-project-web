@@ -145,40 +145,65 @@
 
 /* Generator Card Tool */
 .generator-card {
-    background: #10141d;
-    border: 1px solid var(--rok-surface-border);
-    border-radius: var(--radius-lg);
-    padding: 36px;
-    margin-bottom: 50px;
+    background: linear-gradient(180deg, rgba(16, 20, 29, 0.65) 0%, rgba(11, 14, 22, 0.85) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 40px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] .generator-card {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
 }
 
 .inputs-subtitle {
-    font-size: 15px;
-    letter-spacing: 1px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
     color: var(--rok-silver);
-    margin: 20px 0 12px 0;
+    margin: 16px 0 10px 0;
 }
 
 .team-inputs-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-    margin-bottom: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .team-input-item {
     display: flex;
     align-items: center;
     gap: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 6px 10px;
+    transition: all 0.2s ease;
+}
+
+[data-theme="light"] .team-input-item {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.team-input-item:focus-within {
+    border-color: rgba(251, 191, 36, 0.35);
+    background: rgba(251, 191, 36, 0.03);
 }
 
 .seed-badge {
-    font-family: var(--font-sub);
+    font-family: monospace;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--rok-gold);
-    width: 65px;
+    width: 26px;
     flex-shrink: 0;
+    letter-spacing: 0.5px;
 }
 
 .generated-bracket-output {
@@ -480,51 +505,59 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 6px; /* Jarak antara team 1 dan team 2 agar warna tidak bercampur */
-    background: linear-gradient(160deg, #161c28 0%, #0f1420 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Card selalu memiliki warna standar netral, tidak berpihak */
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.2);
-    border-radius: 7px;
-    padding: 8px 10px;
-    transition: box-shadow 0.2s ease, transform 0.15s ease;
+    gap: 2px;
+    background: linear-gradient(165deg, rgba(20, 26, 38, 0.85) 0%, rgba(12, 16, 25, 0.95) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+    border-radius: 12px;
+    padding: 4px 6px;
+    backdrop-filter: blur(10px);
+    transition: box-shadow 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
 }
 
 [data-theme="light"] .gen-match-box {
-    background: linear-gradient(160deg, #ffffff 0%, #f1f5f9 100%);
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+    background: linear-gradient(165deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 }
 
 .gen-team-row {
-    gap: 10px;
+    gap: 8px;
     min-width: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    background: rgba(255, 255, 255, 0.02);
-    transition: outline 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: transparent;
+    transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
 }
 
-[data-theme="light"] .gen-team-row {
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    background: rgba(0, 0, 0, 0.02);
+.gen-team-row:first-of-type {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px 8px 0 0;
 }
 
-/* Pembeda Menang: Outline Hijau Cukup Outline Saja Jangan Keseluruhan Bagan */
+.gen-team-row:last-of-type {
+    border-radius: 0 0 8px 8px;
+}
+
+[data-theme="light"] .gen-team-row:first-of-type {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Pembeda Menang: Clean Left Accent Border & Soft Glow */
 .gen-team-row.is-winner {
-    background: transparent !important;
-    outline: 1.5px solid #22c55e !important;
-    border-color: #22c55e !important;
-    outline-offset: -1px;
-    box-shadow: 0 0 8px rgba(34, 197, 94, 0.25);
+    background: rgba(34, 197, 94, 0.08) !important;
+    border-left: 2.5px solid #22c55e !important;
+    border-radius: 6px !important;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.15);
 }
 
 .gen-team-row.is-winner .gen-team-name {
     color: #ffffff;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 [data-theme="light"] .gen-team-row.is-winner .gen-team-name {
@@ -535,26 +568,18 @@
     border-color: #22c55e;
     color: #22c55e;
     font-weight: 800;
-    background: rgba(34, 197, 94, 0.08);
+    background: rgba(34, 197, 94, 0.12);
 }
 
-/* Pembeda Kalah: Outline Merah Cukup Outline Saja Jangan Keseluruhan Bagan */
+/* Pembeda Kalah: Subtle Dimming */
 .gen-team-row.is-loser {
-    background: transparent !important;
-    outline: 1.5px solid #ef4444 !important;
-    border-color: #ef4444 !important;
-    outline-offset: -1px;
-    box-shadow: 0 0 6px rgba(239, 68, 68, 0.2);
-}
-
-.gen-team-row.is-loser .gen-team-name {
-    opacity: 0.65;
+    opacity: 0.5;
 }
 
 .gen-team-row.is-loser .gen-score-input {
-    border-color: rgba(239, 68, 68, 0.6);
+    border-color: rgba(239, 68, 68, 0.35);
     color: #ef4444;
-    background: rgba(239, 68, 68, 0.06);
+    background: rgba(239, 68, 68, 0.05);
 }
 
 .gen-team-name {
@@ -567,24 +592,36 @@
 }
 
 .gen-score-input {
-    flex: 0 0 46px;
-    width: 46px;
-    min-width: 46px;
-    min-height: 30px;
+    flex: 0 0 38px;
+    width: 38px;
+    min-width: 38px;
+    height: 26px;
+    min-height: 26px;
     text-align: center;
-    border-radius: 4px;
-    font-weight: 700;
+    border-radius: 999px; /* Rounded pill shape */
+    font-weight: 800;
+    font-family: monospace;
+    font-size: 13px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--rok-gold);
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+[data-theme="light"] .gen-score-input {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 /* Zoom Toolbar Controls */
 .bracket-zoom-toolbar {
     display: inline-flex;
     align-items: center;
-    background: rgba(15, 23, 42, 0.7);
-    border: 1px solid var(--rok-surface-border);
-    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
     padding: 2px 4px;
-    gap: 3px;
+    gap: 2px;
     backdrop-filter: blur(8px);
 }
 
@@ -592,14 +629,14 @@
     background: transparent;
     border: none;
     color: var(--rok-silver);
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
     transition: background 0.15s, color 0.15s;
 }
@@ -1159,13 +1196,19 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
     flex-wrap: wrap;
-    padding: 14px 20px;
-    margin-bottom: 24px;
-    background: rgba(15, 23, 42, 0.75);
-    border: 1px solid rgba(56, 189, 248, 0.28);
-    border-radius: var(--radius-md);
+    padding: 10px 18px;
+    margin-bottom: 20px;
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+}
+
+[data-theme="light"] .bracket-realtime-bar {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .realtime-status-group {

@@ -14,10 +14,10 @@
             <span class="section-badge" style="display:inline-flex;align-items:center;gap:6px;"><i data-lucide="radio" style="width:12px;height:12px;"></i> LIVE REAL-TIME SHARED BRACKET</span>
             <h1 class="page-title">{{ $tournament->name }}</h1>
             <p class="page-subtitle-gold">
-                Diselenggarakan oleh: {{ $tournament->organizer_name }} &bull; Real-Time Sync Aktif
+                {{ $tournament->organizer_name }} &bull; Live Sync Aktif
             </p>
             <p class="page-subtitle">
-                Halaman ini terhubung secara real-time. Ketika penyelenggara memperbarui skor atau tim, bagan di layar Anda akan otomatis berubah tanpa perlu me-refresh halaman. Klik <strong>{{ $isFree ? 'Nama Tim' : 'Logo Tim' }}</strong> untuk melihat <strong>Poin Pertandingan</strong> dan <strong>Chat WhatsApp Tim</strong>.
+                Pantau bagan dan perkembangan skor pertandingan secara real-time.
             </p>
 
             @if ($canEdit)

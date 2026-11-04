@@ -23,35 +23,35 @@
             </p>
 
             {{-- Dedicated Portal Banner for ROK Challenger & Immortal --}}
-            <div class="studio-portal-banner">
+            <div class="studio-portal-banner" style="border-radius: 12px; padding: 18px 22px;">
                 <div class="studio-portal-banner__info">
-                    <span class="studio-portal-badge" style="display:inline-flex;align-items:center;gap:5px;"><i data-lucide="crown" style="width:13px;height:13px;"></i> DEDICATED ORGANIZER PORTAL</span>
-                    <h3>ROK BRACKET STUDIO (KHUSUS MEMBER CHALLENGER &amp; IMMORTAL)</h3>
-                    <p>
-                        Kelola multi-turnamen, kustomisasi logo tim &amp; kontak WhatsApp kapten, pantau poin real-time, dan bagikan tautan live bracket di ruang kerja khusus seperti portal Management.
+                    <span class="studio-portal-badge" style="border-radius: 999px; padding: 2px 10px; font-size: 11px; display:inline-flex;align-items:center;gap:5px;"><i data-lucide="crown" style="width:12px;height:12px;"></i> ORGANIZER PORTAL</span>
+                    <h3 style="font-size: 17px; margin: 4px 0 4px 0; font-weight: 700;">ROK BRACKET STUDIO</h3>
+                    <p style="font-size: 12px; margin: 0; color: var(--rok-text-muted);">
+                        Kelola multi-turnamen, kustomisasi logo tim, kontak WhatsApp kapten, dan bagikan tautan live bracket.
                     </p>
                 </div>
-                <div class="studio-portal-banner__actions">
+                <div class="studio-portal-banner__actions" style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
                     @if(Auth::check() && Auth::user()->hasBracketAccess())
-                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold" style="display:inline-flex;align-items:center;gap:6px;">
-                            <i data-lucide="swords" style="width:14px;height:14px;"></i> Buka Bracket Studio
+                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; display:inline-flex;align-items:center;gap:5px;">
+                            <i data-lucide="swords" style="width:13px;height:13px;"></i> Buka Bracket Studio
                         </a>
                     @elseif(Auth::check())
-                        <a href="{{ route('membership.payment', ['plan' => 'immortal']) }}" class="btn-rok btn-rok--gold" style="display:inline-flex;align-items:center;gap:6px;">
-                            <i data-lucide="crown" style="width:14px;height:14px;"></i> Aktifkan ROK Immortal
+                        <a href="{{ route('membership.payment', ['plan' => 'immortal']) }}" class="btn-rok btn-rok--gold btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; display:inline-flex;align-items:center;gap:5px;">
+                            <i data-lucide="crown" style="width:13px;height:13px;"></i> Aktifkan Immortal
                         </a>
                     @else
-                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold" style="display:inline-flex;align-items:center;gap:6px;">
-                            <i data-lucide="key" style="width:14px;height:14px;"></i> Masuk Bracket Studio
+                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; display:inline-flex;align-items:center;gap:5px;">
+                            <i data-lucide="key" style="width:13px;height:13px;"></i> Masuk Studio
                         </a>
                     @endif
                     @if ($activeTournament)
-                        <a href="{{ route('bracket.live', $activeTournament->slug) }}" class="btn-rok btn-rok--outline" style="display:inline-flex;align-items:center;gap:6px;">
-                            <i data-lucide="external-link" style="width:14px;height:14px;"></i> Lihat Live Share Link
+                        <a href="{{ route('bracket.live', $activeTournament->slug) }}" class="btn-rok btn-rok--outline btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; display:inline-flex;align-items:center;gap:5px;">
+                            <i data-lucide="external-link" style="width:13px;height:13px;"></i> Live View
                         </a>
                     @endif
-                    <a href="{{ route('bracket.free') }}" class="btn-rok btn-rok--outline" style="border-color: rgba(251,191,36,0.6); color: var(--rok-gold); display:inline-flex; align-items:center; gap:6px;">
-                        <i data-lucide="gamepad-2" style="width:14px;height:14px;"></i> Gunakan Versi Gratis
+                    <a href="{{ route('bracket.free') }}" class="btn-rok btn-rok--outline btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; border-color: rgba(251,191,36,0.6); color: var(--rok-gold); display:inline-flex; align-items:center; gap:5px;">
+                        <i data-lucide="gamepad-2" style="width:13px;height:13px;"></i> Versi Gratis
                     </a>
                 </div>
             </div>
@@ -61,12 +61,9 @@
     {{-- Interactive & Real-Time Tournament Generator Tool --}}
     <section class="generator-tool-section" id="generatorTool">
         <div class="section-inner">
-            <header class="section-header">
-                <span class="section-badge">SIMULATOR BRACKET ENGINE</span>
+            <header class="section-header" style="margin-bottom: 24px;">
+                <span class="section-badge">SIMULATOR ENGINE</span>
                 <h2 class="section-title">BUAT BAGAN TURNAMEN SENDIRI</h2>
-                <p class="section-description">
-                    Buat bagan dan jadwal pertandingan berdasarkan format kompetisi. Masukkan nama tim &amp; nomor WhatsApp kapten, klik logo tim untuk melihat info poin &amp; kontak WA, serta nikmati sinkronisasi skor secara real-time.
-                </p>
             </header>
 
             @include('components.bracket-engine', [
