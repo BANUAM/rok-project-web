@@ -58,21 +58,22 @@
     <div class="generator-card">
         @if (!$isReadOnly)
             <div class="generator-inputs">
-                <div class="form-row-3">
+                <div class="form-row-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 6px;">
                     <div class="form-field">
-                        <label for="tourneyName" class="form-label">Nama Turnamen</label>
+                        <label for="tourneyName" class="form-label" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; color: #94a3b8; margin-bottom: 5px; display: block;">Nama Turnamen</label>
                         <input
                             type="text"
                             id="tourneyName"
                             class="form-input"
                             value="{{ $initialState['title'] ?? ($activeTournament->name ?? 'ROK Community Cup 2026') }}"
                             placeholder="Nama Turnamen"
+                            style="height: 38px; font-size: 13px; padding: 6px 12px; border-radius: 8px; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08);"
                         >
                     </div>
 
                     <div class="form-field">
-                        <label for="tourneyFormat" class="form-label">Format Pertandingan</label>
-                        <select id="tourneyFormat" class="form-select">
+                        <label for="tourneyFormat" class="form-label" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; color: #94a3b8; margin-bottom: 5px; display: block;">Format Pertandingan</label>
+                        <select id="tourneyFormat" class="form-select" style="height: 38px; font-size: 13px; padding: 6px 12px; border-radius: 8px; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08);">
                             <option value="single">Single Elimination</option>
                             <option value="double">Double Elimination</option>
                             <option value="league">League System</option>
@@ -81,7 +82,7 @@
                     </div>
 
                     <div class="form-field" id="teamCountField">
-                        <label for="teamCountInput" class="form-label" id="teamCountLabel">Jumlah Tim Peserta</label>
+                        <label for="teamCountInput" class="form-label" id="teamCountLabel" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; color: #94a3b8; margin-bottom: 5px; display: block;">Jumlah Tim Peserta</label>
 
                         <div id="teamCountInputWrapper">
                             <input
@@ -92,11 +93,12 @@
                                 max="64"
                                 value="{{ $initialState['teamCount'] ?? 8 }}"
                                 placeholder="3 - 64 Tim"
+                                style="height: 38px; font-size: 13px; padding: 6px 12px; border-radius: 8px; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08);"
                             >
                             <span class="form-hint" id="teamCountHint" style="display: none;"></span>
                         </div>
 
-                        <select id="teamCountSelect" class="form-select" style="display: none;">
+                        <select id="teamCountSelect" class="form-select" style="display: none; height: 38px; font-size: 13px; padding: 6px 12px; border-radius: 8px; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08);">
                             <option value="4">4 Tim</option>
                             <option value="6" selected>6 Tim (2 Seed Teratas Mendapat Bye)</option>
                         </select>
@@ -109,37 +111,37 @@
 
                 {{-- Dynamic Teams Input Container (Team Name + WhatsApp + Team Logo) --}}
                 <div class="team-inputs-container">
-                    <div class="team-inputs-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin: 18px 0 10px 0;">
-                        <h4 class="inputs-subtitle" style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.5px;">Daftar Tim &amp; Kontak</h4>
+                    <div class="team-inputs-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin: 14px 0 8px 0;">
+                        <span class="inputs-subtitle" style="margin: 0; font-size: 11px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: #cbd5e1;">Daftar Tim &amp; Kontak</span>
                         @if ($hasLogoAccess)
-                            <span class="membership-unlocked-pill" style="font-size: 11px; padding: 2px 10px; background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.35); color: #fbbf24; border-radius: 999px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
-                                <i data-lucide="crown" style="width:12px;height:12px;"></i> Logo Custom Aktif
+                            <span class="membership-unlocked-pill" style="font-size: 10px; padding: 2px 9px; background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.35); color: #fbbf24; border-radius: 999px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="crown" style="width:11px;height:11px;"></i> Logo Custom Aktif
                             </span>
                         @elseif ($isFree)
-                            <span class="membership-locked-pill" style="font-size: 11px; padding: 2px 10px; background: rgba(148,163,184,0.08); border: 1px solid rgba(255,255,255,0.08); color: var(--rok-silver); border-radius: 999px; display: inline-flex; align-items: center; gap: 4px;">
-                                <i data-lucide="shield" style="width:12px;height:12px;"></i> Edisi Gratis
+                            <span class="membership-locked-pill" style="font-size: 10px; padding: 2px 9px; background: rgba(148,163,184,0.08); border: 1px solid rgba(255,255,255,0.08); color: var(--rok-silver); border-radius: 999px; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="shield" style="width:11px;height:11px;"></i> Edisi Gratis
                             </span>
                         @else
-                            <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="membership-locked-pill" style="font-size: 11px; padding: 2px 10px; background: rgba(148,163,184,0.08); border: 1px solid rgba(255,255,255,0.08); color: var(--rok-silver); border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-                                <i data-lucide="lock" style="width:12px;height:12px;"></i> Unlock Logo Custom
+                            <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="membership-locked-pill" style="font-size: 10px; padding: 2px 9px; background: rgba(148,163,184,0.08); border: 1px solid rgba(255,255,255,0.08); color: var(--rok-silver); border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="lock" style="width:11px;height:11px;"></i> Unlock Logo Custom
                             </a>
                         @endif
                     </div>
 
-                    <div class="team-inputs-grid" id="teamInputsGrid">
+                    <div class="team-inputs-grid" id="teamInputsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px 10px; margin-bottom: 12px;">
                         {{-- Populated by JavaScript --}}
                     </div>
                 </div>
 
-                <div class="generator-actions" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; margin-top: 18px;">
-                    <button type="button" class="btn-rok btn-rok--outline" id="btnReshuffleBracket" title="Acak urutan tim peserta (Drawing Turnamen)" style="border-radius: 999px; border-color: rgba(168,85,247,0.4); color: #c084fc; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; font-size: 13px;">
+                <div class="generator-actions" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: flex-end; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <button type="button" class="btn-rok btn-rok--outline" id="btnReshuffleBracket" title="Acak urutan tim peserta (Drawing Turnamen)" style="border-radius: 999px; border-color: rgba(168,85,247,0.35); color: #c084fc; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; font-size: 12px; background: rgba(168,85,247,0.05); height: 34px;">
                         <i data-lucide="shuffle" style="width:13px;height:13px;"></i> Drawing Acak
                     </button>
-                    <button type="button" class="btn-rok btn-rok--outline" id="resetScoresBtn" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; font-size: 13px;">
+                    <button type="button" class="btn-rok btn-rok--outline" id="resetScoresBtn" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; font-size: 12px; border-color: rgba(255,255,255,0.12); color: var(--rok-silver); background: rgba(255,255,255,0.02); height: 34px;">
                         <i data-lucide="rotate-ccw" style="width:13px;height:13px;"></i> Reset Skor
                     </button>
-                    <button type="button" class="btn-rok btn-rok--gold" id="generateBracketBtn" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 7px; padding: 8px 22px; font-size: 13px; font-weight: 800;">
-                        <i data-lucide="sparkles" style="width:14px;height:14px;"></i> Generate &amp; Simpan
+                    <button type="button" class="btn-rok btn-rok--gold" id="generateBracketBtn" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 20px; font-size: 12px; font-weight: 800; height: 34px; box-shadow: 0 2px 12px rgba(251,191,36,0.25);">
+                        <i data-lucide="sparkles" style="width:13px;height:13px;"></i> Generate &amp; Simpan
                     </button>
                 </div>
             </div>
@@ -404,18 +406,18 @@
 
             const item = document.createElement('div');
             item.className = 'team-input-item';
-            item.style.cssText = 'position:relative;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:6px 10px;transition:all 0.2s ease;';
+            item.style.cssText = 'position:relative;display:flex;align-items:center;gap:6px;background:rgba(15,20,30,0.65);border:1px solid rgba(255,255,255,0.08);border-radius:999px;padding:3px 10px 3px 8px;height:38px;box-sizing:border-box;transition:all 0.15s ease;';
 
             const seedBadge = document.createElement('span');
             seedBadge.className = 'seed-badge';
-            seedBadge.style.cssText = 'font-weight:800;font-family:monospace;color:var(--rok-gold);font-size:12px;width:26px;flex-shrink:0;letter-spacing:0.5px;';
+            seedBadge.style.cssText = 'font-weight:800;font-family:monospace;color:var(--rok-gold);font-size:11px;width:20px;flex-shrink:0;letter-spacing:0.5px;text-align:center;';
             seedBadge.textContent = seed < 10 ? `0${seed}` : `${seed}`;
 
             const logoBtn = document.createElement('button');
             logoBtn.type = 'button';
             logoBtn.dataset.seed = seed;
             logoBtn.title = HAS_LOGO_ACCESS ? 'Ganti Logo Tim' : 'Aktifkan ROK Challenger / Immortal untuk kustomisasi logo';
-            logoBtn.style.cssText = 'width:26px;height:26px;border-radius:50%;padding:0;border:1px solid rgba(212,175,55,0.4);background:#090b10;cursor:pointer;flex-shrink:0;overflow:hidden;';
+            logoBtn.style.cssText = 'width:24px;height:24px;border-radius:50%;padding:0;border:1px solid rgba(212,175,55,0.4);background:#090b10;cursor:pointer;flex-shrink:0;overflow:hidden;';
 
             const logoImg = document.createElement('img');
             logoImg.src = logoVal;
@@ -435,12 +437,12 @@
 
             const nameInput = document.createElement('input');
             nameInput.type = 'text';
-            nameInput.className = 'form-input team-name-input';
+            nameInput.className = 'team-name-input';
             nameInput.id = `team_input_${i}`;
             nameInput.value = nameVal;
-            nameInput.placeholder = `Tim ${seed}`;
+            nameInput.placeholder = `Nama Tim ${seed}`;
             nameInput.maxLength = 60;
-            nameInput.style.cssText = 'flex:1 1 120px;min-width:90px;font-size:12px;padding:6px 10px;border-radius:8px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);';
+            nameInput.style.cssText = 'flex:1 1 auto;min-width:60px;background:transparent;border:none;outline:none;color:#ffffff;font-size:12px;font-weight:600;padding:2px 4px;box-shadow:none;';
 
             nameInput.addEventListener('input', () => {
                 if (tournamentState && tournamentState.teams && tournamentState.teams[i]) {
@@ -458,13 +460,17 @@
                 }
             });
 
+            const divider = document.createElement('span');
+            divider.className = 'team-input-divider';
+            divider.style.cssText = 'width:1px;height:16px;background:rgba(255,255,255,0.08);flex-shrink:0;margin:0 2px;';
+
             const waInput = document.createElement('input');
             waInput.type = 'tel';
-            waInput.className = 'form-input team-wa-input';
+            waInput.className = 'team-wa-input';
             waInput.id = `team_wa_${i}`;
             waInput.value = waVal;
             waInput.placeholder = 'No WA';
-            waInput.style.cssText = 'flex:0 1 110px;min-width:80px;font-size:12px;padding:6px 10px;border-radius:8px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);';
+            waInput.style.cssText = 'flex:0 0 85px;width:85px;background:transparent;border:none;outline:none;color:#94a3b8;font-size:11px;font-family:monospace;padding:2px 4px;box-shadow:none;';
 
             waInput.addEventListener('input', () => {
                 if (tournamentState && tournamentState.teams && tournamentState.teams[i]) {
@@ -487,16 +493,16 @@
             if (isActuallyClaimed) {
                 const claimedBadge = document.createElement('span');
                 claimedBadge.className = 'claimed-checkin-badge';
-                claimedBadge.style.cssText = 'position:absolute;top:-6px;right:12px;font-size:9px;padding:2px 8px;border-radius:999px;background:rgba(21,128,61,0.9);border:1px solid #4ade80;color:#ffffff;font-weight:800;letter-spacing:0.5px;backdrop-filter:blur(4px);box-shadow:0 2px 6px rgba(0,0,0,0.3);pointer-events:none;z-index:2;display:inline-flex;align-items:center;gap:3px;';
+                claimedBadge.style.cssText = 'position:absolute;top:-6px;right:12px;font-size:8.5px;padding:1px 7px;border-radius:999px;background:rgba(21,128,61,0.95);border:1px solid #4ade80;color:#ffffff;font-weight:800;letter-spacing:0.4px;backdrop-filter:blur(4px);box-shadow:0 2px 6px rgba(0,0,0,0.3);pointer-events:none;z-index:2;display:inline-flex;align-items:center;gap:3px;';
                 claimedBadge.innerHTML = '<i data-lucide="check" style="width:10px;height:10px;"></i> Check-in';
                 claimedBadge.title = 'Tim ini telah terdaftar melalui portal Pra-Turnamen';
                 item.appendChild(claimedBadge);
             }
 
             if (IS_FREE) {
-                item.append(seedBadge, nameInput, waInput);
+                item.append(seedBadge, nameInput, divider, waInput);
             } else {
-                item.append(seedBadge, logoBtn, nameInput, waInput);
+                item.append(seedBadge, logoBtn, nameInput, divider, waInput);
             }
             container.appendChild(item);
         }
