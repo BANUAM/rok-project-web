@@ -46,6 +46,17 @@ class HomeController extends Controller
             ->where('status', 'live')
             ->first();
 
+        $featuredTournaments = Tournament::query()
+            ->with(['teams'])
+            ->where('is_public', true)
+            ->orderByDesc('id')
+            ->take(6)
+            ->get();
+
+        if ($featuredTournaments->isEmpty() && $demoTournament) {
+            $featuredTournaments = collect([$demoTournament]);
+        }
+
         $partners = Partner::query()
             ->where('is_active', true)
             ->orderBy('sort_order')
@@ -63,6 +74,7 @@ class HomeController extends Controller
             'achievements',
             'modules',
             'demoTournament',
+            'featuredTournaments',
             'partners',
             'teamMembers'
         ));

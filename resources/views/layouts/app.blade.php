@@ -31,7 +31,9 @@
         <div class="hex-ambient__cell hex-ambient__cell--5"></div>
     </div>
 
-    @include('components.site-header')
+    @unless (($hideSiteHeader ?? false) || request()->is('/'))
+        @include('components.site-header')
+    @endunless
 
     @if (session('success'))
         <aside class="flash-toast flash-toast--success" role="status" aria-live="polite">
