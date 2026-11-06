@@ -17,48 +17,132 @@
 
 <div class="rok-bracket-workspace" id="rokBracketWorkspace" data-slug="{{ $activeSlug }}" data-readonly="{{ $isReadOnly ? '1' : '0' }}" data-logo-access="{{ $hasLogoAccess ? '1' : '0' }}" data-free-mode="{{ $isFree ? '1' : '0' }}">
 
-    {{-- Top Live Sync & Shareable Link Bar (Disembunyikan khusus pada Halaman Promosi Bracket) --}}
-    @if ($showRealtimeBar)
-    <div class="bracket-realtime-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 18px; margin-bottom: 20px; border-radius: 999px;">
-        <div class="bracket-realtime-bar__status" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
-            <span class="realtime-pulse-dot" id="realtimePulseDot" style="flex-shrink: 0;"></span>
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <strong class="realtime-status-title" id="realtimeStatusText" style="font-size: 12px; letter-spacing: 0.8px; font-weight: 700; text-transform: uppercase;">
-                    {{ $isReadOnly ? 'LIVE VIEW' : 'LIVE SYNC' }}
-                </strong>
-                <span class="realtime-status-sub" id="realtimeLastSync" style="font-size: 11px; color: var(--rok-muted-light); opacity: 0.75;"></span>
+    @if ($isReadOnly)
+        {{-- Read-Only Viewer Top Bar --}}
+        @if ($showRealtimeBar)
+        <div class="bracket-realtime-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 18px; margin-bottom: 20px; border-radius: 999px;">
+            <div class="bracket-realtime-bar__status" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+                <span class="realtime-pulse-dot" id="realtimePulseDot" style="flex-shrink: 0;"></span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <strong class="realtime-status-title" id="realtimeStatusText" style="font-size: 12px; letter-spacing: 0.8px; font-weight: 700; text-transform: uppercase;">
+                        LIVE VIEW
+                    </strong>
+                    <span class="realtime-status-sub" id="realtimeLastSync" style="font-size: 11px; color: var(--rok-muted-light); opacity: 0.75;"></span>
+                </div>
             </div>
-        </div>
 
-        <div class="bracket-realtime-bar__actions" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1 1 auto; justify-content: flex-end;">
-            <div class="share-url-box" style="display: flex; align-items: center; gap: 6px; flex: 1 1 200px; max-width: 360px;">
-                <input type="text" id="shareBracketUrlInput" class="share-url-input" value="{{ $shareUrl }}" readonly onclick="this.select()" style="width: 100%; font-size: 12px; padding: 6px 12px; border-radius: 999px;">
-            </div>
-            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                <button type="button" class="btn-rok btn-rok--gold btn-rok--sm" id="copyShareLinkBtn" title="Salin Link Live" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px;">
-                    <i data-lucide="copy" style="width:13px;height:13px;"></i> Salin
-                </button>
-                <a href="https://wa.me/?text={{ urlencode('Pantau Live Bracket Turnamen secara Real-Time di ROK Web: ' . $shareUrl) }}" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--outline btn-rok--sm" id="waShareLinkBtn" title="Share ke WhatsApp" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px; display: inline-flex; align-items: center; gap: 5px;">
-                    <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" style="color: #25D366; flex-shrink: 0;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.69C7.02 10.9 7.9 12.07 8.02 12.23C8.14 12.4 9.75 14.9 12.24 15.96C14.31 16.85 14.73 16.67 15.18 16.63C15.64 16.59 16.64 16.03 16.85 15.45C17.05 14.86 17.05 14.36 16.99 14.26C16.93 14.16 16.77 14.1 16.52 13.97C16.27 13.85 15.06 13.25 14.83 13.17C14.61 13.09 14.45 13.05 14.28 13.29C14.12 13.54 13.65 14.1 13.51 14.26C13.37 14.43 13.22 14.45 12.98 14.33C12.73 14.2 11.93 13.94 10.99 13.1C10.25 12.44 9.75 11.63 9.61 11.39C9.46 11.14 9.59 11.01 9.72 10.88C9.83 10.77 9.97 10.59 10.1 10.43C10.22 10.28 10.26 10.16 10.34 9.99C10.42 9.83 10.38 9.69 10.32 9.56C10.26 9.44 9.79 8.28 9.59 7.81C9.4 7.36 9.2 7.42 9.05 7.41C8.91 7.41 8.75 7.41 8.59 7.41L8.53 7.33Z"/></svg>
-                    <span>Share</span>
-                </a>
-                @if (!$isReadOnly)
-                    <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="copyPraTourneyLinkBtn" data-url="{{ $praTourneyUrl }}" title="Salin Link Pra-Turnamen" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px; border-color: rgba(56,189,248,0.5); color: #38bdf8;">
-                        <i data-lucide="clipboard-list" style="width:13px;height:13px;"></i> Pra-Turnamen
+            <div class="bracket-realtime-bar__actions" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1 1 auto; justify-content: flex-end;">
+                <div class="share-url-box" style="display: flex; align-items: center; gap: 6px; flex: 1 1 200px; max-width: 360px;">
+                    <input type="text" id="shareBracketUrlInput" class="share-url-input" value="{{ $shareUrl }}" readonly onclick="this.select()" style="width: 100%; font-size: 12px; padding: 6px 12px; border-radius: 999px;">
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <button type="button" class="btn-rok btn-rok--gold btn-rok--sm" id="copyShareLinkBtn" title="Salin Link Live" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px;">
+                        <i data-lucide="copy" style="width:13px;height:13px;"></i> Salin
                     </button>
-                    <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" title="Buka tampilan penonton di tab baru" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px;">
-                        <i data-lucide="external-link" style="width:13px;height:13px;"></i> Live View
+                    <a href="https://wa.me/?text={{ urlencode('Pantau Live Bracket Turnamen secara Real-Time di ROK Web: ' . $shareUrl) }}" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--outline btn-rok--sm" id="waShareLinkBtn" title="Share ke WhatsApp" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px; display: inline-flex; align-items: center; gap: 5px;">
+                        <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" style="color: #25D366; flex-shrink: 0;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.69C7.02 10.9 7.9 12.07 8.02 12.23C8.14 12.4 9.75 14.9 12.24 15.96C14.31 16.85 14.73 16.67 15.18 16.63C15.64 16.59 16.64 16.03 16.85 15.45C17.05 14.86 17.05 14.36 16.99 14.26C16.93 14.16 16.77 14.1 16.52 13.97C16.27 13.85 15.06 13.25 14.83 13.17C14.61 13.09 14.45 13.05 14.28 13.29C14.12 13.54 13.65 14.1 13.51 14.26C13.37 14.43 13.22 14.45 12.98 14.33C12.73 14.2 11.93 13.94 10.99 13.1C10.25 12.44 9.75 11.63 9.61 11.39C9.46 11.14 9.59 11.01 9.72 10.88C9.83 10.77 9.97 10.59 10.1 10.43C10.22 10.28 10.26 10.16 10.34 9.99C10.42 9.83 10.38 9.69 10.32 9.56C10.26 9.44 9.79 8.28 9.59 7.81C9.4 7.36 9.2 7.42 9.05 7.41C8.91 7.41 8.75 7.41 8.59 7.41L8.53 7.33Z"/></svg>
+                        <span>Share</span>
                     </a>
-                @endif
+                </div>
             </div>
         </div>
-    </div>
-    @endif
+        @endif
 
-    <div class="generator-card">
-        @if (!$isReadOnly)
-            <div class="generator-inputs">
-                <div class="form-row-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 6px;">
+        {{-- Hidden inputs for Read-Only Viewer Mode --}}
+        <input type="hidden" id="tourneyName" value="{{ $initialState['title'] ?? ($activeTournament->name ?? 'ROK Community Cup 2026') }}">
+        <input type="hidden" id="tourneyFormat" value="{{ $initialState['format'] ?? 'single' }}">
+        <input type="hidden" id="teamCountInput" value="{{ $initialState['teamCount'] ?? 8 }}">
+        <input type="hidden" id="teamCountSelect" value="{{ $initialState['teamCount'] ?? 6 }}">
+        <div id="teamCountInputWrapper" style="display:none;"></div>
+        <div id="teamCountHint" style="display:none;"></div>
+        <div id="doubleEliminationWarning" hidden></div>
+        <div id="teamInputsGrid" style="display:none;"></div>
+
+        <div class="generator-card">
+            {{-- Output Visualizer Deck --}}
+            <div class="generated-bracket-output" id="bracketOutputWrapper">
+                <div class="output-banner" style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; padding-bottom: 12px;">
+                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <span class="live-indicator-badge" style="background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px; letter-spacing: 0.5px;"><i data-lucide="radio" style="width:11px;height:11px;"></i> LIVE</span>
+                        <h3 id="outputTourneyTitle" style="margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.2px;">{{ $initialState['title'] ?? 'ROK Community Cup 2026' }}</h3>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        {{-- Zoom In & Zoom Out Interactive Toolbar --}}
+                        <div class="bracket-zoom-toolbar">
+                            <button type="button" class="btn-rok-zoom" id="btnZoomOut" title="Perkecil (Zoom Out)" aria-label="Zoom Out">
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
+                            </button>
+                            <button type="button" class="btn-rok-zoom btn-rok-zoom--reset" id="btnZoomReset" title="Reset 100%">
+                                100%
+                            </button>
+                            <button type="button" class="btn-rok-zoom" id="btnZoomIn" title="Perbesar (Zoom In)" aria-label="Zoom In">
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                            </button>
+                        </div>
+                        <span class="badge-mini" id="outputFormatBadge" style="border-radius: 999px; padding: 4px 10px; font-size: 11px;">Single Elimination</span>
+                    </div>
+                </div>
+
+                <div class="generated-tree-deck" id="generatedTreeDeck" style="position: relative; overflow: auto; padding: 16px 12px 24px 12px;">
+                    <div class="bracket-zoom-canvas" id="bracketZoomCanvas" style="display: flex; gap: 26px; min-width: max-content; width: fit-content; height: max-content; align-self: flex-start; align-items: stretch; transform-origin: 0 0; transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);">
+                        {{-- Rendered Bracket Tree using native .gen-* classes + SVG tournament lines --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    @else
+        {{-- Organizer Multi-Step Wizard Stepper Navigation --}}
+        <div class="bracket-wizard-nav" id="bracketWizardNav" role="tablist" aria-label="Langkah Pembuatan Bagan Turnamen">
+            <button type="button" class="wizard-nav-step is-active" id="wizardNavStep1" data-step="1" role="tab" aria-selected="true" aria-controls="wizardPane1">
+                <span class="wizard-nav-badge">
+                    <span class="wizard-nav-num">1</span>
+                    <i data-lucide="check" class="wizard-nav-check" style="display:none;width:14px;height:14px;"></i>
+                </span>
+                <div class="wizard-nav-text">
+                    <span class="wizard-nav-step-label">LANGKAH 1</span>
+                    <strong class="wizard-nav-title">Info Turnamen</strong>
+                </div>
+            </button>
+
+            <div class="wizard-nav-divider" aria-hidden="true"></div>
+
+            <button type="button" class="wizard-nav-step" id="wizardNavStep2" data-step="2" role="tab" aria-selected="false" aria-controls="wizardPane2">
+                <span class="wizard-nav-badge">
+                    <span class="wizard-nav-num">2</span>
+                    <i data-lucide="check" class="wizard-nav-check" style="display:none;width:14px;height:14px;"></i>
+                </span>
+                <div class="wizard-nav-text">
+                    <span class="wizard-nav-step-label">LANGKAH 2</span>
+                    <strong class="wizard-nav-title">Daftar Tim &amp; Kontak</strong>
+                </div>
+            </button>
+
+            <div class="wizard-nav-divider" aria-hidden="true"></div>
+
+            <button type="button" class="wizard-nav-step" id="wizardNavStep3" data-step="3" role="tab" aria-selected="false" aria-controls="wizardPane3">
+                <span class="wizard-nav-badge">
+                    <span class="wizard-nav-num">3</span>
+                    <i data-lucide="check" class="wizard-nav-check" style="display:none;width:14px;height:14px;"></i>
+                </span>
+                <div class="wizard-nav-text">
+                    <span class="wizard-nav-step-label">LANGKAH 3</span>
+                    <strong class="wizard-nav-title">Bagan &amp; Live Link</strong>
+                </div>
+            </button>
+        </div>
+
+        <div class="generator-card">
+            {{-- PANE 1: Info Turnamen --}}
+            <div class="wizard-pane is-active" id="wizardPane1" role="tabpanel" aria-labelledby="wizardNavStep1">
+                <div class="wizard-pane-header">
+                    <div>
+                        <span class="wizard-pane-step-badge"><i data-lucide="info" style="width:12px;height:12px;"></i> LANGKAH 1 DARI 3</span>
+                        <h3 class="wizard-pane-title">Informasi &amp; Format Turnamen</h3>
+                        <p class="wizard-pane-desc">Tentukan nama turnamen, format bagan eliminasi, dan kuota tim peserta yang bertanding.</p>
+                    </div>
+                </div>
+
+                <div class="form-row-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 8px;">
                     <div class="form-field">
                         <label for="tourneyName" class="form-label" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 5px; display: block;">Nama Turnamen</label>
                         <input
@@ -67,13 +151,13 @@
                             class="form-input"
                             value="{{ $initialState['title'] ?? ($activeTournament->name ?? 'ROK Community Cup 2026') }}"
                             placeholder="Nama Turnamen"
-                            style="height: 38px; font-size: 13px; padding: 6px 12px; border-radius: 8px;"
+                            style="height: 40px; font-size: 13px; padding: 8px 14px; border-radius: 8px;"
                         >
                     </div>
 
                     <div class="form-field">
                         <label for="tourneyFormat" class="form-label" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 5px; display: block;">Format Pertandingan</label>
-                        <select id="tourneyFormat" class="form-select" style="height: 38px; font-size: 13px; padding: 6px 12px; border-radius: 8px;">
+                        <select id="tourneyFormat" class="form-select" style="height: 40px; font-size: 13px; padding: 8px 14px; border-radius: 8px;">
                             <option value="single">Single Elimination</option>
                             <option value="double">Double Elimination</option>
                             <option value="league">League System</option>
@@ -93,12 +177,12 @@
                                 max="64"
                                 value="{{ $initialState['teamCount'] ?? 8 }}"
                                 placeholder="3 - 64 Tim"
-                                style="height: 38px; font-size: 13px; padding: 6px 12px; border-radius: 8px;"
+                                style="height: 40px; font-size: 13px; padding: 8px 14px; border-radius: 8px;"
                             >
                             <span class="form-hint" id="teamCountHint" style="display: none;"></span>
                         </div>
 
-                        <select id="teamCountSelect" class="form-select" style="display: none; height: 38px; font-size: 13px; padding: 6px 12px; border-radius: 8px;">
+                        <select id="teamCountSelect" class="form-select" style="display: none; height: 40px; font-size: 13px; padding: 8px 14px; border-radius: 8px;">
                             <option value="4">4 Tim</option>
                             <option value="6" selected>6 Tim (2 Seed Teratas Mendapat Bye)</option>
                         </select>
@@ -109,90 +193,157 @@
                     </div>
                 </div>
 
-                {{-- Dynamic Teams Input Container (Team Name + WhatsApp + Team Logo) --}}
-                <div class="team-inputs-container">
-                    <div class="team-inputs-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin: 14px 0 8px 0;">
-                        <span class="inputs-subtitle" style="margin: 0; font-size: 11px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;">Daftar Tim &amp; Kontak</span>
+                <div class="wizard-actions-bar wizard-actions-bar--right-only">
+                    <button type="button" class="btn-rok btn-rok--gold" id="btnWizardNext1" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 24px; font-size: 13px; font-weight: 800; box-shadow: 0 4px 14px rgba(251,191,36,0.3);">
+                        <span>Lanjut ke Daftar Tim &amp; Kontak</span>
+                        <i data-lucide="arrow-right" style="width:15px;height:15px;"></i>
+                    </button>
+                </div>
+            </div>
+
+            {{-- PANE 2: Daftar Tim & Kontak --}}
+            <div class="wizard-pane" id="wizardPane2" role="tabpanel" aria-labelledby="wizardNavStep2">
+                <div class="wizard-pane-header">
+                    <div>
+                        <span class="wizard-pane-step-badge"><i data-lucide="users" style="width:12px;height:12px;"></i> LANGKAH 2 DARI 3</span>
+                        <h3 class="wizard-pane-title">Daftar Tim Peserta &amp; Kontak Kapten</h3>
+                        <p class="wizard-pane-desc">Masukkan nama tim dan nomor WhatsApp kapten untuk verifikasi jadwal serta koordinasi pertandingan.</p>
+                    </div>
+                    <div>
                         @if ($hasLogoAccess)
-                            <span class="membership-unlocked-pill" style="font-size: 10px; padding: 2px 9px; border-radius: 999px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
-                                <i data-lucide="crown" style="width:11px;height:11px;"></i> Logo Custom Aktif
+                            <span class="membership-unlocked-pill" style="font-size: 10px; padding: 4px 12px; border-radius: 999px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="crown" style="width:12px;height:12px;"></i> Logo Custom Aktif
                             </span>
                         @elseif ($isFree)
-                            <span class="membership-locked-pill" style="font-size: 10px; padding: 2px 9px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px;">
-                                <i data-lucide="shield" style="width:11px;height:11px;"></i> Edisi Gratis
+                            <span class="membership-locked-pill" style="font-size: 10px; padding: 4px 12px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="shield" style="width:12px;height:12px;"></i> Edisi Gratis
                             </span>
                         @else
-                            <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="membership-locked-pill" style="font-size: 10px; padding: 2px 9px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-                                <i data-lucide="lock" style="width:11px;height:11px;"></i> Unlock Logo Custom
+                            <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="membership-locked-pill" style="font-size: 10px; padding: 4px 12px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="lock" style="width:12px;height:12px;"></i> Unlock Logo Custom
                             </a>
                         @endif
                     </div>
+                </div>
 
+                <div class="team-inputs-container">
                     <div class="team-inputs-grid" id="teamInputsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px 10px; margin-bottom: 12px;">
                         {{-- Populated by JavaScript --}}
                     </div>
                 </div>
 
-                <div class="generator-actions" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: flex-end; margin-top: 14px; padding-top: 12px;">
-                    <button type="button" class="btn-rok btn-rok--outline btn-drawing" id="btnReshuffleBracket" title="Acak urutan tim peserta (Drawing Turnamen)" style="border-radius: 999px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; font-size: 12px; height: 34px;">
-                        <i data-lucide="shuffle" style="width:13px;height:13px;"></i> Drawing Acak
+                <div class="wizard-actions-bar">
+                    <button type="button" class="btn-rok btn-rok--outline" id="btnWizardBack1" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; padding: 7px 18px; font-size: 12px; font-weight: 700;">
+                        <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+                        <span>Kembali ke Info Turnamen</span>
                     </button>
-                    <button type="button" class="btn-rok btn-rok--outline btn-reset-scores" id="resetScoresBtn" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; font-size: 12px; height: 34px;">
-                        <i data-lucide="rotate-ccw" style="width:13px;height:13px;"></i> Reset Skor
-                    </button>
-                    <button type="button" class="btn-rok btn-rok--gold" id="generateBracketBtn" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 20px; font-size: 12px; font-weight: 800; height: 34px; box-shadow: 0 2px 12px rgba(251,191,36,0.25);">
-                        <i data-lucide="sparkles" style="width:13px;height:13px;"></i> Generate &amp; Simpan
-                    </button>
-                </div>
-            </div>
-        @else
-            {{-- Hidden inputs for Read-Only Viewer Mode --}}
-            <input type="hidden" id="tourneyName" value="{{ $initialState['title'] ?? ($activeTournament->name ?? 'ROK Community Cup 2026') }}">
-            <input type="hidden" id="tourneyFormat" value="{{ $initialState['format'] ?? 'single' }}">
-            <input type="hidden" id="teamCountInput" value="{{ $initialState['teamCount'] ?? 8 }}">
-            <input type="hidden" id="teamCountSelect" value="{{ $initialState['teamCount'] ?? 6 }}">
-            <div id="teamCountInputWrapper" style="display:none;"></div>
-            <div id="teamCountHint" style="display:none;"></div>
-            <div id="doubleEliminationWarning" hidden></div>
-            <div id="teamInputsGrid" style="display:none;"></div>
-        @endif
 
-        {{-- Output Visualizer Deck --}}
-        <div class="generated-bracket-output" id="bracketOutputWrapper">
-            <div class="output-banner" style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; padding-bottom: 12px;">
-                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                    <span class="live-indicator-badge" style="background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px; letter-spacing: 0.5px;"><i data-lucide="radio" style="width:11px;height:11px;"></i> LIVE</span>
-                    <h3 id="outputTourneyTitle" style="margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.2px;">{{ $initialState['title'] ?? 'ROK Community Cup 2026' }}</h3>
-                </div>
-                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                    {{-- Zoom In & Zoom Out Interactive Toolbar --}}
-                    <div class="bracket-zoom-toolbar">
-                        <button type="button" class="btn-rok-zoom" id="btnZoomOut" title="Perkecil (Zoom Out)" aria-label="Zoom Out">
-                            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
+                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn-rok btn-rok--outline btn-drawing" id="btnReshuffleBracket" title="Acak urutan tim peserta (Drawing Turnamen)" style="border-radius: 999px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; font-size: 12px;">
+                            <i data-lucide="shuffle" style="width:14px;height:14px;"></i>
+                            <span>Drawing Acak</span>
                         </button>
-                        <button type="button" class="btn-rok-zoom btn-rok-zoom--reset" id="btnZoomReset" title="Reset 100%">
-                            100%
-                        </button>
-                        <button type="button" class="btn-rok-zoom" id="btnZoomIn" title="Perbesar (Zoom In)" aria-label="Zoom In">
-                            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        <button type="button" class="btn-rok btn-rok--gold" id="generateBracketBtn" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 24px; font-size: 13px; font-weight: 800; box-shadow: 0 4px 14px rgba(251,191,36,0.3);">
+                            <i data-lucide="sparkles" style="width:15px;height:15px;"></i>
+                            <span>Generate &amp; Buat Bagan</span>
+                            <i data-lucide="arrow-right" style="width:15px;height:15px;"></i>
                         </button>
                     </div>
-                    @if (!$isReadOnly)
-                        <button type="button" class="btn-rok btn-rok--outline btn-rok--sm btn-drawing" id="btnReshuffleQuick" title="Drawing / Acak Urutan Tim" style="border-radius: 999px; font-size: 11px; padding: 4px 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
-                            <i data-lucide="shuffle" style="width:12px;height:12px;"></i> Acak
-                        </button>
-                    @endif
-                    <span class="badge-mini" id="outputFormatBadge" style="border-radius: 999px; padding: 4px 10px; font-size: 11px;">Single Elimination</span>
                 </div>
             </div>
 
-            <div class="generated-tree-deck" id="generatedTreeDeck" style="position: relative; overflow: auto; padding: 16px 12px 24px 12px;">
-                <div class="bracket-zoom-canvas" id="bracketZoomCanvas" style="display: flex; gap: 26px; min-width: max-content; width: fit-content; height: max-content; align-self: flex-start; align-items: stretch; transform-origin: 0 0; transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);">
-                    {{-- Rendered Bracket Tree using native .gen-* classes + SVG tournament lines --}}
+            {{-- PANE 3: Bagan & Live Link --}}
+            <div class="wizard-pane" id="wizardPane3" role="tabpanel" aria-labelledby="wizardNavStep3">
+                <div class="wizard-step3-topbar">
+                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="btnWizardBackToEdit" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                            <i data-lucide="edit-3" style="width:13px;height:13px;"></i>
+                            <span>Ubah Info / Daftar Tim</span>
+                        </button>
+                        <span style="font-size: 12px; color: var(--rok-muted-light); display: inline-flex; align-items: center; gap: 6px;">
+                            <i data-lucide="check-circle-2" style="width:14px;height:14px;color:#22c55e;"></i>
+                            Bagan turnamen aktif &amp; link live siap dibagikan
+                        </span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" class="btn-rok btn-rok--outline btn-reset-scores btn-rok--sm" id="resetScoresBtn" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 5px; padding: 5px 14px; font-size: 12px;">
+                            <i data-lucide="rotate-ccw" style="width:13px;height:13px;"></i> Reset Skor
+                        </button>
+                    </div>
+                </div>
+
+                {{-- Live Sync & Shareable Link Bar (Disembunyikan khusus pada Halaman Promosi Bracket) --}}
+                @if ($showRealtimeBar)
+                <div class="bracket-realtime-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 18px; margin-bottom: 20px; border-radius: 999px;">
+                    <div class="bracket-realtime-bar__status" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+                        <span class="realtime-pulse-dot" id="realtimePulseDot" style="flex-shrink: 0;"></span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <strong class="realtime-status-title" id="realtimeStatusText" style="font-size: 12px; letter-spacing: 0.8px; font-weight: 700; text-transform: uppercase;">
+                                LIVE SYNC
+                            </strong>
+                            <span class="realtime-status-sub" id="realtimeLastSync" style="font-size: 11px; color: var(--rok-muted-light); opacity: 0.75;"></span>
+                        </div>
+                    </div>
+
+                    <div class="bracket-realtime-bar__actions" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1 1 auto; justify-content: flex-end;">
+                        <div class="share-url-box" style="display: flex; align-items: center; gap: 6px; flex: 1 1 200px; max-width: 360px;">
+                            <input type="text" id="shareBracketUrlInput" class="share-url-input" value="{{ $shareUrl }}" readonly onclick="this.select()" style="width: 100%; font-size: 12px; padding: 6px 12px; border-radius: 999px;">
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                            <button type="button" class="btn-rok btn-rok--gold btn-rok--sm" id="copyShareLinkBtn" title="Salin Link Live" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px;">
+                                <i data-lucide="copy" style="width:13px;height:13px;"></i> Salin
+                            </button>
+                            <a href="https://wa.me/?text={{ urlencode('Pantau Live Bracket Turnamen secara Real-Time di ROK Web: ' . $shareUrl) }}" target="_blank" rel="noopener noreferrer" class="btn-rok btn-rok--outline btn-rok--sm" id="waShareLinkBtn" title="Share ke WhatsApp" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px; display: inline-flex; align-items: center; gap: 5px;">
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" style="color: #25D366; flex-shrink: 0;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.69C7.02 10.9 7.9 12.07 8.02 12.23C8.14 12.4 9.75 14.9 12.24 15.96C14.31 16.85 14.73 16.67 15.18 16.63C15.64 16.59 16.64 16.03 16.85 15.45C17.05 14.86 17.05 14.36 16.99 14.26C16.93 14.16 16.77 14.1 16.52 13.97C16.27 13.85 15.06 13.25 14.83 13.17C14.61 13.09 14.45 13.05 14.28 13.29C14.12 13.54 13.65 14.1 13.51 14.26C13.37 14.43 13.22 14.45 12.98 14.33C12.73 14.2 11.93 13.94 10.99 13.1C10.25 12.44 9.75 11.63 9.61 11.39C9.46 11.14 9.59 11.01 9.72 10.88C9.83 10.77 9.97 10.59 10.1 10.43C10.22 10.28 10.26 10.16 10.34 9.99C10.42 9.83 10.38 9.69 10.32 9.56C10.26 9.44 9.79 8.28 9.59 7.81C9.4 7.36 9.2 7.42 9.05 7.41C8.91 7.41 8.75 7.41 8.59 7.41L8.53 7.33Z"/></svg>
+                                <span>Share</span>
+                            </a>
+                            <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="copyPraTourneyLinkBtn" data-url="{{ $praTourneyUrl }}" title="Salin Link Pra-Turnamen" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px; border-color: rgba(56,189,248,0.5); color: #38bdf8;">
+                                <i data-lucide="clipboard-list" style="width:13px;height:13px;"></i> Pra-Turnamen
+                            </button>
+                            <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" title="Buka tampilan penonton di tab baru" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px;">
+                                <i data-lucide="external-link" style="width:13px;height:13px;"></i> Live View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+                {{-- Output Visualizer Deck --}}
+                <div class="generated-bracket-output" id="bracketOutputWrapper">
+                    <div class="output-banner" style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; padding-bottom: 12px;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <span class="live-indicator-badge" style="background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px; letter-spacing: 0.5px;"><i data-lucide="radio" style="width:11px;height:11px;"></i> LIVE</span>
+                            <h3 id="outputTourneyTitle" style="margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.2px;">{{ $initialState['title'] ?? 'ROK Community Cup 2026' }}</h3>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            {{-- Zoom In & Zoom Out Interactive Toolbar --}}
+                            <div class="bracket-zoom-toolbar">
+                                <button type="button" class="btn-rok-zoom" id="btnZoomOut" title="Perkecil (Zoom Out)" aria-label="Zoom Out">
+                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
+                                </button>
+                                <button type="button" class="btn-rok-zoom btn-rok-zoom--reset" id="btnZoomReset" title="Reset 100%">
+                                    100%
+                                </button>
+                                <button type="button" class="btn-rok-zoom" id="btnZoomIn" title="Perbesar (Zoom In)" aria-label="Zoom In">
+                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                                </button>
+                            </div>
+                            <button type="button" class="btn-rok btn-rok--outline btn-rok--sm btn-drawing" id="btnReshuffleQuick" title="Drawing / Acak Urutan Tim" style="border-radius: 999px; font-size: 11px; padding: 4px 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="shuffle" style="width:12px;height:12px;"></i> Acak
+                            </button>
+                            <span class="badge-mini" id="outputFormatBadge" style="border-radius: 999px; padding: 4px 10px; font-size: 11px;">Single Elimination</span>
+                        </div>
+                    </div>
+
+                    <div class="generated-tree-deck" id="generatedTreeDeck" style="position: relative; overflow: auto; padding: 16px 12px 24px 12px;">
+                        <div class="bracket-zoom-canvas" id="bracketZoomCanvas" style="display: flex; gap: 26px; min-width: max-content; width: fit-content; height: max-content; align-self: flex-start; align-items: stretch; transform-origin: 0 0; transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);">
+                            {{-- Rendered Bracket Tree using native .gen-* classes + SVG tournament lines --}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 </div>
 
 {{-- Interactive Team Info, Match Points & Direct WhatsApp Modal --}}
@@ -1918,6 +2069,71 @@
             reader.readAsDataURL(file);
         });
 
+        // ====================================================
+        // WIZARD / PAGINATION ENGINE (STEPS 1 -> 2 -> 3)
+        // ====================================================
+        let currentWizardStep = 1;
+        let hasGeneratedBracket = false;
+
+        function updateWizardNav(step) {
+            const step1Btn = document.getElementById('wizardNavStep1');
+            const step2Btn = document.getElementById('wizardNavStep2');
+            const step3Btn = document.getElementById('wizardNavStep3');
+
+            const updatePill = (btn, pillStep) => {
+                if (!btn) return;
+                btn.classList.remove('is-active', 'is-completed');
+                btn.setAttribute('aria-selected', 'false');
+
+                if (step === pillStep) {
+                    btn.classList.add('is-active');
+                    btn.setAttribute('aria-selected', 'true');
+                } else if (step > pillStep || (pillStep <= 2 && hasGeneratedBracket)) {
+                    btn.classList.add('is-completed');
+                }
+            };
+
+            updatePill(step1Btn, 1);
+            updatePill(step2Btn, 2);
+            updatePill(step3Btn, 3);
+        }
+
+        function setWizardStep(step, shouldScroll = true) {
+            const targetStep = Math.max(1, Math.min(3, parseInt(step, 10) || 1));
+            currentWizardStep = targetStep;
+
+            const pane1 = document.getElementById('wizardPane1');
+            const pane2 = document.getElementById('wizardPane2');
+            const pane3 = document.getElementById('wizardPane3');
+
+            if (pane1) pane1.classList.toggle('is-active', targetStep === 1);
+            if (pane2) pane2.classList.toggle('is-active', targetStep === 2);
+            if (pane3) pane3.classList.toggle('is-active', targetStep === 3);
+
+            updateWizardNav(targetStep);
+
+            if (targetStep === 2) {
+                renderTeamInputs();
+            }
+
+            if (targetStep === 3) {
+                requestAnimationFrame(() => {
+                    drawAllBracketArrows();
+                    applyZoom(currentZoom);
+                    window.renderLucideIcons?.();
+                });
+            }
+
+            if (shouldScroll) {
+                const ws = document.getElementById('rokBracketWorkspace');
+                if (ws) {
+                    ws.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+
+            window.renderLucideIcons?.();
+        }
+
         if (!IS_READ_ONLY) {
             const formatSelect = document.getElementById('tourneyFormat');
             const teamCountInput = document.getElementById('teamCountInput');
@@ -1942,9 +2158,20 @@
             });
 
             generateBtn?.addEventListener('click', () => {
+                const titleInput = document.getElementById('tourneyName');
+                if (!titleInput?.value.trim()) {
+                    alert('Mohon isi nama turnamen terlebih dahulu.');
+                    setWizardStep(1);
+                    titleInput?.focus();
+                    return;
+                }
+
                 buildTournament(true);
+                hasGeneratedBracket = true;
+                setWizardStep(3);
+
                 const originalHtml = generateBtn.innerHTML;
-                generateBtn.innerHTML = '<i data-lucide="check-circle" style="width:16px;height:16px;vertical-align:-2px;"></i> Bagan Berhasil Digenerate &amp; Disimpan!';
+                generateBtn.innerHTML = '<i data-lucide="check-circle" style="width:16px;height:16px;vertical-align:-2px;"></i> Bagan Berhasil Dibuat!';
                 generateBtn.style.background = '#15803d';
                 generateBtn.style.borderColor = '#4ade80';
                 generateBtn.style.color = '#ffffff';
@@ -1956,11 +2183,47 @@
                     generateBtn.style.color = '';
                     window.renderLucideIcons?.();
                 }, 2200);
+            });
 
-                const bracketDeck = document.getElementById('bracketDeck');
-                if (bracketDeck) {
-                    bracketDeck.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            document.getElementById('btnWizardNext1')?.addEventListener('click', () => {
+                const title = (document.getElementById('tourneyName')?.value || '').trim();
+                if (!title) {
+                    alert('Silakan masukkan nama turnamen terlebih dahulu sebelum lanjut ke daftar tim.');
+                    document.getElementById('tourneyName')?.focus();
+                    return;
                 }
+                syncTeamCountOptions();
+                setWizardStep(2);
+            });
+
+            document.getElementById('btnWizardBack1')?.addEventListener('click', () => {
+                setWizardStep(1);
+            });
+
+            document.getElementById('btnWizardBackToEdit')?.addEventListener('click', () => {
+                setWizardStep(2);
+            });
+
+            document.getElementById('wizardNavStep1')?.addEventListener('click', () => {
+                setWizardStep(1);
+            });
+
+            document.getElementById('wizardNavStep2')?.addEventListener('click', () => {
+                const title = (document.getElementById('tourneyName')?.value || '').trim();
+                if (!title) {
+                    alert('Silakan masukkan nama turnamen terlebih dahulu.');
+                    document.getElementById('tourneyName')?.focus();
+                    return;
+                }
+                setWizardStep(2);
+            });
+
+            document.getElementById('wizardNavStep3')?.addEventListener('click', () => {
+                if (!hasGeneratedBracket) {
+                    alert('Silakan lengkapi langkah 1 dan 2, lalu klik "Generate & Buat Bagan".');
+                    return;
+                }
+                setWizardStep(3);
             });
 
             document.getElementById('btnReshuffleBracket')?.addEventListener('click', reshuffleTeams);
@@ -2008,6 +2271,10 @@
             if (INITIAL_SERVER_STATE.matches && INITIAL_SERVER_STATE.matches.length > 0) {
                 tournamentState = INITIAL_SERVER_STATE;
                 renderTournament(false);
+                hasGeneratedBracket = true;
+                if (!IS_READ_ONLY) {
+                    setWizardStep(3, false);
+                }
             } else {
                 const teams = INITIAL_SERVER_STATE.teams;
                 let engine;
@@ -2058,6 +2325,10 @@
             syncTeamCountOptions();
             renderTeamInputs();
             buildTournament(false);
+            hasGeneratedBracket = false;
+            if (!IS_READ_ONLY) {
+                setWizardStep(1, false);
+            }
         }
 
         if (IS_READ_ONLY) {

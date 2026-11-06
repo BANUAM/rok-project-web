@@ -2380,3 +2380,298 @@
     gap: 10px;
 }
 
+/* ====================================================
+   BRACKET CREATION WIZARD / PAGINATION SYSTEM
+   ==================================================== */
+.bracket-wizard-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 18px;
+    margin-bottom: 22px;
+    background: rgba(16, 20, 29, 0.7);
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+}
+
+[data-theme="light"] .bracket-wizard-nav {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.wizard-nav-step {
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 8px 14px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0.65;
+    flex-shrink: 0;
+}
+
+.wizard-nav-step:hover:not(:disabled) {
+    opacity: 0.95;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="light"] .wizard-nav-step:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.wizard-nav-step.is-active {
+    opacity: 1;
+    background: rgba(251, 191, 36, 0.08);
+    border-color: rgba(251, 191, 36, 0.3);
+}
+
+[data-theme="light"] .wizard-nav-step.is-active {
+    background: rgba(217, 119, 6, 0.08);
+    border-color: rgba(217, 119, 6, 0.35);
+}
+
+.wizard-nav-step.is-completed {
+    opacity: 0.95;
+    background: rgba(34, 197, 94, 0.06);
+    border-color: rgba(34, 197, 94, 0.25);
+}
+
+[data-theme="light"] .wizard-nav-step.is-completed {
+    background: rgba(22, 163, 74, 0.08);
+    border-color: rgba(22, 163, 74, 0.3);
+}
+
+.wizard-nav-badge {
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--rok-silver);
+    transition: all 0.25s ease;
+}
+
+[data-theme="light"] .wizard-nav-badge {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+.wizard-nav-step.is-active .wizard-nav-badge {
+    background: var(--rok-gold);
+    border-color: var(--rok-gold);
+    color: #0d1017;
+    box-shadow: 0 0 14px rgba(251, 191, 36, 0.45);
+}
+
+.wizard-nav-step.is-completed .wizard-nav-badge {
+    background: #22c55e;
+    border-color: #22c55e;
+    color: #ffffff;
+}
+
+.wizard-nav-step.is-completed .wizard-nav-num {
+    display: none;
+}
+
+.wizard-nav-step.is-completed .wizard-nav-check {
+    display: inline-block !important;
+}
+
+.wizard-nav-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.wizard-nav-step-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--rok-muted-light);
+    transition: color 0.25s ease;
+}
+
+.wizard-nav-step.is-active .wizard-nav-step-label {
+    color: var(--rok-gold);
+}
+
+[data-theme="light"] .wizard-nav-step.is-active .wizard-nav-step-label {
+    color: #b45309;
+}
+
+.wizard-nav-step.is-completed .wizard-nav-step-label {
+    color: #22c55e;
+}
+
+.wizard-nav-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--rok-text-light);
+    white-space: nowrap;
+}
+
+.wizard-nav-divider {
+    flex: 1 1 20px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    min-width: 16px;
+    border-radius: 999px;
+}
+
+[data-theme="light"] .wizard-nav-divider {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.wizard-pane {
+    display: none;
+}
+
+.wizard-pane.is-active {
+    display: block;
+    animation: wizardPaneFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes wizardPaneFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.wizard-pane-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rok-surface-border);
+}
+
+.wizard-pane-step-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(251, 191, 36, 0.12);
+    border: 1px solid rgba(251, 191, 36, 0.28);
+    color: var(--rok-gold);
+    margin-bottom: 8px;
+}
+
+[data-theme="light"] .wizard-pane-step-badge {
+    background: rgba(217, 119, 6, 0.1);
+    border-color: rgba(217, 119, 6, 0.25);
+    color: #b45309;
+}
+
+.wizard-pane-title {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0 0 4px 0;
+    color: var(--rok-text-light);
+    letter-spacing: -0.2px;
+}
+
+.wizard-pane-desc {
+    font-size: 12px;
+    color: var(--rok-muted-light);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.wizard-actions-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rok-surface-border);
+}
+
+.wizard-actions-bar--right-only {
+    justify-content: flex-end;
+}
+
+.wizard-step3-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    background: rgba(16, 20, 29, 0.5);
+    border: 1px solid var(--rok-surface-border);
+    border-radius: var(--radius-sm);
+}
+
+[data-theme="light"] .wizard-step3-topbar {
+    background: #f8fafc;
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 768px) {
+    .bracket-wizard-nav {
+        padding: 8px 10px;
+        gap: 6px;
+    }
+    .wizard-nav-step {
+        padding: 6px 8px;
+        gap: 8px;
+    }
+    .wizard-nav-title {
+        font-size: 11px;
+    }
+    .wizard-nav-step-label {
+        font-size: 9px;
+    }
+    .wizard-nav-divider {
+        min-width: 8px;
+    }
+}
+
+@media (max-width: 580px) {
+    .wizard-nav-step-label {
+        display: none;
+    }
+    .wizard-nav-step {
+        padding: 6px;
+    }
+    .wizard-nav-title {
+        display: none;
+    }
+    .bracket-wizard-nav {
+        justify-content: center;
+    }
+}
+
