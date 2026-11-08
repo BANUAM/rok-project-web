@@ -22,6 +22,7 @@ const teams = ref(
     }))
 );
 const liveLinkCopied = ref(false);
+const praTourneyLinkCopied = ref(false);
 
 const { animateSplitText, bindSpringHover } = useRokAnimations();
 
@@ -45,6 +46,29 @@ const copyLiveLink = () => {
             liveLinkCopied.value = false;
         }, 2000);
     });
+};
+
+const copyPraTourneyLink = () => {
+    const slug = props.activeTournament?.slug || 'rok-invitational-season-1';
+    const url = window.location.origin + '/bracket/pra-tournament/' + slug;
+    navigator.clipboard.writeText(url).then(() => {
+        praTourneyLinkCopied.value = true;
+        setTimeout(() => {
+            praTourneyLinkCopied.value = false;
+        }, 2000);
+    });
+};
+
+const reshuffleTeams = () => {
+    if (!confirm('Acak susunan tim / drawing bagan secara acak?')) {
+        return;
+    }
+    const shuffled = [...teams.value];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    teams.value = shuffled;
 };
 
 onMounted(() => {
@@ -98,6 +122,14 @@ onMounted(() => {
                             <Link href="/bracket/studio" class="cyber-chip-btn cyber-chip-btn--primary">
                                 <i data-lucide="key" style="width:13px;height:13px;"></i> Masuk Studio
                             </Link>
+                            <a
+                                :href="'/bracket/pra-tournament/' + (activeTournament?.slug || 'rok-invitational-season-1')"
+                                target="_blank"
+                                class="cyber-chip-btn cyber-chip-btn--secondary"
+                                title="Buka Portal Pra-Turnamen"
+                            >
+                                <i data-lucide="clipboard-list" style="width:13px;height:13px;"></i> Pra-Turnamen
+                            </a>
                             <a
                                 v-if="activeTournament?.slug"
                                 :href="'/bracket/live/' + activeTournament.slug"
@@ -181,7 +213,43 @@ onMounted(() => {
 
                     <!-- Step 2: Team Roster & Contact -->
                     <div v-show="currentStep === 2" class="wizard-card" style="background: var(--rok-surface-card); border: 1px solid var(--rok-surface-border); border-radius: var(--radius-md); padding: 28px;">
-                        <h3 style="margin-bottom: 20px;">Langkah 2: Daftar Tim &amp; Kontak WhatsApp</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+                            <div>
+                                <h3 style="margin: 0 0 4px 0;">Langkah 2: Daftar Tim &amp; Kontak WhatsApp</h3>
+                                <p style="margin: 0; font-size: 13px; color: var(--rok-muted-light);">Masukkan nama tim dan nomor WhatsApp kapten tim untuk koordinasi.</p>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                <a
+                                    :href="'/bracket/pra-tournament/' + (activeTournament?.slug || 'rok-invitational-season-1')"
+                                    target="_blank"
+                                    class="btn-rok btn-rok--outline"
+                                    style="padding: 6px 14px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px;"
+                                    title="Buka Portal Pra-Turnamen"
+                                >
+                                    <i data-lucide="clipboard-list" style="width:13px;height:13px;"></i> Portal Pra-Turnamen &nearr;
+                                </a>
+                                <button
+                                    type="button"
+                                    class="btn-rok btn-rok--outline"
+                                    style="padding: 6px 14px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px;"
+                                    @click="copyPraTourneyLink"
+                                    title="Salin Link Pra-Turnamen"
+                                >
+                                    <i data-lucide="copy" style="width:13px;height:13px;"></i>
+                                    {{ praTourneyLinkCopied ? 'Tersalin!' : 'Salin Pra-Turnamen' }}
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn-rok btn-rok--outline"
+                                    style="padding: 6px 14px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px;"
+                                    @click="reshuffleTeams"
+                                    title="Acak Bagan / Drawing Tim"
+                                >
+                                    <i data-lucide="shuffle" style="width:13px;height:13px;"></i> Acak Tim (Drawing)
+                                </button>
+                            </div>
+                        </div>
+
                         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px;">
                             <div v-for="(t, idx) in teams" :key="idx" style="background: var(--rok-bg); padding: 12px 14px; border-radius: 6px; border: 1px solid var(--rok-surface-border); display: flex; align-items: center; gap: 8px;">
                                 <span style="font-weight: 700; color: #d4af37; font-size: 12px; min-width: 24px;">#{{ idx + 1 }}</span>
@@ -207,11 +275,23 @@ onMounted(() => {
                                 <h3 style="margin: 0 0 4px 0;">{{ tournamentName }}</h3>
                                 <span style="color: var(--rok-silver); font-size: 13px;">Format: Single Elimination &bull; {{ teamCount }} Tim</span>
                             </div>
-                            <div style="display: flex; gap: 10px;">
-                                <button type="button" class="btn-rok btn-rok--outline" @click="copyLiveLink">
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <a
+                                    :href="'/bracket/pra-tournament/' + (activeTournament?.slug || 'rok-invitational-season-1')"
+                                    target="_blank"
+                                    class="btn-rok btn-rok--outline"
+                                    style="padding: 6px 12px; font-size: 12px; display: inline-flex; align-items: center; gap: 4px;"
+                                    title="Buka Portal Pra-Turnamen"
+                                >
+                                    <i data-lucide="clipboard-list" style="width:13px;height:13px;"></i> Pra-Turnamen &nearr;
+                                </a>
+                                <button type="button" class="btn-rok btn-rok--outline" style="padding: 6px 12px; font-size: 12px;" @click="copyPraTourneyLink" title="Salin Link Pra-Turnamen">
+                                    {{ praTourneyLinkCopied ? 'Tersalin!' : 'Salin Pra-Turnamen' }}
+                                </button>
+                                <button type="button" class="btn-rok btn-rok--outline" style="padding: 6px 12px; font-size: 12px;" @click="copyLiveLink">
                                     {{ liveLinkCopied ? 'Tersalin!' : 'Salin Link Live' }}
                                 </button>
-                                <button type="button" class="btn-rok btn-rok--outline" @click="currentStep = 2">
+                                <button type="button" class="btn-rok btn-rok--outline" style="padding: 6px 12px; font-size: 12px;" @click="currentStep = 2">
                                     Edit Tim
                                 </button>
                             </div>

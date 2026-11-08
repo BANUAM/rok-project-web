@@ -47,6 +47,9 @@
                         </a>
                     @endif
                     @if ($activeTournament)
+                        <a href="{{ route('bracket.pra-tournament', $activeTournament->slug) }}" class="cyber-chip-btn cyber-chip-btn--secondary" title="Portal pendaftaran dan check-in mandiri kapten tim">
+                            <i data-lucide="clipboard-list" style="width:13px;height:13px;"></i> Pra-Turnamen
+                        </a>
                         <a href="{{ route('bracket.live', $activeTournament->slug) }}" class="cyber-chip-btn cyber-chip-btn--secondary">
                             <i data-lucide="external-link" style="width:13px;height:13px;"></i> Live View
                         </a>

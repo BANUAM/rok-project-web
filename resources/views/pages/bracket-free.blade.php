@@ -39,8 +39,11 @@
                     <a href="{{ route('bracket.free') }}?new=1" class="cyber-chip-btn cyber-chip-btn--primary" onclick="return confirm('Buat turnamen gratis baru dengan tautan dan bagan yang baru?')">
                         <i data-lucide="plus" style="width:13px;height:13px;"></i> Turnamen Baru
                     </a>
+                    <a href="{{ route('bracket.pra-tournament.free', $activeTournament->slug) }}" class="cyber-chip-btn cyber-chip-btn--secondary" title="Portal check-in mandiri tim peserta">
+                        <i data-lucide="clipboard-list" style="width:13px;height:13px;"></i> Portal Pra-Turnamen
+                    </a>
                     <a href="{{ route('bracket') }}" class="cyber-chip-btn cyber-chip-btn--secondary">
-                        <i data-lucide="clipboard-list" style="width:13px;height:13px;"></i> Halaman Promosi
+                        <i data-lucide="layout-template" style="width:13px;height:13px;"></i> Halaman Promosi
                     </a>
                     @if(Auth::check() && Auth::user()->hasBracketAccess())
                         <a href="{{ route('bracket.studio.index') }}" class="cyber-chip-btn cyber-chip-btn--gold">

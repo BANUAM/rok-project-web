@@ -244,6 +244,10 @@
                             <i data-lucide="shuffle" style="width:14px;height:14px;"></i>
                             <span>Drawing Acak</span>
                         </button>
+                        <a href="{{ $praTourneyUrl }}" target="_blank" class="btn-rok btn-rok--outline" id="praTourneyStep2Link" style="border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; font-size: 12px; border-color: rgba(255,255,255,0.2); color: #cbd5e1;" title="Buka Portal Pra-Turnamen untuk check-in tim peserta">
+                            <i data-lucide="clipboard-list" style="width:14px;height:14px;"></i>
+                            <span>Portal Pra-Turnamen &nearr;</span>
+                        </a>
                         <button type="button" class="btn-rok btn-rok--gold" id="generateBracketBtn" style="border-radius: 6px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 24px; font-size: 13px; font-weight: 800; box-shadow: 0 4px 14px rgba(251,191,36,0.3);">
                             <i data-lucide="sparkles" style="width:15px;height:15px;"></i>
                             <span>Generate &amp; Buat Bagan</span>
@@ -299,8 +303,11 @@
                                 <span>Share</span>
                             </a>
                             <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="copyPraTourneyLinkBtn" data-url="{{ $praTourneyUrl }}" title="Salin Link Pra-Turnamen" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px; border-color: rgba(255,255,255,0.2); color: #cbd5e1;">
-                                <i data-lucide="clipboard-list" style="width:13px;height:13px;"></i> Pra-Turnamen
+                                <i data-lucide="clipboard-list" style="width:13px;height:13px;"></i> Salin Pra-Turnamen
                             </button>
+                            <a href="{{ $praTourneyUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" title="Buka Portal Pra-Turnamen untuk check-in tim peserta" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px; border-color: rgba(255,255,255,0.2); color: #cbd5e1; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="user-check" style="width:13px;height:13px;"></i> Portal Pra-Turnamen &nearr;
+                            </a>
                             <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" title="Buka tampilan penonton di tab baru" style="white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 12px;">
                                 <i data-lucide="external-link" style="width:13px;height:13px;"></i> Live View
                             </a>
