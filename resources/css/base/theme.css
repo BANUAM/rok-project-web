@@ -612,6 +612,22 @@ html[data-theme="light"] .site-footer p {
     color: #475569 !important;
 }
 
+html[data-theme="light"] .social-badge {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #475569 !important;
+}
+
+html[data-theme="light"] .social-badge:hover {
+    background: #f1f5f9 !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .site-footer__cta-text {
+    color: #64748b !important;
+}
+
 /* Hex Ambient Background in Light Mode */
 html[data-theme="light"] .hex-ambient {
     opacity: 0.18;
