@@ -85,9 +85,8 @@
                     <h2>@yield('header_title', 'ROK Bracket Studio')</h2>
                 </div>
                 <div class="topbar-actions" style="display: flex; align-items: center; gap: 10px;">
-                    <button type="button" class="theme-toggle-btn" data-theme-toggle title="Ubah Tema Gelap / Terang">
-                        <span class="theme-toggle-btn__icon" data-theme-icon><i data-lucide="sun" style="width:14px;height:14px;"></i></span>
-                        <span class="theme-toggle-btn__label" data-theme-label>Mode Terang</span>
+                    <button type="button" class="theme-toggle-btn" data-theme-toggle title="Ubah Tema Gelap / Terang" aria-label="Toggle Tema Gelap atau Terang">
+                        <span class="theme-toggle-btn__icon" data-theme-icon><i data-lucide="sun" style="width:15px;height:15px;"></i></span>
                     </button>
                     <a href="{{ url('/') }}" class="btn-public-site" style="display:inline-flex;align-items:center;gap:5px;">
                         <span><i data-lucide="globe" style="width:14px;height:14px;"></i></span> Web Publik

@@ -111,9 +111,8 @@
                     <h2>@yield('header_title', 'Dashboard')</h2>
                 </div>
                 <div class="topbar-actions" style="display: flex; align-items: center; gap: 10px;">
-                    <button type="button" class="theme-toggle-btn" data-theme-toggle title="Ubah Tema Gelap / Terang" aria-label="Toggle Tema">
-                        <span class="theme-toggle-icon" data-theme-icon><i data-lucide="sun" style="width:14px;height:14px;"></i></span>
-                        <span class="theme-toggle-label" data-theme-label>Terang</span>
+                    <button type="button" class="theme-toggle-btn" data-theme-toggle title="Ubah Tema Gelap / Terang" aria-label="Toggle Tema Gelap atau Terang">
+                        <span class="theme-toggle-icon" data-theme-icon><i data-lucide="sun" style="width:15px;height:15px;"></i></span>
                     </button>
                     <a href="{{ url('/') }}" target="_blank" class="btn-public-site" style="display:inline-flex;align-items:center;gap:5px;">
                         <span><i data-lucide="globe" style="width:14px;height:14px;"></i></span> Buka Web Publik

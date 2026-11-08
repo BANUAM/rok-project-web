@@ -47,6 +47,11 @@ export function applyRokTheme(theme) {
             ? '<i data-lucide="moon" style="width:16px;height:16px;"></i>'
             : '<i data-lucide="sun" style="width:16px;height:16px;"></i>';
     });
+    document.querySelectorAll('[data-theme-toggle]').forEach((el) => {
+        const titleText = normalized === 'light' ? 'Ubah ke Mode Gelap' : 'Ubah ke Mode Terang';
+        el.setAttribute('title', titleText);
+        el.setAttribute('aria-label', titleText);
+    });
     document.querySelectorAll('[data-theme-label]').forEach((el) => {
         el.textContent = normalized === 'light' ? 'Gelap' : 'Terang';
     });

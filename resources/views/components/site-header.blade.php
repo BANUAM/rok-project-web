@@ -42,13 +42,14 @@
                     <button type="submit" class="site-nav__link site-nav__logout-btn">Keluar</button>
                 </form>
             @else
-                <a href="{{ route('login') }}" class="site-nav__link site-nav__link--login {{ request()->routeIs('login') ? 'is-active' : '' }}">Masuk</a>
+                <a href="{{ route('login') }}" class="site-nav__link site-nav__link--login {{ request()->routeIs('login') ? 'is-active' : '' }}" title="Masuk ke Akun" aria-label="Masuk ke Akun">
+                    <i data-lucide="user" style="width:16px;height:16px;"></i>
+                </a>
             @endauth
 
             {{-- Global Dark / Light Theme Toggle --}}
             <button type="button" class="theme-toggle-btn" data-theme-toggle title="Ubah Tema Gelap / Terang" aria-label="Toggle Tema Gelap atau Terang">
-                <span class="theme-toggle-icon" data-theme-icon><i data-lucide="sun" style="width:14px;height:14px;"></i></span>
-                <span class="theme-toggle-label" data-theme-label>Terang</span>
+                <span class="theme-toggle-icon" data-theme-icon><i data-lucide="sun" style="width:15px;height:15px;"></i></span>
             </button>
         </div>
 

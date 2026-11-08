@@ -13,6 +13,9 @@ const toggleTheme = () => {
     try {
         localStorage.setItem('rok-theme', theme.value);
     } catch (e) {}
+    if (window.applyRokTheme) {
+        window.applyRokTheme(theme.value);
+    }
     nextTick(() => {
         window.renderLucideIcons && window.renderLucideIcons();
     });
@@ -96,8 +99,15 @@ onMounted(() => {
                     </button>
                 </template>
                 <template v-else>
-                    <Link href="/login" class="site-nav__link site-nav__link--login" :class="{ 'is-active': isActive('/login') }" @click="closeMobile">
-                        Masuk
+                    <Link
+                        href="/login"
+                        class="site-nav__link site-nav__link--login"
+                        :class="{ 'is-active': isActive('/login') }"
+                        title="Masuk ke Akun"
+                        aria-label="Masuk ke Akun"
+                        @click="closeMobile"
+                    >
+                        <i data-lucide="user" style="width:16px;height:16px;"></i>
                     </Link>
                 </template>
 
@@ -105,14 +115,13 @@ onMounted(() => {
                 <button
                     type="button"
                     class="theme-toggle-btn"
-                    title="Ubah Tema Gelap / Terang"
-                    aria-label="Toggle Tema Gelap atau Terang"
+                    :title="theme === 'light' ? 'Ubah ke Mode Gelap' : 'Ubah ke Mode Terang'"
+                    :aria-label="theme === 'light' ? 'Ubah ke Mode Gelap' : 'Ubah ke Mode Terang'"
                     @click="toggleTheme"
                 >
-                    <span class="theme-toggle-icon">
-                        <i :data-lucide="theme === 'light' ? 'moon' : 'sun'" style="width:14px;height:14px;"></i>
+                    <span class="theme-toggle-icon" data-theme-icon :key="theme">
+                        <i :data-lucide="theme === 'light' ? 'moon' : 'sun'" style="width:16px;height:16px;"></i>
                     </span>
-                    <span class="theme-toggle-label">{{ theme === 'light' ? 'Gelap' : 'Terang' }}</span>
                 </button>
             </div>
 
