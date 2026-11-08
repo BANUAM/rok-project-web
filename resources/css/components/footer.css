@@ -6,13 +6,13 @@
     position: relative;
     z-index: 10;
     width: 100%;
-    background: linear-gradient(180deg, #090b10 0%, #06080c 100%);
-    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
+    border-top: 1px solid #262626;
     padding: 56px 20px 0;
     margin-top: 0;
 }
 
-/* Gold accent line at very top */
+/* Ash accent line at very top */
 .site-footer::before {
     content: '';
     position: absolute;
@@ -20,7 +20,7 @@
     left: 10%;
     right: 10%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--rok-gold), transparent);
+    background: linear-gradient(90deg, transparent, #52525b, transparent);
     opacity: 0.6;
 }
 
@@ -52,8 +52,8 @@
     height: 44px;
     object-fit: contain;
     border-radius: 6px;
-    background: rgba(212, 175, 55, 0.08);
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid #2e2e2e;
 }
 
 .site-footer__title {
@@ -61,7 +61,7 @@
     font-size: 26px;
     font-weight: 900;
     letter-spacing: 3px;
-    color: #ffffff;
+    color: #ededed;
     margin-bottom: 0;
     line-height: 1;
 }
@@ -70,7 +70,7 @@
     font-family: var(--font-sub);
     font-size: 11px;
     font-weight: 600;
-    color: var(--rok-gold);
+    color: #9ca3af;
     letter-spacing: 2px;
     text-transform: uppercase;
     margin-top: 2px;
@@ -78,7 +78,7 @@
 }
 
 .site-footer__description {
-    color: #6b7280;
+    color: #9ca3af;
     font-size: 13.5px;
     line-height: 1.7;
     max-width: 380px;
@@ -147,10 +147,10 @@
     align-items: center;
     gap: 10px;
     padding: 10px 14px;
-    background: #0e1118;
-    border: 1px solid #1e2535;
+    background: #0d0d0d;
+    border: 1px solid #262626;
     border-radius: var(--radius-sm);
-    color: #9ca3af;
+    color: #a1a1aa;
     font-size: 13.5px;
     font-weight: 600;
     transition: all 150ms ease;
@@ -158,9 +158,9 @@
 }
 
 .social-badge:hover {
-    background: #13182a;
-    border-color: var(--rok-gold);
-    color: var(--rok-gold);
+    background: #27272a;
+    border-color: #6b7280;
+    color: #ffffff;
     transform: translateX(4px);
     text-decoration: none;
 }

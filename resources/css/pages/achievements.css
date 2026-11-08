@@ -7,7 +7,7 @@
 }
 
 .filter-bar {
-    background: #10141d;
+    background: #0d0d0d;
     border: 1px solid var(--rok-surface-border);
     border-radius: var(--radius-md);
     padding: 18px 24px;
@@ -36,9 +36,9 @@
 }
 
 .filter-select {
-    background: #090b10;
+    background: #080808;
     border: 1px solid var(--rok-surface-border);
-    color: #ffffff;
+    color: #ededed;
     padding: 8px 14px;
     border-radius: var(--radius-sm);
     font-size: 14px;
@@ -47,7 +47,7 @@
 }
 
 .filter-select:focus {
-    border-color: var(--rok-gold);
+    border-color: #9ca3af;
 }
 
 .btn-clear-filter {
@@ -64,7 +64,7 @@
 }
 
 .achievement-full-card {
-    background: #10141d;
+    background: #0d0d0d;
     border: 1px solid var(--rok-surface-border);
     border-radius: var(--radius-md);
     overflow: hidden;
@@ -72,7 +72,8 @@
 }
 
 .achievement-full-card:hover {
-    border-color: var(--rok-gold);
+    border-color: #6b7280;
+    background: #141414;
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }

@@ -3,7 +3,7 @@
 ========================================= */
 
 .learning-featured-card {
-    background: #10141d;
+    background: #0d0d0d;
     border: 1px solid var(--rok-surface-border);
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -37,10 +37,11 @@
     font-size: 28px;
     font-weight: 800;
     margin: 10px 0 14px 0;
+    color: #ededed;
 }
 
 .featured-video-desc p {
-    color: #94a3b8;
+    color: #d1d5db;
     line-height: 1.6;
     margin-bottom: 24px;
 }
@@ -63,7 +64,7 @@
 }
 
 .module-card {
-    background: #10141d;
+    background: #0d0d0d;
     border: 1px solid var(--rok-surface-border);
     border-radius: var(--radius-md);
     overflow: hidden;

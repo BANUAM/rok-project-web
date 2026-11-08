@@ -29,7 +29,7 @@
 }
 
 .founder-card {
-    background: #10141d;
+    background: #0d0d0d;
     border: 1px solid var(--rok-surface-border);
     border-radius: var(--radius-md);
     padding: 32px;
@@ -40,9 +40,10 @@
 }
 
 .founder-card:hover {
-    border-color: var(--rok-gold);
+    border-color: #6b7280;
+    background: #141414;
     transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
 .founder-card__photo {
@@ -50,7 +51,7 @@
     height: 130px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--rok-gold);
+    border: 2px solid #52525b;
     flex-shrink: 0;
 }
 
@@ -68,13 +69,13 @@
 .founder-card__name {
     font-size: 24px;
     font-weight: 800;
-    color: #ffffff;
+    color: #ededed;
     margin-bottom: 8px;
 }
 
 .founder-card__bio {
     font-size: 13px;
-    color: #94a3b8;
+    color: #d1d5db;
     line-height: 1.5;
     margin-bottom: 14px;
 }
@@ -101,10 +102,10 @@
     align-items: center;
     gap: 12px;
     padding: 12px 24px;
-    background: #10141d;
+    background: #0d0d0d;
     border: 1px solid var(--rok-surface-border);
     border-radius: var(--radius-sm);
-    color: #e2e8f0;
+    color: #d1d5db;
     font-family: var(--font-sub);
     font-size: 15px;
     font-weight: 700;
@@ -121,9 +122,9 @@
 
 .tab-pill:hover,
 .tab-pill.is-active {
-    background: #181f2b;
-    border-color: var(--rok-gold);
-    color: var(--rok-gold);
+    background: #27272a;
+    border-color: #71717a;
+    color: #ffffff;
 }
 
 .division-panel {
@@ -139,7 +140,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #121620;
+    background: #0d0d0d;
     border: 1px solid var(--rok-surface-border);
     border-radius: var(--radius-md);
     padding: 24px 30px;
@@ -152,10 +153,11 @@
     font-size: 26px;
     font-weight: 800;
     margin: 6px 0;
+    color: #ededed;
 }
 
 .division-info-desc {
-    color: #94a3b8;
+    color: #d1d5db;
     font-size: 14px;
     max-width: 600px;
 }

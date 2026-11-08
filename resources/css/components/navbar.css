@@ -8,11 +8,11 @@
     top: 0;
     z-index: 1000;
     width: 100%;
-    background: rgba(10, 14, 24, 0.72);
+    background: rgba(8, 8, 8, 0.92);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.35), inset 0 -1px 0 rgba(212, 175, 55, 0.12);
+    border-bottom: 1px solid #262626;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
     transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -48,16 +48,16 @@
     height: 42px;
     object-fit: contain;
     border-radius: 9px;
-    background: rgba(212, 175, 55, 0.08);
-    border: 1px solid rgba(212, 175, 55, 0.28);
-    box-shadow: 0 0 16px rgba(212, 175, 55, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
     padding: 2px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .site-nav__brand:hover .site-nav__logo {
-    border-color: rgba(251, 191, 36, 0.55);
-    box-shadow: 0 0 20px rgba(251, 191, 36, 0.25);
+    border-color: rgba(156, 163, 175, 0.5);
+    box-shadow: 0 0 20px rgba(156, 163, 175, 0.2);
 }
 
 .site-nav__brand-text {
@@ -71,7 +71,7 @@
     font-size: 24px;
     font-weight: 900;
     letter-spacing: 3px;
-    background: linear-gradient(135deg, #ffffff 0%, #fbbf24 60%, #d97706 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #d1d5db 60%, #9ca3af 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-transform: uppercase;
@@ -81,7 +81,7 @@
     font-family: var(--font-sub);
     font-size: 10px;
     font-weight: 700;
-    color: rgba(203, 213, 225, 0.7);
+    color: #9ca3af;
     letter-spacing: 2px;
     text-transform: uppercase;
 }
@@ -95,7 +95,7 @@
 
 .site-nav__link {
     position: relative;
-    color: rgba(226, 232, 240, 0.78);
+    color: #a1a1aa;
     font-family: var(--font-sub);
     font-size: 14px;
     font-weight: 700;
@@ -104,24 +104,24 @@
     text-decoration: none !important;
     border: none !important;
     padding: 8px 14px;
-    border-radius: 0;
+    border-radius: 6px;
     background: transparent !important;
-    transition: color 0.2s ease, opacity 0.2s ease;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
     white-space: nowrap;
     display: inline-flex;
     align-items: center;
 }
 
 .site-nav__link:hover {
-    color: #ffffff;
-    background: transparent !important;
+    color: #ffffff !important;
+    background: #1f1f1f !important;
     border: none !important;
     transform: none;
 }
 
 /* Active Link: Clean text with refined glowing underline, NO capsule/lonjong box */
 .site-nav__link.is-active {
-    color: var(--rok-gold);
+    color: #ededed !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
@@ -134,31 +134,31 @@
     left: 14px;
     right: 14px;
     height: 2.5px;
-    background: var(--rok-gold);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.75);
+    background: #9ca3af;
+    box-shadow: 0 0 10px rgba(156, 163, 175, 0.6);
     border-radius: 2px;
 }
 
 /* Login Button: Rectangle with 20px radius */
 .site-nav__link--login {
-    color: var(--rok-gold) !important;
-    background: rgba(212, 175, 55, 0.1) !important;
-    border: 1.5px solid rgba(212, 175, 55, 0.5) !important;
+    color: #d1d5db !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1.5px solid #3f3f46 !important;
     border-radius: 20px !important;
     padding: 8px 22px !important;
     margin-left: 10px;
     font-size: 13.5px !important;
     font-weight: 800 !important;
     letter-spacing: 1.2px !important;
-    box-shadow: 0 0 14px rgba(212, 175, 55, 0.12);
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.3);
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .site-nav__link--login:hover {
-    background: rgba(212, 175, 55, 0.22) !important;
-    border-color: var(--rok-gold) !important;
+    background: #27272a !important;
+    border-color: #9ca3af !important;
     color: #ffffff !important;
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
+    box-shadow: 0 0 20px rgba(156, 163, 175, 0.25);
     transform: translateY(-1px);
 }
 
@@ -168,19 +168,20 @@
 
 /* Studio Access Link Pill — Rectangle with 20px radius */
 .site-nav__link--studio {
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.18) 0%, rgba(217, 119, 6, 0.12) 100%) !important;
-    border: 1.5px solid rgba(251, 191, 36, 0.5) !important;
-    color: #fbbf24 !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1.5px solid #52525b !important;
+    color: #d1d5db !important;
     padding: 7px 16px !important;
     border-radius: 20px !important;
     font-weight: 800 !important;
-    box-shadow: 0 0 14px rgba(251, 191, 36, 0.16);
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.25);
 }
 
 .site-nav__link--studio:hover {
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.28) 0%, rgba(217, 119, 6, 0.2) 100%) !important;
-    border-color: #fbbf24 !important;
-    box-shadow: 0 0 20px rgba(251, 191, 36, 0.35);
+    background: #27272a !important;
+    border-color: #9ca3af !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 20px rgba(156, 163, 175, 0.25);
 }
 
 /* User Pill & Tier Tag — Rectangle with 20px radius */

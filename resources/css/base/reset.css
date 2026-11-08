@@ -7,26 +7,26 @@
 ========================================= */
 
 :root {
-    --rok-bg: #07090e;
-    --rok-primary: #0a0d14;
-    --rok-surface: #10141d;
-    --rok-surface-card: #151a24;
-    --rok-surface-border: #242b3b;
+    --rok-bg: #050505;
+    --rok-primary: #0a0a0a;
+    --rok-surface: #101010;
+    --rok-surface-card: #141414;
+    --rok-surface-border: #262626;
     
-    --rok-charcoal: #1c2331;
-    --rok-silver: #cbd5e1;
-    --rok-silver-light: #f1f5f9;
-    --rok-muted: #64748b;
-    --rok-muted-light: #94a3b8;
-    --rok-text: #f1f5f9;
-    --rok-text-bright: #ffffff;
+    --rok-charcoal: #1c1c1c;
+    --rok-silver: #9ca3af;
+    --rok-silver-light: #d1d5db;
+    --rok-muted: #6b7280;
+    --rok-muted-light: #9ca3af;
+    --rok-text: #d1d5db;
+    --rok-text-bright: #ededed;
 
-    /* Metallic Platinum / Silver Chrome Accent */
-    --rok-gold: #e2e8f0;
-    --rok-gold-light: #ffffff;
-    --rok-gold-dark: #94a3b8;
-    --rok-gold-glow: rgba(226, 232, 240, 0.22);
-    --rok-chrome-gradient: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+    /* Sleek Ash Gray / Platinum Accent (Dominant Black & Ash Palette) */
+    --rok-gold: #9ca3af;
+    --rok-gold-light: #e5e7eb;
+    --rok-gold-dark: #6b7280;
+    --rok-gold-glow: rgba(156, 163, 175, 0.18);
+    --rok-chrome-gradient: linear-gradient(135deg, #ededed 0%, #d1d5db 50%, #9ca3af 100%);
 
     --font-heading: 'Teko', 'Rajdhani', sans-serif;
     --font-sub: 'Rajdhani', sans-serif;
@@ -110,7 +110,7 @@ img {
     width: 140px;
     height: 160px;
     background: transparent;
-    border: 1px solid rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(156, 163, 175, 0.08);
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     animation: hexDriftVertical 16s ease-in-out infinite alternate;
 }
@@ -120,7 +120,7 @@ img {
     left: 8%;
     width: 180px;
     height: 200px;
-    border-color: rgba(212, 175, 55, 0.06);
+    border-color: rgba(156, 163, 175, 0.07);
     animation-duration: 20s;
     animation-delay: -2s;
 }
@@ -130,7 +130,7 @@ img {
     right: 6%;
     width: 220px;
     height: 250px;
-    border-color: rgba(160, 166, 181, 0.05);
+    border-color: rgba(156, 163, 175, 0.06);
     animation-duration: 24s;
     animation-delay: -6s;
 }
@@ -140,7 +140,7 @@ img {
     left: 12%;
     width: 120px;
     height: 140px;
-    border-color: rgba(212, 175, 55, 0.07);
+    border-color: rgba(156, 163, 175, 0.08);
     animation-duration: 18s;
     animation-delay: -10s;
 }
@@ -150,7 +150,7 @@ img {
     right: 25%;
     width: 160px;
     height: 180px;
-    border-color: rgba(212, 175, 55, 0.04);
+    border-color: rgba(156, 163, 175, 0.05);
     animation-duration: 22s;
     animation-delay: -4s;
 }
@@ -349,52 +349,55 @@ img {
 }
 
 .btn-rok--gold {
-    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 55%, #94a3b8 100%);
-    color: #07090e !important;
+    background: linear-gradient(135deg, #3f3f46 0%, #27272a 55%, #18181b 100%);
+    color: #ededed !important;
     font-weight: 800;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 4px 18px var(--rok-gold-glow);
+    border: 1px solid #52525b;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
 }
 
 .btn-rok--gold:hover {
-    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+    background: linear-gradient(135deg, #52525b 0%, #3f3f46 100%);
+    border-color: #9ca3af;
+    color: #ffffff !important;
     transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(226, 232, 240, 0.35);
+    box-shadow: 0 6px 24px rgba(156, 163, 175, 0.25);
 }
 
 .btn-rok--outline {
-    background: rgba(226, 232, 240, 0.04);
-    border: 1px solid rgba(226, 232, 240, 0.5);
-    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid #3f3f46;
+    color: #d1d5db !important;
 }
 
 .btn-rok--outline:hover {
-    background: rgba(226, 232, 240, 0.16);
-    border-color: #ffffff;
+    background: #27272a;
+    border-color: #71717a;
     color: #ffffff !important;
-    box-shadow: 0 0 16px rgba(226, 232, 240, 0.2);
+    box-shadow: 0 0 16px rgba(156, 163, 175, 0.18);
 }
 
 .btn-rok--ghost {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--rok-surface-border);
-    color: var(--rok-text) !important;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #262626;
+    color: #9ca3af !important;
 }
 
 .btn-rok--ghost:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff !important;
+    background: #27272a;
+    border-color: #52525b;
+    color: #ededed !important;
 }
 
 .btn-rok--dark {
-    background: #0b0e14;
-    color: #ffffff !important;
-    border: 1px solid var(--rok-surface-border);
+    background: #0d0d0d;
+    color: #d1d5db !important;
+    border: 1px solid #262626;
 }
 
 .btn-rok--dark:hover {
-    background: #151a24;
-    border-color: var(--rok-silver);
+    background: #222222;
+    border-color: #52525b;
     color: #ffffff !important;
 }
 

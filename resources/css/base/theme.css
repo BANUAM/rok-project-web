@@ -11,9 +11,9 @@
     gap: 6px;
     padding: 6px 12px;
     border-radius: 999px;
-    border: 1px solid var(--rok-surface-border);
+    border: 1px solid #3f3f46;
     background: rgba(255, 255, 255, 0.05);
-    color: var(--rok-text-bright);
+    color: #d1d5db;
     font-family: var(--font-sub);
     font-size: 12px;
     font-weight: 700;
@@ -24,8 +24,9 @@
 }
 
 .theme-toggle-btn:hover {
-    border-color: var(--rok-gold);
-    background: rgba(226, 232, 240, 0.12);
+    border-color: #9ca3af;
+    background: #27272a;
+    color: #ffffff;
     transform: translateY(-1px);
 }
 
@@ -36,23 +37,27 @@
 
 /* Navbar Bracket Studio & User Pill */
 .site-nav__link--studio {
-    background: rgba(251, 191, 36, 0.14);
-    border: 1px solid rgba(251, 191, 36, 0.45);
-    color: #fbbf24 !important;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1.5px solid #52525b;
+    color: #d1d5db !important;
     padding: 5px 12px !important;
     border-radius: 999px;
     font-weight: 800 !important;
+    transition: all 180ms ease;
 }
 
 .site-nav__link--studio:hover {
-    background: rgba(251, 191, 36, 0.25);
+    background: #27272a;
+    border-color: #9ca3af;
+    color: #ffffff !important;
+    box-shadow: 0 0 16px rgba(156, 163, 175, 0.25);
 }
 
 .site-nav__user-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    color: var(--rok-gold) !important;
+    color: #d1d5db !important;
     font-weight: 700;
 }
 
@@ -61,17 +66,388 @@
     font-weight: 800;
     padding: 2px 6px;
     border-radius: 4px;
-    background: rgba(251, 191, 36, 0.18);
-    border: 1px solid #fbbf24;
-    color: #fbbf24;
+    background: #27272a;
+    border: 1px solid #52525b;
+    color: #e5e7eb;
 }
 
 .site-nav__logout-btn {
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--rok-muted-light);
+    color: #9ca3af;
     font-size: 13px;
+    transition: color 150ms ease;
+}
+
+.site-nav__logout-btn:hover {
+    color: #ffffff;
+}
+
+/* =========================================
+   DARK THEME SYSTEM (DOMINANT BLACK & ASH GRAY)
+   Dominant: Pure deep black (#000000, #050505, #0a0a0a, #0e0e0e, #121212)
+   Accents: Sleek ash gray (#262626, #3f3f46, #52525b, #9ca3af)
+   Hover: Refined ash gray (#27272a, #333333, #3f3f46, border #71717a)
+   Font: Grayish-white (#ededed, #d1d5db, #a1a1aa)
+========================================= */
+
+html:not([data-theme="light"]),
+html[data-theme="dark"] {
+    color-scheme: dark;
+    --rok-bg: #050505;
+    --rok-primary: #0a0a0a;
+    --rok-surface: #101010;
+    --rok-surface-card: #141414;
+    --rok-card-bg: #141414;
+    --rok-surface-border: #262626;
+
+    --rok-charcoal: #1c1c1c;
+    --rok-silver: #9ca3af;
+    --rok-silver-light: #d1d5db;
+    --rok-muted: #6b7280;
+    --rok-muted-light: #9ca3af;
+    --rok-text: #d1d5db;
+    --rok-text-secondary: #9ca3af;
+    --rok-text-muted: #6b7280;
+    --rok-text-bright: #ededed;
+
+    --rok-gold: #9ca3af;
+    --rok-gold-light: #e5e7eb;
+    --rok-gold-dark: #6b7280;
+    --rok-gold-glow: rgba(156, 163, 175, 0.18);
+    --rok-chrome-gradient: linear-gradient(135deg, #ededed 0%, #d1d5db 50%, #9ca3af 100%);
+}
+
+html:not([data-theme="light"]) body,
+html[data-theme="dark"] body {
+    background-color: #050505 !important;
+    color: #d1d5db !important;
+}
+
+/* Grayish-White Headings */
+html:not([data-theme="light"]) h1,
+html:not([data-theme="light"]) h2,
+html:not([data-theme="light"]) h3,
+html:not([data-theme="light"]) h4,
+html:not([data-theme="light"]) h5,
+html:not([data-theme="light"]) h6,
+html:not([data-theme="light"]) .page-title,
+html:not([data-theme="light"]) .hero-slide__title,
+html:not([data-theme="light"]) .tournament-title,
+html:not([data-theme="light"]) .division-card__title,
+html:not([data-theme="light"]) .founder-card__name,
+html:not([data-theme="light"]) .trial-banner-title,
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6,
+html[data-theme="dark"] .page-title,
+html[data-theme="dark"] .hero-slide__title,
+html[data-theme="dark"] .tournament-title,
+html[data-theme="dark"] .division-card__title,
+html[data-theme="dark"] .founder-card__name,
+html[data-theme="dark"] .trial-banner-title {
+    color: #ededed !important;
+}
+
+/* Secondary Typography & Descriptions */
+html:not([data-theme="light"]) p,
+html:not([data-theme="light"]) .page-subtitle,
+html:not([data-theme="light"]) .hero-slide__description,
+html:not([data-theme="light"]) .division-card__desc,
+html:not([data-theme="light"]) .tournament-desc,
+html:not([data-theme="light"]) .founder-card__bio,
+html[data-theme="dark"] p,
+html[data-theme="dark"] .page-subtitle,
+html[data-theme="dark"] .hero-slide__description,
+html[data-theme="dark"] .division-card__desc,
+html[data-theme="dark"] .tournament-desc,
+html[data-theme="dark"] .founder-card__bio {
+    color: #d1d5db;
+}
+
+/* Accent Labels & Subtitles */
+html:not([data-theme="light"]) .hero-slide__eyebrow,
+html:not([data-theme="light"]) .founder-card__role,
+html:not([data-theme="light"]) .section-subtitle-gold,
+html:not([data-theme="light"]) .round-title,
+html:not([data-theme="light"]) .pipeline-card__title,
+html:not([data-theme="light"]) .achievement-card__team,
+html[data-theme="dark"] .hero-slide__eyebrow,
+html[data-theme="dark"] .founder-card__role,
+html[data-theme="dark"] .section-subtitle-gold,
+html[data-theme="dark"] .round-title,
+html[data-theme="dark"] .pipeline-card__title,
+html[data-theme="dark"] .achievement-card__team {
+    color: #9ca3af !important;
+}
+
+/* Action Buttons: Dominant Black with Ash Gray Accent & Ash Hover */
+html:not([data-theme="light"]) .btn-rok--gold,
+html:not([data-theme="light"]) .hero-button--primary,
+html:not([data-theme="light"]) #generateBracketBtn,
+html:not([data-theme="light"]) #btnGeneratePaidStudio,
+html[data-theme="dark"] .btn-rok--gold,
+html[data-theme="dark"] .hero-button--primary,
+html[data-theme="dark"] #generateBracketBtn,
+html[data-theme="dark"] #btnGeneratePaidStudio {
+    background: linear-gradient(135deg, #3f3f46 0%, #27272a 55%, #18181b 100%) !important;
+    color: #ededed !important;
+    border: 1px solid #52525b !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45) !important;
+}
+
+html:not([data-theme="light"]) .btn-rok--gold:hover,
+html:not([data-theme="light"]) .hero-button--primary:hover,
+html:not([data-theme="light"]) #generateBracketBtn:hover,
+html:not([data-theme="light"]) #btnGeneratePaidStudio:hover,
+html[data-theme="dark"] .btn-rok--gold:hover,
+html[data-theme="dark"] .hero-button--primary:hover,
+html[data-theme="dark"] #generateBracketBtn:hover,
+html[data-theme="dark"] #btnGeneratePaidStudio:hover {
+    background: linear-gradient(135deg, #52525b 0%, #3f3f46 100%) !important;
+    border-color: #9ca3af !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(156, 163, 175, 0.25) !important;
+}
+
+html:not([data-theme="light"]) .btn-rok--outline,
+html:not([data-theme="light"]) .hero-button--secondary,
+html:not([data-theme="light"]) .btn-drawing,
+html:not([data-theme="light"]) .btn-reset-scores,
+html[data-theme="dark"] .btn-rok--outline,
+html[data-theme="dark"] .hero-button--secondary,
+html[data-theme="dark"] .btn-drawing,
+html[data-theme="dark"] .btn-reset-scores {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid #3f3f46 !important;
+    color: #d1d5db !important;
+}
+
+html:not([data-theme="light"]) .btn-rok--outline:hover,
+html:not([data-theme="light"]) .hero-button--secondary:hover,
+html:not([data-theme="light"]) .btn-drawing:hover,
+html:not([data-theme="light"]) .btn-reset-scores:hover,
+html[data-theme="dark"] .btn-rok--outline:hover,
+html[data-theme="dark"] .hero-button--secondary:hover,
+html[data-theme="dark"] .btn-drawing:hover,
+html[data-theme="dark"] .btn-reset-scores:hover {
+    background: #27272a !important;
+    border-color: #71717a !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 16px rgba(156, 163, 175, 0.18) !important;
+}
+
+/* Cards & Surface Containers */
+html:not([data-theme="light"]) .division-card,
+html:not([data-theme="light"]) .achievement-card,
+html:not([data-theme="light"]) .achievement-full-card,
+html:not([data-theme="light"]) .founder-card,
+html:not([data-theme="light"]) .pipeline-card,
+html:not([data-theme="light"]) .learning-card,
+html:not([data-theme="light"]) .mgmt-card,
+html:not([data-theme="light"]) .login-card,
+html:not([data-theme="light"]) .bracket-stage-card,
+html:not([data-theme="light"]) .generator-card,
+html:not([data-theme="light"]) .live-bracket-viewer,
+html:not([data-theme="light"]) .tournament-hero-card,
+html:not([data-theme="light"]) .match-card,
+html:not([data-theme="light"]) .matchup-box,
+html:not([data-theme="light"]) .gen-match-box,
+html:not([data-theme="light"]) .trial-banner-card,
+html:not([data-theme="light"]) .filter-bar,
+html:not([data-theme="light"]) .tab-pill,
+html:not([data-theme="light"]) .division-info-strip,
+html[data-theme="dark"] .division-card,
+html[data-theme="dark"] .achievement-card,
+html[data-theme="dark"] .achievement-full-card,
+html[data-theme="dark"] .founder-card,
+html[data-theme="dark"] .pipeline-card,
+html[data-theme="dark"] .learning-card,
+html[data-theme="dark"] .mgmt-card,
+html[data-theme="dark"] .login-card,
+html[data-theme="dark"] .bracket-stage-card,
+html[data-theme="dark"] .generator-card,
+html[data-theme="dark"] .live-bracket-viewer,
+html[data-theme="dark"] .tournament-hero-card,
+html[data-theme="dark"] .match-card,
+html[data-theme="dark"] .matchup-box,
+html[data-theme="dark"] .gen-match-box,
+html[data-theme="dark"] .trial-banner-card,
+html[data-theme="dark"] .filter-bar,
+html[data-theme="dark"] .tab-pill,
+html[data-theme="dark"] .division-info-strip {
+    background: #0d0d0d !important;
+    border: 1px solid #262626 !important;
+    color: #d1d5db !important;
+}
+
+/* Card Hover States: Ash Gray Hover */
+html:not([data-theme="light"]) .division-card:hover,
+html:not([data-theme="light"]) .achievement-card:hover,
+html:not([data-theme="light"]) .achievement-full-card:hover,
+html:not([data-theme="light"]) .founder-card:hover,
+html:not([data-theme="light"]) .match-card:hover,
+html:not([data-theme="light"]) .gen-match-box:hover,
+html:not([data-theme="light"]) .tab-pill:hover,
+html:not([data-theme="light"]) .tab-pill.is-active,
+html[data-theme="dark"] .division-card:hover,
+html[data-theme="dark"] .achievement-card:hover,
+html[data-theme="dark"] .achievement-full-card:hover,
+html[data-theme="dark"] .founder-card:hover,
+html[data-theme="dark"] .match-card:hover,
+html[data-theme="dark"] .gen-match-box:hover,
+html[data-theme="dark"] .tab-pill:hover,
+html[data-theme="dark"] .tab-pill.is-active {
+    border-color: #6b7280 !important;
+    background: #141414 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+}
+
+html:not([data-theme="light"]) .division-card__roster-strip,
+html:not([data-theme="light"]) .achievement-card__media,
+html:not([data-theme="light"]) .pipeline-step,
+html:not([data-theme="light"]) .video-landscape-wrapper,
+html:not([data-theme="light"]) .matchup-vs,
+html[data-theme="dark"] .division-card__roster-strip,
+html[data-theme="dark"] .achievement-card__media,
+html[data-theme="dark"] .pipeline-step,
+html[data-theme="dark"] .video-landscape-wrapper,
+html[data-theme="dark"] .matchup-vs {
+    background: #080808 !important;
+    border-color: #262626 !important;
+}
+
+/* Bracket Generator Inputs & Team Input Capsules */
+html:not([data-theme="light"]) .generator-inputs .form-input,
+html:not([data-theme="light"]) .generator-inputs .form-select,
+html[data-theme="dark"] .generator-inputs .form-input,
+html[data-theme="dark"] .generator-inputs .form-select {
+    background: #080808 !important;
+    border: 1px solid #262626 !important;
+    color: #ededed !important;
+}
+
+html:not([data-theme="light"]) .generator-inputs .form-input:focus,
+html:not([data-theme="light"]) .generator-inputs .form-select:focus,
+html[data-theme="dark"] .generator-inputs .form-input:focus,
+html[data-theme="dark"] .generator-inputs .form-select:focus {
+    border-color: #9ca3af !important;
+    box-shadow: 0 0 0 2px rgba(156, 163, 175, 0.2) !important;
+}
+
+html:not([data-theme="light"]) .team-input-item,
+html[data-theme="dark"] .team-input-item {
+    background: #111111 !important;
+    border: 1px solid #262626 !important;
+}
+
+html:not([data-theme="light"]) .team-input-item:hover,
+html[data-theme="dark"] .team-input-item:hover {
+    background: #1a1a1a !important;
+    border-color: #52525b !important;
+}
+
+html:not([data-theme="light"]) .team-input-item:focus-within,
+html[data-theme="dark"] .team-input-item:focus-within {
+    background: #1f1f1f !important;
+    border-color: #9ca3af !important;
+    box-shadow: 0 0 10px rgba(156, 163, 175, 0.2) !important;
+}
+
+html:not([data-theme="light"]) .team-input-item .team-name-input,
+html[data-theme="dark"] .team-input-item .team-name-input {
+    color: #ededed !important;
+}
+
+html:not([data-theme="light"]) .team-input-item .team-name-input::placeholder,
+html[data-theme="dark"] .team-input-item .team-name-input::placeholder {
+    color: #6b7280 !important;
+}
+
+html:not([data-theme="light"]) .team-input-item .team-wa-input,
+html[data-theme="dark"] .team-input-item .team-wa-input {
+    color: #9ca3af !important;
+}
+
+html:not([data-theme="light"]) .team-input-item .team-input-divider,
+html[data-theme="dark"] .team-input-item .team-input-divider {
+    background: #2e2e2e !important;
+}
+
+/* Wizard Pagination Tabs */
+html:not([data-theme="light"]) .wizard-step-btn,
+html[data-theme="dark"] .wizard-step-btn {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid #2e2e2e !important;
+    color: #9ca3af !important;
+}
+
+html:not([data-theme="light"]) .wizard-step-btn:hover,
+html[data-theme="dark"] .wizard-step-btn:hover {
+    background: #222222 !important;
+    border-color: #52525b !important;
+    color: #ededed !important;
+}
+
+html:not([data-theme="light"]) .wizard-step-btn.is-active,
+html[data-theme="dark"] .wizard-step-btn.is-active {
+    background: #27272a !important;
+    border-color: #9ca3af !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 14px rgba(156, 163, 175, 0.2) !important;
+}
+
+/* Hero Controls */
+html:not([data-theme="light"]) .hero-slider__controls button,
+html[data-theme="dark"] .hero-slider__controls button {
+    background: #111111 !important;
+    border: 1px solid #262626 !important;
+    color: #d1d5db !important;
+}
+
+html:not([data-theme="light"]) .hero-slider__controls button:hover,
+html[data-theme="dark"] .hero-slider__controls button:hover {
+    background: #27272a !important;
+    border-color: #71717a !important;
+    color: #ffffff !important;
+}
+
+html:not([data-theme="light"]) .hero-slider__indicators button.is-active,
+html[data-theme="dark"] .hero-slider__indicators button.is-active {
+    background: #9ca3af !important;
+}
+
+/* Management Tables & Modals */
+html:not([data-theme="light"]) .mgmt-table th,
+html[data-theme="dark"] .mgmt-table th {
+    background: #0a0a0a !important;
+    color: #9ca3af !important;
+    border-bottom: 2px solid #262626 !important;
+}
+
+html:not([data-theme="light"]) .mgmt-table td,
+html[data-theme="dark"] .mgmt-table td {
+    background: #0d0d0d !important;
+    color: #d1d5db !important;
+    border-bottom: 1px solid #1a1a1a !important;
+}
+
+html:not([data-theme="light"]) .mgmt-table tr:hover td,
+html[data-theme="dark"] .mgmt-table tr:hover td {
+    background: #18181b !important;
+}
+
+html:not([data-theme="light"]) .mgmt-modal__dialog,
+html[data-theme="dark"] .mgmt-modal__dialog {
+    background: #0f0f0f !important;
+    border: 1px solid #2e2e2e !important;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8) !important;
+    color: #d1d5db !important;
 }
 
 /* =========================================

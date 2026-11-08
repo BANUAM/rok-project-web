@@ -9,7 +9,7 @@
     position: relative;
     width: 100%;
     min-height: 82vh;
-    background: #06080c;
+    background: #050505;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -53,7 +53,7 @@
     position: absolute;
     inset: 0;
     z-index: 2;
-    background: linear-gradient(90deg, rgba(7, 9, 13, 0.95) 0%, rgba(7, 9, 13, 0.7) 45%, rgba(7, 9, 13, 0.3) 100%);
+    background: linear-gradient(90deg, rgba(5, 5, 5, 0.96) 0%, rgba(5, 5, 5, 0.72) 45%, rgba(5, 5, 5, 0.3) 100%);
 }
 
 .hero-slide__content {
@@ -78,7 +78,7 @@
     font-size: clamp(38px, 6vw, 72px);
     font-weight: 900;
     text-transform: uppercase;
-    color: #ffffff;
+    color: #ededed;
     line-height: 1.05;
     letter-spacing: 2px;
     margin-bottom: 20px;
@@ -87,7 +87,7 @@
 
 .hero-slide__description {
     font-size: 18px;
-    color: #cbd5e1;
+    color: #d1d5db;
     line-height: 1.6;
     margin-bottom: 36px;
     max-width: 650px;
@@ -115,29 +115,32 @@
 }
 
 .hero-button--primary {
-    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 55%, #94a3b8 100%);
-    color: #07090e !important;
+    background: linear-gradient(135deg, #3f3f46 0%, #27272a 55%, #18181b 100%);
+    color: #ededed !important;
     font-weight: 800;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 4px 20px var(--rok-gold-glow);
+    border: 1px solid #52525b;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .hero-button--primary:hover {
-    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+    background: linear-gradient(135deg, #52525b 0%, #3f3f46 100%);
+    border-color: #9ca3af;
+    color: #ffffff !important;
     transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(226, 232, 240, 0.35);
+    box-shadow: 0 6px 25px rgba(156, 163, 175, 0.25);
 }
 
 .hero-button--secondary {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid #3f3f46;
+    color: #d1d5db !important;
     backdrop-filter: blur(8px);
 }
 
 .hero-button--secondary:hover {
-    background: rgba(255, 255, 255, 0.18);
-    border-color: #ffffff;
+    background: #27272a;
+    border-color: #71717a;
+    color: #ffffff !important;
 }
 
 .hero-slider__controls {
@@ -223,7 +226,7 @@
 }
 
 .division-card {
-    background: #10141d;
+    background: #0d0d0d;
     border: 1px solid var(--rok-surface-border);
     border-radius: var(--radius-md);
     padding: 32px;
@@ -239,15 +242,16 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, transparent, var(--rok-gold), transparent);
+    background: linear-gradient(90deg, transparent, #52525b, transparent);
     opacity: 0;
     transition: opacity 300ms ease;
 }
 
 .division-card:hover {
-    border-color: var(--rok-gold);
+    border-color: #6b7280;
+    background: #141414;
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
 .division-card:hover::before {
@@ -279,11 +283,11 @@
     font-size: 26px;
     font-weight: 800;
     margin-bottom: 10px;
-    color: #ffffff;
+    color: #ededed;
 }
 
 .division-card__desc {
-    color: #94a3b8;
+    color: #d1d5db;
     font-size: 14px;
     line-height: 1.6;
     margin-bottom: 24px;
@@ -294,10 +298,10 @@
     align-items: center;
     justify-content: space-between;
     padding: 14px 18px;
-    background: #090b10;
+    background: #080808;
     border-radius: var(--radius-sm);
     margin-bottom: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid #262626;
 }
 
 .roster-count strong {
@@ -314,14 +318,14 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: #1e2433;
-    border: 2px solid #090b10;
+    background: #181818;
+    border: 2px solid #080808;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 10px;
     font-weight: 800;
-    color: var(--rok-gold);
+    color: #d1d5db;
 }
 
 .btn-card-link {
@@ -350,23 +354,24 @@
 }
 
 .achievement-card {
-    background: #10141d;
+    background: #0d0d0d;
     border: 1px solid var(--rok-surface-border);
     border-radius: var(--radius-md);
     overflow: hidden;
-    transition: transform var(--transition-base), border-color var(--transition-base);
+    transition: transform var(--transition-base), border-color var(--transition-base), background var(--transition-base);
 }
 
 .achievement-card:hover {
     transform: translateY(-4px);
-    border-color: var(--rok-gold);
+    border-color: #6b7280;
+    background: #141414;
 }
 
 .achievement-card__media {
     position: relative;
     width: 100%;
     height: 200px;
-    background: #090b10;
+    background: #050505;
 }
 
 .achievement-card__img {
@@ -380,7 +385,7 @@
     top: 14px;
     right: 14px;
     padding: 4px 10px;
-    background: rgba(11, 14, 20, 0.85);
+    background: rgba(13, 13, 13, 0.88);
     border: 1px solid var(--rok-gold);
     color: var(--rok-gold);
     font-family: var(--font-sub);
@@ -407,13 +412,14 @@
 .achievement-card__title {
     font-size: 20px;
     font-weight: 700;
-    color: #ffffff;
+    color: #ededed;
     margin-bottom: 10px;
     line-height: 1.3;
 }
 
 .achievement-card__caption {
     font-size: 13px;
+    color: #d1d5db;
     color: #94a3b8;
     line-height: 1.5;
 }
@@ -436,7 +442,7 @@
     position: relative;
     width: 100%;
     padding-bottom: 56.25%; /* 16:9 */
-    background: #090b10;
+    background: #050505;
     border: 1px solid var(--rok-surface-border);
     border-radius: var(--radius-md);
     overflow: hidden;
@@ -456,7 +462,7 @@
     top: 12px;
     left: 12px;
     padding: 4px 10px;
-    background: rgba(11, 14, 20, 0.85);
+    background: rgba(13, 13, 13, 0.88);
     border: 1px solid var(--rok-gold);
     color: var(--rok-gold);
     font-family: var(--font-sub);
@@ -485,9 +491,9 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: rgba(212, 175, 55, 0.15);
-    border: 1px solid var(--rok-gold);
-    color: var(--rok-gold);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #52525b;
+    color: #d1d5db;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -499,13 +505,13 @@
 
 .feature-item__text strong {
     display: block;
-    color: #ffffff;
+    color: #ededed;
     font-size: 16px;
     margin-bottom: 2px;
 }
 
 .feature-item__text p {
-    color: #94a3b8;
+    color: #d1d5db;
     font-size: 14px;
     line-height: 1.4;
 }
@@ -530,7 +536,7 @@
 }
 
 .bracket-stage-card {
-    background: #0f131c;
+    background: #0d0d0d;
     border: 1px solid var(--rok-surface-border);
     border-radius: var(--radius-lg);
     padding: 36px;
@@ -580,11 +586,11 @@
     color: var(--rok-silver);
     text-align: center;
     padding-bottom: 8px;
-    border-bottom: 1px solid #1c2230;
+    border-bottom: 1px solid #262626;
 }
 
 .matchup-box {
-    background: #151a24;
+    background: #0f0f0f;
     border: 1px solid var(--rok-surface-border);
     border-radius: var(--radius-sm);
     overflow: hidden;
@@ -603,9 +609,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 14px;
-    border-bottom: 1px solid #1e2433;
+    border-bottom: 1px solid #1a1a1a;
     font-size: 14px;
-    color: #94a3b8;
+    color: #d1d5db;
 }
 
 .team-slot:last-child {
@@ -637,8 +643,9 @@
 .match-badge {
     font-size: 10px;
     padding: 2px 6px;
-    background: var(--rok-gold);
-    color: #0b0e14;
+    background: #27272a;
+    color: #e5e7eb;
+    border: 1px solid #52525b;
     border-radius: 2px;
     font-weight: 800;
 }
@@ -647,15 +654,15 @@
     text-align: center;
     font-size: 11px;
     font-weight: 800;
-    color: var(--rok-muted-light);
+    color: #9ca3af;
     padding: 4px 0;
-    background: #11151e;
+    background: #080808;
 }
 
 .champ-crown-box {
     margin-top: 70px;
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%);
-    border: 1px solid var(--rok-gold);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid #3f3f46;
     border-radius: var(--radius-sm);
     padding: 20px;
     text-align: center;
@@ -686,7 +693,7 @@
 
 .membership-hint p {
     font-size: 13px;
-    color: #8f96a3;
+    color: #9ca3af;
     max-width: 580px;
     margin-top: 4px;
 }
@@ -695,11 +702,11 @@
    06. TRIAL CTA SECTION
 ----------------------------------------- */
 .trial-banner-card {
-    background: linear-gradient(135deg, #141822 0%, #0b0e14 100%);
-    border: 1px solid var(--rok-gold);
+    background: linear-gradient(135deg, #111111 0%, #050505 100%);
+    border: 1px solid #3f3f46;
     border-radius: var(--radius-lg);
     padding: 60px 40px;
-    box-shadow: 0 10px 40px var(--rok-gold-glow);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
     text-align: center;
 }
 
@@ -707,7 +714,7 @@
     font-size: clamp(32px, 5vw, 54px);
     font-weight: 900;
     text-transform: uppercase;
-    color: #ffffff;
+    color: #ededed;
     line-height: 1.1;
     margin: 12px 0 20px 0;
 }
@@ -716,7 +723,7 @@
     max-width: 760px;
     margin: 0 auto 40px auto;
     font-size: 16px;
-    color: #cbd5e1;
+    color: #d1d5db;
     line-height: 1.6;
 }
 
