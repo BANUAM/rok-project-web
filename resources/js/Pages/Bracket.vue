@@ -110,13 +110,13 @@ onMounted(() => {
             <!-- PAGINATED BRACKET GENERATOR WIZARD -->
             <section class="bracket-generator-section" style="padding-top: 10px;">
                 <div class="site-container" style="max-width: 1000px; margin: 0 auto;">
-                    <!-- Pagination Step Indicators -->
-                    <div class="wizard-steps-bar" style="display: flex; justify-content: center; gap: 16px; margin-bottom: 30px;">
+                    <!-- Pagination Step Indicators (Minimal Modern Tabs) -->
+                    <div class="wizard-steps-bar" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 24px;">
                         <button
                             type="button"
                             class="wizard-step-btn"
                             :class="{ 'is-active': currentStep === 1 }"
-                            style="padding: 8px 18px; border-radius: 999px; border: 1px solid var(--rok-surface-border); background: var(--rok-surface-card); color: var(--rok-text-secondary); cursor: pointer; font-size: 13px; font-weight: 600;"
+                            style="padding: 7px 16px; border-radius: 6px; border: 1px solid var(--rok-surface-border); background: var(--rok-surface-card); color: var(--rok-text-secondary); cursor: pointer; font-size: 12px; font-weight: 700;"
                             @click="currentStep = 1"
                         >
                             1. Data Turnamen
@@ -125,7 +125,7 @@ onMounted(() => {
                             type="button"
                             class="wizard-step-btn"
                             :class="{ 'is-active': currentStep === 2 }"
-                            style="padding: 8px 18px; border-radius: 999px; border: 1px solid var(--rok-surface-border); background: var(--rok-surface-card); color: var(--rok-text-secondary); cursor: pointer; font-size: 13px; font-weight: 600;"
+                            style="padding: 7px 16px; border-radius: 6px; border: 1px solid var(--rok-surface-border); background: var(--rok-surface-card); color: var(--rok-text-secondary); cursor: pointer; font-size: 12px; font-weight: 700;"
                             @click="currentStep = 2"
                         >
                             2. Daftar Tim &amp; Kontak
@@ -134,7 +134,7 @@ onMounted(() => {
                             type="button"
                             class="wizard-step-btn"
                             :class="{ 'is-active': currentStep === 3 }"
-                            style="padding: 8px 18px; border-radius: 999px; border: 1px solid var(--rok-surface-border); background: var(--rok-surface-card); color: var(--rok-text-secondary); cursor: pointer; font-size: 13px; font-weight: 600;"
+                            style="padding: 7px 16px; border-radius: 6px; border: 1px solid var(--rok-surface-border); background: var(--rok-surface-card); color: var(--rok-text-secondary); cursor: pointer; font-size: 12px; font-weight: 700;"
                             @click="currentStep = 3"
                         >
                             3. Live Bagan Pertandingan

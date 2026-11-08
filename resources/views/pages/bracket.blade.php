@@ -88,11 +88,11 @@
                 </div>
                 <div class="branding-action">
                     @if(Auth::check() && Auth::user()->hasBracketAccess())
-                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold">
+                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold" style="border-radius: 6px; padding: 10px 22px;">
                             Masuk Bracket Studio
                         </a>
                     @else
-                        <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="btn-rok btn-rok--gold">
+                        <a href="{{ route('membership.payment', ['plan' => 'challenger']) }}" class="btn-rok btn-rok--gold" style="border-radius: 6px; padding: 10px 22px;">
                             Buka Fitur Bracket
                         </a>
                     @endif

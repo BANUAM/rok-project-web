@@ -195,7 +195,7 @@
                 </div>
 
                 <div class="wizard-actions-bar wizard-actions-bar--right-only">
-                    <button type="button" class="btn-rok btn-rok--gold" id="btnWizardNext1" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 24px; font-size: 13px; font-weight: 800; box-shadow: 0 4px 14px rgba(251,191,36,0.3);">
+                    <button type="button" class="btn-rok btn-rok--gold" id="btnWizardNext1" style="border-radius: 6px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 24px; font-size: 13px; font-weight: 800; box-shadow: 0 4px 14px rgba(251,191,36,0.3);">
                         <span>Lanjut ke Daftar Tim &amp; Kontak</span>
                         <i data-lucide="arrow-right" style="width:15px;height:15px;"></i>
                     </button>
@@ -234,17 +234,17 @@
                 </div>
 
                 <div class="wizard-actions-bar">
-                    <button type="button" class="btn-rok btn-rok--outline" id="btnWizardBack1" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; padding: 7px 18px; font-size: 12px; font-weight: 700;">
+                    <button type="button" class="btn-rok btn-rok--outline" id="btnWizardBack1" style="border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; padding: 7px 18px; font-size: 12px; font-weight: 700;">
                         <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
                         <span>Kembali ke Info Turnamen</span>
                     </button>
 
                     <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                        <button type="button" class="btn-rok btn-rok--outline btn-drawing" id="btnReshuffleBracket" title="Acak urutan tim peserta (Drawing Turnamen)" style="border-radius: 999px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; font-size: 12px;">
+                        <button type="button" class="btn-rok btn-rok--outline btn-drawing" id="btnReshuffleBracket" title="Acak urutan tim peserta (Drawing Turnamen)" style="border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; font-size: 12px;">
                             <i data-lucide="shuffle" style="width:14px;height:14px;"></i>
                             <span>Drawing Acak</span>
                         </button>
-                        <button type="button" class="btn-rok btn-rok--gold" id="generateBracketBtn" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 24px; font-size: 13px; font-weight: 800; box-shadow: 0 4px 14px rgba(251,191,36,0.3);">
+                        <button type="button" class="btn-rok btn-rok--gold" id="generateBracketBtn" style="border-radius: 6px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 24px; font-size: 13px; font-weight: 800; box-shadow: 0 4px 14px rgba(251,191,36,0.3);">
                             <i data-lucide="sparkles" style="width:15px;height:15px;"></i>
                             <span>Generate &amp; Buat Bagan</span>
                             <i data-lucide="arrow-right" style="width:15px;height:15px;"></i>
@@ -423,14 +423,14 @@
                     </div>
                 </div>
 
-                <div class="generator-actions" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: flex-end; margin-top: 14px; padding-top: 12px;">
-                    <button type="button" class="btn-rok btn-rok--outline btn-drawing" id="btnReshuffleBracket" title="Acak urutan tim peserta (Drawing Turnamen)" style="border-radius: 999px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; font-size: 12px; height: 34px;">
+                <div class="generator-actions" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: flex-end; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                    <button type="button" class="btn-rok btn-rok--outline btn-drawing" id="btnReshuffleBracket" title="Acak urutan tim peserta (Drawing Turnamen)" style="border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; font-size: 12px; height: 34px;">
                         <i data-lucide="shuffle" style="width:13px;height:13px;"></i> Drawing Acak
                     </button>
-                    <button type="button" class="btn-rok btn-rok--outline btn-reset-scores" id="resetScoresBtn" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; font-size: 12px; height: 34px;">
+                    <button type="button" class="btn-rok btn-rok--outline btn-reset-scores" id="resetScoresBtn" style="border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; font-size: 12px; height: 34px;">
                         <i data-lucide="rotate-ccw" style="width:13px;height:13px;"></i> Reset Skor
                     </button>
-                    <button type="button" class="btn-rok btn-rok--gold" id="generateBracketBtn" style="border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 20px; font-size: 12px; font-weight: 800; height: 34px; box-shadow: 0 2px 12px rgba(251,191,36,0.25);">
+                    <button type="button" class="btn-rok btn-rok--gold" id="generateBracketBtn" style="border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; padding: 7px 20px; font-size: 12px; font-weight: 800; height: 34px; box-shadow: 0 2px 10px rgba(251,191,36,0.25);">
                         <i data-lucide="sparkles" style="width:13px;height:13px;"></i> Generate &amp; Simpan
                     </button>
                 </div>
@@ -685,7 +685,7 @@
 
             const item = document.createElement('div');
             item.className = 'team-input-item';
-            item.style.cssText = 'position:relative;display:flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px 3px 8px;height:38px;box-sizing:border-box;transition:all 0.15s ease;';
+            item.style.cssText = 'position:relative;display:flex;align-items:center;gap:6px;border-radius:6px;padding:3px 10px 3px 8px;height:38px;box-sizing:border-box;transition:all 0.15s ease;';
 
             const seedBadge = document.createElement('span');
             seedBadge.className = 'seed-badge';
@@ -697,13 +697,13 @@
             logoBtn.className = 'team-input-logo-btn';
             logoBtn.dataset.seed = seed;
             logoBtn.title = HAS_LOGO_ACCESS ? 'Ganti Logo Tim' : 'Aktifkan ROK Challenger / Immortal untuk kustomisasi logo';
-            logoBtn.style.cssText = 'width:24px;height:24px;border-radius:50%;padding:0;cursor:pointer;flex-shrink:0;overflow:hidden;';
+            logoBtn.style.cssText = 'width:22px;height:22px;border-radius:4px;padding:0;cursor:pointer;flex-shrink:0;overflow:hidden;border:1px solid rgba(255,255,255,0.15);';
 
             const logoImg = document.createElement('img');
             logoImg.src = logoVal;
             logoImg.alt = nameVal;
             logoImg.id = `team_logo_preview_${i}`;
-            logoImg.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+            logoImg.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;border-radius:4px;';
             logoImg.onerror = () => { logoImg.src = presetLogos[0]; };
             logoBtn.appendChild(logoImg);
 
