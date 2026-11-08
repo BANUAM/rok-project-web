@@ -16,8 +16,7 @@ const props = defineProps({
 });
 
 const currentSlide = ref(0);
-const progressBarRef = ref(null);
-const { animateSplitText, animateHeroEntrance, bindSpringHover, animateStaggerFadeIn, initScrollProgress } = useRokAnimations();
+const { animateSplitText, animateHeroEntrance, bindSpringHover, animateStaggerFadeIn } = useRokAnimations();
 
 const nextSlide = () => {
     if (!props.heroSlides.length) return;
@@ -43,10 +42,6 @@ const animateCurrentSlideHeadline = () => {
 };
 
 onMounted(() => {
-    if (progressBarRef.value) {
-        initScrollProgress(progressBarRef.value);
-    }
-
     animateHeroEntrance('.hero-title-text', '.hero-subtitle-text', '.hero-action-buttons');
     animateStaggerFadeIn('.division-card', 0.06);
 
@@ -64,9 +59,6 @@ onMounted(() => {
             <title>ROK Revamp | Ruler Of Kings</title>
             <meta name="description" content="Ruler Of Kings (ROK) — Competitive Esports Organization focused on competition, development, discipline and unity." />
         </Head>
-
-        <!-- Kinetic Scroll Progress Indicator (Motion One) -->
-        <div ref="progressBarRef" class="scroll-progress-bar" style="position: fixed; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #d4af37, #f59e0b, #cbd5e1); transform-origin: 0%; z-index: 9999;"></div>
 
         <!-- HERO SLIDER SECTION -->
         <section class="hero-slider" id="heroSlider" aria-roledescription="carousel">

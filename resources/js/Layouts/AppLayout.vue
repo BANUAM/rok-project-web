@@ -1,21 +1,28 @@
 <script setup>
-import { onMounted, watch } from 'vue';
+import { onMounted, watch, nextTick } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import Navbar from '@/Components/Navbar.vue';
 import Footer from '@/Components/Footer.vue';
+import { initAllRokAnimations } from '@/animations/rokPageAnimations';
 
 const page = usePage();
 
 onMounted(() => {
     window.renderLucideIcons && window.renderLucideIcons();
+    nextTick(() => {
+        initAllRokAnimations();
+    });
 });
 
 watch(
     () => page.url,
     () => {
-        setTimeout(() => {
+        nextTick(() => {
             window.renderLucideIcons && window.renderLucideIcons();
-        }, 50);
+            setTimeout(() => {
+                initAllRokAnimations();
+            }, 60);
+        });
     }
 );
 </script>

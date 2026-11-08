@@ -1,21 +1,23 @@
 import { createApp, h } from 'vue';
-import { createInertiaApp, Head, Link } from '@inertiajs/vue3';
+import { createInertiaApp, Head, Link, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createIcons, icons } from 'lucide';
 import gsap from 'gsap';
 import { animate, scroll } from 'motion';
 import SplitType from 'split-type';
+import { initAllRokAnimations } from './animations/rokPageAnimations';
 
 // Legacy script imports for Blade compatibility
 import './header.js';
 import './hero-slider.js';
 import './hero-section-two.js';
 
-// Global access to animation engines
+// Global access to animation engines & helpers
 window.gsap = gsap;
 window.motionAnimate = animate;
 window.motionScroll = scroll;
 window.SplitType = SplitType;
+window.initAllRokAnimations = initAllRokAnimations;
 
 // Lucide Icons initialization
 window.lucide = {
@@ -67,7 +69,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.renderLucideIcons();
+
+    // Trigger animations on initial Blade / full-page load
+    setTimeout(() => {
+        initAllRokAnimations();
+    }, 60);
 });
+
+// Re-initialize animations and icons on Inertia client-side page transitions
+if (typeof router !== 'undefined' && router.on) {
+    router.on('navigate', () => {
+        window.renderLucideIcons();
+        setTimeout(() => {
+            initAllRokAnimations();
+        }, 80);
+    });
+}
 
 // Inertia Mount
 const appEl = document.getElementById('app');

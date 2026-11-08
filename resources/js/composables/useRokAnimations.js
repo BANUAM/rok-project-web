@@ -1,7 +1,14 @@
 import { onUnmounted, nextTick } from 'vue';
 import gsap from 'gsap';
-import { animate, scroll, spring } from 'motion';
+import { animate, scroll, inView, spring } from 'motion';
 import SplitType from 'split-type';
+import {
+    initAllRokAnimations,
+    initScrollProgressBar,
+    initPageEntranceAnimation,
+    initScrollDrivenAnimations,
+    initSpringHoverEffects,
+} from '@/animations/rokPageAnimations';
 
 /**
  * Precision Animation Composable for Ruler Of Kings
@@ -177,9 +184,16 @@ export function useRokAnimations() {
         bindSpringHover,
         animateStaggerFadeIn,
         initScrollProgress,
+        initAllRokAnimations,
+        initScrollProgressBar,
+        initPageEntranceAnimation,
+        initScrollDrivenAnimations,
+        initSpringHoverEffects,
         gsap,
         animate,
         scroll,
+        inView,
+        spring,
         SplitType,
     };
 }
