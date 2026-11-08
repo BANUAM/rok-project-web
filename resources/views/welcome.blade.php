@@ -112,10 +112,13 @@
     {{-- 05. BRACKET SECTION --}}
     @include('components.home.bracket-preview')
 
-    {{-- 06. TRIAL CTA SECTION --}}
+    {{-- 06. MEMBERSHIP TIERS SECTION --}}
+    @include('components.home.membership-preview')
+
+    {{-- 07. TRIAL CTA SECTION --}}
     @include('components.home.trial-cta')
 
-    {{-- 07. PARTNERS & SPONSORS SECTION --}}
+    {{-- 08. PARTNERS & SPONSORS SECTION --}}
     @include('components.home.partners-preview')
 
 @endsection

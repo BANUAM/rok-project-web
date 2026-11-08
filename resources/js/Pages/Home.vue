@@ -12,6 +12,7 @@ const props = defineProps({
     partners: { type: Array, default: () => [] },
     demoTournament: { type: Object, default: () => null },
     leadership: { type: Array, default: () => [] },
+    membershipPlans: { type: Array, default: () => [] },
 });
 
 const currentSlide = ref(0);
@@ -280,6 +281,65 @@ onMounted(() => {
 
                     <div class="bracket-stage-footer" style="padding: 24px; text-align: center;">
                         <Link href="/bracket" class="btn-rok btn-rok--gold">Buka Fitur Bracket Turnamen &rarr;</Link>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ORGANIZER MEMBERSHIP TIERS SECTION -->
+        <section class="home-section membership-preview-section" id="membershipTiers" aria-labelledby="membershipHeading">
+            <div class="home-section__inner">
+                <header class="section-header" style="text-align: center; margin-bottom: 40px;">
+                    <h2 class="section-title" id="membershipHeading">PAKET AKSES &amp; KEANGGOTAAN ORGANIZER</h2>
+                    <p class="section-description" style="max-width: 720px; margin: 0 auto;">
+                        Tingkatkan kualitas turnamen Anda dengan akses halaman khusus <strong>Bracket Studio</strong>, logo tim interaktif dengan tautan WhatsApp &amp; poin pertandingan, serta kurikulum taktik pro esports Ruler of Kings.
+                    </p>
+                </header>
+
+                <div class="membership-pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                    <div
+                        v-for="plan in membershipPlans"
+                        :key="plan.id"
+                        class="pricing-card"
+                        :class="{ 'pricing-card--featured': plan.slug === 'immortal' || plan.is_featured }"
+                        style="background: var(--rok-card-bg, #111622); border: 1px solid var(--rok-surface-border); border-radius: var(--radius-md); padding: 32px; display: flex; flex-direction: column; justify-content: space-between;"
+                    >
+                        <div>
+                            <div class="pricing-header" style="margin-bottom: 16px;">
+                                <span class="pricing-badge" style="font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--rok-gold); display: inline-block; margin-bottom: 4px;">{{ plan.badge_title || plan.name }}</span>
+                                <h3 class="pricing-title" style="font-size: 24px; font-weight: 800; margin: 6px 0;">{{ plan.name }}</h3>
+                                <p class="pricing-sub" style="font-size: 13px; color: var(--rok-text-muted); line-height: 1.5; margin: 0;">{{ plan.description }}</p>
+                            </div>
+
+                            <div style="margin: 16px 0; padding: 12px 0; border-top: 1px solid var(--rok-surface-border); border-bottom: 1px solid var(--rok-surface-border);">
+                                <div style="font-size: 28px; font-weight: 900; font-family: var(--font-sub);">
+                                    Rp {{ Number(plan.price).toLocaleString('id-ID') }}
+                                    <span style="font-size: 13px; font-weight: 600; color: var(--rok-text-muted); font-family: var(--font-main);">/ {{ plan.duration_days ? plan.duration_days + ' hari' : 'bulan' }}</span>
+                                </div>
+                            </div>
+
+                            <ul class="pricing-features" style="list-style: none; padding: 0; margin: 0 0 24px 0; font-size: 13px; color: var(--rok-text-secondary); display: grid; gap: 10px;">
+                                <li
+                                    v-for="(feature, fIdx) in (plan.features || [])"
+                                    :key="fIdx"
+                                    style="display: flex; gap: 8px; align-items: flex-start;"
+                                >
+                                    <span style="color: #4ade80; font-weight: bold; flex-shrink: 0;"><i data-lucide="check" style="width:14px;height:14px;"></i></span>
+                                    <span>{{ feature }}</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="pricing-footer">
+                            <Link
+                                :href="'/membership/payment?plan=' + plan.slug"
+                                class="btn-rok btn-rok--full"
+                                :class="plan.slug === 'challenger' ? 'btn-rok--gold' : 'btn-rok--outline'"
+                                style="text-align: center; text-decoration: none;"
+                            >
+                                {{ plan.slug === 'challenger' ? 'Buka Fitur Bracket' : (plan.slug === 'immortal' ? 'Pilih Paket Immortal' : 'Pelajari Akses') }}
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

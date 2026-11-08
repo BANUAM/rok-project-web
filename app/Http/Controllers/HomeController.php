@@ -6,6 +6,7 @@ use App\Models\Achievement;
 use App\Models\Division;
 use App\Models\HeroSlide;
 use App\Models\LearningModule;
+use App\Models\MembershipPlan;
 use App\Models\Partner;
 use App\Models\TeamMember;
 use App\Models\Tournament;
@@ -60,6 +61,11 @@ class HomeController extends Controller
             ->orderBy('id')
             ->get();
 
+        $membershipPlans = MembershipPlan::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+
         $data = compact(
             'heroSlides',
             'divisions',
@@ -67,7 +73,8 @@ class HomeController extends Controller
             'modules',
             'demoTournament',
             'partners',
-            'teamMembers'
+            'teamMembers',
+            'membershipPlans'
         );
 
         if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {

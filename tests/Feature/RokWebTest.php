@@ -45,6 +45,10 @@ class RokWebTest extends TestCase
         $response->assertSee('PRESTASI &amp; KEJAYAAN', false);
         $response->assertSee('LEARNING');
         $response->assertSee('BUILD. COMPETE. CONQUER.');
+        $response->assertSee('PAKET AKSES &amp; KEANGGOTAAN ORGANIZER', false);
+        $response->assertSee('ROK Learning');
+        $response->assertSee('ROK Challenger');
+        $response->assertSee('ROK Immortal');
         $response->assertSee('SIAP JADI BAGIAN DARI');
         $response->assertSee('OFFICIAL PARTNERS &amp; SPONSORS', false);
         $response->assertSee('Ruler of Kings');
@@ -68,15 +72,15 @@ class RokWebTest extends TestCase
         $response->assertSee('National Esports League Season 4');
     }
 
-    public function test_learning_development_page_renders_membership_matrix(): void
+    public function test_learning_development_page_renders(): void
     {
         $response = $this->get('/learning-development');
         $response->assertStatus(200);
         $response->assertSee('LEARNING &amp; DEVELOPMENT', false);
-        $response->assertSee('ROK Learning');
-        $response->assertSee('ROK Challenger');
-        $response->assertSee('ROK Immortal');
-        $response->assertSee('MATRIKS HAK AKSES SISTEM');
+        $response->assertSee('MODUL PEMBELAJARAN STRATEGIS');
+        $response->assertSee('MACRO TEMPO: EARLY GAME DOMINATION');
+        // Membership section removed from learning page (only on home & membership)
+        $response->assertDontSee('PAKET AKSES &amp; KEANGGOTAAN', false);
     }
 
     public function test_bracket_page_renders_simulator_and_tournaments(): void
@@ -445,12 +449,8 @@ class RokWebTest extends TestCase
         $response = $this->get('/bracket');
         $response->assertStatus(200);
 
-        // Membership Tiers Section present on Bracket page
-        $response->assertSee('ROK Learning');
-        $response->assertSee('ROK Challenger');
-        $response->assertSee('ROK Immortal');
-        $response->assertSee('ORGANIZER MEMBERSHIP TIERS');
-        $response->assertSee('Buka Fitur Bracket');
+        // Membership Tiers Section is removed from Bracket page (kept only on Home and Membership)
+        $response->assertDontSee('PAKET AKSES &amp; KEANGGOTAAN ORGANIZER', false);
 
         // Verify format selector options: Round Robin is removed
         $response->assertDontSee('value="round_robin"', false);
@@ -464,6 +464,16 @@ class RokWebTest extends TestCase
         $response->assertSee('Swiss Stage');
         $response->assertSee('Double Elimination');
         $response->assertSee('League System');
+    }
+
+    public function test_membership_page_renders_tiers(): void
+    {
+        $response = $this->get('/membership');
+        $response->assertStatus(200);
+        $response->assertSee('PAKET KEANGGOTAAN EKSKLUSIF');
+        $response->assertSee('ROK Learning');
+        $response->assertSee('ROK Challenger');
+        $response->assertSee('ROK Immortal');
     }
 
     public function test_immortal_account_bracket_studio_realtime_sync_whatsapp_and_theme_toggle(): void
