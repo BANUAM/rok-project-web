@@ -1,7 +1,6 @@
 <section class="home-section teams-preview" id="teamsPreview" aria-labelledby="teamsPreviewTitle">
     <div class="home-section__inner">
         <header class="section-header">
-            <span class="section-badge">ROK TEAMS &amp; ROSTER</span>
             <h2 class="section-title" id="teamsPreviewTitle">DIVISI KOMPETITIF</h2>
             <p class="section-description">
                 Kenali divisi dan atlet profesional Ruler Of Kings yang berjuang membawa panji kerajaan di panggung esports nasional.

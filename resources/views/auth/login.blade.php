@@ -7,8 +7,7 @@
 <div class="page-container" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 60px 20px;">
     <div class="auth-card" style="width: 100%; max-width: 480px; background: var(--rok-card-bg, #111622); border: 1px solid var(--rok-surface-border); border-radius: var(--radius-md); padding: 36px; box-shadow: 0 10px 40px rgba(0,0,0,0.4);">
         <div style="text-align: center; margin-bottom: 24px;">
-            <span class="badge-mini" style="font-size: 11px; letter-spacing: 2px;">AUTHENTICATION</span>
-            <h1 style="font-size: 26px; font-weight: 800; margin: 8px 0 6px 0;">MASUK KE AKUN ROK</h1>
+            <h1 style="font-size: 26px; font-weight: 800; margin: 0 0 6px 0;">MASUK KE AKUN ROK</h1>
             <p style="color: var(--rok-text-muted, #94a3b8); font-size: 14px; margin: 0;">Silakan masuk untuk mengakses <strong>ROK Bracket Studio</strong>, kurikulum akademi, atau mengelola membership Anda.</p>
         </div>
 

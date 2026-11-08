@@ -1,7 +1,6 @@
 <section class="home-section achievements-preview" id="achievementsPreview" aria-labelledby="achievementsTitle">
     <div class="home-section__inner">
         <header class="section-header">
-            <span class="section-badge">HALL OF FAME</span>
             <h2 class="section-title" id="achievementsTitle">PRESTASI &amp; KEJAYAAN</h2>
             <p class="section-description">
                 Jejak pencapaian dan trofi yang membuktikan dedikasi serta konsistensi Ruler Of Kings.

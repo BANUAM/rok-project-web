@@ -13,7 +13,6 @@
             </div>
         @endif
         <div class="page-hero__inner">
-            <span class="section-badge">ROK ACADEMY &amp; DEVELOPMENT</span>
             <h1 class="page-title">{{ $pageHeader?->title ?? 'LEARNING & DEVELOPMENT' }}</h1>
             <p class="page-subtitle">
                 {{ $pageHeader?->subtitle ?? 'Tingkatkan penguasaan mikro dan strategi makro kamu melalui modul eksklusif, analisis pertandingan, dan materi kurikulum yang disusun oleh pelatih serta analis pro ROK.' }}
@@ -36,7 +35,6 @@
                     </iframe>
                 </div>
                 <div class="featured-video-desc">
-                    <span class="badge-mini">FEATURED LESSON &bull; FREE PREVIEW</span>
                     <h2>MACRO TEMPO: EARLY GAME DOMINATION</h2>
                     <p>
                         Bedah detail rotasi 90 detik awal dan kontrol vision river. Trik membaca rute jungler lawan dan mengeksekusi dive turret dengan aman.
@@ -55,7 +53,6 @@
     <section class="curriculum-section">
         <div class="section-inner">
             <header class="section-header">
-                <span class="section-badge">CURRICULUM</span>
                 <h2 class="section-title">MODUL PEMBELAJARAN STRATEGIS</h2>
                 <p class="section-description">
                     Materi terstruktur yang mengasah pemahaman taktik dari fase drafting hingga perebutan objektif late game.
@@ -138,7 +135,6 @@
     <section class="membership-section" id="membership">
         <div class="section-inner">
             <header class="section-header">
-                <span class="section-badge">MEMBERSHIP TIERS</span>
                 <h2 class="section-title">PAKET AKSES &amp; KEANGGOTAAN</h2>
                 <p class="section-description">
                     Dapatkan akses penuh ke modul pembelajaran, fitur branding turnamen, dan dukungan komunitas eksklusif.

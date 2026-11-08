@@ -7,9 +7,6 @@
 <div class="page-container">
     <section class="page-hero">
         <div class="page-hero__inner">
-            <span class="section-badge" style="color: #4ade80; border-color: rgba(74, 222, 128, 0.4); background: rgba(74, 222, 128, 0.1);">
-                &check; AKSESTAHAP LANJUTAN RESMI
-            </span>
             <h1 class="page-title">SELAMAT DATANG DI SESI LANJUTAN</h1>
             <p class="page-subtitle">
                 Anda telah berhasil melewati seleksi awal dan tes LSM. Silakan simak informasi teknis dan jadwal tahapan uji tanding (scrim) serta wawancara di bawah.

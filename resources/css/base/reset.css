@@ -268,18 +268,7 @@ img {
 }
 
 .section-badge {
-    display: inline-block;
-    padding: 4px 14px;
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid var(--rok-gold);
-    color: var(--rok-gold);
-    font-family: var(--font-sub);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    border-radius: var(--radius-sm);
-    margin-bottom: 12px;
+    display: none !important;
 }
 
 .badge-mini {

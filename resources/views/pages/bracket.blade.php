@@ -13,7 +13,6 @@
             </div>
         @endif
         <div class="page-hero__inner">
-            <span class="section-badge">TOURNAMENT ENGINE</span>
             <h1 class="page-title">{{ $pageHeader?->title ?? 'BUILD. COMPETE. CONQUER.' }}</h1>
             <p class="page-subtitle-gold">
                 Your Tournament. Your Bracket. Your Champion.
@@ -62,7 +61,6 @@
     <section class="generator-tool-section" id="generatorTool">
         <div class="section-inner">
             <header class="section-header" style="margin-bottom: 24px;">
-                <span class="section-badge">SIMULATOR ENGINE</span>
                 <h2 class="section-title">BUAT BAGAN TURNAMEN SENDIRI</h2>
             </header>
 
@@ -80,7 +78,7 @@
     <section class="membership-section" id="membership-tiers" style="padding: 60px 0;">
         <div class="section-inner">
             <header class="section-header" style="text-align: center; margin-bottom: 40px;">
-                <span class="section-badge" style="letter-spacing: 2px;">ORGANIZER MEMBERSHIP TIERS</span>
+                <span class="sr-only" aria-hidden="true">ORGANIZER MEMBERSHIP TIERS</span>
                 <h2 class="section-title">PAKET AKSES &amp; KEANGGOTAAN ORGANIZER</h2>
                 <p class="section-description" style="max-width: 700px; margin: 0 auto;">
                     Tingkatkan kualitas turnamen Anda dengan akses halaman khusus <strong>Bracket Studio</strong>, logo tim interaktif dengan tautan WhatsApp &amp; poin pertandingan, serta kurikulum taktik pro esports Ruler of Kings.
@@ -134,7 +132,6 @@
             {{-- Organizer Branding Highlight Box --}}
             <div class="branding-card-box" style="margin-top: 30px;">
                 <div class="branding-content">
-                    <span class="badge-mini">ORGANIZER MEMBERSHIP PRIVILEGES</span>
                     <h3>Ingin Menggunakan Logo Tim Resmi, Popover WhatsApp + Poin &amp; Halaman Khusus Bracket Studio?</h3>
                     <p>
                         Free Organizer dapat membuat bagan pertandingan standar dan menghubungi WhatsApp lawan. Untuk membuka halaman khusus <strong>ROK Bracket Studio</strong>, mengganti logo tim resmi yang bisa diklik untuk menampilkan <strong>Poin Pertandingan &amp; Kontak WhatsApp</strong>, serta membuat turnamen live tak terbatas, aktifkan paket <strong>ROK Challenger</strong> atau <strong>ROK Immortal</strong>.

@@ -7,7 +7,6 @@
 <div class="page-container">
     <section class="page-hero">
         <div class="page-hero__inner">
-            <span class="section-badge">TAHAP 02 &bull; PROFIL &amp; BERKAS</span>
             <h1 class="page-title">FORMULIR IDENTITAS LENGKAP</h1>
             <p class="page-subtitle">
                 Halo, <strong>{{ $candidate->name }}</strong>. Silakan lengkapi data diri dan unggah tangkapan layar bukti permainan Mobile Legends kamu.

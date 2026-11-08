@@ -7,7 +7,6 @@
 <div class="page-container">
     <section class="page-hero">
         <div class="page-hero__inner">
-            <span class="section-badge">TAHAP 03 &bull; EVALUASI LSM ONLINE</span>
             <h1 class="page-title">{{ $lsm->title }}</h1>
             <p class="page-subtitle">
                 {{ $lsm->description }}

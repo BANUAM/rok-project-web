@@ -11,7 +11,6 @@
 <div class="page-container">
     <section class="page-hero">
         <div class="page-hero__inner">
-            <span class="section-badge" style="display:inline-flex;align-items:center;gap:6px;"><i data-lucide="radio" style="width:12px;height:12px;"></i> LIVE REAL-TIME SHARED BRACKET</span>
             <h1 class="page-title">{{ $tournament->name }}</h1>
             <p class="page-subtitle-gold">
                 {{ $tournament->organizer_name }} &bull; Live Sync Aktif

@@ -1,7 +1,6 @@
 <section class="home-section bracket-preview" id="bracketSection" aria-labelledby="bracketHeading">
     <div class="home-section__inner">
         <header class="section-header">
-            <span class="section-badge">TOURNAMENT ENGINE</span>
             <h2 class="section-title" id="bracketHeading">BUILD. COMPETE. CONQUER.</h2>
             <p class="section-subtitle-gold">
                 Your Tournament. Your Bracket. Your Champion.
@@ -114,8 +113,7 @@
 
             <div class="bracket-stage-footer">
                 <div class="membership-hint">
-                    <span class="badge-mini">Organizer Free &amp; Premium</span>
-                    <p>Free Organizer dapat membuat bracket tanpa logo. Upgrade ke ROK Challenger / Immortal untuk kustomisasi logo tim &amp; branding penuh.</p>
+                    <p><strong>Organizer Free &amp; Premium:</strong> Free Organizer dapat membuat bracket tanpa logo. Upgrade ke ROK Challenger / Immortal untuk kustomisasi logo tim &amp; branding penuh.</p>
                 </div>
                 <a href="{{ url('/bracket') }}" class="btn-rok btn-rok--gold">
                     Buka Fitur Bracket Turnamen &rarr;

@@ -1,7 +1,6 @@
 <section class="home-section partners-preview" id="partnersSection" aria-labelledby="partnersHeading">
     <div class="home-section__inner">
         <header class="section-header">
-            <span class="section-badge">COLLABORATION</span>
             <h2 class="section-title" id="partnersHeading">OFFICIAL PARTNERS &amp; SPONSORS</h2>
             <p class="section-description">
                 Didukung oleh brand dan media partner terkemuka yang bersama-sama memajukan ekosistem Ruler Of Kings.

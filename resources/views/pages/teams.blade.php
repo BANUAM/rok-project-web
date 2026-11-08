@@ -14,7 +14,6 @@
             </div>
         @endif
         <div class="page-hero__inner">
-            <span class="section-badge">ORGANIZATIONAL STRUCTURE</span>
             <h1 class="page-title">{{ $pageHeader?->title ?? 'TEAMS & ROSTER' }}</h1>
             <p class="page-subtitle">
                 {{ $pageHeader?->subtitle ?? 'Mengenal kepemimpinan, jajaran manajerial, pelatih, analis, serta atlet profesional di balik kejayaan Ruler Of Kings.' }}
@@ -26,7 +25,6 @@
     <section class="teams-section founders-section" id="founders">
         <div class="section-inner">
             <header class="section-header">
-                <span class="section-badge">LEADERSHIP</span>
                 <h2 class="section-title">THE FOUNDERS</h2>
                 <p class="section-description">
                     Para pendiri yang meletakkan visi dasar dan membangun fondasi kejayaan Ruler Of Kings.
@@ -73,7 +71,6 @@
     <section class="teams-section divisions-section" id="divisions">
         <div class="section-inner">
             <header class="section-header">
-                <span class="section-badge">COMPETITIVE DIVISIONS</span>
                 <h2 class="section-title">STRUKTUR DIVISI &amp; ROSTER AKTIF</h2>
                 <p class="section-description">
                     Hanya atlet yang telah lolos seleksi Trial, evaluasi LSM, dan kontrak resmi yang terdaftar sebagai roster aktif.

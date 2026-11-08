@@ -7,7 +7,6 @@
 <div class="page-container">
     <section class="page-hero">
         <div class="page-hero__inner">
-            <span class="section-badge">STATUS SELEKSI RESMI</span>
             <h1 class="page-title">PROGRESS SELEKSI TRIAL</h1>
             <p class="page-subtitle">
                 Pantau status evaluasi berkas dan penilaian tes LSM kamu secara berkala melalui halaman personal ini.

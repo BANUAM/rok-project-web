@@ -31,11 +31,11 @@
         <div class="page-hero__inner">
             <div style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
                 @if ($isFreeMode)
-                    <span class="section-badge" style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; color: #38bdf8; display:inline-flex; align-items:center; gap:5px;">
+                    <span style="display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:700; color:#38bdf8;">
                         <i data-lucide="gamepad-2" style="width:13px;height:13px;"></i> PORTAL PRA-TURNAMEN (EDISI GRATIS)
                     </span>
                 @else
-                    <span class="section-badge" style="background: rgba(251, 191, 36, 0.15); border: 1px solid var(--rok-gold); color: var(--rok-gold); display:inline-flex; align-items:center; gap:5px;">
+                    <span style="display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:700; color:var(--rok-gold);">
                         <i data-lucide="crown" style="width:13px;height:13px;"></i> PORTAL PRA-TURNAMEN (EDISI MEMBERSHIP)
                     </span>
                 @endif

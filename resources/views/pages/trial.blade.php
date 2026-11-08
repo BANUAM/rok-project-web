@@ -13,7 +13,6 @@
             </div>
         @endif
         <div class="page-hero__inner">
-            <span class="section-badge">PLAYER RECRUITMENT 2026</span>
             <h1 class="page-title">{{ $pageHeader?->title ?? 'ROK TRIAL & SELECTION' }}</h1>
             <p class="page-subtitle">
                 {{ $pageHeader?->subtitle ?? 'Bergabunglah bersama keluarga besar Ruler Of Kings. Proses seleksi terbuka untuk menemukan atlet berpotensi tinggi dengan kedisiplinan dan kecerdasan taktis luar biasa.' }}
@@ -69,7 +68,6 @@
                 {{-- Form Pendaftaran Awal --}}
                 <div class="trial-form-box">
                     <div class="form-header">
-                        <span class="badge-mini">TAHAP 01</span>
                         <h3 class="form-title">PENDAFTARAN AWAL</h3>
                         <p class="form-desc">
                             Calon pemain belum perlu membuat akun permanen. Cukup masukkan nama lengkap dan email aktif untuk membuat token trial pribadimu.

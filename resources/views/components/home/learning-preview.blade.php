@@ -19,7 +19,6 @@
 
             {{-- Copy & Features --}}
             <div class="learning-showcase__content">
-                <span class="section-badge">ROK ACADEMY</span>
                 <h2 class="section-title section-title--left" id="learningTitle">
                     LEARNING<br><span class="text-gold">WITH US</span>
                 </h2>

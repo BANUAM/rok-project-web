@@ -2,7 +2,6 @@
     <div class="home-section__inner">
         <div class="trial-banner-card">
             <div class="trial-banner-card__content">
-                <span class="section-badge">OPEN RECRUITMENT</span>
                 <h2 class="trial-banner-title" id="trialCtaHeading">
                     SIAP JADI BAGIAN DARI<br>
                     <span class="text-gold">RULER OF KINGS?</span>

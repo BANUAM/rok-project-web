@@ -10,8 +10,7 @@
             <i data-lucide="mail" style="width:30px;height:30px;"></i>
         </div>
 
-        <span class="badge-mini" style="font-size: 11px; letter-spacing: 2px;">EMAIL VERIFICATION REQUIRED</span>
-        <h1 style="font-size: 24px; font-weight: 800; color: var(--rok-text-bright); margin: 10px 0 12px 0;">VERIFIKASI EMAIL ANDA</h1>
+        <h1 style="font-size: 24px; font-weight: 800; color: var(--rok-text-bright); margin: 0 0 12px 0;">VERIFIKASI EMAIL ANDA</h1>
 
         <p style="color: var(--rok-text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
             Terima kasih telah mendaftar di <strong>Ruler Of Kings</strong>! Sebelum melanjutkan ke proses pembayaran membership, kami telah mengirimkan tautan verifikasi ke:

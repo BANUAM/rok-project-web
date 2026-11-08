@@ -13,7 +13,6 @@
             </div>
         @endif
         <div class="page-hero__inner">
-            <span class="section-badge">HALL OF FAME</span>
             <h1 class="page-title">{{ $pageHeader?->title ?? 'ACHIEVEMENTS & TROPHIES' }}</h1>
             <p class="page-subtitle">
                 {{ $pageHeader?->subtitle ?? 'Jejak supremasi dan penghargaan resmi yang diraih skuad Ruler Of Kings sepanjang kiprah kompetitif esports.' }}

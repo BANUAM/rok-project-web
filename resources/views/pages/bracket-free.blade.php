@@ -13,7 +13,7 @@
             </div>
         @endif
         <div class="page-hero__inner">
-            <span class="section-badge" style="display:inline-flex;align-items:center;gap:6px;"><i data-lucide="gamepad-2" style="width:13px;height:13px;"></i> FREE TOURNAMENT GENERATOR</span>
+            <span class="sr-only" aria-hidden="true">FREE TOURNAMENT GENERATOR</span>
             <h1 class="page-title">BAGAN TURNAMEN GRATIS</h1>
             <p class="page-subtitle-gold">
                 Buat &amp; Kelola Bagan Pertandingan Komunitas Esports Tanpa Biaya
@@ -60,7 +60,6 @@
     <section class="generator-tool-section" id="generatorTool">
         <div class="section-inner">
             <header class="section-header" style="margin-bottom: 24px;">
-                <span class="section-badge">INTERACTIVE BRACKET</span>
                 <h2 class="section-title">GENERATOR BAGAN TURNAMEN</h2>
             </header>
 
@@ -81,7 +80,6 @@
         <div class="section-inner">
             <div class="branding-card-box">
                 <div class="branding-content">
-                    <span class="badge-mini">ORGANIZER MEMBERSHIP PRIVILEGES</span>
                     <h3>Ingin Mengunggah Logo Tim Sendiri &amp; Akses Halaman Organizer Khusus?</h3>
                     <p>
                         Pada versi gratis ini, semua tim menggunakan emblem standar ROK Web. Untuk membuka fitur unggah logo tim custom, ikon emblem turnamen eksklusif, serta portal manajemen khusus <strong>ROK Bracket Studio</strong>, aktifkan paket keanggotaan <strong>ROK Challenger</strong> atau <strong>ROK Immortal</strong>.
