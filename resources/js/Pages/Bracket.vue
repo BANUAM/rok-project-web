@@ -69,11 +69,18 @@ onMounted(() => {
         </Head>
 
         <div class="page-container">
-            <section class="page-hero">
+            <section class="page-hero" :class="{ 'page-hero--has-banner': pageHeader?.image_url }">
+                <div v-if="pageHeader?.image_url" class="page-hero__bg">
+                    <img :src="pageHeader.image_url" :alt="pageHeader.title || 'Tournament Engine'" />
+                    <div class="page-hero__overlay"></div>
+                </div>
                 <div class="page-hero__inner">
-                    <h1 class="page-title">{{ pageHeader?.title || 'TOURNAMENT BRACKET ENGINE' }}</h1>
+                    <h1 class="page-title">{{ pageHeader?.title || 'BUILD. COMPETE. CONQUER.' }}</h1>
+                    <p class="page-subtitle-gold">
+                        Your Tournament. Your Bracket. Your Champion.
+                    </p>
                     <p class="page-subtitle">
-                        {{ pageHeader?.subtitle || 'Platform manajemen turnamen komunitas esports profesional. Buat bagan pertandingan, acak posisi seeding, dan pantau skor secara real-time.' }}
+                        {{ pageHeader?.subtitle || 'Kelola turnamen esports komunitasmu dengan bagan pertandingan otomatis, seeding tim berimbang, dan sistem live score real-time.' }}
                     </p>
 
                     <!-- Non-Rectangular Cyber Island Dock (Organizer Portal) -->

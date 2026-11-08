@@ -27,15 +27,15 @@
     "file": "assets/instrument-sans-600-normal-B9e8oLYv.woff",
     "src": "_instrument-sans-600-normal-B9e8oLYv.woff"
   },
-  "_useRokAnimations-CwQmlX1n.js": {
-    "file": "assets/useRokAnimations-CwQmlX1n.js",
+  "_useRokAnimations-R-Mk10zG.js": {
+    "file": "assets/useRokAnimations-R-Mk10zG.js",
     "name": "useRokAnimations",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-lhYCUXl_.css",
+    "file": "assets/app-BpsBlz5W.css",
     "name": "app",
     "names": [
       "app.css"
@@ -44,117 +44,117 @@
     "isEntry": true
   },
   "resources/js/Pages/Achievements.vue": {
-    "file": "assets/Achievements-BcfPRy2k.js",
+    "file": "assets/Achievements-Dt84JV7V.js",
     "name": "Achievements",
     "src": "resources/js/Pages/Achievements.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_useRokAnimations-CwQmlX1n.js"
+      "_useRokAnimations-R-Mk10zG.js"
     ]
   },
   "resources/js/Pages/Auth/Login.vue": {
-    "file": "assets/Login-DHBfzdWS.js",
+    "file": "assets/Login-__kOV15h.js",
     "name": "Login",
     "src": "resources/js/Pages/Auth/Login.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_useRokAnimations-CwQmlX1n.js"
+      "_useRokAnimations-R-Mk10zG.js"
     ]
   },
   "resources/js/Pages/Auth/Register.vue": {
-    "file": "assets/Register-BDhEUg7e.js",
+    "file": "assets/Register-DrqNqmsU.js",
     "name": "Register",
     "src": "resources/js/Pages/Auth/Register.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_useRokAnimations-CwQmlX1n.js"
+      "_useRokAnimations-R-Mk10zG.js"
     ]
   },
   "resources/js/Pages/Auth/VerifyEmail.vue": {
-    "file": "assets/VerifyEmail-GLEfSi5V.js",
+    "file": "assets/VerifyEmail-CQsMVCKp.js",
     "name": "VerifyEmail",
     "src": "resources/js/Pages/Auth/VerifyEmail.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_useRokAnimations-CwQmlX1n.js"
+      "_useRokAnimations-R-Mk10zG.js"
     ]
   },
   "resources/js/Pages/Bracket.vue": {
-    "file": "assets/Bracket-BfUjoKgL.js",
+    "file": "assets/Bracket-51jc0KIc.js",
     "name": "Bracket",
     "src": "resources/js/Pages/Bracket.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_useRokAnimations-CwQmlX1n.js"
+      "_useRokAnimations-R-Mk10zG.js"
     ]
   },
   "resources/js/Pages/BracketFree.vue": {
-    "file": "assets/BracketFree-DgRSlTRs.js",
+    "file": "assets/BracketFree-HxaSo2wh.js",
     "name": "BracketFree",
     "src": "resources/js/Pages/BracketFree.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_useRokAnimations-CwQmlX1n.js"
+      "_useRokAnimations-R-Mk10zG.js"
     ]
   },
   "resources/js/Pages/Home.vue": {
-    "file": "assets/Home-BditoW89.js",
+    "file": "assets/Home-CoovwmeT.js",
     "name": "Home",
     "src": "resources/js/Pages/Home.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_useRokAnimations-CwQmlX1n.js"
+      "_useRokAnimations-R-Mk10zG.js"
     ]
   },
   "resources/js/Pages/LearningDevelopment.vue": {
-    "file": "assets/LearningDevelopment-Crb_OfYn.js",
+    "file": "assets/LearningDevelopment-B_atW7Fg.js",
     "name": "LearningDevelopment",
     "src": "resources/js/Pages/LearningDevelopment.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_useRokAnimations-CwQmlX1n.js"
+      "_useRokAnimations-R-Mk10zG.js"
     ]
   },
   "resources/js/Pages/Membership/Index.vue": {
-    "file": "assets/Index-5U9GEgxR.js",
+    "file": "assets/Index-BpOoIgtZ.js",
     "name": "Index",
     "src": "resources/js/Pages/Membership/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_useRokAnimations-CwQmlX1n.js"
+      "_useRokAnimations-R-Mk10zG.js"
     ]
   },
   "resources/js/Pages/Teams.vue": {
-    "file": "assets/Teams-DC45wRBv.js",
+    "file": "assets/Teams-CyaRCYWu.js",
     "name": "Teams",
     "src": "resources/js/Pages/Teams.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_useRokAnimations-CwQmlX1n.js"
+      "_useRokAnimations-R-Mk10zG.js"
     ]
   },
   "resources/js/Pages/Trial/Index.vue": {
-    "file": "assets/Index-JHMDiikt.js",
+    "file": "assets/Index-C2HtnGXQ.js",
     "name": "Index",
     "src": "resources/js/Pages/Trial/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_useRokAnimations-CwQmlX1n.js"
+      "_useRokAnimations-R-Mk10zG.js"
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-Dx8Z_ptc.js",
+    "file": "assets/app-Blqf2hdt.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,

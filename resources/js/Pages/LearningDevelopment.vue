@@ -32,7 +32,11 @@ onMounted(() => {
         </Head>
 
         <div class="page-container">
-            <section class="page-hero">
+            <section class="page-hero" :class="{ 'page-hero--has-banner': pageHeader?.image_url }">
+                <div v-if="pageHeader?.image_url" class="page-hero__bg">
+                    <img :src="pageHeader.image_url" :alt="pageHeader.title || 'Learning'" />
+                    <div class="page-hero__overlay"></div>
+                </div>
                 <div class="page-hero__inner">
                     <h1 class="page-title">{{ pageHeader?.title || 'ROK ACADEMY & DEVELOPMENT' }}</h1>
                     <p class="page-subtitle">
