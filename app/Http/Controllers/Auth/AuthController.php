@@ -12,13 +12,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 
 class AuthController extends Controller
 {
-    public function showLogin(): View|RedirectResponse
+    public function showLogin(Request $request): View|InertiaResponse|RedirectResponse
     {
         if (Auth::check()) {
             return redirect()->intended(route('home'));
+        }
+
+        if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {
+            return Inertia::render('Auth/Login');
         }
 
         return view('auth.login');
@@ -50,10 +56,14 @@ class AuthController extends Controller
         ])->onlyInput('login');
     }
 
-    public function showRegister(): View|RedirectResponse
+    public function showRegister(Request $request): View|InertiaResponse|RedirectResponse
     {
         if (Auth::check()) {
             return redirect()->intended(route('home'));
+        }
+
+        if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {
+            return Inertia::render('Auth/Register');
         }
 
         return view('auth.register');
@@ -94,10 +104,14 @@ class AuthController extends Controller
             ->with('success', 'Registrasi berhasil! Tautan verifikasi email telah dikirimkan ke ' . $user->email . '. Silakan verifikasi email Anda untuk melanjutkan transaksi membership.');
     }
 
-    public function showVerifyNotice(Request $request): View|RedirectResponse
+    public function showVerifyNotice(Request $request): View|InertiaResponse|RedirectResponse
     {
         if ($request->user() && $request->user()->hasVerifiedEmail()) {
             return redirect()->intended(route('membership.payment'));
+        }
+
+        if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {
+            return Inertia::render('Auth/VerifyEmail');
         }
 
         return view('auth.verify-email');

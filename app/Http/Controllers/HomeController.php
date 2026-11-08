@@ -9,11 +9,14 @@ use App\Models\LearningModule;
 use App\Models\Partner;
 use App\Models\TeamMember;
 use App\Models\Tournament;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View|InertiaResponse
     {
         $heroSlides = HeroSlide::query()
             ->where('is_active', true)
@@ -57,7 +60,7 @@ class HomeController extends Controller
             ->orderBy('id')
             ->get();
 
-        return view('welcome', compact(
+        $data = compact(
             'heroSlides',
             'divisions',
             'achievements',
@@ -65,6 +68,12 @@ class HomeController extends Controller
             'demoTournament',
             'partners',
             'teamMembers'
-        ));
+        );
+
+        if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {
+            return Inertia::render('Home', $data);
+        }
+
+        return view('welcome', $data);
     }
 }

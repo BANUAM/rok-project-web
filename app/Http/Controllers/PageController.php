@@ -14,10 +14,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 
 class PageController extends Controller
 {
-    public function teams(): View
+    public function teams(Request $request): View|InertiaResponse
     {
         $founders = Founder::query()
             ->where('is_active', true)
@@ -32,10 +34,14 @@ class PageController extends Controller
 
         $pageHeader = PageHeader::where('page_key', 'teams')->where('is_active', true)->first();
 
+        if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {
+            return Inertia::render('Teams', compact('founders', 'divisions', 'pageHeader'));
+        }
+
         return view('pages.teams', compact('founders', 'divisions', 'pageHeader'));
     }
 
-    public function achievements(Request $request): View
+    public function achievements(Request $request): View|InertiaResponse
     {
         $query = Achievement::query()
             ->with('division')
@@ -67,10 +73,14 @@ class PageController extends Controller
 
         $pageHeader = PageHeader::where('page_key', 'achievements')->where('is_active', true)->first();
 
+        if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {
+            return Inertia::render('Achievements', compact('achievements', 'years', 'divisions', 'pageHeader'));
+        }
+
         return view('pages.achievements', compact('achievements', 'years', 'divisions', 'pageHeader'));
     }
 
-    public function learningDevelopment(): View
+    public function learningDevelopment(Request $request): View|InertiaResponse
     {
         $modules = LearningModule::query()
             ->with(['lessons'])
@@ -81,10 +91,14 @@ class PageController extends Controller
         $pageHeader = PageHeader::where('page_key', 'learning')->where('is_active', true)->first();
         $membershipPlans = MembershipPlan::where('is_active', true)->orderBy('sort_order')->get();
 
+        if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {
+            return Inertia::render('LearningDevelopment', compact('modules', 'pageHeader', 'membershipPlans'));
+        }
+
         return view('pages.learning-development', compact('modules', 'pageHeader', 'membershipPlans'));
     }
 
-    public function bracket(): View
+    public function bracket(Request $request): View|InertiaResponse
     {
         $pageHeader = PageHeader::where('page_key', 'bracket')->where('is_active', true)->first();
         $membershipPlans = MembershipPlan::where('is_active', true)->orderBy('sort_order')->get();
@@ -120,10 +134,14 @@ class PageController extends Controller
         ]);
         $tournaments = collect([$activeTournament]);
 
+        if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {
+            return Inertia::render('Bracket', compact('tournaments', 'activeTournament', 'pageHeader', 'membershipPlans'));
+        }
+
         return view('pages.bracket', compact('tournaments', 'activeTournament', 'pageHeader', 'membershipPlans'));
     }
 
-    public function bracketFree(Request $request, ?string $slug = null): View|RedirectResponse
+    public function bracketFree(Request $request, ?string $slug = null): View|InertiaResponse|RedirectResponse
     {
         // 1. If user visits /bracket/free without slug:
         if (empty($slug)) {
@@ -211,6 +229,16 @@ class PageController extends Controller
 
         // Keep cookie updated with current active free tournament
         Cookie::queue('rok_last_free_slug', $freeTournament->slug, 60 * 24 * 30);
+
+        if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {
+            return Inertia::render('BracketFree', [
+                'tournament' => $freeTournament,
+                'tournaments' => $tournaments,
+                'activeTournament' => $activeTournament,
+                'pageHeader' => $pageHeader,
+                'membershipPlans' => $membershipPlans,
+            ]);
+        }
 
         return view('pages.bracket-free', compact('tournaments', 'activeTournament', 'pageHeader', 'membershipPlans'));
     }

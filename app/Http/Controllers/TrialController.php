@@ -13,12 +13,19 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 
 class TrialController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View|InertiaResponse
     {
         $pageHeader = PageHeader::where('page_key', 'trial')->where('is_active', true)->first();
+
+        if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {
+            return Inertia::render('Trial/Index', compact('pageHeader'));
+        }
+
         return view('pages.trial', compact('pageHeader'));
     }
 

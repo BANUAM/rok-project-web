@@ -27,6 +27,13 @@
     "file": "assets/instrument-sans-600-normal-B9e8oLYv.woff",
     "src": "_instrument-sans-600-normal-B9e8oLYv.woff"
   },
+  "_useRokAnimations-B2AYcMqF.js": {
+    "file": "assets/useRokAnimations-B2AYcMqF.js",
+    "name": "useRokAnimations",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
   "resources/css/app.css": {
     "file": "assets/app-IarxUver.css",
     "name": "app",
@@ -36,10 +43,133 @@
     "src": "resources/css/app.css",
     "isEntry": true
   },
+  "resources/js/Pages/Achievements.vue": {
+    "file": "assets/Achievements-C-wvmv6i.js",
+    "name": "Achievements",
+    "src": "resources/js/Pages/Achievements.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_useRokAnimations-B2AYcMqF.js"
+    ]
+  },
+  "resources/js/Pages/Auth/Login.vue": {
+    "file": "assets/Login-CswmloGd.js",
+    "name": "Login",
+    "src": "resources/js/Pages/Auth/Login.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_useRokAnimations-B2AYcMqF.js"
+    ]
+  },
+  "resources/js/Pages/Auth/Register.vue": {
+    "file": "assets/Register-2uOuLYxh.js",
+    "name": "Register",
+    "src": "resources/js/Pages/Auth/Register.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_useRokAnimations-B2AYcMqF.js"
+    ]
+  },
+  "resources/js/Pages/Auth/VerifyEmail.vue": {
+    "file": "assets/VerifyEmail-DZtNajv-.js",
+    "name": "VerifyEmail",
+    "src": "resources/js/Pages/Auth/VerifyEmail.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_useRokAnimations-B2AYcMqF.js"
+    ]
+  },
+  "resources/js/Pages/Bracket.vue": {
+    "file": "assets/Bracket-BlqB-bZ_.js",
+    "name": "Bracket",
+    "src": "resources/js/Pages/Bracket.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_useRokAnimations-B2AYcMqF.js"
+    ]
+  },
+  "resources/js/Pages/BracketFree.vue": {
+    "file": "assets/BracketFree-axGNhTBb.js",
+    "name": "BracketFree",
+    "src": "resources/js/Pages/BracketFree.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_useRokAnimations-B2AYcMqF.js"
+    ]
+  },
+  "resources/js/Pages/Home.vue": {
+    "file": "assets/Home-D_SU-DiA.js",
+    "name": "Home",
+    "src": "resources/js/Pages/Home.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_useRokAnimations-B2AYcMqF.js"
+    ]
+  },
+  "resources/js/Pages/LearningDevelopment.vue": {
+    "file": "assets/LearningDevelopment--8vuGZW5.js",
+    "name": "LearningDevelopment",
+    "src": "resources/js/Pages/LearningDevelopment.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_useRokAnimations-B2AYcMqF.js"
+    ]
+  },
+  "resources/js/Pages/Membership/Index.vue": {
+    "file": "assets/Index-CxgMB9SB.js",
+    "name": "Index",
+    "src": "resources/js/Pages/Membership/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_useRokAnimations-B2AYcMqF.js"
+    ]
+  },
+  "resources/js/Pages/Teams.vue": {
+    "file": "assets/Teams-BbCGWHl7.js",
+    "name": "Teams",
+    "src": "resources/js/Pages/Teams.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_useRokAnimations-B2AYcMqF.js"
+    ]
+  },
+  "resources/js/Pages/Trial/Index.vue": {
+    "file": "assets/Index-TxgaNVA3.js",
+    "name": "Index",
+    "src": "resources/js/Pages/Trial/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_useRokAnimations-B2AYcMqF.js"
+    ]
+  },
   "resources/js/app.js": {
-    "file": "assets/app-DJpL7um9.js",
+    "file": "assets/app-Bc4M3eGQ.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/Pages/Achievements.vue",
+      "resources/js/Pages/Auth/Login.vue",
+      "resources/js/Pages/Auth/Register.vue",
+      "resources/js/Pages/Auth/VerifyEmail.vue",
+      "resources/js/Pages/Bracket.vue",
+      "resources/js/Pages/BracketFree.vue",
+      "resources/js/Pages/Home.vue",
+      "resources/js/Pages/LearningDevelopment.vue",
+      "resources/js/Pages/Membership/Index.vue",
+      "resources/js/Pages/Teams.vue",
+      "resources/js/Pages/Trial/Index.vue"
+    ]
   }
 }

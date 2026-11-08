@@ -1,32 +1,48 @@
-﻿import { createIcons, icons } from 'lucide';
+import { createApp, h } from 'vue';
+import { createInertiaApp, Head, Link } from '@inertiajs/vue3';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { createIcons, icons } from 'lucide';
+import gsap from 'gsap';
+import { animate, scroll } from 'motion';
+import SplitType from 'split-type';
+
+// Legacy script imports for Blade compatibility
 import './header.js';
 import './hero-slider.js';
 import './hero-section-two.js';
 
-// Global Lucide Icons initialization
+// Global access to animation engines
+window.gsap = gsap;
+window.motionAnimate = animate;
+window.motionScroll = scroll;
+window.SplitType = SplitType;
+
+// Lucide Icons initialization
 window.lucide = {
     createIcons: (options) => createIcons({ icons, ...options }),
-    icons
+    icons,
 };
 
-window.renderLucideIcons = function() {
+window.renderLucideIcons = function () {
     createIcons({
         icons,
         attrs: {
             'stroke-width': 2,
-            class: 'lucide-icon'
-        }
+            class: 'lucide-icon',
+        },
     });
 };
 
-function applyRokTheme(theme) {
+export function applyRokTheme(theme) {
     const normalized = theme === 'light' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', normalized);
-    localStorage.setItem('rok-theme', normalized);
+    try {
+        localStorage.setItem('rok-theme', normalized);
+    } catch (e) {}
 
     document.querySelectorAll('[data-theme-icon]').forEach((el) => {
-        el.innerHTML = normalized === 'light' 
-            ? '<i data-lucide="moon" style="width:16px;height:16px;"></i>' 
+        el.innerHTML = normalized === 'light'
+            ? '<i data-lucide="moon" style="width:16px;height:16px;"></i>'
             : '<i data-lucide="sun" style="width:16px;height:16px;"></i>';
     });
     document.querySelectorAll('[data-theme-label]').forEach((el) => {
@@ -35,9 +51,13 @@ function applyRokTheme(theme) {
     window.renderLucideIcons();
 }
 
+window.applyRokTheme = applyRokTheme;
+
 document.addEventListener('DOMContentLoaded', () => {
-    const initialTheme = localStorage.getItem('rok-theme') || document.documentElement.getAttribute('data-theme') || 'dark';
-    applyRokTheme(initialTheme);
+    try {
+        const initialTheme = localStorage.getItem('rok-theme') || document.documentElement.getAttribute('data-theme') || 'dark';
+        applyRokTheme(initialTheme);
+    } catch (e) {}
 
     document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -48,3 +68,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.renderLucideIcons();
 });
+
+// Inertia Mount
+const appEl = document.getElementById('app');
+if (appEl && (appEl.dataset.page || appEl.getAttribute('data-page'))) {
+    createInertiaApp({
+        title: (title) => title ? `${title} | Ruler Of Kings` : 'ROK Revamp | Ruler Of Kings',
+        resolve: (name) =>
+            resolvePageComponent(
+                `./Pages/${name}.vue`,
+                import.meta.glob('./Pages/**/*.vue')
+            ),
+        setup({ el, App, props, plugin }) {
+            const vueApp = createApp({ render: () => h(App, props) });
+            vueApp.use(plugin);
+            vueApp.component('InertiaHead', Head);
+            vueApp.component('InertiaLink', Link);
+            vueApp.mount(el);
+            window.renderLucideIcons();
+        },
+        progress: {
+            color: '#d4af37',
+            showSpinner: true,
+        },
+    });
+}

@@ -9,14 +9,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 
 class MembershipController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): View|InertiaResponse
     {
         $plans = MembershipPlan::where('is_active', true)->orderBy('sort_order')->get();
         $selectedSlug = $request->query('plan', 'challenger');
         $selectedPlan = $plans->firstWhere('slug', $selectedSlug) ?? $plans->first();
+
+        if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {
+            return Inertia::render('Membership/Index', compact('plans', 'selectedPlan'));
+        }
 
         return view('pages.membership.index', compact('plans', 'selectedPlan'));
     }
