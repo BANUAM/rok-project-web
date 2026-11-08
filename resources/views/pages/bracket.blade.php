@@ -21,35 +21,37 @@
                 {{ $pageHeader?->subtitle ?? 'Kelola turnamen esports komunitasmu dengan bagan pertandingan otomatis, seeding tim berimbang, dan sistem live score real-time.' }}
             </p>
 
-            {{-- Dedicated Portal Banner for ROK Challenger & Immortal --}}
-            <div class="studio-portal-banner" style="border-radius: 12px; padding: 18px 22px;">
+            {{-- Dedicated Organic Cyber-Island Dock for Organizer Portal --}}
+            <div class="studio-portal-banner studio-cyber-dock" id="studioCyberDock">
                 <div class="studio-portal-banner__info">
-                    <span class="studio-portal-badge" style="border-radius: 999px; padding: 2px 10px; font-size: 11px; display:inline-flex;align-items:center;gap:5px;"><i data-lucide="crown" style="width:12px;height:12px;"></i> ORGANIZER PORTAL</span>
-                    <h3 style="font-size: 17px; margin: 4px 0 4px 0; font-weight: 700;">ROK BRACKET STUDIO</h3>
-                    <p style="font-size: 12px; margin: 0; color: var(--rok-text-muted);">
+                    <span class="studio-portal-badge">
+                        <i data-lucide="crown" style="width:13px;height:13px;"></i> ORGANIZER PORTAL
+                    </span>
+                    <h3 class="portal-island-title">ROK BRACKET STUDIO</h3>
+                    <p>
                         Kelola multi-turnamen, kustomisasi logo tim, kontak WhatsApp kapten, dan bagikan tautan live bracket.
                     </p>
                 </div>
-                <div class="studio-portal-banner__actions" style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                <div class="studio-portal-banner__actions">
                     @if(Auth::check() && Auth::user()->hasBracketAccess())
-                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; display:inline-flex;align-items:center;gap:5px;">
+                        <a href="{{ route('bracket.studio.index') }}" class="cyber-chip-btn cyber-chip-btn--primary">
                             <i data-lucide="swords" style="width:13px;height:13px;"></i> Buka Bracket Studio
                         </a>
                     @elseif(Auth::check())
-                        <a href="{{ route('membership.payment', ['plan' => 'immortal']) }}" class="btn-rok btn-rok--gold btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; display:inline-flex;align-items:center;gap:5px;">
+                        <a href="{{ route('membership.payment', ['plan' => 'immortal']) }}" class="cyber-chip-btn cyber-chip-btn--primary">
                             <i data-lucide="crown" style="width:13px;height:13px;"></i> Aktifkan Immortal
                         </a>
                     @else
-                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; display:inline-flex;align-items:center;gap:5px;">
+                        <a href="{{ route('bracket.studio.index') }}" class="cyber-chip-btn cyber-chip-btn--primary">
                             <i data-lucide="key" style="width:13px;height:13px;"></i> Masuk Studio
                         </a>
                     @endif
                     @if ($activeTournament)
-                        <a href="{{ route('bracket.live', $activeTournament->slug) }}" class="btn-rok btn-rok--outline btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; display:inline-flex;align-items:center;gap:5px;">
+                        <a href="{{ route('bracket.live', $activeTournament->slug) }}" class="cyber-chip-btn cyber-chip-btn--secondary">
                             <i data-lucide="external-link" style="width:13px;height:13px;"></i> Live View
                         </a>
                     @endif
-                    <a href="{{ route('bracket.free') }}" class="btn-rok btn-rok--outline btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; border-color: rgba(251,191,36,0.6); color: var(--rok-gold); display:inline-flex; align-items:center; gap:5px;">
+                    <a href="{{ route('bracket.free') }}" class="cyber-chip-btn cyber-chip-btn--secondary">
                         <i data-lucide="gamepad-2" style="width:13px;height:13px;"></i> Versi Gratis
                     </a>
                 </div>

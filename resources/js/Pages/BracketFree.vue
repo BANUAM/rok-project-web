@@ -174,7 +174,7 @@ onMounted(() => {
                                     </div>
                                 </div>
                                 <div>
-                                    <h4 style="color: #38bdf8; font-size: 12px; margin-bottom: 12px;">SEMIFINALS</h4>
+                                    <h4 style="color: #cbd5e1; font-size: 12px; margin-bottom: 12px;">SEMIFINALS</h4>
                                     <div v-for="i in 2" :key="i" style="background: var(--rok-surface-card); border: 1px solid var(--rok-surface-border); border-radius: 6px; padding: 8px 12px; margin-bottom: 24px; margin-top: 16px;">
                                         <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--rok-silver);">
                                             <span>Pemenang M{{ (i - 1) * 2 + 1 }}</span>

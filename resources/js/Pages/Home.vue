@@ -66,7 +66,7 @@ onMounted(() => {
         </Head>
 
         <!-- Kinetic Scroll Progress Indicator (Motion One) -->
-        <div ref="progressBarRef" class="scroll-progress-bar" style="position: fixed; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #d4af37, #f59e0b, #38bdf8); transform-origin: 0%; z-index: 9999;"></div>
+        <div ref="progressBarRef" class="scroll-progress-bar" style="position: fixed; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #d4af37, #f59e0b, #cbd5e1); transform-origin: 0%; z-index: 9999;"></div>
 
         <!-- HERO SLIDER SECTION -->
         <section class="hero-slider" id="heroSlider" aria-roledescription="carousel">

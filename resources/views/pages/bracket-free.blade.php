@@ -22,32 +22,32 @@
                 Platform pembuatan bagan turnamen gratis dengan format Single &amp; Double Elimination, Swiss Stage, kontak WhatsApp kapten tim, dan live scoring real-time.
             </p>
 
-            {{-- Free Edition Banner with link to Membership & Promo --}}
-            <div class="studio-portal-banner" style="border-radius: 12px; padding: 16px 20px;">
+            {{-- Free Edition Cyber-Island Dock with link to Membership & Promo --}}
+            <div class="studio-portal-banner studio-cyber-dock">
                 <div class="studio-portal-banner__info">
                     <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
-                        <span class="studio-portal-badge" style="border-radius: 999px; padding: 2px 9px; font-size: 11px; display:inline-flex; align-items:center; gap:4px;"><i data-lucide="unlock" style="width:12px;height:12px;"></i> SEMUA FITUR BAGAN AKTIF</span>
+                        <span class="studio-portal-badge"><i data-lucide="unlock" style="width:12px;height:12px;"></i> SEMUA FITUR BAGAN AKTIF</span>
                         <span style="font-size: 11px; color: var(--rok-silver); font-family: monospace; opacity: 0.75;">
                             {{ $activeTournament->slug }}
                         </span>
                     </div>
-                    <p style="font-size: 12px; margin: 0; color: var(--rok-text-muted); line-height: 1.5;">
+                    <p style="font-size: 13px; margin: 0; color: #94a3b8; line-height: 1.5;">
                         Ruang kerja mandiri dengan tautan tersimpan. Bagikan link pra-turnamen ke kapten tim untuk registrasi mandiri.
                     </p>
                 </div>
-                <div class="studio-portal-banner__actions" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 10px;">
-                    <a href="{{ route('bracket.free') }}?new=1" class="btn-rok btn-rok--sm" style="background: #0284c7; color: #fff; font-weight: 700; border-radius: 999px; padding: 5px 14px; font-size: 12px; display:inline-flex; align-items:center; gap:4px;" onclick="return confirm('Buat turnamen gratis baru dengan tautan dan bagan yang baru?')">
+                <div class="studio-portal-banner__actions">
+                    <a href="{{ route('bracket.free') }}?new=1" class="cyber-chip-btn cyber-chip-btn--primary" onclick="return confirm('Buat turnamen gratis baru dengan tautan dan bagan yang baru?')">
                         <i data-lucide="plus" style="width:13px;height:13px;"></i> Turnamen Baru
                     </a>
-                    <a href="{{ route('bracket') }}" class="btn-rok btn-rok--outline btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; display:inline-flex; align-items:center; gap:4px;">
+                    <a href="{{ route('bracket') }}" class="cyber-chip-btn cyber-chip-btn--secondary">
                         <i data-lucide="clipboard-list" style="width:13px;height:13px;"></i> Halaman Promosi
                     </a>
                     @if(Auth::check() && Auth::user()->hasBracketAccess())
-                        <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; display:inline-flex; align-items:center; gap:4px;">
+                        <a href="{{ route('bracket.studio.index') }}" class="cyber-chip-btn cyber-chip-btn--gold">
                             <i data-lucide="swords" style="width:13px;height:13px;"></i> Bracket Studio
                         </a>
                     @else
-                        <a href="{{ route('membership.index') }}" class="btn-rok btn-rok--gold btn-rok--sm" style="border-radius: 999px; padding: 5px 14px; font-size: 12px; display:inline-flex; align-items:center; gap:4px;">
+                        <a href="{{ route('membership.index') }}" class="cyber-chip-btn cyber-chip-btn--gold">
                             <i data-lucide="crown" style="width:13px;height:13px;"></i> Membership
                         </a>
                     @endif

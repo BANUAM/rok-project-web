@@ -6,7 +6,7 @@
 @section('content')
 <div class="mgmt-page-deck">
     {{-- Welcome & Membership Status Banner --}}
-    <div class="mgmt-card mb-4" style="border-left: 4px solid #38bdf8;">
+    <div class="mgmt-card mb-4" style="border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 20px;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
             <div>
                 <span class="badge-mini" style="margin-bottom: 6px; display: inline-flex; align-items: center; gap: 5px;"><i data-lucide="crown" style="width:13px;height:13px;"></i> MEMBERSHIP AKTIF: ROK {{ strtoupper($tierSlug) }}</span>

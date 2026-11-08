@@ -31,7 +31,7 @@
         <div class="page-hero__inner">
             <div style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
                 @if ($isFreeMode)
-                    <span style="display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:700; color:#38bdf8;">
+                    <span style="display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:700; color:#cbd5e1;">
                         <i data-lucide="gamepad-2" style="width:13px;height:13px;"></i> PORTAL PRA-TURNAMEN (EDISI GRATIS)
                     </span>
                 @else
@@ -65,15 +65,15 @@
                     <span style="color: var(--rok-muted-light);">Slot Terisi:</span>
                     <strong id="statClaimedCount" style="color: #4ade80;">{{ $claimedCount }}</strong>
                 </div>
-                <div class="pra-stat-pill" style="background: var(--rok-surface-card); border: 1px solid rgba(56, 189, 248, 0.35); padding: 8px 16px; border-radius: 20px; font-size: 13px;">
+                <div class="pra-stat-pill" style="background: var(--rok-surface-card); border: 1px solid rgba(255, 255, 255, 0.16); padding: 8px 16px; border-radius: 20px; font-size: 13px;">
                     <span style="color: var(--rok-muted-light);">Slot Tersedia:</span>
-                    <strong id="statVacantCount" style="color: #38bdf8;">{{ max(0, $totalSlots - $claimedCount) }}</strong>
+                    <strong id="statVacantCount" style="color: #e2e8f0;">{{ max(0, $totalSlots - $claimedCount) }}</strong>
                 </div>
             </div>
 
             {{-- Top Action Buttons --}}
             <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 22px;">
-                <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="btnCopyPraLink" style="border-radius: 20px; padding: 8px 18px; border-color: rgba(56, 189, 248, 0.5); color: #38bdf8; font-weight: 700; display:inline-flex; align-items:center; gap:6px;">
+                <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="btnCopyPraLink" style="border-radius: 20px; padding: 8px 18px; border-color: rgba(255, 255, 255, 0.22); color: #e2e8f0; font-weight: 700; display:inline-flex; align-items:center; gap:6px;">
                     <i data-lucide="copy" style="width:14px;height:14px;"></i> Salin Link Pra-Turnamen {{ $isFreeMode ? 'Free' : 'Membership' }}
                 </button>
                 <a href="{{ $shareUrl }}" target="_blank" class="btn-rok btn-rok--outline btn-rok--sm" style="border-radius: 20px; padding: 8px 18px; display:inline-flex; align-items:center; gap:6px;">
@@ -148,7 +148,7 @@
                                     <i data-lucide="check" style="width:11px;height:11px;"></i> TERDAFTAR
                                 </span>
                             @else
-                                <span class="badge-vacant" style="font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: 700; display:inline-flex; align-items:center; gap:4px;">
+                                <span class="badge-vacant" style="font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: #cbd5e1; font-weight: 700; display:inline-flex; align-items:center; gap:4px;">
                                     <i data-lucide="circle" style="width:11px;height:11px;"></i> TERSEDIA
                                 </span>
                             @endif
@@ -237,7 +237,7 @@
         <button type="button" class="rok-team-modal__close" id="closeClaimModalBtn" aria-label="Tutup">&times;</button>
         
         <div style="margin-bottom: 18px;">
-            <span class="badge-mini" id="modalSlotBadge" style="background: rgba(56,189,248,0.15); border: 1px solid #38bdf8; color: #38bdf8;">
+            <span class="badge-mini" id="modalSlotBadge" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); color: #cbd5e1;">
                 SLOT #1
             </span>
             <h3 style="font-size: 19px; font-weight: 800; margin: 6px 0 4px 0;">Check-in &amp; Pendaftaran Tim</h3>
@@ -303,8 +303,8 @@
                 </div>
             @else
                 {{-- Edisi Free: Sama sekali tidak ada button atau input logo --}}
-                <div style="margin-bottom: 16px; padding: 10px 14px; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px;">
-                    <span style="font-size: 12px; color: #38bdf8; display: inline-flex; align-items: center; gap: 4px; font-weight: 700;">
+                <div style="margin-bottom: 16px; padding: 10px 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 8px;">
+                    <span style="font-size: 12px; color: #cbd5e1; display: inline-flex; align-items: center; gap: 4px; font-weight: 700;">
                         <i data-lucide="gamepad-2" style="width:13px;height:13px;"></i> Edisi Turnamen Gratis (Tanpa Logo)
                     </span>
                     <span style="font-size: 11px; color: var(--rok-muted-light); display: block; margin-top: 2px;">
@@ -621,7 +621,7 @@
                                 const topBadge = card.querySelector('.badge-claimed, .badge-vacant');
                                 if (topBadge) {
                                     topBadge.className = 'badge-vacant';
-                                    topBadge.style.cssText = 'font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: 700; display:inline-flex; align-items:center; gap:4px;';
+                                    topBadge.style.cssText = 'font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: #cbd5e1; font-weight: 700; display:inline-flex; align-items:center; gap:4px;';
                                     topBadge.innerHTML = '<i data-lucide="circle" style="width:11px;height:11px;"></i> TERSEDIA';
                                 }
                                 const nameEl = card.querySelector('.slot-team-name');

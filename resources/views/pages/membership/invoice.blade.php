@@ -32,7 +32,7 @@
             {{-- Body --}}
             <div style="padding: 32px;">
                 @if (session('success'))
-                    <div style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; border-radius: 8px; padding: 14px 18px; color: #0284c7; font-size: 14px; margin-bottom: 24px;">
+                    <div style="background: rgba(34, 197, 94, 0.12); border: 1px solid #22c55e; border-radius: 8px; padding: 14px 18px; color: #4ade80; font-size: 14px; margin-bottom: 24px;">
                         &check; {{ session('success') }}
                     </div>
                 @endif
@@ -80,7 +80,7 @@
                             </div>
                             <div style="margin-bottom: 14px;">
                                 <span style="font-size: 12px; color: var(--rok-text-muted); display: block;">Nomor Rekening:</span>
-                                <strong style="font-size: 22px; color: #0284c7; font-family: monospace; letter-spacing: 2px;">8040 1928 3719</strong>
+                                <strong style="font-size: 22px; color: #fbbf24; font-family: monospace; letter-spacing: 2px;">8040 1928 3719</strong>
                             </div>
                             <div>
                                 <span style="font-size: 12px; color: var(--rok-text-muted); display: block;">Atas Nama:</span>

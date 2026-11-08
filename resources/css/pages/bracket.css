@@ -1401,33 +1401,64 @@
    MODERN BRACKET ENGINE, SVG ARROWS, WA & LOGO MODAL, AND STUDIO PORTAL
 ========================================= */
 
-.studio-portal-banner {
-    margin-top: 28px;
-    padding: 24px 28px;
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.7) 100%);
-    border: 1px solid rgba(226, 232, 240, 0.12);
-    border-left: 3px solid #38bdf8;
-    border-radius: var(--radius-lg);
+/* =========================================
+   CYBER ISLAND DOCK / STUDIO PORTAL CAPSULE
+   Dominant Black & Silver Accent Design (No Rectangle)
+========================================= */
+
+.studio-portal-banner,
+.studio-cyber-dock {
+    position: relative;
+    margin: 28px auto 0;
+    max-width: 960px;
+    padding: 24px 32px;
+    background: radial-gradient(130% 160% at 50% 0%, rgba(255, 255, 255, 0.06) 0%, rgba(13, 16, 22, 0.98) 50%, rgba(5, 7, 10, 1) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 36px;
     display: flex;
     flex-direction: column;
     gap: 16px;
     text-align: left;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(0, 0, 0, 0.8);
+    transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), border-color 260ms ease, box-shadow 260ms ease;
+    overflow: hidden;
 }
 
-[data-theme="light"] .studio-portal-banner {
-    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%) !important;
-    border: 1px solid #bae6fd !important;
-    border-left: 3px solid #0284c7 !important;
+/* Subtle metallic sweep accent across the top curve */
+.studio-portal-banner::before,
+.studio-cyber-dock::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.35) 50%, transparent 100%);
+    pointer-events: none;
+}
+
+.studio-portal-banner:hover,
+.studio-cyber-dock:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 26px 56px -12px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+[data-theme="light"] .studio-portal-banner,
+[data-theme="light"] .studio-cyber-dock {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 36px !important;
     color: #0f172a !important;
-    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05) !important;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08) !important;
 }
 
-[data-theme="light"] .page-hero--has-banner .studio-portal-banner {
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(30, 41, 59, 0.75) 100%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    border-left: 3px solid #38bdf8 !important;
+[data-theme="light"] .page-hero--has-banner .studio-portal-banner,
+[data-theme="light"] .page-hero--has-banner .studio-cyber-dock {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(30, 41, 59, 0.92) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    border-radius: 36px !important;
     color: #ffffff !important;
 }
 
@@ -1440,38 +1471,51 @@
 }
 
 .studio-portal-badge {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-family: var(--font-sub);
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 1.5px;
-    color: #38bdf8;
-    background: rgba(56, 189, 248, 0.12);
-    border: 1px solid rgba(56, 189, 248, 0.35);
-    padding: 3px 10px;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 4px 14px;
     border-radius: 999px;
     margin-bottom: 6px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition: all 180ms ease;
+    width: fit-content;
+}
+
+.studio-portal-badge:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
 }
 
 [data-theme="light"] .studio-portal-badge {
-    background: rgba(2, 132, 199, 0.1) !important;
-    color: #0284c7 !important;
-    border-color: rgba(2, 132, 199, 0.35) !important;
+    background: rgba(15, 23, 42, 0.06) !important;
+    color: #334155 !important;
+    border-color: rgba(15, 23, 42, 0.15) !important;
 }
 
 [data-theme="light"] .page-hero--has-banner .studio-portal-badge {
-    background: rgba(56, 189, 248, 0.15) !important;
-    color: #38bdf8 !important;
-    border-color: rgba(56, 189, 248, 0.4) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #e2e8f0 !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
 }
 
 .studio-portal-banner__info {
     width: 100%;
 }
 
+.portal-island-title,
 .studio-portal-banner__info h3 {
-    font-size: 20px;
+    font-size: 21px;
     font-weight: 800;
+    letter-spacing: 0.5px;
     margin: 4px 0 6px 0;
     line-height: 1.35;
     color: #ffffff;
@@ -1484,7 +1528,7 @@
 .studio-portal-banner__info p {
     font-size: 13.5px;
     line-height: 1.6;
-    color: var(--rok-muted-light);
+    color: #94a3b8;
     max-width: 100%;
     margin: 0;
 }
@@ -1500,6 +1544,60 @@
     align-items: center;
     padding-top: 14px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Cyber dock pill action buttons */
+.cyber-chip-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    border-radius: 999px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+
+.cyber-chip-btn--primary {
+    background: linear-gradient(180deg, #222936 0%, #11141c 100%);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.cyber-chip-btn--primary:hover {
+    background: linear-gradient(180deg, #2c3444 0%, #161b24 100%);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.cyber-chip-btn--secondary {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #cbd5e1;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.cyber-chip-btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}
+
+.cyber-chip-btn--gold {
+    background: rgba(251, 191, 36, 0.06);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    color: #fbbf24;
+}
+
+.cyber-chip-btn--gold:hover {
+    background: rgba(251, 191, 36, 0.14);
+    border-color: rgba(251, 191, 36, 0.6);
+    color: #fde68a;
 }
 
 [data-theme="light"] .studio-portal-banner__actions {
@@ -1776,9 +1874,9 @@
 
 .output-hint-pill {
     font-size: 12px;
-    color: #38bdf8;
-    background: rgba(56, 189, 248, 0.1);
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.16);
     padding: 4px 12px;
     border-radius: 999px;
 }
@@ -1833,7 +1931,7 @@
     margin-bottom: 8px;
     background: rgba(30, 41, 59, 0.55);
     border: 1px solid var(--rok-surface-border);
-    border-left: 3px solid #38bdf8;
+    border-left: 3px solid #cbd5e1;
     border-radius: 6px;
 }
 
@@ -1858,12 +1956,12 @@
 
 .match-card--modern:hover {
     transform: translateY(-2px);
-    border-color: rgba(56, 189, 248, 0.5);
-    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.32);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.5);
 }
 
 .match-card--completed {
-    border-color: rgba(56, 189, 248, 0.38);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .match-card__top-bar {
@@ -1880,7 +1978,7 @@
 }
 
 .match-code-pill {
-    color: #38bdf8;
+    color: #cbd5e1;
     font-family: var(--font-sub);
     font-size: 11px;
 }
@@ -1936,7 +2034,7 @@
 
 .team-logo-trigger:hover {
     transform: scale(1.1);
-    border-color: #38bdf8;
+    border-color: rgba(255, 255, 255, 0.45);
 }
 
 .team-logo-img {
@@ -2025,7 +2123,7 @@
     width: 100%;
     max-width: 460px;
     background: var(--rok-surface-card);
-    border: 1px solid rgba(56, 189, 248, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: var(--radius-lg);
     padding: 26px;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
@@ -2059,7 +2157,7 @@
     width: 68px;
     height: 68px;
     border-radius: 14px;
-    border: 2px solid #38bdf8;
+    border: 2px solid rgba(255, 255, 255, 0.22);
     background: rgba(7, 9, 14, 0.6);
     padding: 6px;
     flex-shrink: 0;
@@ -2097,7 +2195,7 @@
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.8px;
-    color: #38bdf8;
+    color: #cbd5e1;
     margin-bottom: 12px;
 }
 
@@ -2203,7 +2301,7 @@
 }
 
 .logo-preset-item:hover {
-    border-color: #38bdf8;
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 .logo-preset-item img {
@@ -2341,8 +2439,8 @@
     font-size: 11px;
     padding: 2px 8px;
     border-radius: 4px;
-    background: rgba(56, 189, 248, 0.12);
-    color: #38bdf8;
+    background: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
 }
 
 .studio-tourney-meta {

@@ -52,7 +52,7 @@
                                                 <i data-lucide="file-text" style="width:12px;height:12px;"></i> PDF
                                             </span>
                                         @else
-                                            <span class="badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; display:inline-flex; align-items:center; gap:4px;">
+                                            <span class="badge" style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; display:inline-flex; align-items:center; gap:4px;">
                                                 <i data-lucide="video" style="width:12px;height:12px;"></i> Video
                                             </span>
                                         @endif

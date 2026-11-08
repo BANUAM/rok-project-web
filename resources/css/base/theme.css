@@ -963,7 +963,7 @@ html[data-theme="light"] .rok-team-modal__close:hover {
 
 html[data-theme="light"] .team-modal-logo-wrap {
     background: #f8fafc !important;
-    border-color: #38bdf8 !important;
+    border-color: #cbd5e1 !important;
 }
 
 html[data-theme="light"] .team-modal-title {
@@ -980,7 +980,7 @@ html[data-theme="light"] .team-modal-points-card {
 }
 
 html[data-theme="light"] .points-card-header {
-    color: #0284c7 !important;
+    color: #334155 !important;
 }
 
 html[data-theme="light"] .points-stat-box {

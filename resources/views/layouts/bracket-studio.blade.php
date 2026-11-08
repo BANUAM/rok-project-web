@@ -65,7 +65,7 @@
                     <div class="user-avatar-mini"><i data-lucide="crown"></i></div>
                     <div class="user-details">
                         <strong>{{ Auth::user()->name ?? 'Organizer' }}</strong>
-                        <span style="color: #38bdf8;">PAKET: {{ strtoupper(Auth::user()?->membershipTierSlug() ?? 'PRO') }}</span>
+                        <span style="color: #cbd5e1; font-weight: 600;">PAKET: {{ strtoupper(Auth::user()?->membershipTierSlug() ?? 'PRO') }}</span>
                     </div>
                 </div>
 

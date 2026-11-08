@@ -202,8 +202,8 @@
                             </div>
                         @endif
                         @if ($candidate->next_stage_token)
-                            <div style="font-size: 12px; color: #38bdf8; margin-top: 6px; word-break: break-all;">
-                                Tautan Tahap Lanjutan: <a href="{{ $candidate->next_stage_url }}" target="_blank" style="color: #38bdf8; text-decoration: underline;">{{ $candidate->next_stage_url }}</a>
+                            <div style="font-size: 12px; color: #fbbf24; margin-top: 6px; word-break: break-all;">
+                                Tautan Tahap Lanjutan: <a href="{{ $candidate->next_stage_url }}" target="_blank" style="color: #fbbf24; text-decoration: underline;">{{ $candidate->next_stage_url }}</a>
                             </div>
                         @endif
                     </div>

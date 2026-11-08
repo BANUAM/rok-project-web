@@ -103,7 +103,7 @@
                 </div>
 
                 <div style="background: var(--rok-surface-card, #111622); border: 1px solid var(--rok-surface-border); border-radius: var(--radius-md); padding: 26px;">
-                    <div style="margin-bottom: 12px; color: #38bdf8;"><i data-lucide="book-open" style="width:32px;height:32px;"></i></div>
+                    <div style="margin-bottom: 12px; color: #cbd5e1;"><i data-lucide="book-open" style="width:32px;height:32px;"></i></div>
                     <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">Akademi &amp; Taktik Playbook PDF</h3>
                     <p style="font-size: 13px; color: var(--rok-text-muted); line-height: 1.6; margin: 0;">
                         Akses modul strategi pro esports Ruler of Kings: panduan drafting, makro manajemen, rotasi jungle, dan video breakdown eksklusif.
@@ -111,17 +111,17 @@
                 </div>
             </div>
 
-            {{-- Bottom Banner CTA --}}
-            <div class="studio-portal-banner">
+            {{-- Bottom Banner CTA Cyber-Island Dock --}}
+            <div class="studio-portal-banner studio-cyber-dock">
                 <div class="studio-portal-banner__info">
-                    <span class="studio-portal-badge" style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="crown" style="width:13px;height:13px;"></i> SUDAH MEMILIKI MEMBERSHIP?</span>
-                    <h3>LANGSUNG MASUK KE ROK BRACKET STUDIO</h3>
+                    <span class="studio-portal-badge"><i data-lucide="crown" style="width:13px;height:13px;"></i> SUDAH MEMILIKI MEMBERSHIP?</span>
+                    <h3 class="portal-island-title">LANGSUNG MASUK KE ROK BRACKET STUDIO</h3>
                     <p>
                         Akses workspace organizer Anda sekarang juga untuk mulai membuat bagan turnamen, mengunggah emblem tim resmi, dan membagikan link live bracket.
                     </p>
                 </div>
                 <div class="studio-portal-banner__actions">
-                    <a href="{{ route('bracket.studio.index') }}" class="btn-rok btn-rok--gold" style="display:inline-flex;align-items:center;gap:6px;">
+                    <a href="{{ route('bracket.studio.index') }}" class="cyber-chip-btn cyber-chip-btn--primary">
                         <i data-lucide="swords" style="width:14px;height:14px;"></i> Buka Bracket Studio
                     </a>
                 </div>

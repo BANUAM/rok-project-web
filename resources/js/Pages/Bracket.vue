@@ -49,8 +49,13 @@ const copyLiveLink = () => {
 
 onMounted(() => {
     animateSplitText('.page-title', { y: 24, duration: 0.7 });
-    document.querySelectorAll('.btn-rok, .plan-card').forEach((el) => {
-        bindSpringHover(el, 1.02, -2);
+    animateSplitText('.cyber-dock-title', { y: 16, duration: 0.6, delay: 0.25 });
+    
+    const dock = document.querySelector('.studio-cyber-dock');
+    if (dock) bindSpringHover(dock, 1.015, -3);
+
+    document.querySelectorAll('.btn-rok, .plan-card, .cyber-chip-btn').forEach((el) => {
+        bindSpringHover(el, 1.03, -2);
     });
     window.renderLucideIcons && window.renderLucideIcons();
 });
@@ -70,6 +75,35 @@ onMounted(() => {
                     <p class="page-subtitle">
                         {{ pageHeader?.subtitle || 'Platform manajemen turnamen komunitas esports profesional. Buat bagan pertandingan, acak posisi seeding, dan pantau skor secara real-time.' }}
                     </p>
+
+                    <!-- Non-Rectangular Cyber Island Dock (Organizer Portal) -->
+                    <div class="studio-portal-banner studio-cyber-dock">
+                        <div class="studio-portal-banner__info">
+                            <span class="studio-portal-badge">
+                                <i data-lucide="crown" style="width:13px;height:13px;"></i> ORGANIZER PORTAL
+                            </span>
+                            <h3 class="portal-island-title cyber-dock-title">ROK BRACKET STUDIO</h3>
+                            <p>
+                                Kelola multi-turnamen, kustomisasi logo tim, kontak WhatsApp kapten, dan bagikan tautan live bracket.
+                            </p>
+                        </div>
+                        <div class="studio-portal-banner__actions">
+                            <Link href="/bracket/studio" class="cyber-chip-btn cyber-chip-btn--primary">
+                                <i data-lucide="key" style="width:13px;height:13px;"></i> Masuk Studio
+                            </Link>
+                            <a
+                                v-if="activeTournament?.slug"
+                                :href="'/bracket/live/' + activeTournament.slug"
+                                target="_blank"
+                                class="cyber-chip-btn cyber-chip-btn--secondary"
+                            >
+                                <i data-lucide="external-link" style="width:13px;height:13px;"></i> Live View
+                            </a>
+                            <Link href="/bracket/free" class="cyber-chip-btn cyber-chip-btn--secondary">
+                                <i data-lucide="gamepad-2" style="width:13px;height:13px;"></i> Versi Gratis
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -194,7 +228,7 @@ onMounted(() => {
                                 </div>
 
                                 <div style="flex: 1;">
-                                    <div style="font-weight: 700; color: #38bdf8; font-size: 12px; margin-bottom: 12px; text-transform: uppercase;">ROUND 2 (SEMIFINALS)</div>
+                                    <div style="font-weight: 700; color: #cbd5e1; font-size: 12px; margin-bottom: 12px; text-transform: uppercase;">ROUND 2 (SEMIFINALS)</div>
                                     <div v-for="i in Math.max(1, Math.ceil(teamCount / 4))" :key="i" style="background: var(--rok-bg); border: 1px solid var(--rok-surface-border); border-radius: 6px; padding: 10px 14px; margin-bottom: 30px; margin-top: 20px;">
                                         <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px;">
                                             <span style="color: var(--rok-silver);">Pemenang M{{ (i - 1) * 2 + 1 }}</span>

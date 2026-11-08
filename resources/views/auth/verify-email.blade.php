@@ -6,7 +6,7 @@
 @section('content')
 <div class="page-container" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 60px 20px;">
     <div class="auth-card" style="width: 100%; max-width: 500px; background: var(--rok-card-bg, #111622); border: 1px solid var(--rok-surface-border); border-radius: var(--radius-md); padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); text-align: center;">
-        <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #0284c7; font-size: 28px; margin-bottom: 20px;">
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.18); color: #cbd5e1; font-size: 28px; margin-bottom: 20px;">
             <i data-lucide="mail" style="width:30px;height:30px;"></i>
         </div>
 
@@ -17,7 +17,7 @@
         </p>
 
         <div style="background: var(--rok-bg); border: 1px solid var(--rok-surface-border); border-radius: 6px; padding: 12px; margin-bottom: 24px;">
-            <strong style="color: #0284c7; font-size: 15px;">{{ Auth::user()->email }}</strong>
+            <strong style="color: #cbd5e1; font-size: 15px;">{{ Auth::user()->email }}</strong>
         </div>
 
         <p style="color: var(--rok-text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 28px;">

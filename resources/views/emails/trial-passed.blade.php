@@ -37,8 +37,8 @@
                                 Selamat! Berdasarkan evaluasi berkas persyaratan, statistik gameplay in-game, serta hasil pengerjaan <strong style="color: #ffffff;">Tes LSM (Learning & Strategy Mastery)</strong>, Tim Kepelatihan dan Manajemen <strong style="color: #ffffff;">Ruler Of Kings (ROK)</strong> dengan bangga menyatakan bahwa Anda telah:
                             </p>
 
-                            <div style="background-color: #171f30; border-left: 4px solid #38bdf8; padding: 18px 20px; border-radius: 0 8px 8px 0; margin-bottom: 24px;">
-                                <div style="font-size: 18px; font-weight: 700; color: #38bdf8; margin-bottom: 6px;">
+                            <div style="background-color: #171f30; border-left: 4px solid #22c55e; padding: 18px 20px; border-radius: 0 8px 8px 0; margin-bottom: 24px;">
+                                <div style="font-size: 18px; font-weight: 700; color: #4ade80; margin-bottom: 6px;">
                                     DINYATAKAN LOLOS SELEKSI AWAL
                                 </div>
                                 <div style="font-size: 13px; color: #94a3b8; line-height: 1.5;">

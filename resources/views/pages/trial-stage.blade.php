@@ -34,7 +34,7 @@
                 
                 <div style="display: grid; gap: 16px; margin-bottom: 24px;">
                     <div style="background: var(--rok-bg); border: 1px solid var(--rok-surface-border); border-radius: 8px; padding: 20px; display: flex; gap: 16px; align-items: flex-start;">
-                        <span style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; background: rgba(56, 189, 248, 0.15); color: #0284c7; font-weight: 800; font-size: 18px; flex-shrink: 0;">1</span>
+                        <span style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: #e2e8f0; font-weight: 800; font-size: 18px; flex-shrink: 0;">1</span>
                         <div>
                             <strong style="color: var(--rok-text-bright); font-size: 16px; display: block; margin-bottom: 4px;">Sesi Wawancara Online &amp; Visi Atlet</strong>
                             <p style="color: var(--rok-text-secondary); font-size: 14px; line-height: 1.6; margin: 0;">
@@ -44,7 +44,7 @@
                     </div>
 
                     <div style="background: var(--rok-bg); border: 1px solid var(--rok-surface-border); border-radius: 8px; padding: 20px; display: flex; gap: 16px; align-items: flex-start;">
-                        <span style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; background: rgba(56, 189, 248, 0.15); color: #0284c7; font-weight: 800; font-size: 18px; flex-shrink: 0;">2</span>
+                        <span style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: #e2e8f0; font-weight: 800; font-size: 18px; flex-shrink: 0;">2</span>
                         <div>
                             <strong style="color: var(--rok-text-bright); font-size: 16px; display: block; margin-bottom: 4px;">Uji Tanding (Scrim) Bersama Tim Inti &amp; Coach</strong>
                             <p style="color: var(--rok-text-secondary); font-size: 14px; line-height: 1.6; margin: 0;">
@@ -54,7 +54,7 @@
                     </div>
 
                     <div style="background: var(--rok-bg); border: 1px solid var(--rok-surface-border); border-radius: 8px; padding: 20px; display: flex; gap: 16px; align-items: flex-start;">
-                        <span style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; background: rgba(56, 189, 248, 0.15); color: #0284c7; font-weight: 800; font-size: 18px; flex-shrink: 0;">3</span>
+                        <span style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: #e2e8f0; font-weight: 800; font-size: 18px; flex-shrink: 0;">3</span>
                         <div>
                             <strong style="color: var(--rok-text-bright); font-size: 16px; display: block; margin-bottom: 4px;">Penandatanganan Kontrak Atlet &amp; Official Roster</strong>
                             <p style="color: var(--rok-text-secondary); font-size: 14px; line-height: 1.6; margin: 0;">

@@ -108,7 +108,7 @@
                                         <span style="color: var(--rok-text-muted); font-size: 12px;">Verifikasi Pembayaran Virtual Account / Manual</span>
                                     </div>
                                 </div>
-                                <span style="font-weight: 800; color: #38bdf8; font-size: 13px;">BCA</span>
+                                <span style="font-weight: 800; color: #cbd5e1; font-size: 13px;">BCA</span>
                             </label>
 
                             <label style="display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--rok-bg); border: 1px solid var(--rok-surface-border); border-radius: 8px; cursor: pointer;">
