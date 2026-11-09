@@ -53,6 +53,17 @@
                                 >
                                     {{ $slide->cta_secondary_text }}
                                 </a>
+
+                                <button
+                                    type="button"
+                                    class="hero-button hero-button--secondary"
+                                    onclick="window.initBladeRhinoIntro(true)"
+                                    title="Tampilkan Ulang Motion Graphic Badak"
+                                    style="display: inline-flex; align-items: center; gap: 6px; border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;"
+                                >
+                                    <i data-lucide="play" style="width:13px;height:13px;"></i>
+                                    <span>Intro Badak</span>
+                                </button>
                             </div>
                         </div>
                     </article>

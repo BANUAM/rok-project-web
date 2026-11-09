@@ -22,6 +22,9 @@
     @stack('styles')
 </head>
 <body class="rok-app">
+    {{-- Motion Graphic Intro Badak (ROK Cinematic Entrance) --}}
+    @include('components.rhino-intro')
+
     {{-- Pure CSS Hexagonal drifting backdrop --}}
     <div class="hex-ambient" aria-hidden="true">
         <div class="hex-ambient__cell hex-ambient__cell--1"></div>

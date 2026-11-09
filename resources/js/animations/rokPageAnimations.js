@@ -1,15 +1,49 @@
 import gsap from 'gsap';
 import { animate, scroll, inView, spring } from 'motion';
 import SplitType from 'split-type';
+import Lenis from 'lenis';
 
 /**
  * Global Animation Suite for Ruler Of Kings (ROK)
- * Powered by GSAP, Motion One, and SplitType.
- * Handles page entrance on load & route change, and scroll-triggered reveals across all pages.
+ * Powered by Lenis, GSAP, Motion One, and SplitType.
+ * Handles inertial momentum scroll, page entrance, and scroll-triggered reveals across all pages.
  */
 
+let lenisInstance = null;
 let scrollProgressCleanup = null;
 let activeInViewCleanups = [];
+
+/**
+ * 0. Inertial Momentum Smooth Scroll (Awwwards / Anti-AI-Slop standard)
+ */
+export function initLenisScroll() {
+    if (typeof window === 'undefined') return null;
+    if (lenisInstance) return lenisInstance;
+
+    try {
+        lenisInstance = new Lenis({
+            duration: 1.15,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 0.85,
+            touchMultiplier: 1.5,
+        });
+
+        function raf(time) {
+            lenisInstance?.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        window.lenis = lenisInstance;
+        return lenisInstance;
+    } catch (e) {
+        console.warn('Lenis momentum scroll init skipped:', e);
+        return null;
+    }
+}
 
 /**
  * 1. Fixed Top Kinetic Scroll Progress Bar
@@ -288,6 +322,7 @@ export function initSpringHoverEffects() {
  * Master initializer: runs scroll progress, entrance, scroll reveals, and hover physics
  */
 export function initAllRokAnimations() {
+    initLenisScroll();
     initScrollProgressBar();
     initPageEntranceAnimation();
     initScrollDrivenAnimations();

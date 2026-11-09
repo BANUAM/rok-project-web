@@ -2,6 +2,7 @@
 import { ref, onMounted, nextTick } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import RhinoIntroOverlay from '@/Components/RhinoIntroOverlay.vue';
 import { useRokAnimations } from '@/composables/useRokAnimations';
 
 const props = defineProps({
@@ -16,7 +17,12 @@ const props = defineProps({
 });
 
 const currentSlide = ref(0);
+const rhinoIntroRef = ref(null);
 const { animateSplitText, animateHeroEntrance, bindSpringHover, animateStaggerFadeIn } = useRokAnimations();
+
+const replayIntro = () => {
+    rhinoIntroRef.value?.playIntro();
+};
 
 const nextSlide = () => {
     if (!props.heroSlides.length) return;
@@ -55,6 +61,9 @@ onMounted(() => {
 
 <template>
     <AppLayout>
+        <!-- Motion Graphic Badak Intro Overlay -->
+        <RhinoIntroOverlay ref="rhinoIntroRef" :auto-play="true" />
+
         <Head>
             <title>ROK Revamp | Ruler Of Kings</title>
             <meta name="description" content="Ruler Of Kings (ROK) — Competitive Esports Organization focused on competition, development, discipline and unity." />
@@ -99,6 +108,16 @@ onMounted(() => {
                                 >
                                     {{ slide.cta_secondary_text }}
                                 </a>
+                                <button
+                                    type="button"
+                                    class="btn-rok btn-rok--outline btn-replay-intro"
+                                    @click="replayIntro"
+                                    title="Tampilkan Ulang Motion Graphic Badak"
+                                    style="display: inline-flex; align-items: center; gap: 6px; border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;"
+                                >
+                                    <i data-lucide="play" style="width:13px;height:13px;"></i>
+                                    <span>Intro Badak</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -118,6 +137,16 @@ onMounted(() => {
                             <div class="hero-slide__cta hero-action-buttons">
                                 <Link href="/trial" class="btn-rok btn-rok--gold">GABUNG TRIAL SEKARANG</Link>
                                 <Link href="/bracket" class="btn-rok btn-rok--outline">BUKA BRACKET ENGINE</Link>
+                                <button
+                                    type="button"
+                                    class="btn-rok btn-rok--outline btn-replay-intro"
+                                    @click="replayIntro"
+                                    title="Tampilkan Ulang Motion Graphic Badak"
+                                    style="display: inline-flex; align-items: center; gap: 6px; border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;"
+                                >
+                                    <i data-lucide="play" style="width:13px;height:13px;"></i>
+                                    <span>Intro Badak</span>
+                                </button>
                             </div>
                         </div>
                     </div>
