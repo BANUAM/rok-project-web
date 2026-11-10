@@ -17,12 +17,7 @@ const props = defineProps({
 });
 
 const currentSlide = ref(0);
-const rhinoIntroRef = ref(null);
 const { animateSplitText, animateHeroEntrance, bindSpringHover, animateStaggerFadeIn } = useRokAnimations();
-
-const replayIntro = () => {
-    rhinoIntroRef.value?.playIntro();
-};
 
 const nextSlide = () => {
     if (!props.heroSlides.length) return;
@@ -108,16 +103,13 @@ onMounted(() => {
                                 >
                                     {{ slide.cta_secondary_text }}
                                 </a>
-                                <button
-                                    type="button"
-                                    class="btn-rok btn-rok--outline btn-replay-intro"
-                                    @click="replayIntro"
-                                    title="Tampilkan Ulang Motion Graphic Badak"
-                                    style="display: inline-flex; align-items: center; gap: 6px; border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;"
-                                >
-                                    <i data-lucide="play" style="width:13px;height:13px;"></i>
-                                    <span>Intro Badak</span>
-                                </button>
+                            </div>
+
+                            <div class="hero-telemetry-bar">
+                                <span class="hero-telemetry-item"><span class="hero-telemetry-dot"></span> ORG STATUS: COMBAT READY</span>
+                                <span class="hero-telemetry-item">ACTIVE DIVISIONS: {{ divisions.length || 4 }}</span>
+                                <span class="hero-telemetry-item">VERIFIED TITLES: 18+</span>
+                                <span class="hero-telemetry-item">ROK HQ // TACTICAL NETWORK</span>
                             </div>
                         </div>
                     </div>
@@ -137,16 +129,12 @@ onMounted(() => {
                             <div class="hero-slide__cta hero-action-buttons">
                                 <Link href="/trial" class="btn-rok btn-rok--gold">GABUNG TRIAL SEKARANG</Link>
                                 <Link href="/bracket" class="btn-rok btn-rok--outline">BUKA BRACKET ENGINE</Link>
-                                <button
-                                    type="button"
-                                    class="btn-rok btn-rok--outline btn-replay-intro"
-                                    @click="replayIntro"
-                                    title="Tampilkan Ulang Motion Graphic Badak"
-                                    style="display: inline-flex; align-items: center; gap: 6px; border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;"
-                                >
-                                    <i data-lucide="play" style="width:13px;height:13px;"></i>
-                                    <span>Intro Badak</span>
-                                </button>
+                            </div>
+                            <div class="hero-telemetry-bar">
+                                <span class="hero-telemetry-item"><span class="hero-telemetry-dot"></span> ORG STATUS: COMBAT READY</span>
+                                <span class="hero-telemetry-item">ACTIVE DIVISIONS: {{ divisions.length || 4 }}</span>
+                                <span class="hero-telemetry-item">VERIFIED TITLES: 18+</span>
+                                <span class="hero-telemetry-item">ROK HQ // TACTICAL NETWORK</span>
                             </div>
                         </div>
                     </div>
@@ -187,57 +175,93 @@ onMounted(() => {
             </div>
         </section>
 
-        <!-- COMPETITIVE DIVISIONS SECTION -->
+        <!-- FLUID KINETIC TICKER (BRIDGES HERO & EDITORIAL LEDGER) -->
+        <div class="rok-marquee-ticker" aria-hidden="true">
+            <div class="rok-marquee-track">
+                <span class="rok-marquee-item">RULER OF KINGS ESPORTS <span class="rok-marquee-separator">&diams;</span></span>
+                <span class="rok-marquee-item">DOMINANCE THROUGH DISCIPLINE <span class="rok-marquee-separator">&diams;</span></span>
+                <span class="rok-marquee-item">COMPETITIVE ROSTERS ACTIVE <span class="rok-marquee-separator">&diams;</span></span>
+                <span class="rok-marquee-item">OFFICIAL PARTNER NETWORK <span class="rok-marquee-separator">&diams;</span></span>
+                <span class="rok-marquee-item">STAND FOR THE CROWN <span class="rok-marquee-separator">&diams;</span></span>
+                <span class="rok-marquee-item">RULER OF KINGS ESPORTS <span class="rok-marquee-separator">&diams;</span></span>
+                <span class="rok-marquee-item">DOMINANCE THROUGH DISCIPLINE <span class="rok-marquee-separator">&diams;</span></span>
+                <span class="rok-marquee-item">COMPETITIVE ROSTERS ACTIVE <span class="rok-marquee-separator">&diams;</span></span>
+                <span class="rok-marquee-item">OFFICIAL PARTNER NETWORK <span class="rok-marquee-separator">&diams;</span></span>
+                <span class="rok-marquee-item">STAND FOR THE CROWN <span class="rok-marquee-separator">&diams;</span></span>
+            </div>
+        </div>
+
+        <!-- COMPETITIVE DIVISIONS SECTION (EDITORIAL DIRECTORY) -->
         <section class="home-section teams-preview" id="teamsPreview" aria-labelledby="teamsPreviewTitle">
             <div class="home-section__inner">
                 <header class="section-header">
+                    <span class="section-kicker">DIRECTORY // 01</span>
                     <h2 class="section-title" id="teamsPreviewTitle">DIVISI KOMPETITIF</h2>
                     <p class="section-description">
                         Kenali divisi dan atlet profesional Ruler Of Kings yang berjuang membawa panji kerajaan di panggung esports nasional.
                     </p>
                 </header>
 
-                <div class="divisions-grid">
-                    <article v-for="div in divisions" :key="div.id" class="division-card">
-                        <div class="division-card__visual">
-                            <img :src="div.logo_url || '/img/dummy-division.svg'" :alt="div.name" loading="lazy" />
-                            <span class="division-card__game-tag">{{ div.game_name }}</span>
+                <div class="editorial-division-ledger">
+                    <Link
+                        v-for="(div, idx) in divisions"
+                        :key="div.id"
+                        href="/teams"
+                        class="division-ledger-row"
+                    >
+                        <span class="division-ledger-index">0{{ idx + 1 }}</span>
+                        <div class="division-ledger-main">
+                            <h3 class="division-ledger-title">{{ div.name }}</h3>
+                            <span class="division-ledger-game">{{ div.game_name }}</span>
                         </div>
-                        <div class="division-card__body">
-                            <h3 class="division-card__title">{{ div.name }}</h3>
-                            <p class="division-card__desc">{{ div.description }}</p>
-                            <div class="division-card__footer">
-                                <span class="division-card__roster-count">{{ div.active_players_count || (div.active_players ? div.active_players.length : 0) }} Roster Aktif</span>
-                                <Link href="/teams" class="division-card__link">Lihat Roster &rarr;</Link>
-                            </div>
+                        <div class="division-ledger-roster">
+                            <span
+                                v-for="player in (div.active_players || []).slice(0, 5)"
+                                :key="player.id"
+                                class="roster-player-pill"
+                            >
+                                <strong>{{ player.in_game_name }}</strong> &bull; {{ player.role }}
+                            </span>
+                            <span
+                                v-if="!div.active_players || !div.active_players.length"
+                                class="roster-player-pill"
+                            >
+                                <strong>ROSTER READY</strong> &bull; Active Lineup
+                            </span>
                         </div>
-                    </article>
+                        <span class="division-ledger-action">
+                            <span>Roster</span>
+                            <span style="font-size: 16px;">&rarr;</span>
+                        </span>
+                    </Link>
                 </div>
             </div>
         </section>
 
-        <!-- ACHIEVEMENTS SECTION -->
+        <!-- ACHIEVEMENTS SECTION (HALL OF ACCLAIM LEDGER) -->
         <section class="home-section achievements-preview" id="achievementsPreview" aria-labelledby="achievementsTitle">
             <div class="home-section__inner">
                 <header class="section-header">
+                    <span class="section-kicker">HALL OF ACCLAIM // 02</span>
                     <h2 class="section-title" id="achievementsTitle">PRESTASI &amp; KEJAYAAN</h2>
                     <p class="section-description">
                         Jejak pencapaian dan trofi yang membuktikan dedikasi serta konsistensi Ruler Of Kings.
                     </p>
                 </header>
 
-                <div class="achievements-grid">
-                    <article v-for="ach in achievements" :key="ach.id" class="achievement-card">
-                        <div class="achievement-card__media">
-                            <img :src="ach.image_url || '/img/dummy-trophy.svg'" :alt="ach.title" loading="lazy" />
-                            <span class="achievement-card__year">{{ ach.year }}</span>
+                <div class="editorial-accolade-ledger">
+                    <div v-for="ach in achievements" :key="ach.id" class="accolade-ledger-row">
+                        <div class="accolade-year-rank">
+                            <span class="accolade-year">{{ ach.year }}</span>
+                            <span class="accolade-rank-badge">{{ ach.placement_rank || 'CHAMPION' }}</span>
                         </div>
-                        <div class="achievement-card__info">
-                            <span class="achievement-card__rank">{{ ach.placement_rank || 'CHAMPION' }}</span>
-                            <h3 class="achievement-card__title">{{ ach.title }}</h3>
-                            <p class="achievement-card__meta">{{ ach.team_name }} &bull; {{ ach.tournament_name }}</p>
+                        <div class="accolade-title-cell">
+                            <h3>{{ ach.title }}</h3>
+                            <span class="accolade-division-tag">{{ ach.team_name }}</span>
                         </div>
-                    </article>
+                        <div class="accolade-record-cell">{{ ach.tournament_name }}</div>
+                        <div class="accolade-status-badge">VERIFIED TITLE</div>
+                    </div>
                 </div>
 
                 <div style="text-align: center; margin-top: 36px;">

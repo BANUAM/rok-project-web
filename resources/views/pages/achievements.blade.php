@@ -22,6 +22,26 @@
 
     <section class="achievements-page-section">
         <div class="section-inner">
+            {{-- Championship Metrics Banner --}}
+            <div class="championship-metrics-banner">
+                <div class="championship-metric-item">
+                    <span class="championship-metric-val">18+</span>
+                    <span class="championship-metric-lbl">Verified Championships</span>
+                </div>
+                <div class="championship-metric-item">
+                    <span class="championship-metric-val">78.4%</span>
+                    <span class="championship-metric-lbl">Career Match Win Rate</span>
+                </div>
+                <div class="championship-metric-item">
+                    <span class="championship-metric-val">04</span>
+                    <span class="championship-metric-lbl">Active Pro Divisions</span>
+                </div>
+                <div class="championship-metric-item">
+                    <span class="championship-metric-val">100%</span>
+                    <span class="championship-metric-lbl">Sanctioned Tournaments</span>
+                </div>
+            </div>
+
             {{-- Filter Bar --}}
             <div class="filter-bar">
                 <form method="GET" action="{{ url('/achievements') }}" class="filter-form">
@@ -55,41 +75,31 @@
                 </form>
             </div>
 
-            {{-- Achievements Grid --}}
-            <div class="achievements-full-grid">
+            {{-- Hall of Acclaim Ledger --}}
+            <div class="hall-acclaim-ledger">
+                <div class="hall-acclaim-header">
+                    <span>Tahun</span>
+                    <span>Gelar &amp; Kejuaraan</span>
+                    <span>Divisi Skuad</span>
+                    <span>Turnamen / Rekam Jejak</span>
+                    <span style="text-align:right;">Status</span>
+                </div>
+
                 @forelse ($achievements as $achievement)
-                    <article class="achievement-full-card">
-                        <div class="achievement-full-card__media">
-                            <img
-                                src="{{ $achievement->image_url }}"
-                                alt="{{ $achievement->title }}"
-                                loading="lazy"
-                            >
-                            <span class="year-badge">{{ $achievement->event_year }}</span>
-                            @if ($achievement->is_highlight)
-                                <span class="highlight-badge" style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="star" style="width:12px;height:12px;color:#f59e0b;"></i> Major Title</span>
-                            @endif
+                    <div class="hall-acclaim-row">
+                        <span class="hall-acclaim-year">{{ $achievement->event_year }}</span>
+                        <div class="hall-acclaim-title-box">
+                            <span class="hall-acclaim-rank-badge">{{ $achievement->placement_rank ?? 'CHAMPION' }}</span>
+                            <h3>{{ $achievement->title }}</h3>
                         </div>
-
-                        <div class="achievement-full-card__body">
-                            <div class="achievement-tags">
-                                <span class="tag-team">{{ $achievement->team_name ?? 'Ruler Of Kings' }}</span>
-                                @if ($achievement->division)
-                                    <span class="tag-division">{{ $achievement->division->name }}</span>
-                                @endif
-                                @if ($achievement->event_date)
-                                    <span class="tag-date">{{ $achievement->event_date->format('d M Y') }}</span>
-                                @endif
-                            </div>
-
-                            <h3 class="achievement-full-card__title">{{ $achievement->title }}</h3>
-                            <p class="achievement-full-card__caption">{{ $achievement->caption }}</p>
-                        </div>
-                    </article>
+                        <span class="hall-acclaim-team">{{ $achievement->team_name ?? ($achievement->division?->name ?? 'Ruler Of Kings') }}</span>
+                        <div class="hall-acclaim-desc">{{ $achievement->caption }}</div>
+                        <div class="hall-acclaim-status">VERIFIED TITLE</div>
+                    </div>
                 @empty
-                    <div class="empty-state-box">
-                        <p>Tidak ada prestasi yang sesuai dengan filter yang dipilih.</p>
-                        <a href="{{ url('/achievements') }}" class="btn-rok btn-rok--ghost">Tampilkan Semua</a>
+                    <div class="empty-state-box" style="padding: 48px; text-align: center; color: #64748b; font-family: var(--font-mono, monospace);">
+                        <p>TIDAK ADA DATA PRESTASI DITEMUKAN PADA FILTER INI.</p>
+                        <a href="{{ url('/achievements') }}" class="btn-rok btn-rok--ghost" style="margin-top: 12px; display: inline-block;">Reset Filter &rarr;</a>
                     </div>
                 @endforelse
             </div>

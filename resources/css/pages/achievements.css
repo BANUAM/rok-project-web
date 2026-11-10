@@ -1,17 +1,52 @@
 /* =========================================
-   ACHIEVEMENTS PAGE
+   ACHIEVEMENTS PAGE (CHAMPIONSHIP METRICS & HALL OF ACCLAIM LEDGER)
 ========================================= */
 
 .achievements-page-section {
     padding: 30px 0 80px 0;
 }
 
+/* Championship Metrics Banner */
+.championship-metrics-banner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    background: #090b10;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 36px;
+}
+
+.championship-metric-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.championship-metric-val {
+    font-family: var(--font-sub, 'Rajdhani', sans-serif);
+    font-size: 38px;
+    font-weight: 900;
+    color: #f59e0b;
+    line-height: 1;
+}
+
+.championship-metric-lbl {
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+
 .filter-bar {
-    background: #0d0d0d;
-    border: 1px solid var(--rok-surface-border);
-    border-radius: var(--radius-md);
+    background: #090b10;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
     padding: 18px 24px;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
 }
 
 .filter-form {
@@ -28,139 +63,127 @@
 }
 
 .filter-label {
-    font-family: var(--font-sub);
-    font-size: 14px;
+    font-family: var(--font-mono, monospace);
+    font-size: 12px;
     font-weight: 700;
-    color: var(--rok-silver);
+    color: #94a3b8;
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .filter-select {
-    background: #080808;
-    border: 1px solid var(--rok-surface-border);
+    background: #040507;
+    border: 1px solid rgba(255, 255, 255, 0.12);
     color: #ededed;
     padding: 8px 14px;
-    border-radius: var(--radius-sm);
-    font-size: 14px;
+    border-radius: 4px;
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
     outline: none;
     cursor: pointer;
 }
 
 .filter-select:focus {
-    border-color: #9ca3af;
+    border-color: #f59e0b;
 }
 
 .btn-clear-filter {
-    font-size: 13px;
+    font-family: var(--font-mono, monospace);
+    font-size: 12px;
     color: #ef4444;
     text-decoration: underline;
     margin-left: auto;
 }
 
-.achievements-full-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 30px;
-}
-
-.achievement-full-card {
-    background: #0d0d0d;
-    border: 1px solid var(--rok-surface-border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    transition: all var(--transition-base);
-}
-
-.achievement-full-card:hover {
-    border-color: #6b7280;
-    background: #141414;
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-}
-
-.achievement-full-card__media {
-    position: relative;
-    width: 100%;
-    height: 220px;
-    background: #090b10;
-}
-
-.achievement-full-card__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.year-badge {
-    position: absolute;
-    top: 14px;
-    left: 14px;
-    padding: 4px 12px;
-    background: rgba(11, 14, 20, 0.9);
-    border: 1px solid var(--rok-gold);
-    color: var(--rok-gold);
-    font-family: var(--font-sub);
-    font-weight: 800;
-    font-size: 14px;
-    border-radius: 3px;
-}
-
-.highlight-badge {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    padding: 4px 10px;
-    background: rgba(212, 175, 55, 0.9);
-    color: #0b0e14;
-    font-family: var(--font-sub);
-    font-weight: 800;
-    font-size: 12px;
-    border-radius: 3px;
-}
-
-.achievement-full-card__body {
-    padding: 24px;
-}
-
-.achievement-tags {
+/* Full Hall of Acclaim Ledger */
+.hall-acclaim-ledger {
     display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
+    flex-direction: column;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.tag-team {
-    font-family: var(--font-sub);
-    font-size: 12px;
+.hall-acclaim-header {
+    display: grid;
+    grid-template-columns: 100px 1.8fr 1.2fr 1.6fr 130px;
+    gap: 20px;
+    padding: 12px 16px;
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
     font-weight: 700;
-    color: var(--rok-gold);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #64748b;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hall-acclaim-row {
+    display: grid;
+    grid-template-columns: 100px 1.8fr 1.2fr 1.6fr 130px;
+    gap: 20px;
+    padding: 20px 16px;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 180ms ease;
+}
+
+.hall-acclaim-row:hover {
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom-color: rgba(255, 255, 255, 0.18);
+}
+
+.hall-acclaim-year {
+    font-family: var(--font-mono, monospace);
+    font-size: 14px;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.hall-acclaim-title-box h3 {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: #f8fafc;
+}
+
+.hall-acclaim-rank-badge {
+    display: inline-block;
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #f59e0b;
     text-transform: uppercase;
 }
 
-.tag-division {
-    font-size: 11px;
+.hall-acclaim-team {
+    font-size: 13px;
     color: #94a3b8;
-    background: #181d29;
-    padding: 2px 8px;
-    border-radius: 3px;
 }
 
-.tag-date {
+.hall-acclaim-desc {
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.5;
+}
+
+.hall-acclaim-status {
+    text-align: right;
+    font-family: var(--font-mono, monospace);
     font-size: 11px;
-    color: #64748b;
-    margin-left: auto;
+    font-weight: 700;
+    color: #22c55e;
+    letter-spacing: 1px;
 }
 
-.achievement-full-card__title {
-    font-size: 22px;
-    font-weight: 800;
-    color: #ffffff;
-    margin-bottom: 12px;
-    line-height: 1.3;
-}
-
-.achievement-full-card__caption {
-    font-size: 14px;
-    color: #94a3b8;
-    line-height: 1.6;
+@media (max-width: 900px) {
+    .hall-acclaim-header {
+        display: none;
+    }
+    .hall-acclaim-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .hall-acclaim-status {
+        text-align: left;
+    }
 }

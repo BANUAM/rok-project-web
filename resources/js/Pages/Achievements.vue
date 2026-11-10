@@ -14,10 +14,10 @@ const { animateSplitText, bindSpringHover, animateStaggerFadeIn } = useRokAnimat
 
 onMounted(() => {
     animateSplitText('.page-title', { y: 24, duration: 0.7 });
-    animateStaggerFadeIn('.achievement-card', 0.05);
+    animateStaggerFadeIn('.hall-acclaim-row', 0.04);
 
-    document.querySelectorAll('.achievement-card').forEach((el) => {
-        bindSpringHover(el, 1.02, -3);
+    document.querySelectorAll('.hall-acclaim-row').forEach((el) => {
+        bindSpringHover(el, 1.01, -2);
     });
 
     window.renderLucideIcons && window.renderLucideIcons();
@@ -45,26 +45,52 @@ onMounted(() => {
                 </div>
             </section>
 
-            <section class="achievements-section">
+            <section class="achievements-page-section">
                 <div class="section-inner">
-                    <div class="achievements-grid">
-                        <article v-for="ach in achievements" :key="ach.id" class="achievement-card">
-                            <div class="achievement-card__media">
-                                <img :src="ach.image_url || '/img/dummy-trophy.svg'" :alt="ach.title" loading="lazy" />
-                                <span class="achievement-card__year">{{ ach.event_year || ach.year }}</span>
-                            </div>
-                            <div class="achievement-card__info">
-                                <span class="achievement-card__rank">{{ ach.placement_rank || 'JUARA 1' }}</span>
-                                <h3 class="achievement-card__title">{{ ach.title }}</h3>
-                                <p class="achievement-card__meta">
-                                    {{ ach.team_name || 'Ruler Of Kings' }} &bull; {{ ach.tournament_name }}
-                                </p>
-                            </div>
-                        </article>
+                    <!-- CHAMPIONSHIP METRICS BANNER -->
+                    <div class="championship-metrics-banner">
+                        <div class="championship-metric-item">
+                            <span class="championship-metric-val">18+</span>
+                            <span class="championship-metric-lbl">Verified Championships</span>
+                        </div>
+                        <div class="championship-metric-item">
+                            <span class="championship-metric-val">78.4%</span>
+                            <span class="championship-metric-lbl">Career Match Win Rate</span>
+                        </div>
+                        <div class="championship-metric-item">
+                            <span class="championship-metric-val">04</span>
+                            <span class="championship-metric-lbl">Active Pro Divisions</span>
+                        </div>
+                        <div class="championship-metric-item">
+                            <span class="championship-metric-val">100%</span>
+                            <span class="championship-metric-lbl">Sanctioned Tournaments</span>
+                        </div>
                     </div>
 
-                    <div v-if="!achievements.length" style="text-align: center; padding: 40px; color: var(--rok-silver);">
-                        Belum ada data prestasi yang ditampilkan.
+                    <!-- HALL OF ACCLAIM LEDGER -->
+                    <div class="hall-acclaim-ledger">
+                        <div class="hall-acclaim-header">
+                            <span>Tahun</span>
+                            <span>Gelar &amp; Kejuaraan</span>
+                            <span>Divisi Skuad</span>
+                            <span>Turnamen / Rekam Jejak</span>
+                            <span style="text-align:right;">Status</span>
+                        </div>
+
+                        <div v-for="ach in achievements" :key="ach.id" class="hall-acclaim-row">
+                            <span class="hall-acclaim-year">{{ ach.event_year || ach.year }}</span>
+                            <div class="hall-acclaim-title-box">
+                                <span class="hall-acclaim-rank-badge">{{ ach.placement_rank || 'CHAMPION' }}</span>
+                                <h3>{{ ach.title }}</h3>
+                            </div>
+                            <span class="hall-acclaim-team">{{ ach.team_name || 'Ruler Of Kings' }}</span>
+                            <div class="hall-acclaim-desc">{{ ach.tournament_name || ach.caption }}</div>
+                            <div class="hall-acclaim-status">VERIFIED TITLE</div>
+                        </div>
+
+                        <div v-if="!achievements.length" style="text-align: center; padding: 48px; color: #64748b; font-family: var(--font-mono, monospace);">
+                            TIDAK ADA DATA PRESTASI DITEMUKAN PADA FILTER INI.
+                        </div>
                     </div>
                 </div>
             </section>

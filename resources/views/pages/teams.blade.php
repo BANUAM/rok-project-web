@@ -21,40 +21,41 @@
         </div>
     </section>
 
-    {{-- 1. FOUNDERS SECTION (Tersendiri, di luar divisi) --}}
+    {{-- 1. FOUNDERS SECTION (EXECUTIVE DOSSIER) --}}
     <section class="teams-section founders-section" id="founders">
         <div class="section-inner">
             <header class="section-header">
+                <span class="teams-section-kicker">EXECUTIVE DOSSIER // 01</span>
                 <h2 class="section-title">THE FOUNDERS</h2>
                 <p class="section-description">
                     Para pendiri yang meletakkan visi dasar dan membangun fondasi kejayaan Ruler Of Kings.
                 </p>
             </header>
 
-            <div class="founders-grid">
-                @foreach ($founders as $founder)
-                    <article class="founder-card">
-                        <div class="founder-card__visual">
+            <div class="executive-dossier-grid">
+                @foreach ($founders as $index => $founder)
+                    <article class="executive-dossier-card">
+                        <div class="executive-portrait-frame">
                             <img
                                 src="{{ $founder->photo_url }}"
                                 alt="Foto {{ $founder->name }}"
-                                class="founder-card__photo"
                                 loading="lazy"
                             >
                         </div>
-                        <div class="founder-card__body">
-                            <span class="founder-card__role">{{ $founder->role_title }}</span>
-                            <h3 class="founder-card__name">{{ $founder->name }}</h3>
-                            <p class="founder-card__bio">{{ $founder->bio }}</p>
+                        <div class="executive-dossier-body">
+                            <span class="executive-kicker">DIR // 0{{ $index + 1 }}</span>
+                            <h3 class="executive-name">{{ $founder->name }}</h3>
+                            <div class="executive-role-title">{{ $founder->role_title }}</div>
+                            <p class="executive-bio">{{ $founder->bio }}</p>
                             @if ($founder->instagram_url || $founder->linkedin_url)
-                                <div class="founder-card__links">
+                                <div class="executive-socials">
                                     @if ($founder->instagram_url)
-                                        <a href="{{ $founder->instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                                        <a href="{{ $founder->instagram_url }}" target="_blank" rel="noopener noreferrer">
                                             Instagram &rarr;
                                         </a>
                                     @endif
                                     @if ($founder->linkedin_url)
-                                        <a href="{{ $founder->linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                                        <a href="{{ $founder->linkedin_url }}" target="_blank" rel="noopener noreferrer">
                                             LinkedIn &rarr;
                                         </a>
                                     @endif
@@ -118,68 +119,33 @@
                         $roster = $div->activePlayers->filter(fn($p) => !in_array($p->role, ['Manager', 'Coach', 'Analyst']));
                     @endphp
 
-                    @if ($staff->isNotEmpty())
-                        <div class="roster-tier">
-                            <h4 class="roster-tier__title" style="display:flex;align-items:center;gap:6px;">
-                                <span><i data-lucide="settings" style="width:14px;height:14px;"></i></span> MANAGEMENT &amp; COACHING STAFF
-                            </h4>
-                            <div class="roster-grid roster-grid--staff">
-                                @foreach ($staff as $person)
-                                    <article class="player-card player-card--staff">
-                                        <div class="player-card__avatar">
-                                            <img src="{{ $person->photo_url }}" alt="{{ $person->nickname }}" loading="lazy">
-                                        </div>
-                                        <div class="player-card__info">
-                                            <span class="player-card__role-badge">{{ $person->role }}</span>
-                                            <h5 class="player-card__ign">{{ $person->nickname }}</h5>
-                                            <p class="player-card__realname">{{ $person->real_name }}</p>
-                                            <div class="player-card__meta">
-                                                <span>{{ $person->domicile ?? 'Indonesia' }}</span>
-                                                @if ($person->age)
-                                                    <span>&bull; {{ $person->age }} Thn</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </article>
-                                @endforeach
-                            </div>
+                    <div class="tactical-roster-ledger">
+                        <div class="roster-ledger-header">
+                            <span>No.</span>
+                            <span>Atlet / IGN</span>
+                            <span>Nama Lengkap</span>
+                            <span>Peran Taktis</span>
+                            <span style="text-align:right;">Status Roster</span>
                         </div>
-                    @endif
 
-                    {{-- 5 Roles Players Roster --}}
-                    <div class="roster-tier">
-                        <h4 class="roster-tier__title" style="display:flex;align-items:center;gap:6px;">
-                            <span><i data-lucide="gamepad-2" style="width:14px;height:14px;"></i></span> ACTIVE PLAYERS (LINEUP)
-                        </h4>
-                        @if ($roster->isNotEmpty())
-                            <div class="roster-grid">
-                                @foreach ($roster as $player)
-                                    <article class="player-card">
-                                        <div class="player-card__avatar">
-                                            <img src="{{ $player->photo_url }}" alt="{{ $player->nickname }}" loading="lazy">
-                                            <span class="player-card__role-tag player-card__role-tag--{{ Str::slug($player->role) }}">
-                                                {{ $player->role }}
-                                            </span>
-                                        </div>
-                                        <div class="player-card__info">
-                                            <span class="player-card__sub">{{ $div->game_name }}</span>
-                                            <h5 class="player-card__ign">{{ $player->nickname }}</h5>
-                                            <p class="player-card__realname">{{ $player->real_name }}</p>
-                                            <div class="player-card__meta">
-                                                <span>{{ $player->domicile ?? 'Indonesia' }}</span>
-                                                @if ($player->age)
-                                                    <span>&bull; {{ $player->age }} Tahun</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </article>
-                                @endforeach
+                        @forelse ($div->activePlayers as $pIndex => $person)
+                            <div class="roster-ledger-row">
+                                <span class="roster-ledger-num">0{{ $pIndex + 1 }}</span>
+                                <div class="roster-ledger-athlete">
+                                    <img src="{{ $person->photo_url }}" alt="{{ $person->nickname }}" class="roster-athlete-avatar">
+                                    <strong class="roster-athlete-ign">{{ $person->nickname }}</strong>
+                                </div>
+                                <span class="roster-ledger-realname">{{ $person->real_name }}</span>
+                                <div>
+                                    <span class="roster-role-badge">{{ $person->role }}</span>
+                                </div>
+                                <div class="roster-status-badge">CONTRACTED</div>
                             </div>
-                        @else
-                            <div class="empty-state-box">
-                                <p>Roster aktif untuk divisi ini belum ditetapkan. Ikuti proses trial untuk bergabung!</p>
+                        @empty
+                            <div style="padding: 24px; text-align: center; color: #64748b; font-family: var(--font-mono, monospace); font-size: 13px;">
+                                ROSTER IN FINALIZATION // PENDING CONTRACT REGISTRATION
                             </div>
-                        @endif
+                        @endforelse
                     </div>
                 </div>
             @endforeach

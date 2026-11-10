@@ -54,7 +54,7 @@
                 class="rok-wordmark-img"
             >
             <p id="rhinoTagline" class="rhino-editorial-tagline">
-                RULER OF KINGS ESPORTS
+                RULER OF KINGS 
             </p>
         </div>
     </div>
@@ -263,12 +263,6 @@ window.initBladeRhinoIntro = function(force = false) {
     const overlay = document.getElementById('rokRhinoIntroOverlay');
     if (!overlay) return;
 
-    if (!force) {
-        try {
-            if (sessionStorage.getItem('rok_rhino_intro_seen')) return;
-        } catch(e) {}
-    }
-
     overlay.style.display = 'flex';
     const head = document.getElementById('rhinoHeadImg');
     const eye = document.getElementById('rhinoEyeImg');
@@ -286,7 +280,7 @@ window.initBladeRhinoIntro = function(force = false) {
     const gsap = window.gsap;
     gsap.set(overlay, { opacity: 1, scale: 1 });
     gsap.set(head, { opacity: 0, scale: 0.88, filter: 'brightness(0.3) blur(6px)' });
-    gsap.set(eye, { opacity: 0, scale: 0.5, filter: 'drop-shadow(0 0 0px #fbbf24)' });
+    gsap.set(eye, { opacity: 0, scale: 0.5, filter: 'drop-shadow(0 0 0px #fbfbfb)' });
     gsap.set(wordmark, { opacity: 0, y: 30, scale: 1.15, filter: 'blur(8px)' });
     gsap.set(scan, { top: '0%', opacity: 0 });
     gsap.set(tagline, { opacity: 0, letterSpacing: '4px' });
@@ -295,7 +289,6 @@ window.initBladeRhinoIntro = function(force = false) {
     const dismiss = () => {
         if (dismissed) return;
         dismissed = true;
-        try { sessionStorage.setItem('rok_rhino_intro_seen', '1'); } catch(e) {}
         gsap.to(overlay, {
             opacity: 0,
             scale: 1.05,
@@ -327,7 +320,7 @@ window.initBladeRhinoIntro = function(force = false) {
       .to(head, { opacity: 0.95, scale: 1, filter: 'brightness(1) blur(0px)', duration: 0.8, ease: 'power3.out' }, '-=0.1')
       .to(scan, { top: '100%', duration: 0.85, ease: 'power2.inOut' }, '-=0.8')
       .to(scan, { opacity: 0, duration: 0.2 }, '-=0.1')
-      .to(eye, { opacity: 1, scale: 1.15, filter: 'drop-shadow(0 0 25px #fbbf24) drop-shadow(0 0 45px #f59e0b)', duration: 0.35, ease: 'back.out(2)' })
+      .to(eye, { opacity: 1, scale: 1.15, filter: 'drop-shadow(0 0 25px #fbfbfb) drop-shadow(0 0 45px #f59e0b)', duration: 0.35, ease: 'back.out(2)' })
       .to(eye, { scale: 1, duration: 0.2, ease: 'power2.inOut' })
       .to(wordmark, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power4.out' }, '-=0.1')
       .to(tagline, { opacity: 1, letterSpacing: '10px', duration: 0.55, ease: 'power2.out' }, '-=0.2');

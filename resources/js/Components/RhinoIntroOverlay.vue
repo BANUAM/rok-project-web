@@ -37,9 +37,7 @@ const dismissIntro = (isSkip = false) => {
             ease: 'power3.inOut',
             onComplete: () => {
                 isVisible.value = false;
-                try {
-                    sessionStorage.setItem('rok_rhino_intro_seen', '1');
-                } catch (e) {}
+                window.__rokIntroAlreadyPlayed = true;
                 if (isSkip) {
                     emit('skipped');
                 } else {
@@ -49,6 +47,7 @@ const dismissIntro = (isSkip = false) => {
         });
     } else {
         isVisible.value = false;
+        window.__rokIntroAlreadyPlayed = true;
     }
 };
 
@@ -133,8 +132,8 @@ const handleKeyDown = (e) => {
 onMounted(() => {
     window.addEventListener('keydown', handleKeyDown);
 
-    const hasSeen = !props.forceShow && sessionStorage.getItem('rok_rhino_intro_seen');
-    if (props.autoPlay && !hasSeen) {
+    // Otomatis putar setiap buka pertama kali dan saat refresh halaman Home
+    if (props.autoPlay && !window.__rokIntroAlreadyPlayed) {
         playIntro();
     } else if (props.forceShow) {
         playIntro();

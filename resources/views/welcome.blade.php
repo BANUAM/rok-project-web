@@ -53,17 +53,13 @@
                                 >
                                     {{ $slide->cta_secondary_text }}
                                 </a>
+                            </div>
 
-                                <button
-                                    type="button"
-                                    class="hero-button hero-button--secondary"
-                                    onclick="window.initBladeRhinoIntro(true)"
-                                    title="Tampilkan Ulang Motion Graphic Badak"
-                                    style="display: inline-flex; align-items: center; gap: 6px; border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;"
-                                >
-                                    <i data-lucide="play" style="width:13px;height:13px;"></i>
-                                    <span>Intro Badak</span>
-                                </button>
+                            <div class="hero-telemetry-bar">
+                                <span class="hero-telemetry-item"><span class="hero-telemetry-dot"></span> ORG STATUS: COMBAT READY</span>
+                                <span class="hero-telemetry-item">DIVISIONS: {{ $divisions->count() }} ACTIVE</span>
+                                <span class="hero-telemetry-item">TITLES: 18+ VERIFIED</span>
+                                <span class="hero-telemetry-item">ROK HQ // TACTICAL NETWORK</span>
                             </div>
                         </div>
                     </article>
@@ -110,6 +106,22 @@
             </div>
         @endif
     </section>
+
+    {{-- FLUID KINETIC TICKER (BRIDGES HERO & EDITORIAL LEDGER) --}}
+    <div class="rok-marquee-ticker" aria-hidden="true">
+        <div class="rok-marquee-track">
+            <span class="rok-marquee-item">RULER OF KINGS ESPORTS <span class="rok-marquee-separator">&diams;</span></span>
+            <span class="rok-marquee-item">DOMINANCE THROUGH DISCIPLINE <span class="rok-marquee-separator">&diams;</span></span>
+            <span class="rok-marquee-item">COMPETITIVE ROSTERS ACTIVE <span class="rok-marquee-separator">&diams;</span></span>
+            <span class="rok-marquee-item">OFFICIAL PARTNER NETWORK <span class="rok-marquee-separator">&diams;</span></span>
+            <span class="rok-marquee-item">STAND FOR THE CROWN <span class="rok-marquee-separator">&diams;</span></span>
+            <span class="rok-marquee-item">RULER OF KINGS ESPORTS <span class="rok-marquee-separator">&diams;</span></span>
+            <span class="rok-marquee-item">DOMINANCE THROUGH DISCIPLINE <span class="rok-marquee-separator">&diams;</span></span>
+            <span class="rok-marquee-item">COMPETITIVE ROSTERS ACTIVE <span class="rok-marquee-separator">&diams;</span></span>
+            <span class="rok-marquee-item">OFFICIAL PARTNER NETWORK <span class="rok-marquee-separator">&diams;</span></span>
+            <span class="rok-marquee-item">STAND FOR THE CROWN <span class="rok-marquee-separator">&diams;</span></span>
+        </div>
+    </div>
 
     {{-- 02. TEAMS PREVIEW SECTION --}}
     @include('components.home.teams-preview')

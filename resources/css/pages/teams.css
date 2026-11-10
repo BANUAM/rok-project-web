@@ -1,7 +1,6 @@
 /* =========================================
-   TEAMS & STRUCTURE PAGE
+   TEAMS & STRUCTURE PAGE (EDITORIAL COMPANY DIRECTORY)
 ========================================= */
-
 
 .page-title {
     font-size: clamp(36px, 5vw, 60px);
@@ -18,74 +17,283 @@
 }
 
 .teams-section {
-    padding: 50px 0;
+    padding: 60px 0;
+    position: relative;
+    z-index: 1;
 }
 
-/* 1. FOUNDERS GRID */
-.founders-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-    gap: 30px;
-}
-
-.founder-card {
-    background: #0d0d0d;
-    border: 1px solid var(--rok-surface-border);
-    border-radius: var(--radius-md);
-    padding: 32px;
-    display: flex;
-    gap: 24px;
+.teams-section-kicker {
+    display: inline-flex;
     align-items: center;
-    transition: all var(--transition-base);
-}
-
-.founder-card:hover {
-    border-color: #6b7280;
-    background: #141414;
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-}
-
-.founder-card__photo {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #52525b;
-    flex-shrink: 0;
-}
-
-.founder-card__role {
-    display: block;
-    font-family: var(--font-sub);
-    font-size: 13px;
+    gap: 8px;
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
     font-weight: 700;
-    color: var(--rok-gold);
+    letter-spacing: 2px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 4px;
-}
-
-.founder-card__name {
-    font-size: 24px;
-    font-weight: 800;
-    color: #ededed;
+    color: #f59e0b;
     margin-bottom: 8px;
 }
 
-.founder-card__bio {
-    font-size: 13px;
-    color: #d1d5db;
-    line-height: 1.5;
-    margin-bottom: 14px;
+/* =========================================
+   1. EXECUTIVE LEADERSHIP DOSSIER
+========================================= */
+.executive-dossier-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 32px;
 }
 
-.founder-card__links a {
-    font-family: var(--font-sub);
+.executive-dossier-card {
+    background: #090b10;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    align-items: start;
+    position: relative;
+    transition: all 240ms ease;
+}
+
+.executive-dossier-card:hover {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: #0d1017;
+    transform: translateY(-3px);
+}
+
+.executive-portrait-frame {
+    width: 140px;
+    height: 170px;
+    background: #040507;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.executive-portrait-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(70%) contrast(1.1);
+    transition: filter 300ms ease;
+}
+
+.executive-dossier-card:hover .executive-portrait-frame img {
+    filter: grayscale(0%) contrast(1.05);
+}
+
+.executive-kicker {
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #f59e0b;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.executive-name {
+    font-size: 24px;
+    font-weight: 800;
+    color: #f8fafc;
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+}
+
+.executive-role-title {
+    font-family: var(--font-mono, monospace);
+    font-size: 12px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.executive-bio {
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.executive-socials {
+    display: flex;
+    gap: 16px;
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.executive-socials a {
+    color: #f59e0b;
+    text-decoration: none;
+    transition: opacity 150ms ease;
+}
+
+.executive-socials a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================
+   2. TACTICAL DIVISION ROSTER LEDGER
+========================================= */
+.division-info-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #090b10;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.division-info-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 6px 0;
+    color: #f8fafc;
+}
+
+.division-info-desc {
+    color: #94a3b8;
+    font-size: 14px;
+    max-width: 650px;
+    line-height: 1.5;
+}
+
+.division-stats-pill {
+    text-align: right;
+    font-family: var(--font-mono, monospace);
+}
+
+.division-stats-pill strong {
+    display: block;
+    font-size: 36px;
+    color: #f59e0b;
+    line-height: 1;
+}
+
+.division-stats-pill span {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.tactical-roster-ledger {
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 36px;
+}
+
+.roster-ledger-header {
+    display: grid;
+    grid-template-columns: 60px 2.2fr 1.6fr 1.4fr 130px;
+    gap: 16px;
+    padding: 12px 16px;
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #64748b;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.roster-ledger-row {
+    display: grid;
+    grid-template-columns: 60px 2.2fr 1.6fr 1.4fr 130px;
+    gap: 16px;
+    padding: 16px;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background 180ms ease;
+}
+
+.roster-ledger-row:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.roster-ledger-num {
+    font-family: var(--font-mono, monospace);
     font-size: 13px;
     font-weight: 700;
-    margin-right: 14px;
-    color: var(--rok-gold);
+    color: #64748b;
+}
+
+.roster-ledger-athlete {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.roster-athlete-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 4px;
+    background: #040507;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.roster-athlete-ign {
+    font-size: 16px;
+    font-weight: 800;
+    color: #f8fafc;
+    letter-spacing: 0.5px;
+}
+
+.roster-ledger-realname {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.roster-role-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    font-weight: 700;
+    color: #cbd5e1;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.roster-status-badge {
+    text-align: right;
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #22c55e;
+}
+
+@media (max-width: 900px) {
+    .executive-dossier-card {
+        grid-template-columns: 1fr;
+    }
+    .roster-ledger-header {
+        display: none;
+    }
+    .roster-ledger-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 16px 12px;
+    }
+    .roster-status-badge {
+        text-align: left;
+    }
 }
 
 /* 2. DIVISION TABS */
