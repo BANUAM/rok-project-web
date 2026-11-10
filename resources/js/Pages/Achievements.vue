@@ -1,6 +1,6 @@
-<script setup>
-import { onMounted } from 'vue';
-import { Head, Link } from '@inertiajs/vue3';
+﻿<script setup>
+import { computed, onMounted } from 'vue';
+import { Head } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { useRokAnimations } from '@/composables/useRokAnimations';
 
@@ -10,16 +10,14 @@ const props = defineProps({
     pageHeader: { type: Object, default: () => null },
 });
 
-const { animateSplitText, bindSpringHover, animateStaggerFadeIn } = useRokAnimations();
+const { animateSplitText } = useRokAnimations();
+
+// Ringkasan dihitung dari data yang tampil, bukan angka karangan.
+const yearsCount = computed(() => new Set(props.achievements.map((a) => a.event_year || a.year).filter(Boolean)).size);
+const teamsCount = computed(() => new Set(props.achievements.map((a) => a.team_name).filter(Boolean)).size);
 
 onMounted(() => {
     animateSplitText('.page-title', { y: 24, duration: 0.7 });
-    animateStaggerFadeIn('.hall-acclaim-row', 0.04);
-
-    document.querySelectorAll('.hall-acclaim-row').forEach((el) => {
-        bindSpringHover(el, 1.01, -2);
-    });
-
     window.renderLucideIcons && window.renderLucideIcons();
 });
 </script>
@@ -28,7 +26,7 @@ onMounted(() => {
     <AppLayout>
         <Head>
             <title>Prestasi &amp; Hall of Fame | Ruler Of Kings</title>
-            <meta name="description" content="Koleksi piala, rekam jejak juara, dan torehan sejarah Ruler Of Kings di berbagai kompetisi." />
+            <meta name="description" content="Rekam jejak juara dan torehan sejarah Ruler Of Kings di berbagai kompetisi." />
         </Head>
 
         <div class="page-container">
@@ -38,58 +36,47 @@ onMounted(() => {
                     <div class="page-hero__overlay"></div>
                 </div>
                 <div class="page-hero__inner">
-                    <h1 class="page-title">{{ pageHeader?.title || 'ACHIEVEMENTS & TROPHIES' }}</h1>
+                    <h1 class="page-title">{{ pageHeader?.title || 'Prestasi' }}</h1>
                     <p class="page-subtitle">
-                        {{ pageHeader?.subtitle || 'Bukti konsistensi, kerja keras, dan dedikasi seluruh divisi atlet Ruler Of Kings di panggung turnamen prestisius.' }}
+                        {{ pageHeader?.subtitle || 'Bukti konsistensi, kerja keras, dan dedikasi seluruh divisi Ruler Of Kings di panggung turnamen.' }}
                     </p>
                 </div>
             </section>
 
             <section class="achievements-page-section">
                 <div class="section-inner">
-                    <!-- CHAMPIONSHIP METRICS BANNER -->
-                    <div class="championship-metrics-banner">
-                        <div class="championship-metric-item">
-                            <span class="championship-metric-val">18+</span>
-                            <span class="championship-metric-lbl">Verified Championships</span>
+                    <div v-if="achievements.length" class="stat-row" style="margin-top: 0; margin-bottom: 56px; border-top: none; padding-top: 0;">
+                        <div class="stat-item">
+                            <span class="stat-item__value">{{ achievements.length }}</span>
+                            <span class="stat-item__label">Prestasi tercatat</span>
                         </div>
-                        <div class="championship-metric-item">
-                            <span class="championship-metric-val">78.4%</span>
-                            <span class="championship-metric-lbl">Career Match Win Rate</span>
+                        <div class="stat-item">
+                            <span class="stat-item__value">{{ yearsCount }}</span>
+                            <span class="stat-item__label">Tahun kompetisi</span>
                         </div>
-                        <div class="championship-metric-item">
-                            <span class="championship-metric-val">04</span>
-                            <span class="championship-metric-lbl">Active Pro Divisions</span>
-                        </div>
-                        <div class="championship-metric-item">
-                            <span class="championship-metric-val">100%</span>
-                            <span class="championship-metric-lbl">Sanctioned Tournaments</span>
+                        <div v-if="teamsCount" class="stat-item">
+                            <span class="stat-item__value">{{ teamsCount }}</span>
+                            <span class="stat-item__label">Tim berprestasi</span>
                         </div>
                     </div>
 
-                    <!-- HALL OF ACCLAIM LEDGER -->
-                    <div class="hall-acclaim-ledger">
-                        <div class="hall-acclaim-header">
+                    <div class="achv-list">
+                        <div class="achv-row achv-row--head">
                             <span>Tahun</span>
-                            <span>Gelar &amp; Kejuaraan</span>
-                            <span>Divisi Skuad</span>
-                            <span>Turnamen / Rekam Jejak</span>
-                            <span style="text-align:right;">Status</span>
+                            <span>Gelar</span>
+                            <span>Tim</span>
+                            <span>Keterangan</span>
                         </div>
 
-                        <div v-for="ach in achievements" :key="ach.id" class="hall-acclaim-row">
-                            <span class="hall-acclaim-year">{{ ach.event_year || ach.year }}</span>
-                            <div class="hall-acclaim-title-box">
-                                <span class="hall-acclaim-rank-badge">{{ ach.placement_rank || 'CHAMPION' }}</span>
-                                <h3>{{ ach.title }}</h3>
-                            </div>
-                            <span class="hall-acclaim-team">{{ ach.team_name || 'Ruler Of Kings' }}</span>
-                            <div class="hall-acclaim-desc">{{ ach.tournament_name || ach.caption }}</div>
-                            <div class="hall-acclaim-status">VERIFIED TITLE</div>
+                        <div v-for="ach in achievements" :key="ach.id" class="achv-row" data-rok-animate="scroll-reveal">
+                            <span class="achv-year">{{ ach.event_year || ach.year }}</span>
+                            <h3 class="achv-title">{{ ach.title }}</h3>
+                            <span class="achv-team">{{ ach.team_name || 'Ruler Of Kings' }}</span>
+                            <span class="achv-note">{{ ach.caption }}</span>
                         </div>
 
-                        <div v-if="!achievements.length" style="text-align: center; padding: 48px; color: #64748b; font-family: var(--font-mono, monospace);">
-                            TIDAK ADA DATA PRESTASI DITEMUKAN PADA FILTER INI.
+                        <div v-if="!achievements.length" class="empty-state-box">
+                            Belum ada data prestasi yang ditampilkan.
                         </div>
                     </div>
                 </div>

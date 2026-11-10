@@ -1,161 +1,105 @@
 @extends('layouts.app')
 
-@section('title', 'Pendaftaran Trial Atlet Esports | ROK Revamp')
-@section('description', 'Pendaftaran seleksi pro player Ruler Of Kings (ROK). Tahap awal pengisian nama dan email untuk mendapatkan tautan trial personal.')
+@section('title', 'Pendaftaran Trial Atlet Esports | ROK')
+@section('description', 'Pendaftaran seleksi pro player Ruler Of Kings (ROK). Isi nama dan email untuk mendapatkan tautan trial personal.')
 
 @section('content')
 <div class="page-container">
     <section class="page-hero {{ !empty($pageHeader?->image_url) ? 'page-hero--has-banner' : '' }}">
         @if (!empty($pageHeader?->image_url))
             <div class="page-hero__bg">
-                <img src="{{ $pageHeader->image_url }}" alt="{{ $pageHeader->title ?? 'ROK Trial & Selection' }}">
+                <img src="{{ $pageHeader->image_url }}" alt="{{ $pageHeader->title ?? 'Trial & seleksi' }}">
                 <div class="page-hero__overlay"></div>
             </div>
         @endif
         <div class="page-hero__inner">
-            <h1 class="page-title">{{ $pageHeader?->title ?? 'ROK TRIAL & SELECTION' }}</h1>
+            <h1 class="page-title">{{ $pageHeader?->title ?? 'Bergabung dengan ROK' }}</h1>
             <p class="page-subtitle">
-                {{ $pageHeader?->subtitle ?? 'Bergabunglah bersama keluarga besar Ruler Of Kings. Proses seleksi terbuka untuk menemukan atlet berpotensi tinggi dengan kedisiplinan dan kecerdasan taktis luar biasa.' }}
+                {{ $pageHeader?->subtitle ?? 'Seleksi terbuka untuk calon atlet. Daftarkan identitasmu untuk mendapat akses tes LSM dan evaluasi gameplay oleh manajemen ROK.' }}
             </p>
         </div>
     </section>
 
-    <section class="trial-flow-section">
+    <section class="trial-section trial-flow-section">
         <div class="section-inner">
-            {{-- Workflow Diagram --}}
-            <div class="pipeline-card">
-                <h2 class="pipeline-card__title">ALUR PENDAFTARAN &amp; SELEKSI RESMI</h2>
-                <div class="pipeline-steps">
-                    <div class="pipeline-step is-active">
-                        <div class="pipeline-step__num">1</div>
-                        <div class="pipeline-step__info">
-                            <strong>Pendaftaran Awal</strong>
-                            <p>Nama &amp; Email</p>
+            <div class="trial-layout">
+                <div>
+                    <span class="eyebrow">Alur seleksi</span>
+                    <h2 class="section-title" style="font-size: clamp(28px, 3.4vw, 42px);">Lima langkah menuju roster</h2>
+
+                    <div class="trial-steps">
+                        <div class="trial-step">
+                            <span class="trial-step__num">1</span>
+                            <div>
+                                <h3>Pendaftaran awal</h3>
+                                <p>Isi nama dan email aktif untuk membuat token trial pribadimu.</p>
+                            </div>
+                        </div>
+                        <div class="trial-step">
+                            <span class="trial-step__num">2</span>
+                            <div>
+                                <h3>Lengkapi profil</h3>
+                                <p>Lewat tautan pribadi, isi identitas dan unggah tangkapan layar profil game.</p>
+                            </div>
+                        </div>
+                        <div class="trial-step">
+                            <span class="trial-step__num">3</span>
+                            <div>
+                                <h3>Tes LSM online</h3>
+                                <p>Ujian pilihan ganda tentang logika, strategi, dan makro permainan, dikerjakan sendiri tanpa bantuan.</p>
+                            </div>
+                        </div>
+                        <div class="trial-step">
+                            <span class="trial-step__num">4</span>
+                            <div>
+                                <h3>Review manajemen</h3>
+                                <p>Manajemen dan pelatih menilai rekaman gameplay serta hasil tes.</p>
+                            </div>
+                        </div>
+                        <div class="trial-step">
+                            <span class="trial-step__num">5</span>
+                            <div>
+                                <h3>Kontrak &amp; penerimaan roster</h3>
+                                <p>Kontrak dilakukan resmi di luar sistem setelah kamu dinyatakan lulus dan melalui evaluasi tatap muka.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="pipeline-step">
-                        <div class="pipeline-step__num">2</div>
-                        <div class="pipeline-step__info">
-                            <strong>Link Personal</strong>
-                            <p>Token Keamanan</p>
-                        </div>
-                    </div>
-                    <div class="pipeline-step">
-                        <div class="pipeline-step__num">3</div>
-                        <div class="pipeline-step__info">
-                            <strong>Lengkapi Profil</strong>
-                            <p>Identitas &amp; Upload</p>
-                        </div>
-                    </div>
-                    <div class="pipeline-step">
-                        <div class="pipeline-step__num">4</div>
-                        <div class="pipeline-step__info">
-                            <strong>Tes LSM Online</strong>
-                            <p>Evaluasi Taktik</p>
-                        </div>
-                    </div>
-                    <div class="pipeline-step">
-                        <div class="pipeline-step__num">5</div>
-                        <div class="pipeline-step__info">
-                            <strong>Review &amp; Kontrak</strong>
-                            <p>Penerimaan Roster</p>
-                        </div>
+
+                    <div class="trial-requirements">
+                        <h3>Persyaratan minimal</h3>
+                        <ul>
+                            <li>Rank Mobile Legends minimal Mythical Glory atau Mythical Immortal musim ini atau terakhir.</li>
+                            <li>Siap mengikuti scrim, evaluasi taktik, dan coaching rutin.</li>
+                            <li>Menyiapkan 3 tangkapan layar: profil MLBB, win rate hero favorit, dan tier stars terkini.</li>
+                        </ul>
                     </div>
                 </div>
-            </div>
 
-            <div class="trial-grid">
-                {{-- Form Pendaftaran Awal --}}
-                <div class="trial-form-box">
-                    <div class="form-header">
-                        <h3 class="form-title">PENDAFTARAN AWAL</h3>
-                        <p class="form-desc">
-                            Calon pemain belum perlu membuat akun permanen. Cukup masukkan nama lengkap dan email aktif untuk membuat token trial pribadimu.
-                        </p>
-                    </div>
+                <div class="trial-card">
+                    <h2>Daftar trial</h2>
+                    <p>Belum perlu membuat akun. Cukup nama lengkap dan email aktif untuk membuat token trial pribadimu.</p>
 
-                    <form method="POST" action="{{ route('trial.register') }}" class="rok-form">
+                    <form method="POST" action="{{ route('trial.register') }}">
                         @csrf
 
-                        <div class="form-field">
-                            <label for="name" class="form-label">Nama Lengkap Sesuai KTP/Identitas <span class="text-gold">*</span></label>
-                            <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                class="form-input @error('name') is-invalid @enderror"
-                                value="{{ old('name') }}"
-                                placeholder="Contoh: Farhan Alamsyah"
-                                required
-                            >
+                        <div class="field">
+                            <label for="name">Nama lengkap</label>
+                            <input type="text" name="name" id="name" value="{{ old('name') }}" placeholder="Sesuai identitas" required autocomplete="name">
                             @error('name')
-                                <span class="form-error">{{ $message }}</span>
+                                <span class="field__error">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <div class="form-field">
-                            <label for="email" class="form-label">Alamat Email Aktif <span class="text-gold">*</span></label>
-                            <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                class="form-input @error('email') is-invalid @enderror"
-                                value="{{ old('email') }}"
-                                placeholder="Contoh: farhan@gmail.com"
-                                required
-                            >
+                        <div class="field">
+                            <label for="email">Email aktif</label>
+                            <input type="email" name="email" id="email" value="{{ old('email') }}" placeholder="nama@email.com" required autocomplete="email">
                             @error('email')
-                                <span class="form-error">{{ $message }}</span>
+                                <span class="field__error">{{ $message }}</span>
                             @enderror
-                            <small class="form-help">
-                                Tautan link personal trial kamu akan dibuatkan secara instan dan aman.
-                            </small>
                         </div>
 
-                        <button type="submit" class="btn-rok btn-rok--gold btn-rok--full">
-                            Lanjutkan ke Pengisian Berkas &rarr;
-                        </button>
+                        <button type="submit" class="btn-rok btn-rok--gold btn-rok--full" style="margin-top: 8px;">Lanjutkan</button>
                     </form>
-                </div>
-
-                {{-- Ketentuan & Persyaratan Seleksi --}}
-                <div class="trial-rules-box">
-                    <h3 class="rules-title">PERSYARATAN MINIMAL</h3>
-                    <ul class="rules-list">
-                        <li>
-                            <span class="rules-bullet"><i data-lucide="check" style="width:12px;height:12px;"></i></span>
-                            <div>
-                                <strong>Rank Mobile Legends</strong>
-                                <p>Minimal Mythical Glory atau Mythical Immortal musim saat ini/terakhir.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="rules-bullet"><i data-lucide="check" style="width:12px;height:12px;"></i></span>
-                            <div>
-                                <strong>Kesiapan Waktu &amp; Disiplin</strong>
-                                <p>Siap mengikuti sesi latihan (scrim), evaluasi taktis, dan coaching rutin.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="rules-bullet"><i data-lucide="check" style="width:12px;height:12px;"></i></span>
-                            <div>
-                                <strong>Dokumentasi Profil Game</strong>
-                                <p>Menyiapkan 3 screenshot: profil MLBB, win rate hero favorit, dan tier stars terkini.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="rules-bullet"><i data-lucide="check" style="width:12px;height:12px;"></i></span>
-                            <div>
-                                <strong>Tes LSM (Logika Strategi &amp; Makro)</strong>
-                                <p>Wajib menyelesaikan ujian pilihan ganda secara objektif tanpa bantuan pihak ketiga.</p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <div class="rules-note">
-                        <span class="note-icon"><i data-lucide="info" style="width:14px;height:14px;"></i></span>
-                        <p>Kontrak fisik atlet dilakukan secara resmi di luar sistem setelah calon pemain dinyatakan lulus seleksi dan evaluasi tatap muka.</p>
-                    </div>
                 </div>
             </div>
         </div>

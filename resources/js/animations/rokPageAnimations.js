@@ -1,4 +1,4 @@
-import gsap from 'gsap';
+﻿import gsap from 'gsap';
 import { animate, scroll, inView, spring } from 'motion';
 import SplitType from 'split-type';
 import Lenis from 'lenis';
@@ -65,13 +65,12 @@ export function initScrollProgressBar() {
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #d4af37 0%, #f59e0b 50%, #e2e8f0 100%);
+            height: 2px;
+            background: #a8530f;
             transform-origin: 0% 50%;
             transform: scaleX(0);
             z-index: 99999;
             pointer-events: none;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         `;
         document.body.appendChild(bar);
     }
@@ -303,7 +302,7 @@ export function initSpringHoverEffects() {
         el.addEventListener('mouseenter', () => {
             animate(
                 el,
-                { scale: 1.025, y: -2 },
+                { y: -1 },
                 { duration: 0.25, easing: spring({ stiffness: 450, damping: 26 }) }
             );
         });
@@ -311,7 +310,7 @@ export function initSpringHoverEffects() {
         el.addEventListener('mouseleave', () => {
             animate(
                 el,
-                { scale: 1, y: 0 },
+                { y: 0 },
                 { duration: 0.25, easing: spring({ stiffness: 450, damping: 26 }) }
             );
         });

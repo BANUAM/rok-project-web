@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { Link } from '@inertiajs/vue3';
 </script>
 
@@ -9,7 +9,7 @@ import { Link } from '@inertiajs/vue3';
             <div class="site-footer__brand">
                 <div class="site-footer__logo-row">
                     <img
-                        src="/img/rok-logo.png"
+                        src="/img/rok-rhino-head-light.png"
                         alt="ROK Logo"
                         class="site-footer__logo"
                         onerror="this.style.display='none'"

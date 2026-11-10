@@ -1,4 +1,4 @@
-import { createApp, h } from 'vue';
+﻿import { createApp, h } from 'vue';
 import { createInertiaApp, Head, Link, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createIcons, icons } from 'lucide';
@@ -36,10 +36,10 @@ window.renderLucideIcons = function () {
 };
 
 export function applyRokTheme(theme) {
-    const normalized = theme === 'light' ? 'light' : 'dark';
+    const normalized = theme === 'dark' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', normalized);
     try {
-        localStorage.setItem('rok-theme', normalized);
+        localStorage.setItem('rok-theme-v2', normalized);
     } catch (e) {}
 
     document.querySelectorAll('[data-theme-icon]').forEach((el) => {
@@ -62,13 +62,13 @@ window.applyRokTheme = applyRokTheme;
 
 document.addEventListener('DOMContentLoaded', () => {
     try {
-        const initialTheme = localStorage.getItem('rok-theme') || document.documentElement.getAttribute('data-theme') || 'dark';
+        const initialTheme = localStorage.getItem('rok-theme-v2') || document.documentElement.getAttribute('data-theme') || 'light';
         applyRokTheme(initialTheme);
     } catch (e) {}
 
     document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
         btn.addEventListener('click', () => {
-            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
             applyRokTheme(current === 'dark' ? 'light' : 'dark');
         });
     });

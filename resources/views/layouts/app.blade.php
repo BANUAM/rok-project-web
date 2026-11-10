@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>@yield('title', 'ROK Revamp | Ruler Of Kings')</title>
-    <meta name="description" content="@yield('description', 'Ruler Of Kings (ROK) — Competitive Esports Organization focused on competition, development, discipline and unity.')">
+    <meta name="description" content="@yield('description', 'Ruler Of Kings (ROK) â€” Competitive Esports Organization focused on competition, development, discipline and unity.')">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Teko:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('rok-theme') || 'dark';
+            const savedTheme = localStorage.getItem('rok-theme-v2') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
         })();
     </script>
@@ -26,13 +26,7 @@
     @include('components.rhino-intro')
 
     {{-- Pure CSS Hexagonal drifting backdrop --}}
-    <div class="hex-ambient" aria-hidden="true">
-        <div class="hex-ambient__cell hex-ambient__cell--1"></div>
-        <div class="hex-ambient__cell hex-ambient__cell--2"></div>
-        <div class="hex-ambient__cell hex-ambient__cell--3"></div>
-        <div class="hex-ambient__cell hex-ambient__cell--4"></div>
-        <div class="hex-ambient__cell hex-ambient__cell--5"></div>
-    </div>
+
 
     @include('components.site-header')
 

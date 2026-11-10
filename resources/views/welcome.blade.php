@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'ROK | Ruler Of Kings — Official Esports Organization')
-@section('description', 'Selamat datang di Ruler Of Kings (ROK). Organisasi esports kompetitif yang berfokus pada prestasi, pengembangan atlet, trial pro-player, dan platform turnamen.')
+@section('title', 'ROK | Ruler Of Kings — Organisasi Esports')
+@section('description', 'Ruler Of Kings (ROK) adalah organisasi esports kompetitif yang berfokus pada prestasi, pengembangan atlet, seleksi pemain, dan platform turnamen.')
 
 @section('content')
-    {{-- 01. HERO SECTION: Dynamic Hero Banner Slider --}}
-    <section class="hero-section" id="homeHero" aria-label="ROK introduction">
+    {{-- 01. HERO --}}
+    <section class="hero-section" id="homeHero" aria-label="Ruler Of Kings">
         @if ($heroSlides->isNotEmpty())
             <div class="hero-slider" id="heroSlider">
                 @foreach ($heroSlides as $index => $slide)
@@ -14,52 +14,32 @@
                         data-slide="{{ $index }}"
                         aria-hidden="{{ $index === 0 ? 'false' : 'true' }}"
                     >
-                        <div class="hero-slide__background">
+                        <div class="hero-slide__backdrop">
                             <img
+                                class="hero-slide__image"
                                 src="{{ \Illuminate\Support\Facades\Storage::url($slide->image_path) }}"
                                 alt="{{ $slide->title }}"
                                 @if ($index === 0) fetchpriority="high" @else loading="lazy" @endif
                             >
+                            <div class="hero-slide__overlay"></div>
                         </div>
 
-                        <div class="hero-slide__overlay"></div>
-
                         <div class="hero-slide__content">
-                            <p class="hero-slide__eyebrow">
-                                RULER OF KINGS 
-                            </p>
+                            <div class="site-container hero-slide__inner">
+                                <h1 class="hero-slide__title">{{ $slide->title }}</h1>
 
-                            <h1 class="hero-slide__title">
-                                {{ $slide->title }}
-                            </h1>
+                                @if ($slide->description)
+                                    <p class="hero-slide__description">{{ $slide->description }}</p>
+                                @endif
 
-                            @if ($slide->description)
-                                <p class="hero-slide__description">
-                                    {{ $slide->description }}
-                                </p>
-                            @endif
-
-                            <div class="hero-slide__actions">
-                                <a
-                                    href="{{ url($slide->cta_primary_url) }}"
-                                    class="hero-button hero-button--primary"
-                                >
-                                    {{ $slide->cta_primary_text }}
-                                </a>
-
-                                <a
-                                    href="{{ url($slide->cta_secondary_url) }}"
-                                    class="hero-button hero-button--secondary"
-                                >
-                                    {{ $slide->cta_secondary_text }}
-                                </a>
-                            </div>
-
-                            <div class="hero-telemetry-bar">
-                                <span class="hero-telemetry-item"><span class="hero-telemetry-dot"></span> ORG STATUS: COMBAT READY</span>
-                                <span class="hero-telemetry-item">DIVISIONS: {{ $divisions->count() }} ACTIVE</span>
-                                <span class="hero-telemetry-item">TITLES: 18+ VERIFIED</span>
-                                <span class="hero-telemetry-item">ROK HQ // TACTICAL NETWORK</span>
+                                <div class="hero-slide__actions">
+                                    <a href="{{ url($slide->cta_primary_url) }}" class="hero-button hero-button--primary">
+                                        {{ $slide->cta_primary_text }}
+                                    </a>
+                                    <a href="{{ url($slide->cta_secondary_url) }}" class="hero-button hero-button--secondary">
+                                        {{ $slide->cta_secondary_text }}
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -67,7 +47,7 @@
 
                 @if ($heroSlides->count() > 1)
                     <div class="hero-slider__controls">
-                        <button type="button" id="heroPrevious" aria-label="Previous banner" style="display:inline-flex;align-items:center;justify-content:center;">
+                        <button type="button" id="heroPrevious" aria-label="Banner sebelumnya" style="display:inline-flex;align-items:center;justify-content:center;">
                             <i data-lucide="chevron-left" style="width:20px;height:20px;"></i>
                         </button>
 
@@ -77,71 +57,89 @@
                                     type="button"
                                     class="{{ $index === 0 ? 'is-active' : '' }}"
                                     data-go-to="{{ $index }}"
-                                    aria-label="Go to banner {{ $index + 1 }}"
+                                    aria-label="Ke banner {{ $index + 1 }}"
                                     aria-current="{{ $index === 0 ? 'true' : 'false' }}"
                                 ></button>
                             @endforeach
                         </div>
 
-                        <button type="button" id="heroNext" aria-label="Next banner" style="display:inline-flex;align-items:center;justify-content:center;">
+                        <button type="button" id="heroNext" aria-label="Banner berikutnya" style="display:inline-flex;align-items:center;justify-content:center;">
                             <i data-lucide="chevron-right" style="width:20px;height:20px;"></i>
                         </button>
                     </div>
                 @endif
             </div>
         @else
-            <div class="hero-empty">
-                <p class="hero-empty__eyebrow">RULER OF KINGS</p>
-                <h1>WELCOME TO NEW KINGDOM</h1>
-                <p>ONE VISION. ONE TEAM. ONE KINGDOM.</p>
-
-                <div class="hero-slide__actions">
-                    <a href="{{ url('/trial') }}" class="hero-button hero-button--primary">
-                        Join Our Trial
-                    </a>
-                    <a href="{{ url('/teams') }}" class="hero-button hero-button--secondary">
-                        Explore Teams
-                    </a>
-                </div>
+            <div class="hero-slider" id="heroSlider">
+                <article class="hero-slide hero-slide--plain is-active">
+                    <div class="hero-slide__backdrop"></div>
+                    <div class="hero-slide__content">
+                        <div class="site-container hero-slide__inner">
+                            <h1 class="hero-slide__title">Ruler Of Kings</h1>
+                            <p class="hero-slide__description">
+                                Organisasi esports kompetitif yang membangun atlet lewat disiplin, integritas, dan kerja sama tim.
+                            </p>
+                            <div class="hero-slide__actions">
+                                <a href="{{ url('/trial') }}" class="hero-button hero-button--primary">Daftar trial</a>
+                                <a href="{{ url('/teams') }}" class="hero-button hero-button--secondary">Kenali tim kami</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
             </div>
         @endif
     </section>
 
-    {{-- FLUID KINETIC TICKER (BRIDGES HERO & EDITORIAL LEDGER) --}}
-    <div class="rok-marquee-ticker" aria-hidden="true">
-        <div class="rok-marquee-track">
-            <span class="rok-marquee-item">RULER OF KINGS ESPORTS <span class="rok-marquee-separator">&diams;</span></span>
-            <span class="rok-marquee-item">DOMINANCE THROUGH DISCIPLINE <span class="rok-marquee-separator">&diams;</span></span>
-            <span class="rok-marquee-item">COMPETITIVE ROSTERS ACTIVE <span class="rok-marquee-separator">&diams;</span></span>
-            <span class="rok-marquee-item">OFFICIAL PARTNER NETWORK <span class="rok-marquee-separator">&diams;</span></span>
-            <span class="rok-marquee-item">STAND FOR THE CROWN <span class="rok-marquee-separator">&diams;</span></span>
-            <span class="rok-marquee-item">RULER OF KINGS ESPORTS <span class="rok-marquee-separator">&diams;</span></span>
-            <span class="rok-marquee-item">DOMINANCE THROUGH DISCIPLINE <span class="rok-marquee-separator">&diams;</span></span>
-            <span class="rok-marquee-item">COMPETITIVE ROSTERS ACTIVE <span class="rok-marquee-separator">&diams;</span></span>
-            <span class="rok-marquee-item">OFFICIAL PARTNER NETWORK <span class="rok-marquee-separator">&diams;</span></span>
-            <span class="rok-marquee-item">STAND FOR THE CROWN <span class="rok-marquee-separator">&diams;</span></span>
-        </div>
-    </div>
+    {{-- 02. TENTANG + STATISTIK (angka dihitung dari data sebenarnya) --}}
+    <section class="home-section" id="about" aria-labelledby="aboutTitle">
+        <div class="home-section__inner">
+            <div class="about-block">
+                <span class="eyebrow" id="aboutTitle">Tentang ROK</span>
+                <div>
+                    <p class="about-statement" data-rok-animate="scroll-reveal">
+                        Ruler Of Kings adalah organisasi esports yang membina atlet profesional,
+                        <span>membangun karakter lewat disiplin, dan bersaing dengan integritas di panggung nasional.</span>
+                    </p>
+                    <a href="{{ url('/teams') }}" class="text-link">Kenali tim kami <span aria-hidden="true">&rarr;</span></a>
+                </div>
+            </div>
 
-    {{-- 02. TEAMS PREVIEW SECTION --}}
+            <div class="stat-row" data-rok-animate="scroll-reveal">
+                <div class="stat-item">
+                    <span class="stat-item__value">{{ $divisions->count() }}</span>
+                    <span class="stat-item__label">Divisi kompetitif</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-item__value">{{ $divisions->sum(fn ($d) => $d->activePlayers->count()) }}</span>
+                    <span class="stat-item__label">Atlet &amp; staf aktif</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-item__value">{{ $achievementsCount ?? $achievements->count() }}</span>
+                    <span class="stat-item__label">Prestasi tercatat</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- 03. DIVISI --}}
     @include('components.home.teams-preview')
 
-    {{-- 03. ACHIEVEMENTS SECTION --}}
+    {{-- 04. PRESTASI --}}
     @include('components.home.achievements-preview')
 
-    {{-- 04. LEARNING & DEVELOPMENT SECTION --}}
+    {{-- 05. LEARNING & DEVELOPMENT --}}
     @include('components.home.learning-preview')
 
-    {{-- 05. BRACKET SECTION --}}
+    {{-- 06. BRACKET --}}
     @include('components.home.bracket-preview')
 
-    {{-- 06. MEMBERSHIP TIERS SECTION --}}
+    {{-- 07. MEMBERSHIP --}}
     @include('components.home.membership-preview')
 
-    {{-- 07. TRIAL CTA SECTION --}}
+    {{-- 08. TRIAL CTA --}}
     @include('components.home.trial-cta')
 
-    {{-- 08. PARTNERS & SPONSORS SECTION --}}
+    {{-- 09. PARTNER & SPONSOR --}}
     @include('components.home.partners-preview')
 
 @endsection

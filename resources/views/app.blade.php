@@ -7,12 +7,12 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Teko:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         (function() {
             try {
-                const savedTheme = localStorage.getItem('rok-theme') || 'dark';
+                const savedTheme = localStorage.getItem('rok-theme-v2') || 'light';
                 document.documentElement.setAttribute('data-theme', savedTheme);
             } catch (e) {}
         })();
@@ -22,13 +22,7 @@
     @inertiaHead
 </head>
 <body class="rok-app">
-    <div class="hex-ambient" aria-hidden="true">
-        <div class="hex-ambient__cell hex-ambient__cell--1"></div>
-        <div class="hex-ambient__cell hex-ambient__cell--2"></div>
-        <div class="hex-ambient__cell hex-ambient__cell--3"></div>
-        <div class="hex-ambient__cell hex-ambient__cell--4"></div>
-        <div class="hex-ambient__cell hex-ambient__cell--5"></div>
-    </div>
+
 
     @inertia
 </body>

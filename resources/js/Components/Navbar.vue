@@ -1,17 +1,17 @@
-<script setup>
+﻿<script setup>
 import { ref, onMounted, nextTick } from 'vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
 import { animate, spring } from 'motion';
 
 const page = usePage();
 const mobileOpen = ref(false);
-const theme = ref('dark');
+const theme = ref('light');
 
 const toggleTheme = () => {
     theme.value = theme.value === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', theme.value);
     try {
-        localStorage.setItem('rok-theme', theme.value);
+        localStorage.setItem('rok-theme-v2', theme.value);
     } catch (e) {}
     if (window.applyRokTheme) {
         window.applyRokTheme(theme.value);
@@ -41,7 +41,7 @@ const isActive = (path) => {
 
 onMounted(() => {
     try {
-        const saved = localStorage.getItem('rok-theme') || 'dark';
+        const saved = localStorage.getItem('rok-theme-v2') || 'light';
         theme.value = saved;
         document.documentElement.setAttribute('data-theme', saved);
     } catch (e) {}
@@ -56,10 +56,15 @@ onMounted(() => {
             <!-- Brand / Logo -->
             <Link href="/" class="site-nav__brand" aria-label="Ruler Of Kings Home" @click="closeMobile">
                 <img
-                    src="/img/rok-logo.png"
+                    src="/img/rok-rhino-head.png"
                     alt="ROK Logo"
-                    class="site-nav__logo"
-                    onerror="this.src='/img/dummy-division.svg'"
+                    class="site-nav__logo site-nav__logo--light"
+                />
+                <img
+                    src="/img/rok-rhino-head-light.png"
+                    alt=""
+                    aria-hidden="true"
+                    class="site-nav__logo site-nav__logo--dark"
                 />
                 <span class="site-nav__brand-text">
                     <span class="site-nav__brand-name">ROK</span>

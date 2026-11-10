@@ -1,105 +1,99 @@
 @extends('layouts.app')
 
-@section('title', 'Achievements & Hall of Fame | ROK Revamp')
-@section('description', 'Daftar rekor prestasi, piala, dan sertifikat resmi turnamen Ruler Of Kings (ROK) Revamp.')
+@section('title', 'Prestasi & Hall of Fame | Ruler Of Kings')
+@section('description', 'Daftar rekor prestasi dan penghargaan resmi turnamen Ruler Of Kings (ROK).')
 
 @section('content')
 <div class="page-container">
     <section class="page-hero {{ !empty($pageHeader?->image_url) ? 'page-hero--has-banner' : '' }}">
         @if (!empty($pageHeader?->image_url))
             <div class="page-hero__bg">
-                <img src="{{ $pageHeader->image_url }}" alt="{{ $pageHeader->title ?? 'Achievements & Trophies' }}">
+                <img src="{{ $pageHeader->image_url }}" alt="{{ $pageHeader->title ?? 'Prestasi' }}">
                 <div class="page-hero__overlay"></div>
             </div>
         @endif
         <div class="page-hero__inner">
             <h1 class="page-title">{{ $pageHeader?->title ?? 'ACHIEVEMENTS & TROPHIES' }}</h1>
             <p class="page-subtitle">
-                {{ $pageHeader?->subtitle ?? 'Jejak supremasi dan penghargaan resmi yang diraih skuad Ruler Of Kings sepanjang kiprah kompetitif esports.' }}
+                {{ $pageHeader?->subtitle ?? 'Jejak penghargaan resmi yang diraih skuad Ruler Of Kings sepanjang kiprah kompetitif.' }}
             </p>
         </div>
     </section>
 
     <section class="achievements-page-section">
         <div class="section-inner">
-            {{-- Championship Metrics Banner --}}
-            <div class="championship-metrics-banner">
-                <div class="championship-metric-item">
-                    <span class="championship-metric-val">18+</span>
-                    <span class="championship-metric-lbl">Verified Championships</span>
+            {{-- Ringkasan: dihitung dari data yang ditampilkan --}}
+            @if ($achievements->isNotEmpty())
+                <div class="stat-row" style="margin-top: 0; margin-bottom: 48px; border-top: none; padding-top: 0;">
+                    <div class="stat-item">
+                        <span class="stat-item__value">{{ $achievements->count() }}</span>
+                        <span class="stat-item__label">Prestasi tercatat</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-item__value">{{ $achievements->pluck('event_year')->filter()->unique()->count() }}</span>
+                        <span class="stat-item__label">Tahun kompetisi</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-item__value">{{ $achievements->where('is_highlight', true)->count() }}</span>
+                        <span class="stat-item__label">Prestasi utama</span>
+                    </div>
                 </div>
-                <div class="championship-metric-item">
-                    <span class="championship-metric-val">78.4%</span>
-                    <span class="championship-metric-lbl">Career Match Win Rate</span>
-                </div>
-                <div class="championship-metric-item">
-                    <span class="championship-metric-val">04</span>
-                    <span class="championship-metric-lbl">Active Pro Divisions</span>
-                </div>
-                <div class="championship-metric-item">
-                    <span class="championship-metric-val">100%</span>
-                    <span class="championship-metric-lbl">Sanctioned Tournaments</span>
-                </div>
-            </div>
+            @endif
 
-            {{-- Filter Bar --}}
+            {{-- Filter --}}
             <div class="filter-bar">
                 <form method="GET" action="{{ url('/achievements') }}" class="filter-form">
                     <div class="filter-group">
-                        <label for="filterYear" class="filter-label">Tahun:</label>
+                        <label for="filterYear" class="filter-label">Tahun</label>
                         <select name="year" id="filterYear" class="filter-select" onchange="this.form.submit()">
-                            <option value="">Semua Tahun</option>
+                            <option value="">Semua tahun</option>
                             @foreach ($years as $yr)
-                                <option value="{{ $yr }}" {{ request('year') == $yr ? 'selected' : '' }}>
-                                    {{ $yr }}
-                                </option>
+                                <option value="{{ $yr }}" {{ request('year') == $yr ? 'selected' : '' }}>{{ $yr }}</option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="filter-group">
-                        <label for="filterDiv" class="filter-label">Divisi:</label>
+                        <label for="filterDiv" class="filter-label">Divisi</label>
                         <select name="division_id" id="filterDiv" class="filter-select" onchange="this.form.submit()">
-                            <option value="">Semua Divisi</option>
+                            <option value="">Semua divisi</option>
                             @foreach ($divisions as $d)
-                                <option value="{{ $d->id }}" {{ request('division_id') == $d->id ? 'selected' : '' }}>
-                                    {{ $d->name }}
-                                </option>
+                                <option value="{{ $d->id }}" {{ request('division_id') == $d->id ? 'selected' : '' }}>{{ $d->name }}</option>
                             @endforeach
                         </select>
                     </div>
 
                     @if (request()->hasAny(['year', 'division_id']))
-                        <a href="{{ url('/achievements') }}" class="btn-clear-filter">Reset Filter</a>
+                        <a href="{{ url('/achievements') }}" class="btn-clear-filter">Reset filter</a>
                     @endif
                 </form>
             </div>
 
-            {{-- Hall of Acclaim Ledger --}}
-            <div class="hall-acclaim-ledger">
-                <div class="hall-acclaim-header">
+            {{-- Daftar prestasi --}}
+            <div class="achv-list">
+                <div class="achv-row achv-row--head">
                     <span>Tahun</span>
-                    <span>Gelar &amp; Kejuaraan</span>
-                    <span>Divisi Skuad</span>
-                    <span>Turnamen / Rekam Jejak</span>
-                    <span style="text-align:right;">Status</span>
+                    <span>Gelar</span>
+                    <span>Tim</span>
+                    <span>Keterangan</span>
                 </div>
 
                 @forelse ($achievements as $achievement)
-                    <div class="hall-acclaim-row">
-                        <span class="hall-acclaim-year">{{ $achievement->event_year }}</span>
-                        <div class="hall-acclaim-title-box">
-                            <span class="hall-acclaim-rank-badge">{{ $achievement->placement_rank ?? 'CHAMPION' }}</span>
-                            <h3>{{ $achievement->title }}</h3>
-                        </div>
-                        <span class="hall-acclaim-team">{{ $achievement->team_name ?? ($achievement->division?->name ?? 'Ruler Of Kings') }}</span>
-                        <div class="hall-acclaim-desc">{{ $achievement->caption }}</div>
-                        <div class="hall-acclaim-status">VERIFIED TITLE</div>
+                    <div class="achv-row" data-rok-animate="scroll-reveal">
+                        <span class="achv-year">{{ $achievement->event_year }}</span>
+                        <h3 class="achv-title">{{ $achievement->title }}</h3>
+                        <span class="achv-team">
+                            {{ $achievement->team_name ?? 'Ruler Of Kings' }}
+                            @if ($achievement->division)
+                                &middot; {{ $achievement->division->name }}
+                            @endif
+                        </span>
+                        <span class="achv-note">{{ $achievement->caption }}</span>
                     </div>
                 @empty
-                    <div class="empty-state-box" style="padding: 48px; text-align: center; color: #64748b; font-family: var(--font-mono, monospace);">
-                        <p>TIDAK ADA DATA PRESTASI DITEMUKAN PADA FILTER INI.</p>
-                        <a href="{{ url('/achievements') }}" class="btn-rok btn-rok--ghost" style="margin-top: 12px; display: inline-block;">Reset Filter &rarr;</a>
+                    <div class="empty-state-box">
+                        <p>Tidak ada prestasi yang sesuai dengan filter yang dipilih.</p>
+                        <a href="{{ url('/achievements') }}" class="text-link" style="margin-top: 16px;">Tampilkan semua</a>
                     </div>
                 @endforelse
             </div>

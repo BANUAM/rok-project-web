@@ -6,7 +6,7 @@
     <title>Management Login | ROK Revamp</title>
     <script>
         (function() {
-            var savedTheme = localStorage.getItem('rok-theme') || 'dark';
+            var savedTheme = localStorage.getItem('rok-theme-v2') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
         })();
     </script>
@@ -57,7 +57,7 @@
                         name="password"
                         id="password"
                         class="form-input"
-                        placeholder="••••••••"
+                        placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                         required
                     >
                 </div>

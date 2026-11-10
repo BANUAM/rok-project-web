@@ -38,6 +38,8 @@ class HomeController extends Controller
             ->take(4)
             ->get();
 
+        $achievementsCount = Achievement::query()->where('is_active', true)->count();
+
         $modules = LearningModule::query()
             ->with(['lessons'])
             ->where('is_active', true)
@@ -70,6 +72,7 @@ class HomeController extends Controller
             'heroSlides',
             'divisions',
             'achievements',
+            'achievementsCount',
             'modules',
             'demoTournament',
             'partners',

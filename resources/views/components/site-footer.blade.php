@@ -5,7 +5,7 @@
         <div class="site-footer__brand">
             <div class="site-footer__logo-row">
                 <img
-                    src="{{ asset('img/rok-logo.png') }}"
+                    src="{{ asset('img/rok-rhino-head-light.png') }}"
                     alt="ROK Logo"
                     class="site-footer__logo"
                     onerror="this.style.display='none'"

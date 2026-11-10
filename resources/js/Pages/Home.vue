@@ -1,5 +1,5 @@
-<script setup>
-import { ref, onMounted, nextTick } from 'vue';
+﻿<script setup>
+import { ref, computed, onMounted, nextTick } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import RhinoIntroOverlay from '@/Components/RhinoIntroOverlay.vue';
@@ -9,6 +9,7 @@ const props = defineProps({
     heroSlides: { type: Array, default: () => [] },
     divisions: { type: Array, default: () => [] },
     achievements: { type: Array, default: () => [] },
+    achievementsCount: { type: Number, default: 0 },
     modules: { type: Array, default: () => [] },
     partners: { type: Array, default: () => [] },
     demoTournament: { type: Object, default: () => null },
@@ -17,6 +18,9 @@ const props = defineProps({
 });
 
 const currentSlide = ref(0);
+const totalMembers = computed(() =>
+    props.divisions.reduce((sum, d) => sum + (d.active_players_count ?? (d.active_players ? d.active_players.length : 0)), 0)
+);
 const { animateSplitText, animateHeroEntrance, bindSpringHover, animateStaggerFadeIn } = useRokAnimations();
 
 const nextSlide = () => {
@@ -44,12 +48,8 @@ const animateCurrentSlideHeadline = () => {
 
 onMounted(() => {
     animateHeroEntrance('.hero-title-text', '.hero-subtitle-text', '.hero-action-buttons');
-    animateStaggerFadeIn('.division-card', 0.06);
 
-    document.querySelectorAll('.btn-rok, .achievement-card, .division-card').forEach((el) => {
-        bindSpringHover(el, 1.02, -3);
-    });
-
+    
     window.renderLucideIcons && window.renderLucideIcons();
 });
 </script>
@@ -61,27 +61,28 @@ onMounted(() => {
 
         <Head>
             <title>ROK Revamp | Ruler Of Kings</title>
-            <meta name="description" content="Ruler Of Kings (ROK) — Competitive Esports Organization focused on competition, development, discipline and unity." />
+            <meta name="description" content="Ruler Of Kings (ROK) â€” Competitive Esports Organization focused on competition, development, discipline and unity." />
         </Head>
 
-        <!-- HERO SLIDER SECTION -->
+        <!-- HERO -->
         <section class="hero-slider" id="heroSlider" aria-roledescription="carousel">
             <div class="hero-slider__track">
                 <article
                     v-for="(slide, idx) in heroSlides"
                     :key="slide.id || idx"
                     class="hero-slide"
-                    :class="{ 'is-active': idx === currentSlide }"
+                    :class="{ 'is-active': idx === currentSlide, 'hero-slide--plain': !slide.image_url }"
                     :aria-hidden="idx !== currentSlide"
                 >
                     <div class="hero-slide__backdrop">
                         <img
-                            :src="slide.image_url || '/img/dummy-division.svg'"
+                            v-if="slide.image_url"
+                            :src="slide.image_url"
                             :alt="slide.title"
                             class="hero-slide__image"
-                            loading="lazy"
+                            :loading="idx === 0 ? 'eager' : 'lazy'"
                         />
-                        <div class="hero-slide__overlay"></div>
+                        <div v-if="slide.image_url" class="hero-slide__overlay"></div>
                     </div>
 
                     <div class="hero-slide__content">
@@ -104,44 +105,28 @@ onMounted(() => {
                                     {{ slide.cta_secondary_text }}
                                 </a>
                             </div>
-
-                            <div class="hero-telemetry-bar">
-                                <span class="hero-telemetry-item"><span class="hero-telemetry-dot"></span> ORG STATUS: COMBAT READY</span>
-                                <span class="hero-telemetry-item">ACTIVE DIVISIONS: {{ divisions.length || 4 }}</span>
-                                <span class="hero-telemetry-item">VERIFIED TITLES: 18+</span>
-                                <span class="hero-telemetry-item">ROK HQ // TACTICAL NETWORK</span>
-                            </div>
                         </div>
                     </div>
                 </article>
 
-                <!-- Fallback slide if database is empty -->
-                <article v-if="!heroSlides.length" class="hero-slide is-active">
-                    <div class="hero-slide__backdrop">
-                        <div class="hero-slide__overlay"></div>
-                    </div>
+                <!-- Slide cadangan jika database kosong -->
+                <article v-if="!heroSlides.length" class="hero-slide hero-slide--plain is-active">
+                    <div class="hero-slide__backdrop"></div>
                     <div class="hero-slide__content">
                         <div class="site-container hero-slide__inner">
-                            <h1 class="hero-slide__title hero-title-text">RULER OF KINGS</h1>
+                            <h1 class="hero-slide__title hero-title-text">Ruler Of Kings</h1>
                             <p class="hero-slide__subtitle hero-subtitle-text">
-                                ONE VISION. ONE TEAM. ONE KINGDOM. Organisasi esports kompetitif berbasis disiplin, integritas, dan mental juara.
+                                Organisasi esports kompetitif yang membangun atlet lewat disiplin, integritas, dan kerja sama tim.
                             </p>
                             <div class="hero-slide__cta hero-action-buttons">
-                                <Link href="/trial" class="btn-rok btn-rok--gold">GABUNG TRIAL SEKARANG</Link>
-                                <Link href="/bracket" class="btn-rok btn-rok--outline">BUKA BRACKET ENGINE</Link>
-                            </div>
-                            <div class="hero-telemetry-bar">
-                                <span class="hero-telemetry-item"><span class="hero-telemetry-dot"></span> ORG STATUS: COMBAT READY</span>
-                                <span class="hero-telemetry-item">ACTIVE DIVISIONS: {{ divisions.length || 4 }}</span>
-                                <span class="hero-telemetry-item">VERIFIED TITLES: 18+</span>
-                                <span class="hero-telemetry-item">ROK HQ // TACTICAL NETWORK</span>
+                                <Link href="/trial" class="btn-rok btn-rok--gold">Daftar trial</Link>
+                                <Link href="/teams" class="btn-rok btn-rok--outline">Kenali tim kami</Link>
                             </div>
                         </div>
                     </div>
                 </article>
             </div>
 
-            <!-- Carousel Controls -->
             <button
                 v-if="heroSlides.length > 1"
                 type="button"
@@ -161,7 +146,6 @@ onMounted(() => {
                 &#x203A;
             </button>
 
-            <!-- Indicators -->
             <div v-if="heroSlides.length > 1" class="hero-slider__indicators" role="tablist">
                 <button
                     v-for="(slide, idx) in heroSlides"
@@ -175,97 +159,101 @@ onMounted(() => {
             </div>
         </section>
 
-        <!-- FLUID KINETIC TICKER (BRIDGES HERO & EDITORIAL LEDGER) -->
-        <div class="rok-marquee-ticker" aria-hidden="true">
-            <div class="rok-marquee-track">
-                <span class="rok-marquee-item">RULER OF KINGS ESPORTS <span class="rok-marquee-separator">&diams;</span></span>
-                <span class="rok-marquee-item">DOMINANCE THROUGH DISCIPLINE <span class="rok-marquee-separator">&diams;</span></span>
-                <span class="rok-marquee-item">COMPETITIVE ROSTERS ACTIVE <span class="rok-marquee-separator">&diams;</span></span>
-                <span class="rok-marquee-item">OFFICIAL PARTNER NETWORK <span class="rok-marquee-separator">&diams;</span></span>
-                <span class="rok-marquee-item">STAND FOR THE CROWN <span class="rok-marquee-separator">&diams;</span></span>
-                <span class="rok-marquee-item">RULER OF KINGS ESPORTS <span class="rok-marquee-separator">&diams;</span></span>
-                <span class="rok-marquee-item">DOMINANCE THROUGH DISCIPLINE <span class="rok-marquee-separator">&diams;</span></span>
-                <span class="rok-marquee-item">COMPETITIVE ROSTERS ACTIVE <span class="rok-marquee-separator">&diams;</span></span>
-                <span class="rok-marquee-item">OFFICIAL PARTNER NETWORK <span class="rok-marquee-separator">&diams;</span></span>
-                <span class="rok-marquee-item">STAND FOR THE CROWN <span class="rok-marquee-separator">&diams;</span></span>
-            </div>
-        </div>
-
-        <!-- COMPETITIVE DIVISIONS SECTION (EDITORIAL DIRECTORY) -->
-        <section class="home-section teams-preview" id="teamsPreview" aria-labelledby="teamsPreviewTitle">
+        <!-- TENTANG -->
+        <section class="home-section" id="about" aria-labelledby="aboutTitle">
             <div class="home-section__inner">
-                <header class="section-header">
-                    <span class="section-kicker">DIRECTORY // 01</span>
-                    <h2 class="section-title" id="teamsPreviewTitle">DIVISI KOMPETITIF</h2>
-                    <p class="section-description">
-                        Kenali divisi dan atlet profesional Ruler Of Kings yang berjuang membawa panji kerajaan di panggung esports nasional.
-                    </p>
-                </header>
+                <div class="about-block">
+                    <span class="eyebrow" id="aboutTitle">Tentang ROK</span>
+                    <div>
+                        <p class="about-statement" data-rok-animate="scroll-reveal">
+                            Ruler Of Kings adalah organisasi esports yang membina atlet profesional,
+                            <span>membangun karakter lewat disiplin, dan bersaing dengan integritas di panggung nasional.</span>
+                        </p>
+                        <Link href="/teams" class="text-link">Kenali tim kami <span aria-hidden="true">&rarr;</span></Link>
+                    </div>
+                </div>
 
-                <div class="editorial-division-ledger">
+                <div class="stat-row" data-rok-animate="scroll-reveal">
+                    <div class="stat-item">
+                        <span class="stat-item__value">{{ divisions.length }}</span>
+                        <span class="stat-item__label">Divisi kompetitif</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-item__value">{{ totalMembers }}</span>
+                        <span class="stat-item__label">Atlet &amp; staf aktif</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-item__value">{{ achievementsCount || achievements.length }}</span>
+                        <span class="stat-item__label">Prestasi tercatat</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DIVISI -->
+        <section class="home-section home-section--alt teams-preview" id="teamsPreview" aria-labelledby="teamsPreviewTitle">
+            <div class="home-section__inner">
+                <div class="section-head-row">
+                    <header class="section-header">
+                        <span class="eyebrow">Divisi</span>
+                        <h2 class="section-title" id="teamsPreviewTitle">Divisi kompetitif</h2>
+                        <p class="section-description">
+                            Setiap divisi dibina oleh staf pelatih dan diperkuat atlet pilihan yang membawa nama ROK di turnamen nasional.
+                        </p>
+                    </header>
+                    <Link href="/teams" class="text-link">Lihat semua tim <span aria-hidden="true">&rarr;</span></Link>
+                </div>
+
+                <div class="division-list">
                     <Link
                         v-for="(div, idx) in divisions"
                         :key="div.id"
                         href="/teams"
-                        class="division-ledger-row"
+                        class="division-row"
+                        data-rok-animate="scroll-reveal"
                     >
-                        <span class="division-ledger-index">0{{ idx + 1 }}</span>
-                        <div class="division-ledger-main">
-                            <h3 class="division-ledger-title">{{ div.name }}</h3>
-                            <span class="division-ledger-game">{{ div.game_name }}</span>
+                        <span class="division-row__index">{{ String(idx + 1).padStart(2, '0') }}</span>
+                        <div>
+                            <h3 class="division-row__name">{{ div.name }}</h3>
+                            <span class="division-row__game">{{ div.game_name }}</span>
                         </div>
-                        <div class="division-ledger-roster">
-                            <span
-                                v-for="player in (div.active_players || []).slice(0, 5)"
-                                :key="player.id"
-                                class="roster-player-pill"
-                            >
-                                <strong>{{ player.in_game_name }}</strong> &bull; {{ player.role }}
-                            </span>
-                            <span
-                                v-if="!div.active_players || !div.active_players.length"
-                                class="roster-player-pill"
-                            >
-                                <strong>ROSTER READY</strong> &bull; Active Lineup
-                            </span>
+                        <div class="division-row__players">
+                            <span v-for="player in (div.active_players || []).slice(0, 6)" :key="player.id">{{ player.nickname || player.in_game_name }}</span>
+                            <span v-if="!div.active_players || !div.active_players.length">Roster segera diumumkan</span>
                         </div>
-                        <span class="division-ledger-action">
-                            <span>Roster</span>
-                            <span style="font-size: 16px;">&rarr;</span>
-                        </span>
+                        <span class="division-row__go" aria-hidden="true">&rarr;</span>
                     </Link>
                 </div>
             </div>
         </section>
 
-        <!-- ACHIEVEMENTS SECTION (HALL OF ACCLAIM LEDGER) -->
+        <!-- PRESTASI -->
         <section class="home-section achievements-preview" id="achievementsPreview" aria-labelledby="achievementsTitle">
             <div class="home-section__inner">
-                <header class="section-header">
-                    <span class="section-kicker">HALL OF ACCLAIM // 02</span>
-                    <h2 class="section-title" id="achievementsTitle">PRESTASI &amp; KEJAYAAN</h2>
-                    <p class="section-description">
-                        Jejak pencapaian dan trofi yang membuktikan dedikasi serta konsistensi Ruler Of Kings.
-                    </p>
-                </header>
-
-                <div class="editorial-accolade-ledger">
-                    <div v-for="ach in achievements" :key="ach.id" class="accolade-ledger-row">
-                        <div class="accolade-year-rank">
-                            <span class="accolade-year">{{ ach.year }}</span>
-                            <span class="accolade-rank-badge">{{ ach.placement_rank || 'CHAMPION' }}</span>
-                        </div>
-                        <div class="accolade-title-cell">
-                            <h3>{{ ach.title }}</h3>
-                            <span class="accolade-division-tag">{{ ach.team_name }}</span>
-                        </div>
-                        <div class="accolade-record-cell">{{ ach.tournament_name }}</div>
-                        <div class="accolade-status-badge">VERIFIED TITLE</div>
-                    </div>
+                <div class="section-head-row">
+                    <header class="section-header">
+                        <span class="eyebrow">Prestasi</span>
+                        <h2 class="section-title" id="achievementsTitle">Jejak prestasi</h2>
+                        <p class="section-description">
+                            Pencapaian ROK di berbagai kompetisi, dari turnamen komunitas hingga kejuaraan resmi.
+                        </p>
+                    </header>
+                    <Link href="/achievements" class="text-link">Semua prestasi <span aria-hidden="true">&rarr;</span></Link>
                 </div>
 
-                <div style="text-align: center; margin-top: 36px;">
-                    <Link href="/achievements" class="btn-rok btn-rok--outline">Lihat Seluruh Prestasi &rarr;</Link>
+                <div class="achv-list">
+                    <div
+                        v-for="ach in achievements"
+                        :key="ach.id"
+                        class="achv-row"
+                        data-rok-animate="scroll-reveal"
+                    >
+                        <span class="achv-year">{{ ach.event_year || ach.year }}</span>
+                        <h3 class="achv-title">{{ ach.title }}</h3>
+                        <span class="achv-team">{{ ach.team_name || 'Ruler Of Kings' }}</span>
+                        <span class="achv-note">{{ ach.caption }}</span>
+                    </div>
+                    <div v-if="!achievements.length" class="empty-state-box">Prestasi akan segera ditampilkan.</div>
                 </div>
             </div>
         </section>
@@ -332,11 +320,11 @@ onMounted(() => {
         </section>
 
         <!-- ORGANIZER MEMBERSHIP TIERS SECTION -->
-        <section class="home-section membership-preview-section" id="membershipTiers" aria-labelledby="membershipHeading">
+        <section class="home-section home-section--alt membership-preview-section" id="membershipTiers" aria-labelledby="membershipHeading">
             <div class="home-section__inner">
-                <header class="section-header" style="text-align: center; margin-bottom: 40px;">
+                <header class="section-header">
                     <h2 class="section-title" id="membershipHeading">PAKET AKSES &amp; KEANGGOTAAN ORGANIZER</h2>
-                    <p class="section-description" style="max-width: 720px; margin: 0 auto;">
+                    <p class="section-description">
                         Tingkatkan kualitas turnamen Anda dengan akses halaman khusus <strong>Bracket Studio</strong>, logo tim interaktif dengan tautan WhatsApp &amp; poin pertandingan, serta kurikulum taktik pro esports Ruler of Kings.
                     </p>
                 </header>

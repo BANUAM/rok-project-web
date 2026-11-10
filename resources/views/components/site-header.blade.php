@@ -3,12 +3,8 @@
 
         {{-- Brand / Logo --}}
         <a href="{{ url('/') }}" class="site-nav__brand" aria-label="Ruler Of Kings Home">
-            <img
-                src="{{ asset('img/rok-logo.png') }}"
-                alt="ROK Logo"
-                class="site-nav__logo"
-                onerror="this.src='{{ asset('img/dummy-division.svg') }}'"
-            >
+            <img src="{{ asset('img/rok-rhino-head.png') }}" alt="ROK Logo" class="site-nav__logo site-nav__logo--light">
+            <img src="{{ asset('img/rok-rhino-head-light.png') }}" alt="" aria-hidden="true" class="site-nav__logo site-nav__logo--dark">
             <span class="site-nav__brand-text">
                 <span class="site-nav__brand-name">ROK</span>
                 <span class="site-nav__brand-sub">Ruler of Kings</span>
