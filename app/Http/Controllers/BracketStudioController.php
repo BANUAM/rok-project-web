@@ -95,6 +95,13 @@ class BracketStudioController extends Controller
                 'teamCount' => $teamCount,
                 'teams' => $defaultPresets,
                 'scores' => [],
+                'boSettings' => [
+                    'customBo' => false,
+                    'semi' => 'BO1',
+                    'final' => 'BO1',
+                    'bronzeMatch' => false,
+                    'bronzeBo' => 'BO1',
+                ],
                 'updatedAt' => now()->toIso8601String(),
             ],
         ]);
@@ -400,6 +407,53 @@ class BracketStudioController extends Controller
         $teams[$slotIdx]['claimed_at'] = now()->toIso8601String();
 
         $bracketState['teams'] = $teams;
+
+        // Propagate newly claimed team to matches and rounds to ensure real-time visual bracket sync
+        if (!empty($bracketState['matches']) && is_array($bracketState['matches'])) {
+            foreach ($bracketState['matches'] as &$match) {
+                if (isset($match['source1']) && ($match['source1']['type'] ?? '') === 'team') {
+                    $srcTeam = $match['source1']['team'] ?? null;
+                    if ($srcTeam && (($srcTeam['id'] ?? null) == $teams[$slotIdx]['id'] || ($srcTeam['seed'] ?? null) == $teams[$slotIdx]['seed'])) {
+                        $match['source1']['team'] = $teams[$slotIdx];
+                        $match['team1'] = $teams[$slotIdx];
+                    }
+                }
+                if (isset($match['source2']) && ($match['source2']['type'] ?? '') === 'team') {
+                    $srcTeam = $match['source2']['team'] ?? null;
+                    if ($srcTeam && (($srcTeam['id'] ?? null) == $teams[$slotIdx]['id'] || ($srcTeam['seed'] ?? null) == $teams[$slotIdx]['seed'])) {
+                        $match['source2']['team'] = $teams[$slotIdx];
+                        $match['team2'] = $teams[$slotIdx];
+                    }
+                }
+            }
+            unset($match);
+        }
+
+        if (!empty($bracketState['rounds']) && is_array($bracketState['rounds'])) {
+            foreach ($bracketState['rounds'] as &$round) {
+                if (!empty($round['matches']) && is_array($round['matches'])) {
+                    foreach ($round['matches'] as &$rmatch) {
+                        if (isset($rmatch['source1']) && ($rmatch['source1']['type'] ?? '') === 'team') {
+                            $srcTeam = $rmatch['source1']['team'] ?? null;
+                            if ($srcTeam && (($srcTeam['id'] ?? null) == $teams[$slotIdx]['id'] || ($srcTeam['seed'] ?? null) == $teams[$slotIdx]['seed'])) {
+                                $rmatch['source1']['team'] = $teams[$slotIdx];
+                                $rmatch['team1'] = $teams[$slotIdx];
+                            }
+                        }
+                        if (isset($rmatch['source2']) && ($rmatch['source2']['type'] ?? '') === 'team') {
+                            $srcTeam = $rmatch['source2']['team'] ?? null;
+                            if ($srcTeam && (($srcTeam['id'] ?? null) == $teams[$slotIdx]['id'] || ($srcTeam['seed'] ?? null) == $teams[$slotIdx]['seed'])) {
+                                $rmatch['source2']['team'] = $teams[$slotIdx];
+                                $rmatch['team2'] = $teams[$slotIdx];
+                            }
+                        }
+                    }
+                    unset($rmatch);
+                }
+            }
+            unset($round);
+        }
+
         $bracketState['updatedAt'] = now()->toIso8601String();
 
         $tournament->update([
@@ -456,9 +510,23 @@ class BracketStudioController extends Controller
         $title = (string) ($rawState['title'] ?? $rawState['name'] ?? ($tournament ? $tournament->name : 'ROK Live Tournament'));
         $format = (string) ($rawState['format'] ?? ($tournament ? $this->mapJsFormat($tournament->format) : 'single'));
         $teams = is_array($rawState['teams'] ?? null) ? $rawState['teams'] : [];
-        foreach ($teams as &$t) {
+        $existingTeams = $tournament?->bracket_state['teams'] ?? [];
+
+        foreach ($teams as $idx => &$t) {
             $wa = trim((string)($t['whatsapp'] ?? $t['wa'] ?? ''));
-            if ($wa === '') {
+            // Preserve existing claim only when WA key is entirely absent from payload (not explicitly set to empty)
+            $waKeyAbsent = !array_key_exists('whatsapp', $t) && !array_key_exists('wa', $t);
+            if ($wa === '' && $waKeyAbsent && isset($existingTeams[$idx]) && !empty($existingTeams[$idx]['is_claimed'])) {
+                // Client did not send WA at all – preserve existing claimed status and contact info
+                $t['is_claimed'] = $existingTeams[$idx]['is_claimed'];
+                $t['whatsapp'] = $existingTeams[$idx]['whatsapp'] ?? ($existingTeams[$idx]['wa'] ?? '');
+                $t['wa'] = $t['whatsapp'];
+                $t['claimed_at'] = $existingTeams[$idx]['claimed_at'] ?? null;
+                if (empty($t['logo']) && !empty($existingTeams[$idx]['logo'])) {
+                    $t['logo'] = $existingTeams[$idx]['logo'];
+                }
+            } elseif ($wa === '') {
+                // WA key present but empty => explicit unclaim
                 $t['is_claimed'] = false;
                 $t['claimed_at'] = null;
                 $t['whatsapp'] = '';
@@ -475,6 +543,13 @@ class BracketStudioController extends Controller
         $rounds = $rawState['rounds'] ?? [];
         $championSource = $rawState['championSource'] ?? null;
         $matchesSummary = $rawState['matchesSummary'] ?? [];
+        $boSettings = $rawState['boSettings'] ?? ($tournament?->bracket_state['boSettings'] ?? [
+            'customBo' => false,
+            'semi' => 'BO1',
+            'final' => 'BO1',
+            'bronzeMatch' => false,
+            'bronzeBo' => 'BO1',
+        ]);
 
         if (!$tournament) {
             $isFree = ($slug === 'rok-free-tournament' || str_starts_with($slug, 'rok-free-'));
@@ -502,6 +577,7 @@ class BracketStudioController extends Controller
             'rounds' => $rounds,
             'championSource' => $championSource,
             'matchesSummary' => $matchesSummary,
+            'boSettings' => $boSettings,
             'updatedAt' => now()->toIso8601String(),
         ];
 

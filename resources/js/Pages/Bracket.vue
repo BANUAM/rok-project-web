@@ -24,6 +24,27 @@ const teams = ref(
 const liveLinkCopied = ref(false);
 const praTourneyLinkCopied = ref(false);
 
+const enableCustomBo = ref(false);
+const semiBo = ref('BO3');
+const finalBo = ref('BO5');
+const enableBronzeMatch = ref(true);
+const bronzeBo = ref('BO3');
+
+// Edit match modal state
+const editingMatch = ref(null);
+const editScore1 = ref(0);
+const editScore2 = ref(0);
+
+const openEditModal = (title, bo, teamA, teamB, s1 = 0, s2 = 0) => {
+    editingMatch.value = { title, bo, teamA, teamB };
+    editScore1.value = s1;
+    editScore2.value = s2;
+};
+
+const closeEditModal = () => {
+    editingMatch.value = null;
+};
+
 const { animateSplitText, bindSpringHover } = useRokAnimations();
 
 const updateTeamCount = (val) => {
@@ -204,6 +225,51 @@ onMounted(() => {
                             </div>
                         </div>
 
+                        <!-- Single Elimination Best-of & Juara 3 Options -->
+                        <div v-if="format === 'single_elimination'" style="margin-top: 18px; padding: 14px 16px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--rok-surface-border); border-radius: 8px;">
+                            <div style="font-size: 12px; color: var(--rok-muted-light); margin-bottom: 8px;">
+                                <strong style="color: var(--rok-silver);">Format Seri Default:</strong> Semua babak rata <strong>BO1</strong> dari babak penyisihan hingga Final.
+                            </div>
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 700;">
+                                <input type="checkbox" v-model="enableCustomBo" style="accent-color: var(--rok-gold);" />
+                                <span>Kustomisasi Format Seri (BO3, BO5, BO7) &amp; Perebutan Juara 3</span>
+                            </label>
+
+                            <div v-if="enableCustomBo" style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--rok-surface-border); display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+                                <div>
+                                    <label class="form-label" style="display:block;margin-bottom:6px;font-size:11px;font-weight:700;color:var(--rok-silver);">FORMAT SEMI FINAL</label>
+                                    <select v-model="semiBo" class="rok-input" style="width:100%;padding:8px 12px;background:var(--rok-bg);border:1px solid var(--rok-surface-border);border-radius:6px;color:var(--rok-text-bright);font-size:12px;">
+                                        <option value="BO1">BO1 (Best of 1)</option>
+                                        <option value="BO3">BO3 (Best of 3 - Rekomendasi)</option>
+                                        <option value="BO5">BO5 (Best of 5)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label" style="display:block;margin-bottom:6px;font-size:11px;font-weight:700;color:var(--rok-silver);">FORMAT GRAND FINAL</label>
+                                    <select v-model="finalBo" class="rok-input" style="width:100%;padding:8px 12px;background:var(--rok-bg);border:1px solid var(--rok-surface-border);border-radius:6px;color:var(--rok-text-bright);font-size:12px;">
+                                        <option value="BO1">BO1 (Best of 1)</option>
+                                        <option value="BO3">BO3 (Best of 3)</option>
+                                        <option value="BO5">BO5 (Best of 5 - Rekomendasi)</option>
+                                        <option value="BO7">BO7 (Best of 7)</option>
+                                    </select>
+                                </div>
+                                <div style="grid-column: 1 / -1; background: rgba(255, 255, 255, 0.02); padding: 10px 12px; border-radius: 6px;">
+                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 12px; font-weight: 700;">
+                                        <input type="checkbox" v-model="enableBronzeMatch" style="accent-color: var(--rok-gold);" />
+                                        <span>Adakan Pertandingan Perebutan Juara 3 (Bronze Match)</span>
+                                    </label>
+                                    <div v-if="enableBronzeMatch" style="margin-top: 8px; display: flex; align-items: center; gap: 10px; padding-left: 20px;">
+                                        <span style="font-size: 12px; color: var(--rok-muted-light);">Format Juara 3:</span>
+                                        <select v-model="bronzeBo" class="rok-input" style="padding: 4px 8px; font-size: 12px; width: auto; background: var(--rok-bg); border: 1px solid var(--rok-surface-border); border-radius: 6px; color: var(--rok-text-bright);">
+                                            <option value="BO1">BO1 (Best of 1)</option>
+                                            <option value="BO3">BO3 (Best of 3 - Rekomendasi)</option>
+                                            <option value="BO5">BO5 (Best of 5)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div style="text-align: right; margin-top: 24px;">
                             <button type="button" class="btn-rok btn-rok--gold" @click="currentStep = 2">
                                 Selanjutnya: Isi Tim Peserta &rarr;
@@ -301,8 +367,15 @@ onMounted(() => {
                         <div class="interactive-bracket-wrapper" style="overflow-x: auto; padding: 20px 0;">
                             <div style="display: flex; gap: 40px; min-width: 650px;">
                                 <div style="flex: 1;">
-                                    <div style="font-weight: 700; color: #d4af37; font-size: 12px; margin-bottom: 12px; text-transform: uppercase;">ROUND 1 (QUARTERFINALS)</div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                        <div style="font-weight: 700; color: #d4af37; font-size: 12px; text-transform: uppercase;">ROUND 1 (QUARTERFINALS)</div>
+                                        <span style="font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 999px; background: rgba(255,255,255,0.06); color: var(--rok-muted-light);">BO1</span>
+                                    </div>
                                     <div v-for="i in Math.ceil(teamCount / 2)" :key="i" style="background: var(--rok-bg); border: 1px solid var(--rok-surface-border); border-radius: 6px; padding: 10px 14px; margin-bottom: 16px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                            <span style="font-size: 10px; color: var(--rok-muted-light);">Match #{{ i }}</span>
+                                            <button type="button" @click="openEditModal(`Match #${i}`, 'BO1', teams[(i - 1) * 2]?.name, teams[(i - 1) * 2 + 1]?.name)" style="background: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--rok-silver); font-size: 10px; padding: 2px 6px; border-radius: 4px; cursor: pointer;">Ubah Hasil</button>
+                                        </div>
                                         <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px;">
                                             <span>{{ teams[(i - 1) * 2]?.name || 'TBD' }}</span>
                                             <span style="font-weight: 700; color: #d4af37;">0</span>
@@ -315,8 +388,15 @@ onMounted(() => {
                                 </div>
 
                                 <div style="flex: 1;">
-                                    <div style="font-weight: 700; color: #cbd5e1; font-size: 12px; margin-bottom: 12px; text-transform: uppercase;">ROUND 2 (SEMIFINALS)</div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                        <div style="font-weight: 700; color: #60a5fa; font-size: 12px; text-transform: uppercase;">ROUND 2 (SEMIFINALS)</div>
+                                        <span style="font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 999px; background: rgba(59,130,246,0.15); color: #60a5fa;">{{ enableCustomBo ? semiBo : 'BO1' }}</span>
+                                    </div>
                                     <div v-for="i in Math.max(1, Math.ceil(teamCount / 4))" :key="i" style="background: var(--rok-bg); border: 1px solid var(--rok-surface-border); border-radius: 6px; padding: 10px 14px; margin-bottom: 30px; margin-top: 20px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                            <span style="font-size: 10px; color: var(--rok-muted-light);">Semi Final #{{ i }}</span>
+                                            <button type="button" @click="openEditModal(`Semi Final #${i}`, enableCustomBo ? semiBo : 'BO1', `Pemenang M${(i - 1) * 2 + 1}`, `Pemenang M${(i - 1) * 2 + 2}`)" style="background: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--rok-silver); font-size: 10px; padding: 2px 6px; border-radius: 4px; cursor: pointer;">Ubah Hasil</button>
+                                        </div>
                                         <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px;">
                                             <span style="color: var(--rok-silver);">Pemenang M{{ (i - 1) * 2 + 1 }}</span>
                                             <span style="font-weight: 700;">-</span>
@@ -329,8 +409,15 @@ onMounted(() => {
                                 </div>
 
                                 <div style="flex: 1;">
-                                    <div style="font-weight: 700; color: #f59e0b; font-size: 12px; margin-bottom: 12px; text-transform: uppercase;">GRAND FINAL</div>
-                                    <div style="background: var(--rok-bg); border: 1px solid #d4af37; border-radius: 6px; padding: 12px 14px; margin-top: 50px;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                        <div style="font-weight: 700; color: #f59e0b; font-size: 12px; text-transform: uppercase;">GRAND FINAL</div>
+                                        <span style="font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 999px; background: rgba(245,158,11,0.15); color: #fbbf24;">{{ enableCustomBo ? finalBo : 'BO1' }}</span>
+                                    </div>
+                                    <div style="background: var(--rok-bg); border: 1px solid #d4af37; border-radius: 6px; padding: 12px 14px; margin-top: 20px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                            <span style="font-size: 10px; color: #fbbf24; font-weight: 700;">🏆 Penentuan Juara 1</span>
+                                            <button type="button" @click="openEditModal('Grand Final', enableCustomBo ? finalBo : 'BO1', 'Finalis 1', 'Finalis 2')" style="background: transparent; border: 1px solid rgba(212,175,55,0.3); color: #fbbf24; font-size: 10px; padding: 2px 6px; border-radius: 4px; cursor: pointer;">Ubah Hasil</button>
+                                        </div>
                                         <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
                                             <span style="color: #d4af37; font-weight: 700;">Finalis 1</span>
                                             <span style="font-weight: 700;">-</span>
@@ -340,6 +427,55 @@ onMounted(() => {
                                             <span style="font-weight: 700;">-</span>
                                         </div>
                                     </div>
+
+                                    <!-- Perebutan Juara 3 (Bronze Match) -->
+                                    <div v-if="enableCustomBo && enableBronzeMatch" style="margin-top: 24px; padding-top: 16px; border-top: 1px dashed rgba(255,255,255,0.12);">
+                                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                                            <div style="font-weight: 700; color: #f59e0b; font-size: 11px; text-transform: uppercase;">🥉 PEREBUTAN JUARA 3</div>
+                                            <span style="font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 999px; background: rgba(217,119,6,0.15); color: #f59e0b;">{{ bronzeBo }}</span>
+                                        </div>
+                                        <div style="background: var(--rok-bg); border: 1px solid rgba(217,119,6,0.35); border-radius: 6px; padding: 10px 14px;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                                <span style="font-size: 10px; color: #f59e0b;">Kalah SF1 vs Kalah SF2</span>
+                                                <button type="button" @click="openEditModal('Perebutan Juara 3', bronzeBo, 'Kalah Semi Final 1', 'Kalah Semi Final 2')" style="background: transparent; border: 1px solid rgba(217,119,6,0.3); color: #f59e0b; font-size: 10px; padding: 2px 6px; border-radius: 4px; cursor: pointer;">Ubah Hasil</button>
+                                            </div>
+                                            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px;">
+                                                <span style="color: var(--rok-silver);">Kalah SF 1</span>
+                                                <span style="font-weight: 700;">-</span>
+                                            </div>
+                                            <div style="display: flex; justify-content: space-between; font-size: 13px; border-top: 1px solid var(--rok-surface-border); padding-top: 4px;">
+                                                <span style="color: var(--rok-silver);">Kalah SF 2</span>
+                                                <span style="font-weight: 700;">-</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vue Demo Edit Match Modal -->
+                        <div v-if="editingMatch" style="position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 16px;">
+                            <div style="background: var(--rok-surface-card); border: 1px solid var(--rok-surface-border); border-radius: 12px; padding: 24px; max-width: 440px; width: 100%;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                    <h4 style="margin: 0; font-size: 16px;">Ubah Hasil {{ editingMatch.title }}</h4>
+                                    <span style="font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: rgba(245,158,11,0.15); color: #f59e0b;">{{ editingMatch.bo }}</span>
+                                </div>
+                                <p style="font-size: 12px; color: var(--rok-muted-light); margin: 0 0 16px 0;">Atur skor pertandingan untuk menentukan pemenang yang lolos ke babak selanjutnya.</p>
+
+                                <div style="display: grid; gap: 12px; margin-bottom: 20px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 8px;">
+                                        <span style="font-weight: 700; font-size: 13px;">{{ editingMatch.teamA || 'Tim 1' }}</span>
+                                        <input v-model.number="editScore1" type="number" min="0" max="9" style="width: 50px; text-align: center; padding: 6px; background: var(--rok-bg); border: 1px solid var(--rok-surface-border); color: #fff; border-radius: 6px; font-weight: 800;" />
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 8px;">
+                                        <span style="font-weight: 700; font-size: 13px;">{{ editingMatch.teamB || 'Tim 2' }}</span>
+                                        <input v-model.number="editScore2" type="number" min="0" max="9" style="width: 50px; text-align: center; padding: 6px; background: var(--rok-bg); border: 1px solid var(--rok-surface-border); color: #fff; border-radius: 6px; font-weight: 800;" />
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                                    <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" @click="closeEditModal">Batal</button>
+                                    <button type="button" class="btn-rok btn-rok--gold btn-rok--sm" @click="closeEditModal">Simpan Skor</button>
                                 </div>
                             </div>
                         </div>

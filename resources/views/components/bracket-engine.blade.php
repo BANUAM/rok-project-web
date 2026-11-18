@@ -14,6 +14,13 @@
     $praTourneyUrl = $isFree ? $praTourneyFreeUrl : $praTourneyMemberUrl;
     $praTourneyBtnLabel = $isFree ? '<i data-lucide="clipboard-list"></i> Link Pra-Turnamen Free' : '<i data-lucide="clipboard-list"></i> Link Pra-Turnamen Membership';
     $praTourneyPortalText = $isFree ? 'Portal Pra-Turnamen Free &nearr;' : 'Portal Pra-Turnamen Member &nearr;';
+    $initialBoSettings = $initialState['boSettings'] ?? [
+        'customBo' => false,
+        'semi' => 'BO1',
+        'final' => 'BO1',
+        'bronzeMatch' => false,
+        'bronzeBo' => 'BO1',
+    ];
 @endphp
 
 <div class="rok-bracket-workspace" id="rokBracketWorkspace" data-slug="{{ $activeSlug }}" data-readonly="{{ $isReadOnly ? '1' : '0' }}" data-logo-access="{{ $hasLogoAccess ? '1' : '0' }}" data-free-mode="{{ $isFree ? '1' : '0' }}">
@@ -54,6 +61,11 @@
         <input type="hidden" id="tourneyFormat" value="{{ $initialState['format'] ?? 'single' }}">
         <input type="hidden" id="teamCountInput" value="{{ $initialState['teamCount'] ?? 8 }}">
         <input type="hidden" id="teamCountSelect" value="{{ $initialState['teamCount'] ?? 6 }}">
+        <input type="hidden" id="boCustomEnabled" value="{{ !empty($initialBoSettings['customBo']) ? '1' : '0' }}">
+        <input type="hidden" id="boSemiFormat" value="{{ $initialBoSettings['semi'] ?? 'BO1' }}">
+        <input type="hidden" id="boFinalFormat" value="{{ $initialBoSettings['final'] ?? 'BO1' }}">
+        <input type="hidden" id="boBronzeEnabled" value="{{ !empty($initialBoSettings['bronzeMatch']) ? '1' : '0' }}">
+        <input type="hidden" id="boBronzeFormat" value="{{ $initialBoSettings['bronzeBo'] ?? 'BO1' }}">
         <div id="teamCountInputWrapper" style="display:none;"></div>
         <div id="teamCountHint" style="display:none;"></div>
         <div id="doubleEliminationWarning" hidden></div>
@@ -191,6 +203,70 @@
                         <p class="bracket-format-warning" id="doubleEliminationWarning" role="alert" aria-live="polite" hidden>
                             Double Elimination dibatasi 4 atau 6 tim.
                         </p>
+                    </div>
+                </div>
+
+                {{-- Single Elimination Best-of & Juara 3 Options --}}
+                <div class="custom-bo-section" id="singleElimBoSection" style="margin-top: 14px; margin-bottom: 12px; padding: 14px 16px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--rok-surface-border); border-radius: 10px;">
+                    <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 10px;">
+                        <i data-lucide="info" style="width: 15px; height: 15px; color: var(--rok-gold); flex-shrink: 0; margin-top: 2px;"></i>
+                        <div style="font-size: 12px; color: var(--rok-muted-light); line-height: 1.5;">
+                            <strong style="color: var(--rok-silver);">Format Seri Default:</strong> Semua babak rata <strong>BO1</strong> dari babak penyisihan hingga babak Final.
+                        </div>
+                    </div>
+
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none;">
+                        <input type="checkbox" id="enableCustomBoCheckbox" {{ !empty($initialBoSettings['customBo']) ? 'checked' : '' }} style="width: 16px; height: 16px; accent-color: var(--rok-gold); cursor: pointer;">
+                        <span style="font-size: 13px; font-weight: 700; color: var(--rok-text-bright);">
+                            Kustomisasi Format Seri (BO3, BO5, BO7) &amp; Perebutan Juara 3
+                        </span>
+                    </label>
+
+                    <div id="customBoOptionsPanel" style="{{ !empty($initialBoSettings['customBo']) ? 'display: block;' : 'display: none;' }} margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                        <p style="font-size: 12px; color: var(--rok-muted-light); margin: 0 0 12px 0;">
+                            Tentukan format seri Best of (BO) untuk babak penentuan dan perebutan juara:
+                        </p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+                            <div class="form-field">
+                                <label for="semiFinalBoSelect" class="form-label" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 5px; display: block;">
+                                    Format Babak Semi Final
+                                </label>
+                                <select id="semiFinalBoSelect" class="form-select" style="height: 38px; font-size: 13px; padding: 6px 12px; border-radius: 8px;">
+                                    <option value="BO1" {{ ($initialBoSettings['semi'] ?? '') === 'BO1' ? 'selected' : '' }}>BO1 (Best of 1)</option>
+                                    <option value="BO3" {{ ($initialBoSettings['semi'] ?? 'BO3') === 'BO3' ? 'selected' : '' }}>BO3 (Best of 3 - Rekomendasi)</option>
+                                    <option value="BO5" {{ ($initialBoSettings['semi'] ?? '') === 'BO5' ? 'selected' : '' }}>BO5 (Best of 5)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="grandFinalBoSelect" class="form-label" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 5px; display: block;">
+                                    Format Babak Grand Final
+                                </label>
+                                <select id="grandFinalBoSelect" class="form-select" style="height: 38px; font-size: 13px; padding: 6px 12px; border-radius: 8px;">
+                                    <option value="BO1" {{ ($initialBoSettings['final'] ?? '') === 'BO1' ? 'selected' : '' }}>BO1 (Best of 1)</option>
+                                    <option value="BO3" {{ ($initialBoSettings['final'] ?? '') === 'BO3' ? 'selected' : '' }}>BO3 (Best of 3)</option>
+                                    <option value="BO5" {{ ($initialBoSettings['final'] ?? 'BO5') === 'BO5' ? 'selected' : '' }}>BO5 (Best of 5 - Rekomendasi)</option>
+                                    <option value="BO7" {{ ($initialBoSettings['final'] ?? '') === 'BO7' ? 'selected' : '' }}>BO7 (Best of 7)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field" style="grid-column: 1 / -1; background: rgba(255, 255, 255, 0.02); padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.06);">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 8px;">
+                                    <input type="checkbox" id="enableBronzeMatchCheckbox" {{ !empty($initialBoSettings['bronzeMatch']) ? 'checked' : '' }} style="width: 15px; height: 15px; accent-color: var(--rok-gold); cursor: pointer;">
+                                    <span style="font-size: 12px; font-weight: 700; color: var(--rok-silver);">
+                                        Adakan Pertandingan Perebutan Juara 3 (Bronze Match)
+                                    </span>
+                                </label>
+                                <div id="bronzeBoSelectWrapper" style="{{ !empty($initialBoSettings['bronzeMatch']) ? 'display: flex;' : 'display: none;' }} align-items: center; gap: 10px; margin-top: 6px; padding-left: 23px;">
+                                    <span style="font-size: 12px; color: var(--rok-muted-light);">Format Perebutan Juara 3:</span>
+                                    <select id="bronzeMatchBoSelect" class="form-select" style="height: 34px; font-size: 12px; padding: 4px 10px; border-radius: 6px; width: auto; min-width: 150px;">
+                                        <option value="BO1" {{ ($initialBoSettings['bronzeBo'] ?? '') === 'BO1' ? 'selected' : '' }}>BO1 (Best of 1)</option>
+                                        <option value="BO3" {{ ($initialBoSettings['bronzeBo'] ?? 'BO3') === 'BO3' ? 'selected' : '' }}>BO3 (Best of 3 - Rekomendasi)</option>
+                                        <option value="BO5" {{ ($initialBoSettings['bronzeBo'] ?? '') === 'BO5' ? 'selected' : '' }}>BO5 (Best of 5)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -560,6 +636,87 @@
     </div>
 </div>
 
+{{-- Interactive Edit Match Result Modal (Modal Ubah Hasil Pertandingan) --}}
+<div class="rok-team-modal" id="matchEditModal" hidden aria-modal="true" role="dialog">
+    <div class="rok-team-modal__backdrop" id="closeMatchEditBackdrop"></div>
+    <div class="rok-team-modal__dialog" style="max-width: 520px;">
+        <button type="button" class="rok-team-modal__close" id="closeMatchEditBtn" aria-label="Tutup">&times;</button>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
+            <span class="badge-mini" id="modalMatchBadge" style="background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); font-weight: 800; border-radius: 999px; padding: 2px 10px; font-size: 11px;">
+                MATCH
+            </span>
+            <span id="modalMatchBoBadge" style="font-size: 11px; font-weight: 800; color: var(--rok-muted-light); background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 999px;">
+                BO1
+            </span>
+        </div>
+        <h3 style="font-size: 18px; font-weight: 800; margin: 0 0 6px 0;" id="modalMatchTitle">
+            Ubah Hasil Pertandingan
+        </h3>
+        <p style="font-size: 12px; color: var(--rok-muted-light); margin: 0 0 16px 0;" id="modalMatchSub">
+            Masukkan atau sesuaikan skor pertandingan untuk menentukan tim yang lolos ke babak selanjutnya.
+        </p>
+
+        {{-- Match Scoring Grid --}}
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--rok-surface-border); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+            {{-- Team 1 Row --}}
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px;">
+                <div style="display: flex; align-items: center; gap: 10px; flex: 1 1 auto; min-width: 0;">
+                    <img id="modalEditTeam1Logo" src="/storage/tournaments/team-rok.svg" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(212,175,55,0.4); flex-shrink: 0;">
+                    <div style="min-width: 0;">
+                        <strong id="modalEditTeam1Name" style="font-size: 14px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Tim 1</strong>
+                        <span style="font-size: 11px; color: var(--rok-muted-light);">Posisi Tim A</span>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <button type="button" class="btn-rok-step" id="btnScore1Minus" style="width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--rok-surface-border); background: var(--rok-surface-card); color: #fff; cursor: pointer;">-</button>
+                    <input type="number" id="modalScore1Input" min="0" max="99" style="width: 50px; height: 36px; text-align: center; font-size: 16px; font-weight: 800; background: var(--rok-surface-card); border: 1px solid var(--rok-surface-border); color: #fff; border-radius: 8px;">
+                    <button type="button" class="btn-rok-step" id="btnScore1Plus" style="width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--rok-surface-border); background: var(--rok-surface-card); color: #fff; cursor: pointer;">+</button>
+                    <button type="button" class="btn-quick-win" id="btnQuickWin1" style="font-size: 11px; font-weight: 700; padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(34,197,94,0.3); background: rgba(34,197,94,0.12); color: #4ade80; cursor: pointer; white-space: nowrap;">Menang</button>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 4px 0 14px 0; font-size: 11px; font-weight: 800; color: var(--rok-muted-light); letter-spacing: 1px;">VS</div>
+
+            {{-- Team 2 Row --}}
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 10px; flex: 1 1 auto; min-width: 0;">
+                    <img id="modalEditTeam2Logo" src="/storage/tournaments/team-aether.svg" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(212,175,55,0.4); flex-shrink: 0;">
+                    <div style="min-width: 0;">
+                        <strong id="modalEditTeam2Name" style="font-size: 14px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Tim 2</strong>
+                        <span style="font-size: 11px; color: var(--rok-muted-light);">Posisi Tim B</span>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <button type="button" class="btn-rok-step" id="btnScore2Minus" style="width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--rok-surface-border); background: var(--rok-surface-card); color: #fff; cursor: pointer;">-</button>
+                    <input type="number" id="modalScore2Input" min="0" max="99" style="width: 50px; height: 36px; text-align: center; font-size: 16px; font-weight: 800; background: var(--rok-surface-card); border: 1px solid var(--rok-surface-border); color: #fff; border-radius: 8px;">
+                    <button type="button" class="btn-rok-step" id="btnScore2Plus" style="width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--rok-surface-border); background: var(--rok-surface-card); color: #fff; cursor: pointer;">+</button>
+                    <button type="button" class="btn-quick-win" id="btnQuickWin2" style="font-size: 11px; font-weight: 700; padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(34,197,94,0.3); background: rgba(34,197,94,0.12); color: #4ade80; cursor: pointer; white-space: nowrap;">Menang</button>
+                </div>
+            </div>
+        </div>
+
+        {{-- Series Helper Target info --}}
+        <div id="modalSeriesRuleHint" style="font-size: 11px; color: var(--rok-muted-light); margin-bottom: 18px; display: flex; align-items: center; gap: 6px;">
+            <i data-lucide="info" style="width: 14px; height: 14px; color: var(--rok-gold);"></i>
+            <span id="modalSeriesRuleText">Format BO3: Tim pertama yang mengumpulkan 2 poin menang dinyatakan sebagai pemenang pertandingan.</span>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+            <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="btnResetSingleMatch" style="border-radius: 6px; color: #f87171; border-color: rgba(239,68,68,0.3);">
+                Reset Skor Match
+            </button>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <button type="button" class="btn-rok btn-rok--outline btn-rok--sm" id="btnCancelEditMatch" style="border-radius: 6px;">
+                    Batal
+                </button>
+                <button type="button" class="btn-rok btn-rok--gold btn-rok--sm" id="btnSaveEditMatch" style="border-radius: 6px; font-weight: 800;">
+                    Simpan Hasil
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 (() => {
     const INITIAL_SERVER_STATE = @json($initialState);
@@ -856,7 +1013,15 @@
 
     function resolveSource(source, matches) {
         if (!source) return null;
-        if (source.type === 'team') return source.team;
+        if (source.type === 'team') {
+            if (tournamentState && Array.isArray(tournamentState.teams) && source.team) {
+                const live = tournamentState.teams.find(t =>
+                    t.id === source.team.id || t.seed === source.team.seed
+                );
+                if (live) return live;
+            }
+            return source.team;
+        }
         const parent = matches.find(m => m.id === source.matchId);
         if (!parent) return null;
         return source.type === 'loser' ? parent.loser : parent.winner;
@@ -884,6 +1049,26 @@
         }
     }
 
+    function cascadeMatchUpdates(parentMatch, matches) {
+        if (!parentMatch || !matches) return;
+        const children = matches.filter(m =>
+            (m.source1 && m.source1.matchId === parentMatch.id) ||
+            (m.source2 && m.source2.matchId === parentMatch.id)
+        );
+        children.forEach(child => {
+            const oldT1 = child.team1;
+            const oldT2 = child.team2;
+            calculateMatch(child, matches);
+            if ((oldT1 && child.team1?.id !== oldT1.id) || (oldT2 && child.team2?.id !== oldT2.id)) {
+                child.score1 = null;
+                child.score2 = null;
+                child.winner = null;
+                child.loser = null;
+                cascadeMatchUpdates(child, matches);
+            }
+        });
+    }
+
     function getSeededPairs(size) {
         if (size <= 2) return [[1, 2]];
         let seeds = [1, 2];
@@ -903,7 +1088,41 @@
         return pairs;
     }
 
-    function makeElimination(teams) {
+    function getBoSettings() {
+        if (IS_READ_ONLY) {
+            const isCustom = document.getElementById('boCustomEnabled')?.value === '1';
+            if (!isCustom) {
+                return { customBo: false, semi: 'BO1', final: 'BO1', bronzeMatch: false, bronzeBo: 'BO1' };
+            }
+            return {
+                customBo: true,
+                semi: document.getElementById('boSemiFormat')?.value || 'BO3',
+                final: document.getElementById('boFinalFormat')?.value || 'BO5',
+                bronzeMatch: document.getElementById('boBronzeEnabled')?.value === '1',
+                bronzeBo: document.getElementById('boBronzeFormat')?.value || 'BO3'
+            };
+        }
+        const isCustom = document.getElementById('enableCustomBoCheckbox')?.checked ?? false;
+        if (!isCustom) {
+            return { customBo: false, semi: 'BO1', final: 'BO1', bronzeMatch: false, bronzeBo: 'BO1' };
+        }
+        return {
+            customBo: true,
+            semi: document.getElementById('semiFinalBoSelect')?.value || 'BO3',
+            final: document.getElementById('grandFinalBoSelect')?.value || 'BO5',
+            bronzeMatch: document.getElementById('enableBronzeMatchCheckbox')?.checked ?? false,
+            bronzeBo: document.getElementById('bronzeMatchBoSelect')?.value || 'BO3'
+        };
+    }
+
+    function makeElimination(teams, boSettings = null) {
+        const bo = boSettings || getBoSettings();
+        const customBo = Boolean(bo && bo.customBo);
+        const semiBo = customBo ? (bo.semi || 'BO3') : 'BO1';
+        const finalBo = customBo ? (bo.final || 'BO5') : 'BO1';
+        const bronzeMatch = customBo ? Boolean(bo.bronzeMatch) : false;
+        const bronzeBo = customBo ? (bo.bronzeBo || 'BO3') : 'BO1';
+
         const N = teams.length;
         let P = 1;
         while (P < N) P *= 2;
@@ -915,6 +1134,11 @@
         // Round 1
         const round1Matches = [];
         let matchIdx = 1;
+        const round1Count = pairs.length;
+        const isRound1Semi = (round1Count === 2);
+        const isRound1Final = (round1Count === 1);
+        const round1Bo = isRound1Final ? finalBo : (isRound1Semi ? semiBo : 'BO1');
+        const round1Title = eliminationRoundTitle(round1Count, P, 1);
 
         for (let i = 0; i < pairs.length; i++) {
             const [seed1, seed2] = pairs[i];
@@ -924,19 +1148,24 @@
             if (team1 && !team2) {
                 const m = newMatch(`R1M${matchIdx++}`, 1, matchIdx, teamSource(team1), null, {
                     autoAdvance: true,
-                    autoAdvanceNote: 'Lolos Otomatis ke Babak Berikutnya'
+                    autoAdvanceNote: 'Lolos Otomatis ke Babak Berikutnya',
+                    bo: round1Bo,
+                    matchTitle: `${round1Title} #${i + 1}`
                 });
                 matches.push(m);
                 round1Matches.push(m);
             } else if (team1 && team2) {
-                const m = newMatch(`R1M${matchIdx++}`, 1, matchIdx, teamSource(team1), teamSource(team2));
+                const m = newMatch(`R1M${matchIdx++}`, 1, matchIdx, teamSource(team1), teamSource(team2), {
+                    bo: round1Bo,
+                    matchTitle: `${round1Title} #${i + 1}`
+                });
                 matches.push(m);
                 round1Matches.push(m);
             }
         }
 
         rounds.push({
-            title: eliminationRoundTitle(pairs.length, P, 1),
+            title: round1Title,
             matches: round1Matches
         });
 
@@ -944,30 +1173,74 @@
         let prevMatches = round1Matches;
         let roundNo = 2;
         let matchCount = prevMatches.length / 2;
+        let semiMatches = isRound1Semi ? round1Matches : null;
 
         while (matchCount >= 1) {
+            const isSemi = (matchCount === 2);
+            const isFinal = (matchCount === 1);
+            const currentBo = isFinal ? finalBo : (isSemi ? semiBo : 'BO1');
+            const roundTitle = eliminationRoundTitle(matchCount, P, roundNo);
+
             const currentMatches = [];
             for (let i = 0; i < matchCount; i++) {
+                const extra = {
+                    bo: currentBo,
+                    matchTitle: `${roundTitle} #${i + 1}`
+                };
+                if (isFinal) {
+                    extra.isFinal = true;
+                    extra.matchTitle = 'Grand Final';
+                }
                 const m = newMatch(`R${roundNo}M${i + 1}`, roundNo, i + 1,
                     matchSource(prevMatches[i * 2]),
-                    matchSource(prevMatches[i * 2 + 1])
+                    matchSource(prevMatches[i * 2 + 1]),
+                    extra
                 );
                 matches.push(m);
                 currentMatches.push(m);
             }
-            rounds.push({
-                title: eliminationRoundTitle(matchCount, P, roundNo),
-                matches: currentMatches
-            });
+
+            if (isSemi) {
+                semiMatches = currentMatches;
+            }
+
+            // If this is Grand Final round and 3rd place match is enabled
+            if (isFinal && bronzeMatch && semiMatches && semiMatches.length === 2) {
+                const bm = newMatch('BM1', roundNo, 2,
+                    matchSource(semiMatches[0], 'loser'),
+                    matchSource(semiMatches[1], 'loser'),
+                    {
+                        isBronze: true,
+                        bo: bronzeBo,
+                        matchTitle: 'Perebutan Juara 3'
+                    }
+                );
+                matches.push(bm);
+                rounds.push({
+                    title: 'Grand Final & Juara 3',
+                    matches: [currentMatches[0], bm]
+                });
+            } else {
+                rounds.push({
+                    title: roundTitle,
+                    matches: currentMatches
+                });
+            }
+
             prevMatches = currentMatches;
             matchCount /= 2;
             roundNo++;
         }
 
+        const grandFinalMatch = matches.find(m => m.isFinal) || prevMatches[0];
+        const bronzeFinalMatch = matches.find(m => m.isBronze) || null;
+
         return {
             matches,
             rounds,
-            championSource: prevMatches[0] ? matchSource(prevMatches[0]) : null
+            championSource: grandFinalMatch ? matchSource(grandFinalMatch) : null,
+            bronzeSource: bronzeFinalMatch ? matchSource(bronzeFinalMatch) : null,
+            boSettings: bo
         };
     }
 
@@ -1348,6 +1621,117 @@
     }
 
     // ====================================================
+    // EDIT MATCH RESULT MODAL LOGIC
+    // ====================================================
+    let activeEditingMatchId = null;
+
+    function openMatchEditModal(matchId) {
+        if (!tournamentState || !tournamentState.matches) return;
+        const match = tournamentState.matches.find(m => m.id === matchId);
+        if (!match) return;
+
+        activeEditingMatchId = matchId;
+        const modal = document.getElementById('matchEditModal');
+        if (!modal) return;
+
+        const a = resolveSource(match.source1, tournamentState.matches);
+        const b = resolveSource(match.source2, tournamentState.matches);
+
+        const badgeEl = document.getElementById('modalMatchBadge');
+        const boBadgeEl = document.getElementById('modalMatchBoBadge');
+        const titleEl = document.getElementById('modalMatchTitle');
+        const ruleHintEl = document.getElementById('modalSeriesRuleText');
+
+        const seriesBo = match.bo || 'BO1';
+        if (boBadgeEl) boBadgeEl.textContent = seriesBo;
+
+        if (badgeEl) {
+            if (match.isFinal) {
+                badgeEl.textContent = 'GRAND FINAL';
+                badgeEl.style.background = 'rgba(245,158,11,0.2)';
+                badgeEl.style.color = '#fbbf24';
+            } else if (match.isBronze) {
+                badgeEl.textContent = 'PEREBUTAN JUARA 3';
+                badgeEl.style.background = 'rgba(217,119,6,0.2)';
+                badgeEl.style.color = '#f59e0b';
+            } else {
+                badgeEl.textContent = match.matchTitle || `MATCH ${match.id}`;
+                badgeEl.style.background = 'rgba(255,255,255,0.08)';
+                badgeEl.style.color = '#e2e8f0';
+            }
+        }
+
+        if (titleEl) {
+            titleEl.textContent = match.isFinal ? 'Ubah Hasil Grand Final' : (match.isBronze ? 'Ubah Hasil Perebutan Juara 3' : `Ubah Hasil Match (${match.id})`);
+        }
+
+        let winTarget = 1;
+        if (seriesBo === 'BO3') winTarget = 2;
+        else if (seriesBo === 'BO5') winTarget = 3;
+        else if (seriesBo === 'BO7') winTarget = 4;
+
+        if (ruleHintEl) {
+            ruleHintEl.textContent = `Format ${seriesBo}: Tim pertama yang meraih ${winTarget} kemenangan dinyatakan sebagai pemenang seri pertandingan.`;
+        }
+
+        const t1Logo = document.getElementById('modalEditTeam1Logo');
+        const t1Name = document.getElementById('modalEditTeam1Name');
+        const s1Input = document.getElementById('modalScore1Input');
+        if (t1Logo) t1Logo.src = a?.logo || presetLogos[0];
+        if (t1Name) t1Name.textContent = a ? a.name : 'TBD (Menunggu babak sebelumnya)';
+        if (s1Input) {
+            s1Input.value = Number.isInteger(match.score1) ? match.score1 : '';
+            s1Input.disabled = !a || !b;
+        }
+
+        const t2Logo = document.getElementById('modalEditTeam2Logo');
+        const t2Name = document.getElementById('modalEditTeam2Name');
+        const s2Input = document.getElementById('modalScore2Input');
+        if (t2Logo) t2Logo.src = b?.logo || presetLogos[1];
+        if (t2Name) t2Name.textContent = b ? b.name : 'TBD (Menunggu babak sebelumnya)';
+        if (s2Input) {
+            s2Input.value = Number.isInteger(match.score2) ? match.score2 : '';
+            s2Input.disabled = !a || !b;
+        }
+
+        modal.hidden = false;
+        window.renderLucideIcons?.();
+    }
+
+    function closeMatchEditModal() {
+        const modal = document.getElementById('matchEditModal');
+        if (modal) modal.hidden = true;
+        activeEditingMatchId = null;
+    }
+
+    function saveMatchEdit() {
+        if (!activeEditingMatchId || !tournamentState) return;
+        const match = tournamentState.matches.find(m => m.id === activeEditingMatchId);
+        if (!match) return;
+
+        const s1Raw = document.getElementById('modalScore1Input')?.value;
+        const s2Raw = document.getElementById('modalScore2Input')?.value;
+        const s1 = (s1Raw !== '' && s1Raw !== null && !isNaN(parseInt(s1Raw, 10))) ? Math.max(0, parseInt(s1Raw, 10)) : null;
+        const s2 = (s2Raw !== '' && s2Raw !== null && !isNaN(parseInt(s2Raw, 10))) ? Math.max(0, parseInt(s2Raw, 10)) : null;
+
+        const oldWinnerId = match.winner?.id;
+        match.score1 = s1;
+        match.score2 = s2;
+        calculateMatch(match, tournamentState.matches);
+
+        // Record in scores map for compatibility
+        if (!tournamentState.scores) tournamentState.scores = {};
+        tournamentState.scores[match.id] = { s1: s1, s2: s2, score1: s1, score2: s2 };
+
+        if (oldWinnerId && match.winner?.id !== oldWinnerId) {
+            cascadeMatchUpdates(match, tournamentState.matches);
+        }
+
+        closeMatchEditModal();
+        renderTournament(true);
+    }
+
+    // ====================================================
     // RENDER MATCH CARD (ORIGINAL ROBUST .gen-* STRUCTURE)
     // ====================================================
     function renderMatchCard(match, state) {
@@ -1356,10 +1740,39 @@
         card.dataset.matchId = match.id;
         card.dataset.round = match.round;
 
+        if (match.isFinal) card.classList.add('gen-match-box--final');
+        if (match.isBronze) card.classList.add('gen-match-box--bronze');
+
+        // Top Header: BO Badge + Edit Result Button
+        const headerEl = document.createElement('div');
+        headerEl.className = 'gen-match-header';
+
+        const badgeWrap = document.createElement('div');
+        badgeWrap.className = 'gen-match-header__badges';
+
+        const boBadge = document.createElement('span');
+        boBadge.className = 'badge-bo';
+        if (match.isFinal) {
+            boBadge.className += ' badge-bo--final';
+            boBadge.textContent = `🏆 Grand Final • ${match.bo || 'BO1'}`;
+        } else if (match.isBronze) {
+            boBadge.className += ' badge-bo--bronze';
+            boBadge.textContent = `🥉 Juara 3 • ${match.bo || 'BO1'}`;
+        } else if (match.stageTitle && match.stageTitle.includes('Semi')) {
+            boBadge.className += ' badge-bo--semi';
+            boBadge.textContent = `Semi Final • ${match.bo || 'BO1'}`;
+        } else if (match.round && state.rounds && match.round === (state.rounds.length - 1)) {
+            boBadge.className += ' badge-bo--semi';
+            boBadge.textContent = `Semi Final • ${match.bo || 'BO1'}`;
+        } else {
+            boBadge.textContent = `Match • ${match.bo || 'BO1'}`;
+        }
+        badgeWrap.appendChild(boBadge);
+
         if (match.poolLabel) {
-            const poolBadge = document.createElement('div');
+            const poolBadge = document.createElement('span');
             poolBadge.className = 'pool-tag-badge';
-            poolBadge.style.cssText = 'font-size:9px;font-weight:800;padding:2px 8px;margin-bottom:4px;border-radius:999px;letter-spacing:0.5px;display:inline-flex;align-self:flex-start;';
+            poolBadge.style.cssText = 'font-size:9px;font-weight:800;padding:2px 7px;border-radius:999px;letter-spacing:0.5px;display:inline-flex;';
             if (match.poolLabel.includes('KUALIFIKASI')) {
                 poolBadge.style.background = 'rgba(34,197,94,0.12)';
                 poolBadge.style.color = '#4ade80';
@@ -1374,8 +1787,25 @@
                 poolBadge.style.border = '1px solid rgba(255,255,255,0.06)';
             }
             poolBadge.textContent = match.poolLabel;
-            card.appendChild(poolBadge);
+            badgeWrap.appendChild(poolBadge);
         }
+
+        headerEl.appendChild(badgeWrap);
+
+        if (!IS_READ_ONLY && !match.autoAdvance) {
+            const editBtn = document.createElement('button');
+            editBtn.type = 'button';
+            editBtn.className = 'btn-edit-match';
+            editBtn.title = 'Ubah skor & hasil pertandingan ini';
+            editBtn.innerHTML = '<i data-lucide="edit-2" style="width:10px;height:10px;"></i> Ubah Hasil';
+            editBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openMatchEditModal(match.id);
+            });
+            headerEl.appendChild(editBtn);
+        }
+
+        card.appendChild(headerEl);
 
         const a = resolveSource(match.source1, state.matches);
         const b = resolveSource(match.source2, state.matches);
@@ -1896,11 +2326,19 @@
 
         if (state.format === 'single' || state.format === 'double') {
             const champion = state.championSource ? resolveSource(state.championSource, state.matches) : null;
+            const finalMatch = state.matches.find(m => m.isFinal) || state.matches[state.matches.length - 1];
+            const runnerUp = finalMatch ? finalMatch.loser : null;
+            const bronzeMatch = state.matches.find(m => m.isBronze);
+            const bronzeWinner = bronzeMatch ? bronzeMatch.winner : null;
+
             const col = document.createElement('div');
             col.className = 'gen-round-col gen-round-col--champ';
             const heading = document.createElement('span');
             heading.className = 'gen-round-title text-gold';
-            heading.textContent = 'CHAMPION';
+            heading.textContent = 'PODIUM & JUARA';
+            col.appendChild(heading);
+
+            // Juara 1 (Champion)
             const box = document.createElement('div');
             box.className = 'champ-display-box';
             const icon = document.createElement('span');
@@ -1911,9 +2349,36 @@
             name.textContent = champion ? champion.name : 'Belum ditentukan';
             const sub = document.createElement('p');
             sub.className = 'champ-sub';
-            sub.textContent = champion ? 'Tournament Champion' : 'Isi skor pertandingan';
+            sub.textContent = champion ? '🏆 Juara 1 Turnamen' : 'Isi skor pertandingan';
             box.append(icon, name, sub);
-            col.append(heading, box);
+            col.appendChild(box);
+
+            // Juara 2 (Runner-Up)
+            if (finalMatch && runnerUp) {
+                const ruBox = document.createElement('div');
+                ruBox.className = 'champ-display-box';
+                ruBox.style.cssText = 'margin-top: 12px; border-color: rgba(148, 163, 184, 0.35); background: linear-gradient(165deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);';
+                ruBox.innerHTML = `
+                    <span class="champ-icon" style="background: rgba(148, 163, 184, 0.15);"><i data-lucide="medal" style="width:22px;height:22px;color:#cbd5e1;"></i></span>
+                    <strong class="champ-crown-name" style="font-size: 14px;">${runnerUp.name}</strong>
+                    <p class="champ-sub" style="color: var(--rok-silver);">🥈 Juara 2 (Runner-Up)</p>
+                `;
+                col.appendChild(ruBox);
+            }
+
+            // Juara 3 (Bronze Match Winner)
+            if (bronzeMatch) {
+                const bBox = document.createElement('div');
+                bBox.className = 'champ-display-box';
+                bBox.style.cssText = 'margin-top: 12px; border-color: rgba(217, 119, 6, 0.35); background: linear-gradient(165deg, rgba(45, 26, 10, 0.7) 0%, rgba(20, 12, 5, 0.9) 100%);';
+                bBox.innerHTML = `
+                    <span class="champ-icon" style="background: rgba(217, 119, 6, 0.15);"><i data-lucide="award" style="width:22px;height:22px;color:#f59e0b;"></i></span>
+                    <strong class="champ-crown-name" style="font-size: 14px;">${bronzeWinner ? bronzeWinner.name : 'Belum ditentukan'}</strong>
+                    <p class="champ-sub" style="color: #f59e0b;">🥉 Juara 3 (Peringkat Ketiga)</p>
+                `;
+                col.appendChild(bBox);
+            }
+
             canvas.appendChild(col);
         }
 
@@ -1977,10 +2442,11 @@
         const title = (document.getElementById('tourneyName')?.value || '').trim() || 'ROK Community Cup 2026';
         const format = document.getElementById('tourneyFormat')?.value || 'single';
         const teams = collectCurrentTeams();
+        const boSettings = getBoSettings();
 
         let engine;
         if (format === 'single') {
-            engine = makeElimination(teams);
+            engine = makeElimination(teams, boSettings);
         } else if (format === 'double') {
             engine = makeDoubleElimination(teams);
         } else if (format === 'league') {
@@ -1999,6 +2465,7 @@
             format,
             teamCount: teams.length,
             teams,
+            boSettings,
             ...engine
         };
 
@@ -2030,10 +2497,11 @@
         // Rebuild tournament bracket
         const title = (document.getElementById('tourneyName')?.value || '').trim() || 'ROK Community Cup 2026';
         const format = document.getElementById('tourneyFormat')?.value || 'single';
+        const boSettings = getBoSettings();
 
         let engine;
         if (format === 'single') {
-            engine = makeElimination(teams);
+            engine = makeElimination(teams, boSettings);
         } else if (format === 'double') {
             engine = makeDoubleElimination(teams);
         } else if (format === 'league') {
@@ -2052,6 +2520,7 @@
             format,
             teamCount: teams.length,
             teams,
+            boSettings,
             ...engine
         };
 
@@ -2109,11 +2578,12 @@
         if (!IS_READ_ONLY) return;
         autoPollTimer = setInterval(async () => {
             try {
-                let resp = await fetch(STATE_API_URL, {
+                const pollUrl = STATE_API_URL + (STATE_API_URL.includes('?') ? '&' : '?') + '_t=' + Date.now();
+                let resp = await fetch(pollUrl, {
                     headers: { 'Accept': 'application/json' }
                 });
                 if (resp.status === 404) {
-                    resp = await fetch('/bracket/' + encodeURIComponent(ACTIVE_SLUG) + '/state', {
+                    resp = await fetch('/bracket/' + encodeURIComponent(ACTIVE_SLUG) + '/state?_t=' + Date.now(), {
                         headers: { 'Accept': 'application/json' }
                     });
                 }
@@ -2121,24 +2591,7 @@
                     const data = await resp.json();
                     const remoteState = data.bracket_state || data.state;
                     if (remoteState && remoteState.updatedAt && (!tournamentState || remoteState.updatedAt !== tournamentState.updatedAt)) {
-                        isApplyingRemoteUpdate = true;
-                        if (remoteState.matches && remoteState.matches.length > 0) {
-                            tournamentState = remoteState;
-                        } else {
-                            const teams = remoteState.teams || [];
-                            const fmt = remoteState.format || 'single';
-                            let eng;
-                            if (fmt === 'single') eng = makeElimination(teams);
-                            else if (fmt === 'double') eng = makeDoubleElimination(teams);
-                            else if (fmt === 'league') eng = makeRoundRobin(teams);
-                            else {
-                                const r1 = buildSwissRoundM7(teams, [], 1);
-                                eng = { matches: r1.matches, rounds: [r1], championSource: null };
-                            }
-                            tournamentState = { ...remoteState, ...eng };
-                        }
-                        renderTournament(false);
-                        isApplyingRemoteUpdate = false;
+                        window.rokApplyStateUpdate(remoteState);
                         const pulse = document.getElementById('realtimePulseDot');
                         if (pulse) {
                             pulse.style.background = '#e2e8f0';
@@ -2149,8 +2602,38 @@
             } catch (err) {
                 // Silently handle offline/poll errors
             }
-        }, 3500);
+        }, 3000);
     }
+
+    // Globally exposed real-time state updater for seamless integration
+    window.rokApplyStateUpdate = function(remoteState) {
+        if (!remoteState) return;
+        isApplyingRemoteUpdate = true;
+        if (remoteState.matches && remoteState.matches.length > 0) {
+            tournamentState = remoteState;
+        } else {
+            const teams = remoteState.teams || [];
+            const fmt = remoteState.format || 'single';
+            const bo = remoteState.boSettings || getBoSettings();
+            let eng;
+            if (fmt === 'single') eng = makeElimination(teams, bo);
+            else if (fmt === 'double') eng = makeDoubleElimination(teams);
+            else if (fmt === 'league') eng = makeRoundRobin(teams);
+            else {
+                const r1 = buildSwissRoundM7(teams, [], 1);
+                eng = { matches: r1.matches, rounds: [r1], championSource: null };
+            }
+            tournamentState = { ...remoteState, boSettings: bo, ...eng };
+        }
+        renderTournament(false);
+        isApplyingRemoteUpdate = false;
+    };
+
+    window.rokGetTournamentState = function() {
+        return tournamentState;
+    };
+
+    window.rokOpenMatchEdit = openMatchEditModal;
 
     // ====================================================
     // INITIALIZATION & EVENT LISTENERS
@@ -2161,6 +2644,86 @@
         document.getElementById('closeTeamModalBackdrop')?.addEventListener('click', closeTeamModal);
         document.getElementById('closeLogoPickerBtn')?.addEventListener('click', closeLogoPicker);
         document.getElementById('closeLogoPickerBackdrop')?.addEventListener('click', closeLogoPicker);
+
+        // Match Edit Modal buttons
+        document.getElementById('closeMatchEditBtn')?.addEventListener('click', closeMatchEditModal);
+        document.getElementById('closeMatchEditBackdrop')?.addEventListener('click', closeMatchEditModal);
+        document.getElementById('btnCancelEditMatch')?.addEventListener('click', closeMatchEditModal);
+        document.getElementById('btnSaveEditMatch')?.addEventListener('click', saveMatchEdit);
+
+        // Match score adjustments in modal
+        document.getElementById('btnScore1Minus')?.addEventListener('click', () => {
+            const input = document.getElementById('modalScore1Input');
+            if (input) input.value = Math.max(0, (parseInt(input.value, 10) || 0) - 1);
+        });
+        document.getElementById('btnScore1Plus')?.addEventListener('click', () => {
+            const input = document.getElementById('modalScore1Input');
+            if (input) input.value = (parseInt(input.value, 10) || 0) + 1;
+        });
+        document.getElementById('btnScore2Minus')?.addEventListener('click', () => {
+            const input = document.getElementById('modalScore2Input');
+            if (input) input.value = Math.max(0, (parseInt(input.value, 10) || 0) - 1);
+        });
+        document.getElementById('btnScore2Plus')?.addEventListener('click', () => {
+            const input = document.getElementById('modalScore2Input');
+            if (input) input.value = (parseInt(input.value, 10) || 0) + 1;
+        });
+
+        // Quick Win buttons based on series BO
+        const getWinTarget = () => {
+            const boText = document.getElementById('modalMatchBoBadge')?.textContent?.trim() || 'BO1';
+            if (boText === 'BO3') return 2;
+            if (boText === 'BO5') return 3;
+            if (boText === 'BO7') return 4;
+            return 1;
+        };
+
+        document.getElementById('btnQuickWin1')?.addEventListener('click', () => {
+            const target = getWinTarget();
+            const s1 = document.getElementById('modalScore1Input');
+            const s2 = document.getElementById('modalScore2Input');
+            if (s1 && s2) {
+                s1.value = target;
+                const currentS2 = parseInt(s2.value, 10) || 0;
+                s2.value = (currentS2 >= target) ? Math.max(0, target - 1) : currentS2;
+            }
+        });
+
+        document.getElementById('btnQuickWin2')?.addEventListener('click', () => {
+            const target = getWinTarget();
+            const s1 = document.getElementById('modalScore1Input');
+            const s2 = document.getElementById('modalScore2Input');
+            if (s1 && s2) {
+                s2.value = target;
+                const currentS1 = parseInt(s1.value, 10) || 0;
+                s1.value = (currentS1 >= target) ? Math.max(0, target - 1) : currentS1;
+            }
+        });
+
+        document.getElementById('btnResetSingleMatch')?.addEventListener('click', () => {
+            const s1 = document.getElementById('modalScore1Input');
+            const s2 = document.getElementById('modalScore2Input');
+            if (s1) s1.value = '';
+            if (s2) s2.value = '';
+        });
+
+        // Toggle Custom BO options panel
+        const customBoCheckbox = document.getElementById('enableCustomBoCheckbox');
+        const customBoPanel = document.getElementById('customBoOptionsPanel');
+        customBoCheckbox?.addEventListener('change', () => {
+            if (customBoPanel) {
+                customBoPanel.style.display = customBoCheckbox.checked ? 'block' : 'none';
+            }
+        });
+
+        // Toggle Bronze Match select wrapper
+        const bronzeCheckbox = document.getElementById('enableBronzeMatchCheckbox');
+        const bronzeWrapper = document.getElementById('bronzeBoSelectWrapper');
+        bronzeCheckbox?.addEventListener('change', () => {
+            if (bronzeWrapper) {
+                bronzeWrapper.style.display = bronzeCheckbox.checked ? 'flex' : 'none';
+            }
+        });
 
         // Copy Pra-Tournament Link Button
         document.getElementById('copyPraTourneyLinkBtn')?.addEventListener('click', () => {
@@ -2277,7 +2840,11 @@
             const generateBtn = document.getElementById('generateBracketBtn');
             const resetBtn = document.getElementById('resetScoresBtn');
 
+            const singleBoSection = document.getElementById('singleElimBoSection');
             formatSelect?.addEventListener('change', () => {
+                if (singleBoSection) {
+                    singleBoSection.style.display = (formatSelect.value === 'single') ? 'block' : 'none';
+                }
                 syncTeamCountOptions();
                 renderTeamInputs();
                 // TAHAN DULU: Jangan langsung generate bagan sampai tombol 'Generate & Simpan Bagan' diklik
@@ -2411,6 +2978,25 @@
                 renderTeamInputs(INITIAL_SERVER_STATE.teams);
             }
 
+            if (INITIAL_SERVER_STATE.boSettings) {
+                const bo = INITIAL_SERVER_STATE.boSettings;
+                const customCb = document.getElementById('enableCustomBoCheckbox');
+                const customPanel = document.getElementById('customBoOptionsPanel');
+                const semiSel = document.getElementById('semiFinalBoSelect');
+                const finalSel = document.getElementById('grandFinalBoSelect');
+                const bronzeCb = document.getElementById('enableBronzeMatchCheckbox');
+                const bronzeSel = document.getElementById('bronzeMatchBoSelect');
+                const bronzeWrap = document.getElementById('bronzeBoSelectWrapper');
+
+                if (customCb) customCb.checked = Boolean(bo.customBo);
+                if (customPanel) customPanel.style.display = bo.customBo ? 'block' : 'none';
+                if (semiSel && bo.semi) semiSel.value = bo.semi;
+                if (finalSel && bo.final) finalSel.value = bo.final;
+                if (bronzeCb) bronzeCb.checked = Boolean(bo.bronzeMatch);
+                if (bronzeSel && bo.bronzeBo) bronzeSel.value = bo.bronzeBo;
+                if (bronzeWrap) bronzeWrap.style.display = bo.bronzeMatch ? 'flex' : 'none';
+            }
+
             if (INITIAL_SERVER_STATE.matches && INITIAL_SERVER_STATE.matches.length > 0) {
                 tournamentState = INITIAL_SERVER_STATE;
                 renderTournament(false);
@@ -2420,9 +3006,10 @@
                 }
             } else {
                 const teams = INITIAL_SERVER_STATE.teams;
+                const boSettings = INITIAL_SERVER_STATE.boSettings || getBoSettings();
                 let engine;
                 if (savedFormat === 'single') {
-                    engine = makeElimination(teams);
+                    engine = makeElimination(teams, boSettings);
                 } else if (savedFormat === 'double') {
                     engine = makeDoubleElimination(teams);
                 } else if (savedFormat === 'league') {
@@ -2442,6 +3029,7 @@
                     teamCount: teams.length,
                     teams: teams,
                     scores: INITIAL_SERVER_STATE.scores || {},
+                    boSettings: boSettings,
                     ...engine
                 };
 

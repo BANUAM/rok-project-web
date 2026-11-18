@@ -2762,3 +2762,134 @@
     }
 }
 
+/* ====================================================
+   MATCH EDIT & CUSTOM BEST OF (BO) FORMAT BADGES
+   ==================================================== */
+.gen-match-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 3px 6px;
+    margin-bottom: 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="light"] .gen-match-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.gen-match-header__badges {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+}
+
+.badge-bo {
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 999px;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--rok-muted-light);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-transform: uppercase;
+}
+
+.badge-bo--semi {
+    background: rgba(59, 130, 246, 0.12);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.badge-bo--final {
+    background: rgba(245, 158, 11, 0.14);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.badge-bo--bronze {
+    background: rgba(217, 119, 6, 0.14);
+    color: #f59e0b;
+    border: 1px solid rgba(217, 119, 6, 0.35);
+}
+
+.btn-edit-match {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--rok-silver);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    line-height: 1.2;
+    transition: all 0.15s ease;
+}
+
+.btn-edit-match:hover {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: #f59e0b;
+    color: #fbbf24;
+    transform: translateY(-1px);
+}
+
+[data-theme="light"] .btn-edit-match {
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #475569;
+}
+
+[data-theme="light"] .btn-edit-match:hover {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: #d97706;
+    color: #b45309;
+}
+
+/* Grand Final Card Styling */
+.gen-match-box--final {
+    border-color: rgba(245, 158, 11, 0.35) !important;
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.12) !important;
+}
+
+/* Bronze Match Card Styling */
+.gen-match-box--bronze {
+    border-color: rgba(217, 119, 6, 0.35) !important;
+    box-shadow: 0 4px 18px rgba(217, 119, 6, 0.1) !important;
+}
+
+.bronze-section-divider {
+    margin: 16px 0 10px 0;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #f59e0b;
+    text-transform: uppercase;
+}
+
+/* Step-button in edit match dialog */
+.btn-rok-step {
+    transition: all 0.12s ease;
+}
+.btn-rok-step:hover {
+    background: var(--rok-gold) !important;
+    color: #000 !important;
+}
+.btn-quick-win:hover {
+    background: #22c55e !important;
+    color: #000 !important;
+}
+
+

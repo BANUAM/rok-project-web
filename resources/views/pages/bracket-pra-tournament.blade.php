@@ -518,6 +518,10 @@
             // Save claimed slot locally to lock device
             localStorage.setItem(LOCAL_STORAGE_KEY, slotIdx);
 
+            if (typeof window.rokApplyStateUpdate === 'function' && data.bracket_state) {
+                window.rokApplyStateUpdate(data.bracket_state);
+            }
+
             alert(data.message || 'Selamat! Tim Anda berhasil didaftarkan.');
             closeClaimModal();
             window.location.reload();
@@ -563,12 +567,13 @@
         document.getElementById('closeClaimModalBackdrop')?.addEventListener('click', closeClaimModal);
         document.getElementById('btnCancelClaim')?.addEventListener('click', closeClaimModal);
 
-        // Auto polling every 4 seconds to sync newly claimed slots in real-time
+        // Auto polling every 2.5 seconds to sync newly claimed slots & live bracket in true real-time
         setInterval(async () => {
             try {
-                let res = await fetch(STATE_API_URL, { headers: { 'Accept': 'application/json' } });
+                const pollUrl = STATE_API_URL + (STATE_API_URL.includes('?') ? '&' : '?') + '_t=' + Date.now();
+                let res = await fetch(pollUrl, { headers: { 'Accept': 'application/json' } });
                 if (res.status === 404) {
-                    res = await fetch('/bracket/' + encodeURIComponent(SLUG) + '/state', { headers: { 'Accept': 'application/json' } });
+                    res = await fetch('/bracket/' + encodeURIComponent(SLUG) + '/state?_t=' + Date.now(), { headers: { 'Accept': 'application/json' } });
                 }
                 if (!res.ok) return;
                 const json = await res.json();
@@ -652,11 +657,16 @@
                     const vacantStat = document.getElementById('statVacantCount');
                     if (claimedStat) claimedStat.textContent = claimedCount;
                     if (vacantStat) vacantStat.textContent = Math.max(0, teams.length - claimedCount);
+
+                    // Update embedded bracket engine simultaneously
+                    if (typeof window.rokApplyStateUpdate === 'function') {
+                        window.rokApplyStateUpdate(stateData);
+                    }
                 }
             } catch (e) {
                 // Ignore network poll errors
             }
-        }, 4000);
+        }, 2500);
     });
 })();
 </script>
