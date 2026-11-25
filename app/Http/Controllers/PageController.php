@@ -91,11 +91,18 @@ class PageController extends Controller
         $pageHeader = PageHeader::where('page_key', 'learning')->where('is_active', true)->first();
         $membershipPlans = MembershipPlan::where('is_active', true)->orderBy('sort_order')->get();
 
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $hasLearningAccess = $user?->hasLearningAccess() ?? false;
+        $userTier = $user?->membershipTierSlug() ?? 'guest';
+        $userName = $user?->name ?? 'Tamu ROK';
+
+        $data = compact('modules', 'pageHeader', 'membershipPlans', 'hasLearningAccess', 'userTier', 'userName');
+
         if ($request->header('X-Inertia') || $request->wantsJson() || $request->boolean('inertia')) {
-            return Inertia::render('LearningDevelopment', compact('modules', 'pageHeader', 'membershipPlans'));
+            return Inertia::render('LearningDevelopment', $data);
         }
 
-        return view('pages.learning-development', compact('modules', 'pageHeader', 'membershipPlans'));
+        return view('pages.learning-development', $data);
     }
 
     public function bracket(Request $request): View|InertiaResponse
