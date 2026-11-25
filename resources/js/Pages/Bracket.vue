@@ -30,15 +30,36 @@ const finalBo = ref('BO5');
 const enableBronzeMatch = ref(true);
 const bronzeBo = ref('BO3');
 
+const getWinTarget = (bo) => {
+    if (bo === 'BO3') return 2;
+    if (bo === 'BO5') return 3;
+    if (bo === 'BO7') return 4;
+    return 1;
+};
+
 // Edit match modal state
 const editingMatch = ref(null);
 const editScore1 = ref(0);
 const editScore2 = ref(0);
 
+const clampScores = () => {
+    if (!editingMatch.value) return;
+    const target = getWinTarget(editingMatch.value.bo);
+    if (editScore1.value > target) editScore1.value = target;
+    if (editScore1.value < 0) editScore1.value = 0;
+    if (editScore2.value > target) editScore2.value = target;
+    if (editScore2.value < 0) editScore2.value = 0;
+    if (editScore1.value === target && editScore2.value === target) {
+        editScore2.value = Math.max(0, target - 1);
+    }
+};
+
 const openEditModal = (title, bo, teamA, teamB, s1 = 0, s2 = 0) => {
     editingMatch.value = { title, bo, teamA, teamB };
-    editScore1.value = s1;
-    editScore2.value = s2;
+    const target = getWinTarget(bo);
+    editScore1.value = Math.min(s1, target);
+    editScore2.value = Math.min(s2, target);
+    clampScores();
 };
 
 const closeEditModal = () => {
@@ -460,16 +481,26 @@ onMounted(() => {
                                     <h4 style="margin: 0; font-size: 16px;">Ubah Hasil {{ editingMatch.title }}</h4>
                                     <span style="font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: rgba(245,158,11,0.15); color: #f59e0b;">{{ editingMatch.bo }}</span>
                                 </div>
-                                <p style="font-size: 12px; color: var(--rok-muted-light); margin: 0 0 16px 0;">Atur skor pertandingan untuk menentukan pemenang yang lolos ke babak selanjutnya.</p>
+                                <p style="font-size: 12px; color: var(--rok-muted-light); margin: 0 0 16px 0;">
+                                    Format {{ editingMatch.bo }}: Pemenang adalah tim pertama yang meraih {{ getWinTarget(editingMatch.bo) }} poin (skor maksimal {{ getWinTarget(editingMatch.bo) }}).
+                                </p>
 
                                 <div style="display: grid; gap: 12px; margin-bottom: 20px;">
                                     <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 8px;">
                                         <span style="font-weight: 700; font-size: 13px;">{{ editingMatch.teamA || 'Tim 1' }}</span>
-                                        <input v-model.number="editScore1" type="number" min="0" max="9" style="width: 50px; text-align: center; padding: 6px; background: var(--rok-bg); border: 1px solid var(--rok-surface-border); color: #fff; border-radius: 6px; font-weight: 800;" />
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <button type="button" @click="editScore1 = Math.max(0, editScore1 - 1); clampScores()" style="width:24px;height:24px;background:rgba(255,255,255,0.08);border:1px solid var(--rok-surface-border);color:#fff;border-radius:4px;cursor:pointer;font-weight:700;">-</button>
+                                            <span style="font-size:16px;font-weight:800;min-width:24px;text-align:center;">{{ editScore1 }}</span>
+                                            <button type="button" @click="if (editScore1 < getWinTarget(editingMatch.bo)) editScore1++; clampScores()" style="width:24px;height:24px;background:rgba(255,255,255,0.08);border:1px solid var(--rok-surface-border);color:#fff;border-radius:4px;cursor:pointer;font-weight:700;">+</button>
+                                        </div>
                                     </div>
                                     <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 8px;">
                                         <span style="font-weight: 700; font-size: 13px;">{{ editingMatch.teamB || 'Tim 2' }}</span>
-                                        <input v-model.number="editScore2" type="number" min="0" max="9" style="width: 50px; text-align: center; padding: 6px; background: var(--rok-bg); border: 1px solid var(--rok-surface-border); color: #fff; border-radius: 6px; font-weight: 800;" />
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <button type="button" @click="editScore2 = Math.max(0, editScore2 - 1); clampScores()" style="width:24px;height:24px;background:rgba(255,255,255,0.08);border:1px solid var(--rok-surface-border);color:#fff;border-radius:4px;cursor:pointer;font-weight:700;">-</button>
+                                            <span style="font-size:16px;font-weight:800;min-width:24px;text-align:center;">{{ editScore2 }}</span>
+                                            <button type="button" @click="if (editScore2 < getWinTarget(editingMatch.bo)) editScore2++; clampScores()" style="width:24px;height:24px;background:rgba(255,255,255,0.08);border:1px solid var(--rok-surface-border);color:#fff;border-radius:4px;cursor:pointer;font-weight:700;">+</button>
+                                        </div>
                                     </div>
                                 </div>
 

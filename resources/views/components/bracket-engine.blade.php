@@ -1027,6 +1027,17 @@
         return source.type === 'loser' ? parent.loser : parent.winner;
     }
 
+    function boWinTarget(boStr) {
+        if (boStr === 'BO3') return 2;
+        if (boStr === 'BO5') return 3;
+        if (boStr === 'BO7') return 4;
+        return 1; // BO1 default
+    }
+
+    function clampScoreForBo(score, bo) {
+        return Math.min(Math.max(0, score), boWinTarget(bo));
+    }
+
     function calculateMatch(match, matches) {
         const a = resolveSource(match.source1, matches);
         const b = resolveSource(match.source2, matches);
@@ -1043,9 +1054,33 @@
             match.winner = b;
             return;
         }
-        if (a && b && Number.isInteger(match.score1) && Number.isInteger(match.score2) && match.score1 !== match.score2) {
-            match.winner = match.score1 > match.score2 ? a : b;
-            match.loser = match.score1 > match.score2 ? b : a;
+
+        const winTarget = boWinTarget(match.bo || 'BO1');
+
+        // Strictly clamp scores to [0, winTarget]
+        if (Number.isInteger(match.score1)) {
+            match.score1 = Math.max(0, Math.min(match.score1, winTarget));
+        }
+        if (Number.isInteger(match.score2)) {
+            match.score2 = Math.max(0, Math.min(match.score2, winTarget));
+        }
+
+        // Prevent both teams from simultaneously holding winTarget
+        if (match.score1 === winTarget && match.score2 === winTarget) {
+            match.score2 = Math.max(0, winTarget - 1);
+        }
+
+        if (a && b && Number.isInteger(match.score1) && Number.isInteger(match.score2)) {
+            // A team advances ONLY when they have strictly REACHED winTarget!
+            if (match.score1 === winTarget && match.score1 > match.score2) {
+                match.winner = a;
+                match.loser = b;
+            } else if (match.score2 === winTarget && match.score2 > match.score1) {
+                match.winner = b;
+                match.loser = a;
+            }
+            // If neither team has reached winTarget (e.g. 1-0 or 2-1 in BO5),
+            // match.winner and match.loser STRICTLY REMAIN NULL (series is ongoing, nobody advances yet).
         }
     }
 
@@ -1056,10 +1091,12 @@
             (m.source2 && m.source2.matchId === parentMatch.id)
         );
         children.forEach(child => {
-            const oldT1 = child.team1;
-            const oldT2 = child.team2;
+            const oldT1Id = child.team1?.id ?? null;
+            const oldT2Id = child.team2?.id ?? null;
             calculateMatch(child, matches);
-            if ((oldT1 && child.team1?.id !== oldT1.id) || (oldT2 && child.team2?.id !== oldT2.id)) {
+            const newT1Id = child.team1?.id ?? null;
+            const newT2Id = child.team2?.id ?? null;
+            if (oldT1Id !== newT1Id || oldT2Id !== newT2Id) {
                 child.score1 = null;
                 child.score2 = null;
                 child.winner = null;
@@ -1665,13 +1702,10 @@
             titleEl.textContent = match.isFinal ? 'Ubah Hasil Grand Final' : (match.isBronze ? 'Ubah Hasil Perebutan Juara 3' : `Ubah Hasil Match (${match.id})`);
         }
 
-        let winTarget = 1;
-        if (seriesBo === 'BO3') winTarget = 2;
-        else if (seriesBo === 'BO5') winTarget = 3;
-        else if (seriesBo === 'BO7') winTarget = 4;
+        const winTarget = boWinTarget(seriesBo);
 
         if (ruleHintEl) {
-            ruleHintEl.textContent = `Format ${seriesBo}: Tim pertama yang meraih ${winTarget} kemenangan dinyatakan sebagai pemenang seri pertandingan.`;
+            ruleHintEl.textContent = `Format ${seriesBo}: Tim pertama yang meraih ${winTarget} kemenangan dinyatakan sebagai pemenang seri pertandingan. Skor maksimal per tim: ${winTarget}.`;
         }
 
         const t1Logo = document.getElementById('modalEditTeam1Logo');
@@ -1680,6 +1714,7 @@
         if (t1Logo) t1Logo.src = a?.logo || presetLogos[0];
         if (t1Name) t1Name.textContent = a ? a.name : 'TBD (Menunggu babak sebelumnya)';
         if (s1Input) {
+            s1Input.max = String(winTarget);
             s1Input.value = Number.isInteger(match.score1) ? match.score1 : '';
             s1Input.disabled = !a || !b;
         }
@@ -1690,6 +1725,7 @@
         if (t2Logo) t2Logo.src = b?.logo || presetLogos[1];
         if (t2Name) t2Name.textContent = b ? b.name : 'TBD (Menunggu babak sebelumnya)';
         if (s2Input) {
+            s2Input.max = String(winTarget);
             s2Input.value = Number.isInteger(match.score2) ? match.score2 : '';
             s2Input.disabled = !a || !b;
         }
@@ -1709,10 +1745,21 @@
         const match = tournamentState.matches.find(m => m.id === activeEditingMatchId);
         if (!match) return;
 
+        const winTarget = boWinTarget(match.bo || 'BO1');
+
         const s1Raw = document.getElementById('modalScore1Input')?.value;
         const s2Raw = document.getElementById('modalScore2Input')?.value;
-        const s1 = (s1Raw !== '' && s1Raw !== null && !isNaN(parseInt(s1Raw, 10))) ? Math.max(0, parseInt(s1Raw, 10)) : null;
-        const s2 = (s2Raw !== '' && s2Raw !== null && !isNaN(parseInt(s2Raw, 10))) ? Math.max(0, parseInt(s2Raw, 10)) : null;
+        let s1 = (s1Raw !== '' && s1Raw !== null && !isNaN(parseInt(s1Raw, 10))) ? Math.max(0, parseInt(s1Raw, 10)) : null;
+        let s2 = (s2Raw !== '' && s2Raw !== null && !isNaN(parseInt(s2Raw, 10))) ? Math.max(0, parseInt(s2Raw, 10)) : null;
+
+        // Strictly clamp to [0, winTarget]
+        if (s1 !== null) s1 = Math.max(0, Math.min(s1, winTarget));
+        if (s2 !== null) s2 = Math.max(0, Math.min(s2, winTarget));
+
+        // Prevent both teams from being at winTarget simultaneously
+        if (s1 === winTarget && s2 === winTarget) {
+            s2 = Math.max(0, winTarget - 1);
+        }
 
         const oldWinnerId = match.winner?.id;
         match.score1 = s1;
@@ -1723,7 +1770,7 @@
         if (!tournamentState.scores) tournamentState.scores = {};
         tournamentState.scores[match.id] = { s1: s1, s2: s2, score1: s1, score2: s2 };
 
-        if (oldWinnerId && match.winner?.id !== oldWinnerId) {
+        if (oldWinnerId !== match.winner?.id) {
             cascadeMatchUpdates(match, tournamentState.matches);
         }
 
@@ -1908,16 +1955,28 @@
                 infoWrap.appendChild(waLink);
             }
 
+            const winTarget = boWinTarget(match.bo || 'BO1');
+
             const input = document.createElement('input');
             input.type = 'number';
             input.min = '0';
-            input.max = '999';
+            input.max = String(winTarget);
             input.step = '1';
             input.className = 'gen-score-input';
             input.setAttribute('aria-label', `Skor ${team?.name || 'TBD'}`);
-            input.value = match[i === 0 ? 'score1' : 'score2'] ?? '';
+            const curScore = match[i === 0 ? 'score1' : 'score2'];
+            input.value = curScore !== null && curScore !== undefined ? String(curScore) : '';
             input.disabled = IS_READ_ONLY || !(a && b);
             input.placeholder = '–';
+
+            // Real-time clamp on typing
+            input.addEventListener('input', () => {
+                const parsed = parseInt(input.value, 10);
+                if (!isNaN(parsed)) {
+                    if (parsed > winTarget) input.value = String(winTarget);
+                    if (parsed < 0) input.value = '0';
+                }
+            });
 
             input.addEventListener('change', () => {
                 if (state.format === 'swiss' && match.round < state.rounds.length) {
@@ -1925,10 +1984,23 @@
                     state.matches = state.matches.filter(item => item.round <= match.round);
                 }
                 const key = i === 0 ? 'score1' : 'score2';
+                const otherKey = i === 0 ? 'score2' : 'score1';
                 const parsed = parseInt(input.value, 10);
-                match[key] = isNaN(parsed) ? null : Math.max(0, parsed);
+                // Clamp to [0, winTarget]
+                match[key] = isNaN(parsed) ? null : Math.min(winTarget, Math.max(0, parsed));
+                if (match[key] !== null) input.value = String(match[key]);
 
+                // Prevent both teams from simultaneously reaching winTarget
+                if (match[key] === winTarget && match[otherKey] !== null && match[otherKey] >= winTarget) {
+                    match[otherKey] = Math.max(0, winTarget - 1);
+                }
+
+                const oldWinnerId = match.winner?.id;
                 calculateMatch(match, state.matches);
+
+                if (oldWinnerId !== match.winner?.id) {
+                    cascadeMatchUpdates(match, state.matches);
+                }
 
                 if (state.format === 'swiss') {
                     advanceSwiss(state);
@@ -1946,7 +2018,8 @@
 
     // ====================================================
     // CLASSIC TOURNAMENT BRACKET CONNECTORS ("PANAH BAGAN")
-    // Orthogonal tree lines M ... H ... V ... H ... with NO ARROWHEADS
+    // Professional unified orthogonal fork lines:
+    // Top & bottom feeder matches meet at midX and enter target match center
     // ====================================================
     function drawAllBracketArrows() {
         const deck = document.getElementById('generatedTreeDeck');
@@ -1981,57 +2054,92 @@
         const matchMap = new Map(tournamentState.matches.map(m => [m.id, m]));
 
         tournamentState.matches.forEach(targetMatch => {
+            // Do NOT draw crisscross connectors into the standalone Bronze Match (Perebutan Juara 3)
+            if (targetMatch.isBronze) return;
+
             const targetEl = canvas.querySelector(`.gen-match-box[data-match-id="${targetMatch.id}"]`);
             if (!targetEl) return;
 
-            const sources = [
-                { src: targetMatch.source1, slot: 0 },
-                { src: targetMatch.source2, slot: 1 }
-            ];
+            const tRect = targetEl.getBoundingClientRect();
+            const targetLeft = (tRect.left - canvasRect.left) / zoom;
+            const targetCenterY = (tRect.top - canvasRect.top + (tRect.height / 2)) / zoom;
 
-            sources.forEach(({ src, slot }) => {
-                if (!src || src.type === 'team' || !src.matchId) return;
-                const sourceEl = canvas.querySelector(`.gen-match-box[data-match-id="${src.matchId}"]`);
-                if (!sourceEl) return;
+            const src1 = targetMatch.source1;
+            const src2 = targetMatch.source2;
 
-                const sourceMatch = matchMap.get(src.matchId);
-                const sRect = sourceEl.getBoundingClientRect();
-                const tRect = targetEl.getBoundingClientRect();
+            const m1 = (src1 && src1.type !== 'team' && src1.matchId) ? matchMap.get(src1.matchId) : null;
+            const m2 = (src2 && src2.type !== 'team' && src2.matchId) ? matchMap.get(src2.matchId) : null;
 
-                const startX = (sRect.right - canvasRect.left) / zoom;
-                const startY = (sRect.top - canvasRect.top + (sRect.height / 2)) / zoom;
+            const el1 = m1 ? canvas.querySelector(`.gen-match-box[data-match-id="${m1.id}"]`) : null;
+            const el2 = m2 ? canvas.querySelector(`.gen-match-box[data-match-id="${m2.id}"]`) : null;
 
-                const endX = (tRect.left - canvasRect.left) / zoom;
-                const rows = targetEl.querySelectorAll('.gen-team-row');
-                let endY = (tRect.top - canvasRect.top + (tRect.height * (slot === 0 ? 0.35 : 0.70))) / zoom;
-                if (rows[slot]) {
-                    const rRect = rows[slot].getBoundingClientRect();
-                    endY = (rRect.top - canvasRect.top + (rRect.height / 2)) / zoom;
-                }
+            let s1Right = null, s1CenterY = null, s1Winner = false;
+            if (el1) {
+                const r1 = el1.getBoundingClientRect();
+                s1Right = (r1.right - canvasRect.left) / zoom;
+                s1CenterY = (r1.top - canvasRect.top + (r1.height / 2)) / zoom;
+                s1Winner = Boolean(m1.winner && targetMatch.team1 && m1.winner.id === targetMatch.team1.id);
+            }
 
-                if (endX <= startX + 5) return; // Only draw left-to-right connections
+            let s2Right = null, s2CenterY = null, s2Winner = false;
+            if (el2) {
+                const r2 = el2.getBoundingClientRect();
+                s2Right = (r2.right - canvasRect.left) / zoom;
+                s2CenterY = (r2.top - canvasRect.top + (r2.height / 2)) / zoom;
+                s2Winner = Boolean(m2.winner && targetMatch.team2 && m2.winner.id === targetMatch.team2.id);
+            }
 
-                const midX = startX + (endX - startX) * 0.5;
-                const pathData = `M ${startX} ${startY} H ${midX} V ${endY} H ${endX}`;
+            // Case A: Both sources exist (Classic unified 2-to-1 elimination tree fork)
+            if (el1 && el2) {
+                const startX = Math.max(s1Right, s2Right);
+                if (targetLeft <= startX + 4) return;
+                const midX = startX + (targetLeft - startX) * 0.5;
 
-                const path = document.createElementNS(svgNS, 'path');
-                path.setAttribute('d', pathData);
-                path.setAttribute('fill', 'none');
+                // Path 1 (Source 1 into target center)
+                const p1 = document.createElementNS(svgNS, 'path');
+                p1.setAttribute('d', `M ${s1Right} ${s1CenterY} H ${midX} V ${targetCenterY} H ${targetLeft}`);
+                p1.setAttribute('fill', 'none');
+                p1.setAttribute('stroke-linejoin', 'round');
+                p1.setAttribute('stroke-linecap', 'round');
+                p1.setAttribute('class', `bracket-arrow-path ${s1Winner ? 'bracket-arrow-path--winner' : ''}`);
+                svg.appendChild(p1);
 
-                const isWinnerResolved = (src.type === 'winner' && Boolean(sourceMatch?.winner)) ||
-                                         (src.type === 'loser' && Boolean(sourceMatch?.loser));
-
-                path.setAttribute('class', `bracket-arrow-path ${isWinnerResolved ? 'bracket-arrow-path--winner' : ''}`);
-
-                if (src.type === 'loser') {
-                    path.setAttribute('stroke-dasharray', '5 4');
-                }
-
-                svg.appendChild(path);
-            });
+                // Path 2 (Source 2 into target center)
+                const p2 = document.createElementNS(svgNS, 'path');
+                p2.setAttribute('d', `M ${s2Right} ${s2CenterY} H ${midX} V ${targetCenterY} H ${targetLeft}`);
+                p2.setAttribute('fill', 'none');
+                p2.setAttribute('stroke-linejoin', 'round');
+                p2.setAttribute('stroke-linecap', 'round');
+                p2.setAttribute('class', `bracket-arrow-path ${s2Winner ? 'bracket-arrow-path--winner' : ''}`);
+                svg.appendChild(p2);
+            }
+            // Case B: Only Source 1 exists (e.g. single predecessor or BYE branch)
+            else if (el1) {
+                if (targetLeft <= s1Right + 4) return;
+                const midX = s1Right + (targetLeft - s1Right) * 0.5;
+                const p1 = document.createElementNS(svgNS, 'path');
+                p1.setAttribute('d', `M ${s1Right} ${s1CenterY} H ${midX} V ${targetCenterY} H ${targetLeft}`);
+                p1.setAttribute('fill', 'none');
+                p1.setAttribute('stroke-linejoin', 'round');
+                p1.setAttribute('stroke-linecap', 'round');
+                p1.setAttribute('class', `bracket-arrow-path ${s1Winner ? 'bracket-arrow-path--winner' : ''}`);
+                svg.appendChild(p1);
+            }
+            // Case C: Only Source 2 exists
+            else if (el2) {
+                if (targetLeft <= s2Right + 4) return;
+                const midX = s2Right + (targetLeft - s2Right) * 0.5;
+                const p2 = document.createElementNS(svgNS, 'path');
+                p2.setAttribute('d', `M ${s2Right} ${s2CenterY} H ${midX} V ${targetCenterY} H ${targetLeft}`);
+                p2.setAttribute('fill', 'none');
+                p2.setAttribute('stroke-linejoin', 'round');
+                p2.setAttribute('stroke-linecap', 'round');
+                p2.setAttribute('class', `bracket-arrow-path ${s2Winner ? 'bracket-arrow-path--winner' : ''}`);
+                svg.appendChild(p2);
+            }
         });
 
-        // Connect the final match to the Champion box
+        // Connect Grand Final match to Champion Podium box
         const champEl = canvas.querySelector('.champ-display-box');
         if (champEl && tournamentState.matches && tournamentState.matches.length > 0) {
             const finalMatch = tournamentState.matches.find(m => m.isFinal) || tournamentState.matches[tournamentState.matches.length - 1];
@@ -2046,12 +2154,13 @@
                     const endX = (cRect.left - canvasRect.left) / zoom;
                     const endY = (cRect.top - canvasRect.top + (cRect.height / 2)) / zoom;
 
-                    if (endX > startX + 5) {
+                    if (endX > startX + 4) {
                         const midX = startX + (endX - startX) * 0.5;
-                        const pathData = `M ${startX} ${startY} H ${midX} V ${endY} H ${endX}`;
                         const path = document.createElementNS(svgNS, 'path');
-                        path.setAttribute('d', pathData);
+                        path.setAttribute('d', `M ${startX} ${startY} H ${midX} V ${endY} H ${endX}`);
                         path.setAttribute('fill', 'none');
+                        path.setAttribute('stroke-linejoin', 'round');
+                        path.setAttribute('stroke-linecap', 'round');
                         const isChampResolved = Boolean(finalMatch.winner);
                         path.setAttribute('class', `bracket-arrow-path ${isChampResolved ? 'bracket-arrow-path--winner' : ''}`);
                         svg.appendChild(path);
@@ -2651,32 +2760,74 @@
         document.getElementById('btnCancelEditMatch')?.addEventListener('click', closeMatchEditModal);
         document.getElementById('btnSaveEditMatch')?.addEventListener('click', saveMatchEdit);
 
-        // Match score adjustments in modal
-        document.getElementById('btnScore1Minus')?.addEventListener('click', () => {
-            const input = document.getElementById('modalScore1Input');
-            if (input) input.value = Math.max(0, (parseInt(input.value, 10) || 0) - 1);
-        });
-        document.getElementById('btnScore1Plus')?.addEventListener('click', () => {
-            const input = document.getElementById('modalScore1Input');
-            if (input) input.value = (parseInt(input.value, 10) || 0) + 1;
-        });
-        document.getElementById('btnScore2Minus')?.addEventListener('click', () => {
-            const input = document.getElementById('modalScore2Input');
-            if (input) input.value = Math.max(0, (parseInt(input.value, 10) || 0) - 1);
-        });
-        document.getElementById('btnScore2Plus')?.addEventListener('click', () => {
-            const input = document.getElementById('modalScore2Input');
-            if (input) input.value = (parseInt(input.value, 10) || 0) + 1;
-        });
-
         // Quick Win buttons based on series BO
         const getWinTarget = () => {
             const boText = document.getElementById('modalMatchBoBadge')?.textContent?.trim() || 'BO1';
-            if (boText === 'BO3') return 2;
-            if (boText === 'BO5') return 3;
-            if (boText === 'BO7') return 4;
-            return 1;
+            return boWinTarget(boText);
         };
+
+        const clampModalInputs = () => {
+            const target = getWinTarget();
+            const s1 = document.getElementById('modalScore1Input');
+            const s2 = document.getElementById('modalScore2Input');
+            if (!s1 || !s2) return;
+            let v1 = s1.value === '' ? null : parseInt(s1.value, 10);
+            let v2 = s2.value === '' ? null : parseInt(s2.value, 10);
+            if (v1 !== null && !isNaN(v1)) {
+                if (v1 > target) v1 = target;
+                if (v1 < 0) v1 = 0;
+                s1.value = v1;
+            }
+            if (v2 !== null && !isNaN(v2)) {
+                if (v2 > target) v2 = target;
+                if (v2 < 0) v2 = 0;
+                s2.value = v2;
+            }
+            if (v1 === target && v2 === target) {
+                s2.value = Math.max(0, target - 1);
+            }
+        };
+
+        document.getElementById('modalScore1Input')?.addEventListener('input', clampModalInputs);
+        document.getElementById('modalScore2Input')?.addEventListener('input', clampModalInputs);
+
+        // Match score adjustments in modal
+        document.getElementById('btnScore1Minus')?.addEventListener('click', () => {
+            const input = document.getElementById('modalScore1Input');
+            if (input) {
+                input.value = Math.max(0, (parseInt(input.value, 10) || 0) - 1);
+                clampModalInputs();
+            }
+        });
+        document.getElementById('btnScore1Plus')?.addEventListener('click', () => {
+            const input = document.getElementById('modalScore1Input');
+            const target = getWinTarget();
+            if (input) {
+                const current = parseInt(input.value, 10) || 0;
+                if (current < target) {
+                    input.value = current + 1;
+                    clampModalInputs();
+                }
+            }
+        });
+        document.getElementById('btnScore2Minus')?.addEventListener('click', () => {
+            const input = document.getElementById('modalScore2Input');
+            if (input) {
+                input.value = Math.max(0, (parseInt(input.value, 10) || 0) - 1);
+                clampModalInputs();
+            }
+        });
+        document.getElementById('btnScore2Plus')?.addEventListener('click', () => {
+            const input = document.getElementById('modalScore2Input');
+            const target = getWinTarget();
+            if (input) {
+                const current = parseInt(input.value, 10) || 0;
+                if (current < target) {
+                    input.value = current + 1;
+                    clampModalInputs();
+                }
+            }
+        });
 
         document.getElementById('btnQuickWin1')?.addEventListener('click', () => {
             const target = getWinTarget();

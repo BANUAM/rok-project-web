@@ -681,7 +681,7 @@
     align-items: stretch;
     align-self: flex-start;
     justify-content: flex-start;
-    gap: 26px; /* Jarak antar kolom lebih proporsional */
+    gap: 36px; /* Jarak antar kolom lebih proporsional & ruang bagi garis bagan */
     min-width: max-content;
     width: fit-content;
     height: max-content;
