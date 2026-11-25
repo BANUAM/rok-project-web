@@ -6,7 +6,7 @@
 @section('content')
 <div class="page-container lms-wrapper">
     {{-- PAGE HERO --}}
-    <section class="page-hero {{ !empty($pageHeader?->image_url) ? 'page-hero--has-banner' : '' }}">
+    <section class="page-hero page-hero--lms {{ !empty($pageHeader?->image_url) ? 'page-hero--has-banner' : '' }}">
         @if (!empty($pageHeader?->image_url))
             <div class="page-hero__bg">
                 <img src="{{ $pageHeader->image_url }}" alt="{{ $pageHeader->title ?? 'Learning & Development' }}">
@@ -21,134 +21,141 @@
         </div>
     </section>
 
-    {{-- VIEW SWITCHER TABS --}}
-    <div class="section-inner" style="padding-top: 24px; padding-bottom: 0;">
-        <div class="lms-tabs-bar">
-            <button type="button" class="lms-tab-btn is-active" id="btn-tab-lobby" onclick="switchLmsTab('lobby')">
-                <i data-lucide="shield-check" style="width:16px;height:16px;"></i>
-                Portal Masuk LMS
+    {{-- MAIN CENTERED CONTENT CONTAINER --}}
+    <div class="lms-main-container">
+        {{-- VIEW SWITCHER TABS (SLEEK SEGMENTED PILL) --}}
+        <div class="lms-segmented-bar">
+            <button type="button" class="lms-segment-btn is-active" id="btn-tab-lobby" onclick="switchLmsTab('lobby')">
+                <i data-lucide="shield-check" style="width:15px;height:15px;"></i>
+                <span>Portal Masuk LMS</span>
             </button>
-            <button type="button" class="lms-tab-btn" id="btn-tab-player" onclick="switchLmsTab('player')">
-                <i data-lucide="graduation-cap" style="width:16px;height:16px;"></i>
-                Ruang Belajar &amp; LMS Player
+            <button type="button" class="lms-segment-btn" id="btn-tab-player" onclick="switchLmsTab('player')">
+                <i data-lucide="graduation-cap" style="width:15px;height:15px;"></i>
+                <span>Ruang Belajar &amp; LMS Player</span>
             </button>
         </div>
-    </div>
 
-    {{-- ========================================================
-         VIEW 1: LMS LOBBY (NeuronAcademy style from screenshot)
-         ======================================================== --}}
-    <section id="lms-view-lobby" class="lms-lobby-backdrop">
-        <div class="lms-lobby-card">
-            {{-- Left Column: Brand & Login Form --}}
-            <div class="lms-lobby-left">
-                <div class="lms-brand-header">
-                    <img src="/img/rok-rhino-head.png" alt="ROK Academy" class="lms-brand-logo-img" onerror="this.src='/img/rok-logo.png'">
-                    <h2 class="lms-brand-title">ROK<span>Academy</span></h2>
+        {{-- ========================================================
+             VIEW 1: LMS LOBBY (NeuronAcademy style from screenshot)
+             ======================================================== --}}
+        <section id="lms-view-lobby" class="lms-lobby-backdrop">
+            <div class="lms-lobby-card">
+                {{-- Left Column: Brand & Login Form --}}
+                <div class="lms-lobby-left">
+                    <div class="lms-brand-header">
+                        <div class="lms-brand-logo-badge">
+                            <img src="/img/rok-rhino-head.png" alt="ROK Academy" class="lms-brand-logo-img" onerror="this.src='/img/rok-logo.png'">
+                        </div>
+                        <div>
+                            <h2 class="lms-brand-title">ROK<span>Academy</span></h2>
+                            <div class="lms-brand-subtitle">Learning Management System</div>
+                        </div>
+                    </div>
+
+                    <form onsubmit="event.preventDefault(); switchLmsTab('player');">
+                        <div class="lms-input-group">
+                            <label for="lms-username">Email / Nama Pengguna</label>
+                            <input
+                                type="text"
+                                id="lms-username"
+                                class="lms-input-text"
+                                value="{{ Auth::user()?->email ?? 'banuariefmuzaki@gmail.com' }}"
+                                placeholder="nama@email.com"
+                            >
+                        </div>
+
+                        <div class="lms-input-group">
+                            <label for="lms-password">Kata Sandi</label>
+                            <input
+                                type="password"
+                                id="lms-password"
+                                class="lms-input-text"
+                                value="secretpassword"
+                                placeholder="••••••••••••"
+                            >
+                        </div>
+
+                        <button type="submit" class="btn-lms-login">
+                            <i data-lucide="log-in" style="width:16px;height:16px;"></i>
+                            <span>Masuk ke LMS</span>
+                        </button>
+
+                        <a href="#" onclick="alert('Silakan hubungi administrator ROK untuk pemulihan kata sandi.'); return false;" class="lms-forgot-link">
+                            Lupa kata sandi?
+                        </a>
+                    </form>
                 </div>
 
-                <form onsubmit="event.preventDefault(); switchLmsTab('player');">
-                    <div class="lms-input-group">
-                        <label for="lms-username">Email / Nama Pengguna</label>
-                        <input
-                            type="text"
-                            id="lms-username"
-                            class="lms-input-text"
-                            value="{{ Auth::user()?->email ?? 'banuariefmuzaki@gmail.com' }}"
-                            placeholder="nama@email.com"
-                        >
+                {{-- Right Column: Membership Verification (Replaces SSO) & Utilities --}}
+                <div class="lms-lobby-right">
+                    <div>
+                        <div class="lms-right-header-label">
+                            <i data-lucide="shield-check" style="width:14px;height:14px;color:#d97706;"></i>
+                            <span>Verifikasi Keanggotaan LMS</span>
+                        </div>
+
+                        <div class="lms-access-status-card">
+                            @if ($hasLearningAccess)
+                                <div class="lms-access-badge lms-access-badge--active">
+                                    <i data-lucide="check-circle" style="width:13px;height:13px;"></i>
+                                    <span>Akses Aktif ({{ strtoupper($userTier) }})</span>
+                                </div>
+                                <p style="font-size: 13px; line-height: 1.6; margin: 0 0 16px 0; color: #475569;">
+                                    Selamat datang <strong>{{ $userName }}</strong>! Akun Anda memiliki izin penuh untuk membuka kurikulum taktik, slide SCORM interaktif, dan ujian evaluasi LMS.
+                                </p>
+                                <button type="button" class="btn-lms-action btn-lms-action--gold" onclick="switchLmsTab('player')">
+                                    <i data-lucide="external-link" style="width:15px;height:15px;"></i>
+                                    <span>Buka LMS ROK Sekarang &rarr;</span>
+                                </button>
+                            @else
+                                <div class="lms-access-badge lms-access-badge--locked">
+                                    <i data-lucide="lock" style="width:12px;height:12px;"></i>
+                                    <span>Akses Terbatas: Belum Terdaftar</span>
+                                </div>
+                                <p style="font-size: 13px; line-height: 1.6; margin: 0 0 14px 0; color: #64748b;">
+                                    Modul taktik lengkap dikhususkan bagi pemegang paket <strong>ROK Learning</strong> atau <strong>ROK Immortal</strong>.
+                                </p>
+                                <a href="{{ route('membership.payment', ['plan' => 'learning']) }}" class="btn-lms-action btn-lms-action--gold">
+                                    <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+                                    <span>Dapatkan Akses ROK Learning</span>
+                                </a>
+                                <button type="button" class="btn-lms-action btn-lms-action--outline" onclick="switchLmsTab('player')">
+                                    <i data-lucide="eye" style="width:14px;height:14px;"></i>
+                                    <span>Mode Tamu: Coba Demo LMS ROK</span>
+                                </button>
+                            @endif
+                        </div>
                     </div>
 
-                    <div class="lms-input-group">
-                        <label for="lms-password">Kata Sandi</label>
-                        <input
-                            type="password"
-                            id="lms-password"
-                            class="lms-input-text"
-                            value="secretpassword"
-                            placeholder="••••••••••••"
-                        >
+                    {{-- Language Selector & Cookie Notice --}}
+                    <div class="lms-lobby-meta-bar">
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <i data-lucide="globe" style="width:14px;height:14px;"></i>
+                            <select style="border:none; background:transparent; font-size:12px; font-weight:600; color:inherit; cursor:pointer; outline:none;">
+                                <option>Bahasa Indonesia (id)</option>
+                                <option>English (en)</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:4px; cursor:pointer;" onclick="alert('Platform ROK menggunakan kuki teknis untuk autentikasi dan menyimpan progres belajar kamu.')" title="Pemberitahuan kebijakan kuki platform">
+                            <i data-lucide="help-circle" style="width:13px;height:13px;"></i>
+                            <span>Pemberitahuan kuki</span>
+                        </div>
                     </div>
-
-                    <button type="submit" class="btn-lms-login">
-                        Masuk ke LMS
-                    </button>
-
-                    <a href="#" onclick="alert('Silakan hubungi administrator ROK untuk pemulihan kata sandi.'); return false;" class="lms-forgot-link">
-                        Lupa kata sandi?
-                    </a>
-                </form>
+                </div>
             </div>
 
-            {{-- Right Column: Membership Verification (Replaces SSO) & Utilities --}}
-            <div class="lms-lobby-right">
-                <div>
-                    <div style="font-size: 13px; font-weight: 700; color: #64748b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
-                        Verifikasi Keanggotaan LMS
-                    </div>
-
-                    <div class="lms-access-status-card">
-                        @if ($hasLearningAccess)
-                            <div class="lms-access-badge lms-access-badge--active">
-                                <i data-lucide="check-circle" style="width:13px;height:13px;"></i>
-                                Akses Aktif ({{ strtoupper($userTier) }})
-                            </div>
-                            <p style="font-size: 13px; line-height: 1.5; margin: 0 0 14px 0; color: #475569;">
-                                Selamat datang <strong>{{ $userName }}</strong>! Akun Anda memiliki izin penuh untuk membuka kurikulum taktik, slide SCORM interaktif, dan ujian evaluasi LMS.
-                            </p>
-                            <button type="button" class="btn-lms-action btn-lms-action--gold" onclick="switchLmsTab('player')">
-                                <i data-lucide="external-link" style="width:15px;height:15px;"></i>
-                                Buka LMS ROK Sekarang &rarr;
-                            </button>
-                        @else
-                            <div class="lms-access-badge lms-access-badge--locked">
-                                <i data-lucide="lock" style="width:13px;height:13px;"></i>
-                                Akses Terbatas: Belum Terdaftar
-                            </div>
-                            <p style="font-size: 13px; line-height: 1.5; margin: 0 0 12px 0; color: #64748b;">
-                                Modul taktik lengkap dikhususkan bagi pemegang paket <strong>ROK Learning</strong> atau <strong>ROK Immortal</strong>.
-                            </p>
-                            <a href="{{ route('membership.payment', ['plan' => 'learning']) }}" class="btn-lms-action btn-lms-action--gold">
-                                <i data-lucide="sparkles" style="width:15px;height:15px;"></i>
-                                Dapatkan Akses ROK Learning
-                            </a>
-                            <button type="button" class="btn-lms-action btn-lms-action--outline" onclick="switchLmsTab('player')">
-                                <i data-lucide="eye" style="width:15px;height:15px;"></i>
-                                Mode Tamu: Coba Demo LMS ROK
-                            </button>
-                        @endif
-                    </div>
-                </div>
-
-                {{-- Language Selector & Cookie Notice --}}
-                <div class="lms-lobby-meta-bar">
-                    <div style="display:flex; align-items:center; gap:6px;">
-                        <i data-lucide="globe" style="width:14px;height:14px;"></i>
-                        <select style="border:none; background:transparent; font-size:12px; font-weight:600; color:inherit; cursor:pointer; outline:none;">
-                            <option>Bahasa Indonesia (id)</option>
-                            <option>English (en)</option>
-                        </select>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:4px; cursor:pointer;" title="Pemberitahuan kebijakan kuki platform">
-                        <i data-lucide="help-circle" style="width:13px;height:13px;"></i>
-                        <span>Pemberitahuan kuki</span>
-                    </div>
-                </div>
+            {{-- Bottom Disclaimer Bar from screenshot --}}
+            <div class="lms-disclaimer-footer">
+                Jika Anda terus menjelajahi situs web ini, Anda menyetujui kebijakan kami:
+                <a href="#">Kebijakan Privasi</a>, <a href="#">Syarat dan Ketentuan</a> &mdash;
+                <span style="color:#f59e0b; cursor:pointer; font-weight:700;" onclick="switchLmsTab('player')">Lanjutkan</span>
             </div>
-        </div>
+        </section>
 
-        {{-- Bottom Disclaimer Bar from screenshot --}}
-        <div class="lms-disclaimer-footer">
-            Jika Anda terus menjelajahi situs web ini, Anda menyetujui kebijakan kami:
-            <a href="#">Kebijakan Privasi</a>, <a href="#">Syarat dan Ketentuan</a> &mdash;
-            <span style="color:#f59e0b; cursor:pointer; font-weight:700;" onclick="switchLmsTab('player')">Lanjutkan</span>
-        </div>
-    </section>
-
-    {{-- ========================================================
-         VIEW 2: LMS INTERACTIVE LEARNING ENVIRONMENT (from video)
-         ======================================================== --}}
-    <section id="lms-view-player" style="display:none; padding: 20px 16px 60px 16px;">
+        {{-- ========================================================
+             VIEW 2: LMS INTERACTIVE LEARNING ENVIRONMENT (from video)
+             ======================================================== --}}
+        <section id="lms-view-player" style="display:none; width: 100%;">
         <div class="lms-app-view">
             {{-- 1. LMS Top App Bar --}}
             <div class="lms-top-bar">
@@ -455,6 +462,7 @@
             </div>
         </div>
     </section>
+    </div>
 
     {{-- ========================================================
          CURRICULUM SIDEBAR DRAWER (as shown in AlfaLearning video)
